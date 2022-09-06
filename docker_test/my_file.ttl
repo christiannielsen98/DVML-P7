@@ -1,0 +1,6 @@
+@prefix aau: <http://aau.dk/ppl/> .
+@prefix ex: <http://example.org#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+
+aau:matteo foaf:knows aau:daniele .
+aau:matteo ex:worksAt <http://cs.aau.dk#CompSci> .
