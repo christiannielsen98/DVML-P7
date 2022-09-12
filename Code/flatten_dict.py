@@ -1,4 +1,11 @@
 def flatten_dictionary(dct: dict) -> dict:
+    """
+    It takes a dictionary, and returns a dictionary with all the nested dictionaries flattened
+
+    :param dct: dict
+    :type dct: dict
+    :return: A dictionary with the keys being the path to the value and the value being the value.
+    """
     result = dict()
 
     for key, value in dct.items():
