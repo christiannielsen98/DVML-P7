@@ -4,7 +4,7 @@ def flatten_dictionary(dct: dict) -> dict:
     for key, value in dct.items():
         try:
             value = eval(value)
-        except:
+        except (TypeError, SyntaxError, NameError):
             pass
         if isinstance(value, dict):
             part_result = flatten_dictionary(value)
