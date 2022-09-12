@@ -26,8 +26,8 @@ def return_predicate(predicate, obj):
             return schema + "reviewCount", XSD.integer
         case "is_open":
             return schema + "publicAccess", XSD.string
-        # case "categories":  # SPECIAL CASE
-        #     return schema + "category", XSD.string
+        case "categories":
+            return schema + "category", XSD.string
         case _:
             if isinstance(obj, str):
                 object_type = XSD.string
