@@ -38,7 +38,7 @@ def return_predicate(predicate, obj):
             elif isinstance(obj, bool):
                 object_type = XSD.boolean
             else:
-                print("Error in SCHEMA!")
+                print("Error in SCHEMA!", "Type: ", type(obj))
                 return None
             return example + predicate, object_type
 
