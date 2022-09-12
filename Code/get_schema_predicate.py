@@ -88,32 +88,36 @@ def return_predicate(predicate):
         case "GoodForMeal":
             return None
         case "BusinessAcceptsBitcoin":
-            return None
+            return example + "acceptBitcoin", XSD.boolean
         case "Smoking":
-            return None
+            return example + "smokingAllowed", XSD.boolean
         case "Music":
+            # dict
             return None
         case "GoodForDancing":
-            return None
+            return example + "goodForDancing", XSD.boolean
         case "AcceptsInsurance":
-            return None
+            return example + "acceptsInsurance", XSD.boolean
         case "BestNights":
+            # dict
             return None
         case "BYOB":
-            return None
+            return example + "isBringYourOwnBeverage", XSD.boolean
         case "Corkage":
-            return None
+            return example + "hasCorkage", XSD.boolean
         case "BYOBCorkage":
-            return None
+            return example + "hasBYOBCorkage", XSD.string
         case "HairSpecializesIn":
+            # dict
             return None
         case "Open24Hours":
-            return None
+            return example + "isOpen24Hours", XSD.boolean
         case "RestaurantsCounterService":
-            return None
+            return example + "hasRestaurantsCounterService", XSD.boolean
         case "AgesAllowed":
-            return "suggestedMinAge"
+            return schema + "suggestedMinAge", XSD.string
         case "DietaryRestrictions":
+            # dict
             return "dietFeatures"
         case _:
             return "Error :'("
