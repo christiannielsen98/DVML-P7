@@ -1,10 +1,13 @@
 from rdflib import Namespace, URIRef, Literal, XSD
 
+schema = Namespace("https://schema.org/")
+example = Namespace("https://example.org/")
+
 
 def return_predicate(predicate):
     match predicate:
         case "name":
-            return "name", XSD.string
+            return schema + "name", XSD.string
         case "address":
             return "address", XSD.string
         case "city":
