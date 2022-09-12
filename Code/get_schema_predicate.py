@@ -9,23 +9,23 @@ def return_predicate(predicate):
         case "name":
             return schema + "name", XSD.string
         case "address":
-            return "address", XSD.string
+            return schema + "address", XSD.string
         case "city":
-            return "location", XSD.string
+            return schema + "location", XSD.string
         case "state":
-            return "location", XSD.string
+            return schema + "location", XSD.string
         case "postal_code":
-            return "postalCode", XSD.string
+            return schema + "postalCode", XSD.string  # integer?
         case "latitude":
-            return "latitude", XSD.float
+            return schema + "latitude", XSD.float
         case "longitude":
-            return "longitude", XSD.float
+            return schema + "longitude", XSD.float
         case "stars":
-            return "starRating", XSD.integer
+            return schema + "starRating", XSD.integer
         case "review_count":
-            return "reviewCount", XSD.integer
+            return schema + "reviewCount", XSD.integer
         case "is_open":
-            return "publicAccess", XSD.string
+            return schema + "publicAccess", XSD.string
         case "attributes":  # SPECIAL CASE
             return None
         case "categories":  # SPECIAL CASE
@@ -34,31 +34,35 @@ def return_predicate(predicate):
             return "openingHours"
         # ??? (T/F)
         case "ByAppointmentOnly":
-            return None
+            return example + "byAppointmentOnly", XSD.boolean
+            # return schema + "conditionsOfAccess", XSD.string  obj = "by appointment only"
         case "BusinessAcceptsCreditCards":
-            return None
+            return example + "businessAcceptsCreditCards", XSD.boolean
+            # return schema + "paymentAccepted", XSD.string     obj = "credit card"
         case "BikeParking":
-            return None
+            return example + "bikeParking", XSD.boolean
         case "RestaurantsPriceRange2":
-            return "priceRange"
+            return schema + "priceRange", XSD.string
         case "CoatCheck":
-            return None
+            return example + "coatCheck", XSD.boolean
         case "RestaurantsTakeOut":
-            return None
+            return example + "restaurantsTakeOut", XSD.boolean
         case "RestaurantsDelivery":
-            return None
+            return example + "restaurantsDelivery", XSD.boolean
         case "Caters":
-            return None
+            return example + "caters", XSD.boolean
         case "WiFi":
-            return None
+            return example + "hasWiFi", XSD.boolean
         case "BusinessParking":
+            # Dictionary
             return None
         case "WheelchairAccessible":
-            return None
+            return example + "wheelcharAccessible", XSD.boolean
+            # return schema + "accessibilityFeature", XSD.string
         case "HappyHour":
-            return None
+            return example + "happyHour", XSD.boolean
         case "OutdoorSeating":
-            return None
+            return example + "hasOutdoorSeating", XSD.boolean
         case "HasTV":
             return None
         case "RestaurantsReservations":
