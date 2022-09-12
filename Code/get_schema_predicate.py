@@ -30,7 +30,7 @@ def return_predicate(predicate):
         case "categories":  # SPECIAL CASE
             return schema + "category", XSD.string
         case "hours":  # SPECIAL CASE
-            return schema + "openingHours"
+            return schema + "openingHours", XSD.string
         # ??? (T/F)
         case "ByAppointmentOnly":
             return example + "byAppointmentOnly", XSD.boolean
