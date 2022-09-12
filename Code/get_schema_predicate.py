@@ -3,7 +3,6 @@ from rdflib import Namespace, URIRef, Literal, XSD
 schema = Namespace("https://schema.org/")
 example = Namespace("https://example.org/")
 
-
 def return_predicate(predicate):
     match predicate:
         case "name":
@@ -29,9 +28,9 @@ def return_predicate(predicate):
         case "attributes":  # SPECIAL CASE
             return None
         case "categories":  # SPECIAL CASE
-            return None
+            return schema + "category", XSD.string
         case "hours":  # SPECIAL CASE
-            return "openingHours"
+            return schema + "openingHours"
         # ??? (T/F)
         case "ByAppointmentOnly":
             return example + "byAppointmentOnly", XSD.boolean
@@ -64,29 +63,29 @@ def return_predicate(predicate):
         case "OutdoorSeating":
             return example + "hasOutdoorSeating", XSD.boolean
         case "HasTV":
-            return None
+            return example + "hasTV", XSD.boolean
         case "RestaurantsReservations":
-            return None
+            return example + "takesReservations", XSD.boolean
         case "DogsAllowed":
-            return None
+            return example + "allowsDogs", XSD.boolean
         case "Alcohol":
-            return None
+            return example + "servesAlcohol", XSD.boolean
         case "GoodForKids":
-            return None
+            return example + "kidFriendly", XSD.boolean
         case "RestaurantsAttire":
-            return None
+            return example + "Attire", XSD.string
         case "Ambience":
-            return None
+            return None #is a dict
         case "RestaurantsTableService":
-            return None
+            return example + "hasTableService", XSD.boolean
         case "RestaurantsGoodForGroups":
-            return None
+            return example + "groupFriendly", XSD.boolean
         case "DriveThru":
-            return None
+            return example + "hasDriveThru", XSD.boolean
         case "NoiseLevel":
-            return None
+            return example + "noiseLevel", XSD.string
         case "GoodForMeal":
-            return None
+            return None #is a dict
         case "BusinessAcceptsBitcoin":
             return example + "acceptBitcoin", XSD.boolean
         case "Smoking":
@@ -118,10 +117,10 @@ def return_predicate(predicate):
             return schema + "suggestedMinAge", XSD.string
         case "DietaryRestrictions":
             # dict
-            return "dietFeatures"
+            return schema + "dietFeatures", XSD.string
         case _:
             return "Error :'("
 
 
 if __name__ == "__main__":
-    print(return_predicate("Yo"))
+    print(return_predicate(_))
