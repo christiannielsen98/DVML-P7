@@ -1,28 +1,28 @@
-from rdflib import Namespace, URIRef, Literal
+from rdflib import Namespace, URIRef, Literal, XSD
 
 
 def return_predicate(predicate):
     match predicate:
         case "name":
-            return "name"
+            return "name", XSD.string
         case "address":
-            return "address"
+            return "address", XSD.string
         case "city":
-            return "location"
+            return "location", XSD.string
         case "state":
-            return "location"
+            return "location", XSD.string
         case "postal_code":
-            return "postalCode"
+            return "postalCode", XSD.string
         case "latitude":
-            return "latitude"
+            return "latitude", XSD.float
         case "longitude":
-            return "longitude"
+            return "longitude", XSD.float
         case "stars":
-            return "starRating"
+            return "starRating", XSD.integer
         case "review_count":
-            return "reviewCount"
+            return "reviewCount", XSD.integer
         case "is_open":
-            return "publicAccess"
+            return "publicAccess", XSD.string
         case "attributes":  # SPECIAL CASE
             return None
         case "categories":  # SPECIAL CASE
