@@ -11,6 +11,8 @@ def flatten_dictionary(dct: dict) -> dict:
     for key, value in dct.items():
         try:
             value = eval(value)
+            if value == Ellipsis:  # Due to no text in a review
+                value = "..."
         except (TypeError, SyntaxError, NameError):
             pass
         if isinstance(value, dict):
