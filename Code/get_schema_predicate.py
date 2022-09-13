@@ -4,7 +4,7 @@ schema = Namespace("https://schema.org/")
 example = Namespace("https://example.org/")
 
 
-def return_predicate(predicate, obj):
+def return_predicate(predicate, obj, file):
     match predicate:
         case "name":
             return schema + "name", XSD.string
@@ -28,6 +28,21 @@ def return_predicate(predicate, obj):
             return schema + "publicAccess", XSD.string
         case "categories":
             return schema + "category", XSD.string
+        case "date":
+            if file == "yelp_academic_dataset_checkin.json":
+                return schema + "checkinTime", XSD.dateTime
+            else:
+                return schema + "dateCreated", XSD.dateTime
+        case "friends":
+            return schema + "knows", XSD.string
+        case "review_count":
+            return schema + "reviewCount", XSD.string
+        case "yelping_since":
+            return schema + "dateCreated", XSD.dateTime
+        case "business_id":
+            return schema + "about", XSD.anyURI
+        case "text":
+            return schema + "description", XSD.string
         case _:
             if isinstance(obj, str):
                 object_type = XSD.string
@@ -39,6 +54,7 @@ def return_predicate(predicate, obj):
                 object_type = XSD.boolean
             else:
                 print("Error in SCHEMA!", "Type: ", type(obj))
+                print(predicate, obj)
                 return None
             return example + predicate, object_type
 
