@@ -13,9 +13,10 @@ business_uri = Namespace("https://www.yelp.com/biz/")
 user_uri = Namespace("https://www.yelp.com/user_details?userid=")
 
 
-G = Graph()
+
 
 for file_name in ["yelp_academic_dataset_business.json", "yelp_academic_dataset_checkin.json", "yelp_academic_dataset_review.json", "yelp_academic_dataset_user.json"]:
+    G = Graph()
     if file_name in ["yelp_academic_dataset_business.json", "yelp_academic_dataset_checkin.json", "yelp_academic_dataset_review.json"]:
         uri = business_uri
     else:  # user
@@ -69,7 +70,9 @@ for file_name in ["yelp_academic_dataset_business.json", "yelp_academic_dataset_
             except Exception as e:
                 print(e)
                 print(subject, _predicate, _object)
+    G.serialize(destination=f"/home/ubuntu/vol1/{file_name[:-5]}.ttl")
 
+G = Graph()
 
 file_name = "yelp_academic_dataset_tip.json"
 file_path = get_path(file_name)
@@ -107,4 +110,5 @@ with open(file=file_path, mode="r") as file:
             print(e)
             print(subject, _predicate, _object)
 
-G.serialize(destination="kg.ttl")
+G.serialize(destination="/home/ubuntu/vol1/yelp_academic_dataset_tip.ttl")
+
