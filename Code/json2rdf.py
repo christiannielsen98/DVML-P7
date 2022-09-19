@@ -1,10 +1,9 @@
 from rdflib import Namespace, Graph, URIRef, Literal, BNode, XSD
 import json
-
+import urllib
 from get_schema_predicate import return_predicate
 from flatten_dict import flatten_dictionary
 from get_data_path import get_path
-
 
 schema = Namespace("https://schema.org/")
 example = Namespace("https://example.org/")
@@ -13,10 +12,9 @@ business_uri = Namespace("https://www.yelp.com/biz/")
 user_uri = Namespace("https://www.yelp.com/user_details?userid=")
 
 
-
-
 for file_name in ["yelp_academic_dataset_business.json", "yelp_academic_dataset_checkin.json", "yelp_academic_dataset_review.json", "yelp_academic_dataset_user.json"]:
     triple_file = open(file="/home/ubuntu/vol1/yelp_kg.ttl", mode="a", encoding="utf-8")
+    file_path = get_path(file_name)
     with open(file=file_path, mode="r") as file:
         for line in file:
             try:
