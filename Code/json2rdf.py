@@ -16,29 +16,32 @@ user_uri = Namespace("https://www.yelp.com/user_details?userid=")
 
 
 for file_name in ["yelp_academic_dataset_business.json", "yelp_academic_dataset_checkin.json", "yelp_academic_dataset_review.json", "yelp_academic_dataset_user.json"]:
-    G = Graph()
-    if file_name in ["yelp_academic_dataset_business.json", "yelp_academic_dataset_checkin.json", "yelp_academic_dataset_review.json"]:
-        uri = business_uri
-    else:  # user
-        uri = user_uri
-
-    file_path = get_path(file_name)
+    triple_file = open(file="/home/ubuntu/vol1/yelp_kg.ttl", mode="a", encoding="utf-8")
     with open(file=file_path, mode="r") as file:
         for line in file:
             try:
+                G = Graph()
+                G.bind("rdfs", schema, override=True)
+                G.bind("example", example, override=True)
+                if file_name in ["yelp_academic_dataset_business.json", "yelp_academic_dataset_checkin.json", "yelp_academic_dataset_review.json"]:
+                    uri = business_uri
+                    G.bind("biz", uri, override=True)
+                else: # user
+                    uri = user_uri
+                    G.bind("user", uri, override=True)
                 line = json.loads(line)
 
-                json_key = list(line.keys())[0]  # Key of subject
+                json_key = list(line.keys())[0] # Key of subject
                 subject = line[json_key]
                 del line[json_key]
 
                 if file_name == "yelp_academic_dataset_review.json":
+                    G.bind("user", user_uri)
+                    subject = line['business_id'] + urllib.parse.quote("?hrid=") + subject # Other uri for review
                     G.add(triple=(URIRef(user_uri + line["user_id"]), # Subject
-                                  URIRef(schema + "author"), # Predicate
-                                  Literal(subject, datatype=XSD.anyURI))) # Object
+                                URIRef(schema + "author"), # Predicate
+                                URIRef(business_uri + subject))) # Object
                     del line["user_id"]
-
-                    uri = uri + line['business_id'] + "?hrid=" + subject # Other uri for review
 
                 line = flatten_dictionary(line) # Flattens the nested dictionary
 
@@ -54,32 +57,32 @@ for file_name in ["yelp_academic_dataset_business.json", "yelp_academic_dataset_
                         for obj in obj_lst:
                             if _predicate == "date":
                                 obj = obj.replace(" ", "T")
-
                             G.add(triple=(URIRef(uri + subject), # Subject
-                                          URIRef(predicate), # Predicate
-                                          Literal(obj, datatype=object_type))) # Object
+                                    URIRef(predicate), # Predicate
+                                    Literal(obj, datatype=object_type))) # Object
 
                     else:
                         if _predicate == "yelping_since":
                             _object = _object.replace(" ", "T")
                         predicate, object_type = return_predicate(_predicate, _object, file_name)
                         G.add(triple=(URIRef(uri + subject), # Subject
-                                      URIRef(predicate), # Predicate
-                                      Literal(_object, datatype=object_type))) # Object
-
+                                    URIRef(predicate), # Predicate
+                                    Literal(_object, datatype=object_type))) # Object
+                triple_file.write(G.serialize(format='ttl'))
             except Exception as e:
                 print(e)
                 print(subject, _predicate, _object)
-    G.serialize(destination=f"/home/ubuntu/vol1/{file_name[:-5]}.ttl")
-
-G = Graph()
+    triple_file.close()
 
 file_name = "yelp_academic_dataset_tip.json"
 file_path = get_path(file_name)
-
+triple_file = open(file="/home/ubuntu/vol1/yelp_kg.ttl", mode="a")
 with open(file=file_path, mode="r") as file:
     for line in file:
         try:
+            G = Graph()
+            G.bind("rdfs", schema, override=True)
+            G.bind("example", example, override=True)
             line = json.loads(line)
 
             b_node = BNode()
@@ -105,10 +108,11 @@ with open(file=file_path, mode="r") as file:
                 G.add(triple=(URIRef(b_node), # Subject
                               URIRef(predicate), # Predicate
                               Literal(obj, datatype=object_type))) # Object
-
+            triple_file.write(G.serialize(format="ttl"))
         except Exception as e:
             print(e)
             print(subject, _predicate, _object)
+triple_file.close()
 
 G.serialize(destination="/home/ubuntu/vol1/yelp_academic_dataset_tip.ttl")
 
