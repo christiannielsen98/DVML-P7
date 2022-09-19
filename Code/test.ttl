@@ -1,0 +1,22 @@
+@prefix ex: <http://example.com/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ex:Mads ex:hasParent 1 .
+
+ex:Opera a owl:Class ;
+    rdfs:subClassOf ex:MusicalWork .
+
+ex:Woman a owl:Class ;
+    owl:intersectionOf ( ex:Female ex:Human ) .
+
+ex:Female a owl:Class .
+
+ex:Human a owl:Class .
+
+_:x20 rdf:type owl:Restriction ;
+    owl:onProperty ex:hasParent ;
+    owl:allValuesFrom ex:Human .
+
