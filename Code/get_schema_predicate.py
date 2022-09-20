@@ -4,7 +4,7 @@ schema = Namespace("https://schema.org/")
 example = Namespace("https://example.org/")
 
 
-def return_predicate(predicate, obj, file):
+def get_schema_predicate(predicate, obj, file):
     match predicate:
         case "name":
             return schema + "name", XSD.string
@@ -60,4 +60,4 @@ def return_predicate(predicate, obj, file):
 
 
 if __name__ == "__main__":
-    print(return_predicate("test"))
+    print(get_schema_predicate("test"))
