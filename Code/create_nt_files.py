@@ -22,15 +22,15 @@ def create_nt_file(file_name: str):
     with open(file=file_path, mode="r") as file:
         for line in file:
             try:
+                line = json.loads(line)
                 G = Graph()
                 if file_name in ["yelp_academic_dataset_business.json", "yelp_academic_dataset_checkin.json"]:
                     uri = business_uri
                 elif file_name == 'yelp_academic_dataset_review.json':
-                    uri = business_uri + '?hrid='
+                    uri = business_uri + line['business_id'] + '?hrid='
                 else:  # user
                     uri = user_uri
-                line = json.loads(line)
-
+                
                 json_key = list(line.keys())[0]  # Key of subject
                 subject = line[json_key]
                 del line[json_key]
@@ -38,7 +38,7 @@ def create_nt_file(file_name: str):
                               URIRef(schema + 'url'), 
                               URIRef(uri + subject)))
                 if file_name == "yelp_academic_dataset_review.json":
-                    G.add(triple=(URIRef(user_uri + line["user_id"]),  # Subject
+                    G.add(triple=(URIRef(line["user_id"]),  # Subject
                                   URIRef(schema + "author"),  # Predicate
                                   URIRef(subject)))  # Object
                     del line["user_id"]
