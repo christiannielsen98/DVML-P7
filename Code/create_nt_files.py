@@ -20,30 +20,32 @@ def create_nt_file(file_name: str):
     triple_file = gzip.open(filename=f"/home/ubuntu/vol1/yelp_{entity_name}.nt.gz", mode="at", encoding="utf-8")
     file_path = get_path(file_name)
     with open(file=file_path, mode="r") as file:
-        for line in file:
+        for line in json.loads(file):
             try:
                 G = Graph()
-                if file_name in ["yelp_academic_dataset_business.json", "yelp_academic_dataset_checkin.json",
-                                 "yelp_academic_dataset_review.json"]:
+                if file_name in ["yelp_academic_dataset_business.json", "yelp_academic_dataset_checkin.json"]:
                     uri = business_uri
+                elif file_name == 'yelp_academic_dataset_review.json':
+                    uri = business_uri + '?hrid='
                 else:  # user
                     uri = user_uri
-                line = json.loads(line)
+                # line = json.loads(line)
 
                 json_key = list(line.keys())[0]  # Key of subject
                 subject = line[json_key]
                 del line[json_key]
-
+                G.add(triple=(URIRef(subject), 
+                              URIRef(schema + 'url'), 
+                              URIRef(uri + subject)))
                 if file_name == "yelp_academic_dataset_review.json":
-                    subject = line['business_id'] + "?hrid=" + subject  # Other uri for review
                     G.add(triple=(URIRef(user_uri + line["user_id"]),  # Subject
                                   URIRef(schema + "author"),  # Predicate
-                                  URIRef(business_uri + subject)))  # Object
+                                  URIRef(subject)))  # Object
                     del line["user_id"]
 
                 line = flatten_dictionary(line)  # Flattens the nested dictionary
                 if file_name != 'yelp_academic_dataset_checkin.json':
-                    G.add(triple=(URIRef(uri + subject),
+                    G.add(triple=(URIRef(subject),
                                   RDFS.Class,
                                   URIRef(get_schema_type(entity_name))))
 
@@ -59,7 +61,7 @@ def create_nt_file(file_name: str):
                         for obj in obj_lst:
                             if _predicate == "date":
                                 obj = obj.replace(" ", "T")
-                            G.add(triple=(URIRef(uri + subject),  # Subject
+                            G.add(triple=(URIRef(subject),  # Subject
                                           URIRef(predicate),  # Predicate
                                           Literal(obj, datatype=object_type)))  # Object
 
@@ -67,7 +69,7 @@ def create_nt_file(file_name: str):
                         if _predicate == "yelping_since":
                             _object = _object.replace(" ", "T")
                         predicate, object_type = get_schema_predicate(_predicate, _object, file_name)
-                        G.add(triple=(URIRef(uri + subject),  # Subject
+                        G.add(triple=(URIRef(subject),  # Subject
                                       URIRef(predicate),  # Predicate
                                       Literal(_object, datatype=object_type)))  # Object
                 triple_file.write(G.serialize(format='nt'))
