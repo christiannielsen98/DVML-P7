@@ -1,4 +1,4 @@
-from rdflib import Namespace, URIRef, Literal, XSD
+from rdflib import Namespace, XSD
 
 schema = Namespace("https://schema.org/")
 example = Namespace("https://example.org/")
@@ -57,6 +57,18 @@ def get_schema_predicate(predicate, obj, file):
                 print(predicate, obj)
                 return None
             return example + predicate, object_type
+
+
+def get_schema_type(entity):
+    match entity:
+        case 'business':
+            return schema + "LocalBusiness"
+        case 'user':
+            return schema + 'Person'
+        case 'review':
+            return schema + 'Review'
+        case 'tip':
+            return example + 'Tip'
 
 
 if __name__ == "__main__":
