@@ -20,7 +20,7 @@ def create_nt_file(file_name: str):
     triple_file = gzip.open(filename=f"/home/ubuntu/vol1/yelp_{entity_name}.nt.gz", mode="at", encoding="utf-8")
     file_path = get_path(file_name)
     with open(file=file_path, mode="r") as file:
-        for line in json.loads(file):
+        for line in json.load(file):
             try:
                 G = Graph()
                 if file_name in ["yelp_academic_dataset_business.json", "yelp_academic_dataset_checkin.json"]:
