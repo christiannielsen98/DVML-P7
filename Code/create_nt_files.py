@@ -7,6 +7,7 @@ from rdflib.namespace import RDFS
 from UtilityFunctions.flatten_dict import flatten_dictionary
 from UtilityFunctions.get_data_path import get_path
 from UtilityFunctions.schema_functions import get_schema_predicate, get_schema_type
+from UtilityFunctions.get_uri import get_uri
 
 schema = Namespace("https://schema.org/")
 example = Namespace("https://example.org/")
@@ -17,7 +18,7 @@ user_uri = Namespace("https://www.yelp.com/user_details?userid=")
 
 def create_nt_file(file_name: str):
     entity_name = file_name[22:-5]
-    triple_file = gzip.open(filename=f"/home/ubuntu/vol1/yelp_{entity_name}.nt.gz", mode="at", encoding="utf-8")
+    triple_file = gzip.open(filename=f"/home/ubuntu/vol1/virtuoso/import/yelp_{entity_name}.nt.gz", mode="at", encoding="utf-8")
     file_path = get_path(file_name)
     with open(file=file_path, mode="r") as file:
         for line in file:
@@ -32,15 +33,15 @@ def create_nt_file(file_name: str):
                     uri = user_uri
                 
                 json_key = list(line.keys())[0]  # Key of subject
-                subject = line[json_key]
+                subject = get_uri(file_name) + line[json_key]
                 del line[json_key]
                 G.add(triple=(URIRef(subject), 
                               URIRef(schema + 'url'), 
                               URIRef(uri + subject)))
                 if file_name == "yelp_academic_dataset_review.json":
-                    G.add(triple=(URIRef(line["user_id"]),  # Subject
+                    G.add(triple=(URIRef(example + 'user_id/' + line["user_id"]),  # Subject
                                   URIRef(schema + "author"),  # Predicate
-                                  URIRef(subject)))  # Object
+                                  URIRef(get_uri(file_name) + subject)))  # Object
                     del line["user_id"]
 
                 line = flatten_dictionary(line)  # Flattens the nested dictionary
@@ -83,7 +84,7 @@ def create_tip_nt_file():
     file_name = "yelp_academic_dataset_tip.json"
     entity_name = file_name[22:-5]
     file_path = get_path(file_name)
-    triple_file = gzip.open(filename=f"/home/ubuntu/vol1/yelp_{entity_name}.nt.gz", mode="at", encoding="utf-8")
+    triple_file = gzip.open(filename=f"/home/ubuntu/vol1/virtuoso/import/yelp_{entity_name}.nt.gz", mode="at", encoding="utf-8")
     with open(file=file_path, mode="r") as file:
         for line in file:
             try:
@@ -92,7 +93,7 @@ def create_tip_nt_file():
 
                 b_node = BNode()
 
-                subject = line["user_id"]
+                subject = get_uri(file_name) + line["user_id"]
                 del line["user_id"]
 
                 # user, author, b_node
@@ -122,7 +123,7 @@ def create_tip_nt_file():
                 print(e)
                 print(subject, _predicate, _object)
     triple_file.close()
-a
+
 
 if __name__ == "__main__":
     for _file in ["yelp_academic_dataset_business.json", "yelp_academic_dataset_checkin.json",

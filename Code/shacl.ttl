@@ -1,7 +1,7 @@
-PREFIX sh:<http://www.w3.org/ns/shacl#>
-PREFIX schema:<https://schema.org/>
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix schema: <https://schema.org/> .
 
-:starShape a sh:PropertyShape;
+_:starShape a sh:PropertyShape;
     sh:property [
         sh:path schema:starRating;
         sh:maxInclusive 5;
