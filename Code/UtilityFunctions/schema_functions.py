@@ -13,7 +13,7 @@ def get_schema_predicate(predicate, obj, file):
         case "city":
             return schema + "location", XSD.string
         case "state":
-            return schema + "location", XSD.string
+            return schema + "addressRegion", XSD.string
         case "postal_code":
             return schema + "postalCode", XSD.string  # integer?
         case "latitude":

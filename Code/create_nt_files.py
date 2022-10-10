@@ -122,7 +122,7 @@ def create_tip_nt_file():
                 print(e)
                 print(subject, _predicate, _object)
     triple_file.close()
-
+a
 
 if __name__ == "__main__":
     for _file in ["yelp_academic_dataset_business.json", "yelp_academic_dataset_checkin.json",
