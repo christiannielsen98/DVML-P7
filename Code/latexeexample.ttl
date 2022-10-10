@@ -1,0 +1,17 @@
+@prefix schema: <http://www.schema.org/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix example: <http://example.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>
+
+example:business_id/1B
+    schema:name "St Honore Pastries"^^xsd:string ;
+    example:RestaurantsDelivery "False"^^xsd:boolean ;
+    example:garage "False"^^xsd:boolean ;
+    example:street "True"^^xsd:boolean ;
+    example:validated "False"^^xsd:boolean ;
+    example:lot "False"^^xsd:boolean ;
+    example:valet "False"^^xsd:boolean ;
+    schema:category "Restaurant"^^xsd:string, "Food"^^xsd:string, "Bubble Tea"^^xsd:string,
+        "Coffee & Tea"^^xsd:string, "Bakeries"^^xsd:string .
+
+
