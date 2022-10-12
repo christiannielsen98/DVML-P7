@@ -5,6 +5,15 @@ example = Namespace("https://example.org/")
 
 
 def get_schema_predicate(predicate, obj, file):
+    """
+    This match function gets as input keys and values from the Yelp JSON files and tries to map the keys to proper
+    schema.org predicates and proper XSD datatypes. If no schema.org predicate can be found, create an example.org
+    predicate based on the input "predicate" and with "obj" datatype as XSD datatype.
+    :param predicate: A key from the JSON file
+    :param obj: The value pair from the JSON file
+    :param file: Used for special case of "date" if the file is checkin.
+    :return: predicate and object + datatypes for the RDF triple.
+    """
     match predicate:
         case "name":
             return schema + "name", XSD.string
@@ -43,7 +52,7 @@ def get_schema_predicate(predicate, obj, file):
             return schema + "about", XSD.anyURI
         case "text":
             return schema + "description", XSD.string
-        case _:
+        case _:  # If no schema.org predicate can be found, create predicate using example.org
             if isinstance(obj, str):
                 object_type = XSD.string
             elif isinstance(obj, int):
@@ -60,6 +69,11 @@ def get_schema_predicate(predicate, obj, file):
 
 
 def get_schema_type(entity):
+    """
+    This function assigns a schema.org (or example.org) Class to a Yelp entity
+    :param entity: The subject we want to assign a Class to
+    :return: The proper class for the entity input
+    """
     match entity:
         case 'business':
             return schema + "LocalBusiness"
