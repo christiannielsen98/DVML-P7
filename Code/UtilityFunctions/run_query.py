@@ -1,8 +1,13 @@
 from SPARQLWrapper import SPARQLWrapper, JSON
+import pandas as pd
 from pandas import json_normalize
 
 
 def run_query(query, as_dataframe=False, do_print=False):
+    pd.set_option('display.max_colwidth', None)
+    pd.set_option('display.max_rows', None)
+    pd.set_option('display.max_columns', None)
+
     endpoint = SPARQLWrapper("http://localhost:8890/sparql")
     endpoint.setReturnFormat(JSON)
     endpoint.setTimeout(1200)
