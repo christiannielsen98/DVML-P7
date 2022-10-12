@@ -29,5 +29,5 @@ def run_query(query, as_dataframe=False, do_print=False):
         # pdata = pd.DataFrame.from_dict(results['bindings'], orient="index")
         pdata = json_normalize(results['bindings'])
         if do_print:
-            display(pdata)
+            print(pdata)
         return pdata
