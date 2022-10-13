@@ -159,8 +159,6 @@ def create_tip_nt_file():
 
 
 if __name__ == "__main__":
-    for _file in ["yelp_academic_dataset_business.json", "yelp_academic_dataset_checkin.json",
-                  "yelp_academic_dataset_review.json", "yelp_academic_dataset_user.json"]:
-        create_nt_file(file_name=_file)
+    create_nt_file(file_name="yelp_academic_dataset_business.json")
 
-    create_tip_nt_file()
+
