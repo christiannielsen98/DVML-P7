@@ -1,38 +1,27 @@
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix schema: <https://schema.org/> .
 
-_:bizNameShape a sh:NodeShape ;
+_:bizShape a sh:NodeShape ;
+    sh:targetClass schema:LocalBusiness ;
     sh:property [
         sh:path schema:name ;
         sh:minCount 1 ;
         sh:maxCount 1
-    ] .
-
-_:bizAddressShape a sh:NodeShape ;
+    ] ;
     sh:property [
         sh:path schema:address ;
         sh:minCount 1 ;
         sh:maxCount 1
-    ] .
-
-_:bizCityShape a sh:NodeShape ;
+    ] ;
     sh:property [
         sh:path schema:city;
         sh:minCount 1 ;
         sh:maxCount 1
-    ] .
-
-_:bizStarShape a sh:PropertyShape ;
+    ] ;
     sh:property [
         sh:path schema:starRating ;
         sh:maxInclusive 5 ;
         sh:minInclusive 1 ;
-    ] .
-
-_:bizShape a sh:NodeShape ;
-    sh:targetClass schema:LocalBusiness ;
-    sh:property _:bizNameShape ;
-    sh:property _:bizAddressShape ;
-    sh:property _:bizCityShape ;
-    sh:property _:bizStarShape
-
+        sh:minCount 1 ;
+        sh:maxCount 1
+    ]
