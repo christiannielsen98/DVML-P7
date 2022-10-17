@@ -63,9 +63,21 @@ def create_nt_file(file_name: str):
 
                 # Assigns a RDFS Class to every subject (checkin does not have its own subject).
                 if file_name != 'yelp_academic_dataset_checkin.json':
-                    G.add(triple=(URIRef(subject),
-                                  RDFS.Class,
-                                  URIRef(get_schema_type(entity_name))))
+                    if file_name == 'yelp_academic_dataset_business.json':
+                        # Get 'categories' key, unpack all its values, and run them through get_schema_type.
+                        # If the specific category has a match in schema.org types CSV file, add that as a Class.
+                        # If not we just add the parent class LocalBusiness.
+                        possible_types = line['categories'].split(", ")
+                        for pos_type in possible_types:
+                            schema_type = get_schema_type(pos_type)
+                            G.add(triple=(URIRef(subject),
+                                          RDFS.Class,
+                                          URIRef(schema_type)))
+
+                    else:
+                        G.add(triple=(URIRef(subject),
+                                      RDFS.Class,
+                                      URIRef(get_schema_type(entity_name))))
 
                 # Now we iterate over the rest of the key/value pairs and transform them to RDF format.
                 for _predicate, _object in line.items():
