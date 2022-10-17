@@ -1,9 +1,12 @@
-from UtilityFunctions.run_query import run_query
 import paramiko
+
+from UtilityFunctions.get_data_path import get_path # DOES WORK - IGNORE ERROR
 
 host = '10.92.0.48'
 user = 'ubuntu'
-keyfilename = '/Users/christiannielsen/Library/CloudStorage/OneDrive-AalborgUniversitet/DVML-P7/P7.pem'
+# keyfilename = '/Users/christiannielsen/Library/CloudStorage/OneDrive-AalborgUniversitet/DVML-P7/P7.pem'
+keyfilename = get_path("")[:-5] + "P7.pem"
+
 
 def exec_cmd_on_server(cmd_to_execute: str):
     # cmd_to_execute = f'docker exec -i vos isql 1111 exec="{sparql_query}"'
