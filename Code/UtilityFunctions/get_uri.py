@@ -1,5 +1,7 @@
 from rdflib import Namespace
+
 example = Namespace("https://example.org/")
+
 
 def get_uri(filename):
     match filename:
