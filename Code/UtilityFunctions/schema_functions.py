@@ -1,5 +1,5 @@
 import pandas as pd
-from UtilityFunctions.get_data_path import get_path
+from Code.UtilityFunctions.get_data_path import get_path
 from rdflib import Namespace, XSD
 
 schema = Namespace("https://schema.org/")
