@@ -109,6 +109,62 @@ def long_com_substring(st1, st2):
     return ans
 
 
+def str_split(string):
+    if isinstance(string, str):
+        return string.split(", ")
+    else:
+        return string
+
+
+def get_class_mappings(file):
+    biz = pd.read_json(file, lines=True)#["categories"]
+    schema = pd.read_csv(get_path("schemaorg-current-https-types.csv"))[["label", "subTypeOf"]]
+
+    biz["categories"] = biz["categories"].apply(str_split)
+
+    categories = list({num for sublist in biz["categories"].tolist() if sublist for num in sublist})
+
+    category_mapping = dict()
+
+    for category in categories:
+        category_length = len(category)
+        possible_classes = dict()
+
+        for schema_type in schema["label"]:
+            if long_com_substring(category, schema_type) >= category_length * 0.90:
+                ratio = category_length / len(schema_type)
+                if ratio >= 1/2:
+                    possible_classes[schema_type] = ratio
+
+        if possible_classes:  # An empty dict will return False
+            best_pos_class = max(possible_classes, key=possible_classes.get)  # Get the schema.org type with highest ratio
+
+            category_mapping[category] = best_pos_class
+
+    return category_mapping
+
+
+def class_hierarchy(dictionary):
+    from networkx import DiGraph
+    from networkx.algorithms.traversal.depth_first_search import dfs_tree
+
+    schema = pd.read_csv(get_path("schemaorg-current-https-types.csv"))[["id", "subTypeOf"]]
+
+    supertypes_set = set()
+    for _class in dictionary.values():
+        graph = DiGraph()
+        graph.add_edges_from(schema[['id', 'subTypeOf']].to_records(index=False))
+
+        supertypes = dfs_tree(graph, _class)
+        supertypes_set.update(set(supertypes.nodes()))
+
+    supertypes_set = {x for x in supertypes_set if x == x}
+
+    res_df = schema[schema["id"].isin(supertypes_set)]
+    res_df = res_df.apply(lambda x: x.str.split(',').explode())
+    res_df = res_df.set_index('id').to_dict()['subTypeOf']
+    return res_df
+
 def get_classes(entity: str):
     """
     :param entity: The RDF entity we want to check if it has a possible type in schema.org

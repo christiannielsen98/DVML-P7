@@ -6,7 +6,7 @@ from rdflib.namespace import RDFS
 
 from UtilityFunctions.flatten_dict import flatten_dictionary
 from UtilityFunctions.get_data_path import get_path
-from UtilityFunctions.schema_functions import get_schema_predicate, get_schema_type
+from UtilityFunctions.schema_functions import get_schema_predicate, get_schema_type, get_class_mappings, class_hierarchy
 from UtilityFunctions.get_uri import get_uri
 
 schema = Namespace("https://schema.org/")
@@ -25,10 +25,23 @@ def create_nt_file(file_name: str):
     """
 
     entity_name = file_name[22:-5]  # Either business, user, checkin or review
-    triple_file = gzip.open(filename=f"/home/ubuntu/vol1/virtuoso/import/yelp_{entity_name}.nt.gz", mode="at", encoding="utf-8")
+    triple_file = gzip.open(filename=f"/home/ubuntu/vol1/virtuoso/import/yelp_{entity_name}.nt.gz", mode="at",
+                            encoding="utf-8")
     file_path = get_path(file_name)
 
     with open(file=file_path, mode="r") as file:
+        if file_name == "yelp_academic_dataset_business.json":
+            class_mappings = get_class_mappings(file)
+            class_hierarchies = class_hierarchy(class_mappings)
+
+            G = Graph()
+            for key, value in class_hierarchies.items():
+                G.add(triple=(URIRef(key),
+                              RDFS.subClassOf,
+                              URIRef(value)))  # Thing -> NaN (might be problematic)
+
+            triple_file.write(G.serialize(format='nt'))  # Writes to the .nt file the graph now containing a RDF triple.
+
         for line in file:
             # Iterates over every object in the JSON file, as each object is one line.
             try:
@@ -69,10 +82,15 @@ def create_nt_file(file_name: str):
                         # If not we just add the parent class LocalBusiness.
                         possible_types = line['categories'].split(", ")
                         for pos_type in possible_types:
-                            schema_type = get_schema_type(pos_type)
-                            G.add(triple=(URIRef(subject),
-                                          RDFS.Class,
-                                          URIRef(schema_type)))
+                            # schema_type = get_schema_type(pos_type)
+                            if pos_type in class_mappings.keys():
+                                G.add(triple=(URIRef(subject),
+                                              RDFS.Class,
+                                              URIRef(class_mappings[pos_type])))
+                            else:
+                                G.add(triple=(URIRef(subject),
+                                              RDFS.Class,
+                                              URIRef(example + pos_type)))
 
                     else:
                         G.add(triple=(URIRef(subject),
@@ -86,7 +104,7 @@ def create_nt_file(file_name: str):
 
                     elif _predicate in ["categories", "date", "friends", "elite"]:  # The values to these keys contains listed objects
                         _object = str(_object)
-                        obj_lst = _object.split(", ") if _predicate != "elite" else _object.split(",")  # Splits the listed objects
+                        obj_lst = _object.split(", ") if _predicate != "elite" else _object.split( ",")  # Splits the listed objects
 
                         # get_schema_predicate assigns returns a proper schema.org predicate based on the key and a proper object datatype.
                         predicate, object_type = get_schema_predicate(_predicate, _object, file_name)
@@ -125,7 +143,8 @@ def create_tip_nt_file():
     file_name = "yelp_academic_dataset_tip.json"
     entity_name = file_name[22:-5]
     file_path = get_path(file_name)
-    triple_file = gzip.open(filename=f"/home/ubuntu/vol1/virtuoso/import/yelp_{entity_name}.nt.gz", mode="at", encoding="utf-8")
+    triple_file = gzip.open(filename=f"/home/ubuntu/vol1/virtuoso/import/yelp_{entity_name}.nt.gz", mode="at",
+                            encoding="utf-8")
 
     with open(file=file_path, mode="r") as file:
         for line in file:
@@ -172,5 +191,3 @@ def create_tip_nt_file():
 
 if __name__ == "__main__":
     create_nt_file(file_name="yelp_academic_dataset_business.json")
-
-
