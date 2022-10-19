@@ -1,6 +1,7 @@
 import gzip
 import json
 
+
 from rdflib import Namespace, Graph, URIRef, Literal, BNode
 from rdflib.namespace import RDFS
 

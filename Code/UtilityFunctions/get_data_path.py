@@ -7,3 +7,6 @@ def get_path(file):
         path = f.readline()
 
     return os.path.join(path, file)
+
+if __name__ == "__main__":
+    print('hej')
