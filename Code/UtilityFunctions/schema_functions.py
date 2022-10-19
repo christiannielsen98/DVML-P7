@@ -84,7 +84,7 @@ def get_schema_type(entity: str):
         case 'user':
             return schema + 'Person'
         case 'review':
-            return schema + 'Review'
+            return schema + 'UserReview'
         case 'tip':
             return example + 'Tip'
         case _:  # This case happens for the business file.
@@ -115,8 +115,10 @@ def get_classes(entity: str):
     :return: The type to add as a class to the entity.
     """
 
+
     possible_classes = dict()
     entity_length = len(entity)
+
 
     for _type in list(schema_classes['label']): # schema_classes['label'] is all types in schema.org
         if long_com_substring(entity, _type) >= entity_length * 0.9:
@@ -125,10 +127,15 @@ def get_classes(entity: str):
             ratio = entity_length / len(_type)
             possible_classes[_type] = ratio
 
-    if len(possible_classes) > 0:
-        return schema + max(possible_classes, key=possible_classes.get)  # Return the highest ratio key as the entities type.
+    if possible_classes:  # An empty dict will return False
+        best_pos_class = max(possible_classes, key=possible_classes.get)  # Get the schema.org type with highest ratio
+        best_pos_class_superclass = schema_classes[schema_classes['label'] == best_pos_class]['subTypeOf'] # Checks if the best_pos_class has a super type
+        if best_pos_class_superclass:  # If we have a value here
+            return schema + best_pos_class, schema + best_pos_class_superclass
+        else:
+            return schema + best_pos_class, None  # Return the highest ratio key as the entities type.
     else:
-        return schema + 'LocalBusiness'
+        return schema + 'LocalBusiness', None
 
 if __name__ == "__main__":
 
