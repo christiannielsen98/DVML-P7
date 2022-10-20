@@ -87,12 +87,13 @@ def get_schema_type(entity: str):
             return schema + 'UserReview'
         case 'tip':
             return example + 'Tip'
-        case _:  # This case happens for the business file.
-            get_classes(entity)
+        case _:  # 
+            print(f"Unknown schema type for entity: {entity}")
 
 
 def long_com_substring(st1, st2):
     """
+    This function is used for matching business categories with schema.org types.
     :param st1: The string we want to check for.
     :param st2: The string we check longest substring (st1) in.
     :return: Returns the length of the longest substring
@@ -117,12 +118,19 @@ def str_split(string):
 
 
 def get_class_mappings(file):
+    """
+    This function is used to extract all business categories, and find their best schema.org type if it exists. 
+    :param file: The file to be read as a dataframe. This function is only used for the business JSON.
+    :return: Returns a dictionary with category as key and mapped schema type as value.
+    """
+
     biz = pd.read_json(file, lines=True)#["categories"]
     schema = pd.read_csv(get_path("schemaorg-current-https-types.csv"))[["label", "subTypeOf"]]
 
     biz["categories"] = biz["categories"].apply(str_split)
 
-    categories = list({num for sublist in biz["categories"].tolist() if sublist for num in sublist})
+    # Iterate over categories in sublists ('If sublist' checks if the sublist is None) and insert them into a large set.
+    categories = list({category for sublist in biz["categories"].tolist() if sublist for category in sublist})
 
     category_mapping = dict()
 
@@ -131,6 +139,8 @@ def get_class_mappings(file):
         possible_classes = dict()
 
         for schema_type in schema["label"]:
+            # Only adds a schema type as a match if the longest common substring is at least 90% of the category,
+            # and if the ratio between the category and schema type is 50 % or larger.
             if long_com_substring(category, schema_type) >= category_length * 0.90:
                 ratio = category_length / len(schema_type)
                 if ratio >= 1/2:
@@ -138,13 +148,17 @@ def get_class_mappings(file):
 
         if possible_classes:  # An empty dict will return False
             best_pos_class = max(possible_classes, key=possible_classes.get)  # Get the schema.org type with highest ratio
-
             category_mapping[category] = best_pos_class
 
     return category_mapping
 
 
 def class_hierarchy(dictionary):
+    """
+    This function is used to create the hiearchy only for the relevant schema.org types for this ontology.
+    :param dictionary: Input here is the category to schema type mapping dictionary returned from get_class_mappings().
+    :return: a dictionary with schema type as key and its supertype as value.
+    """
     from networkx import DiGraph
     from networkx.algorithms.traversal.depth_first_search import dfs_tree
 
@@ -153,52 +167,24 @@ def class_hierarchy(dictionary):
     supertypes_set = set()
     for _class in dictionary.values():
         graph = DiGraph()
-        graph.add_edges_from(schema[['id', 'subTypeOf']].to_records(index=False))
+        graph.add_edges_from(schema[['id', 'subTypeOf']].to_records(index=False)) # Here we add EVERY row to the graph
 
         supertypes = dfs_tree(graph, _class)
         supertypes_set.update(set(supertypes.nodes()))
 
-    supertypes_set = {x for x in supertypes_set if x == x}
+    res_df = schema[schema["id"].isin(supertypes_set)]  # Extracts all relevant rows
+    res_df = res_df.apply(lambda x: x.str.split(',').explode()) # Some types have multiple supertypes, so we explode those rows.
+    res_df = res_df.set_index('id').to_dict()['subTypeOf'] # Convert to dict with id as key and supertype as value
 
-    res_df = schema[schema["id"].isin(supertypes_set)]
-    res_df = res_df.apply(lambda x: x.str.split(',').explode())
-    res_df = res_df.set_index('id').to_dict()['subTypeOf']
     return res_df
 
-def get_classes(entity: str):
-    """
-    :param entity: The RDF entity we want to check if it has a possible type in schema.org
-    :return: The type to add as a class to the entity.
-    """
-
-
-    possible_classes = dict()
-    entity_length = len(entity)
-
-
-    for _type in list(schema_classes['label']): # schema_classes['label'] is all types in schema.org
-        if long_com_substring(entity, _type) >= entity_length * 0.9:
-            # If the longest common substring between the entity and schema.org types is similar with 90 %,
-            # we add the type as key and the ratio between the two strings as value.
-            ratio = entity_length / len(_type)
-            possible_classes[_type] = ratio
-
-    if possible_classes:  # An empty dict will return False
-        best_pos_class = max(possible_classes, key=possible_classes.get)  # Get the schema.org type with highest ratio
-        best_pos_class_superclass = schema_classes[schema_classes['label'] == best_pos_class]['subTypeOf'] # Checks if the best_pos_class has a super type
-        if best_pos_class_superclass:  # If we have a value here
-            return schema + best_pos_class, schema + best_pos_class_superclass
-        else:
-            return schema + best_pos_class, None  # Return the highest ratio key as the entities type.
-    else:
-        return schema + 'LocalBusiness', None
 
 if __name__ == "__main__":
 
     import time
 
     t1 = time.time()
-    test2 = get_classes('Restaurants')
+    test2 = get_class_mappings('Restaurants')
     print(test2)
     t2 = time.time()
     print(t2-t1)
