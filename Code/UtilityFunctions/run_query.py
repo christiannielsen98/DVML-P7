@@ -3,7 +3,7 @@ import pandas as pd
 from pandas import json_normalize
 
 
-def run_query(query, as_dataframe=False, do_print=False):
+def run_query(query, as_dataframe=False, do_print=False, include_types=False):
     pd.set_option('display.max_colwidth', None)
     pd.set_option('display.max_rows', None)
     pd.set_option('display.max_columns', None)
@@ -33,6 +33,8 @@ def run_query(query, as_dataframe=False, do_print=False):
     else:
         # pdata = pd.DataFrame.from_dict(results['bindings'], orient="index")
         pdata = json_normalize(results['bindings'])
+        if not include_types:
+            pdata = pdata[[col for col in pdata.columns if ".value" in col]]
         if do_print:
             print(pdata)
         return pdata
