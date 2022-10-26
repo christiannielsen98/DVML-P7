@@ -9,13 +9,13 @@ def flatten_dictionary(dct: dict) -> dict:
     result = dict()
 
     for key, value in dct.items():
-        try:
-            value = eval(value)
-            if value == Ellipsis:  # Due to no text in a review
-                value = "..."
-        except (TypeError, SyntaxError, NameError):
-            pass
-        if isinstance(value, dict):
+        # try:
+        #     value = eval(value)
+        #     if value == Ellipsis:  # Due to no text in a review
+        #         value = "..."
+        # except (TypeError, SyntaxError, NameError):
+        #     pass
+        if isinstance(value, dict) and key != "hours":
             part_result = flatten_dictionary(value)
             result.update(part_result)
         else:
@@ -39,4 +39,6 @@ if __name__ == '__main__':
               'hours': {'Monday': '8:0-22:0', 'Tuesday': '8:0-22:0', 'Wednesday': '8:0-22:0', 'Thursday': '8:0-22:0',
                         'Friday': '8:0-23:0', 'Saturday': '8:0-23:0', 'Sunday': '8:0-22:0'}}
 
+    # print(ordbog["atributes"])
+    #
     print(flatten_dictionary(ordbog))

@@ -31,11 +31,11 @@ def get_schema_predicate(predicate, obj, file):
         case "postal_code":
             return schema + "postalCode", XSD.string  # integer?
         case "latitude":
-            return schema + "latitude", XSD.float
+            return schema + "latitude", XSD.decimal
         case "longitude":
-            return schema + "longitude", XSD.float
+            return schema + "longitude", XSD.decimal
         case "stars":
-            return schema + "starRating", XSD.float
+            return schema + "starRating", XSD.decimal
         case "review_count":
             return schema + "reviewCount", XSD.integer
         case "is_open":
@@ -57,13 +57,15 @@ def get_schema_predicate(predicate, obj, file):
             return schema + "about", XSD.anyURI
         case "text":
             return schema + "description", XSD.string
+        case "BusinessParking" | "GoodForMeal" | "Ambience" | "Music" | "BestNights" | "HairSpecializesIn" | "DietaryRestrictions" | "hours":
+            return example + "has" + predicate.capitalize(), XSD.string  # TODO: Find
         case _:  # If no schema.org predicate can be found, create predicate using example.org
             if isinstance(obj, str):
                 object_type = XSD.string
             elif isinstance(obj, int):
                 object_type = XSD.integer
             elif isinstance(obj, float):
-                object_type = XSD.float
+                object_type = XSD.decimal
             elif isinstance(obj, bool):
                 object_type = XSD.boolean
             else:
@@ -81,6 +83,8 @@ def get_schema_type(entity: str):
     """
 
     match entity:
+        case 'business':
+            return schema + "LocalBusiness"
         case 'user':
             return schema + 'Person'
         case 'review':
@@ -117,14 +121,14 @@ def str_split(string):
         return string
 
 
-def get_class_mappings(file):
+def get_class_mappings(file_path):
     """
     This function is used to extract all business categories, and find their best schema.org type if it exists. 
     :param file: The file to be read as a dataframe. This function is only used for the business JSON.
     :return: Returns a dictionary with category as key and mapped schema type as value.
     """
 
-    biz = pd.read_json(file, lines=True)#["categories"]
+    biz = pd.read_json(file_path, lines=True)#["categories"]
     schema = pd.read_csv(get_path("schemaorg-current-https-types.csv"))[["label", "subTypeOf"]]
 
     biz["categories"] = biz["categories"].apply(str_split)
@@ -162,32 +166,48 @@ def class_hierarchy(dictionary):
     from networkx import DiGraph
     from networkx.algorithms.traversal.depth_first_search import dfs_tree
 
-    schema = pd.read_csv(get_path("schemaorg-current-https-types.csv"))[["id", "subTypeOf"]]
+    schema = pd.read_csv(get_path("schemaorg-current-https-types.csv"))[["id", "subTypeOf"]].dropna()
 
     supertypes_set = set()
-    for _class in dictionary.values():
-        graph = DiGraph()
-        graph.add_edges_from(schema[['id', 'subTypeOf']].to_records(index=False)) # Here we add EVERY row to the graph
 
-        supertypes = dfs_tree(graph, _class)
+    graph = DiGraph()
+    graph.add_edges_from(list(zip(schema["id"], schema["subTypeOf"]))) # Here we add EVERY row to the graph
+
+    for _class in dictionary.values():
+        supertypes = dfs_tree(graph, "https://schema.org/" + _class)
         supertypes_set.update(set(supertypes.nodes()))
 
     res_df = schema[schema["id"].isin(supertypes_set)]  # Extracts all relevant rows
-    res_df = res_df.apply(lambda x: x.str.split(',').explode()) # Some types have multiple supertypes, so we explode those rows.
+    res_df = res_df.apply(lambda x: x.str.split(', ').explode()) # Some types have multiple supertypes, so we explode those rows.
     res_df = res_df.set_index('id').to_dict()['subTypeOf'] # Convert to dict with id as key and supertype as value
 
     return res_df
 
 
 if __name__ == "__main__":
+    dct = {'Synagogues': 'Synagogue', 'Jewelry': 'JewelryStore', 'Preschools': 'Preschool', 'International': 'InternationalTrial', 'Courthouses': 'Courthouse', 'Pharmacy': 'Pharmacy', 'Grocery': 'GroceryStore', 'Insurance': 'InsuranceAgency', 'Electricians': 'Electrician', 'Vegetarian': 'VegetarianDiet', 'Shopping': 'ShoppingCenter', 'Contractors': 'GeneralContractor', 'Bowling': 'BowlingAlley', 'Embassy': 'Embassy', 'Parking': 'ParkingMap', 'Restaurants': 'Restaurant', 'Halal': 'HalalDiet', 'Electronics': 'ElectronicsStore', 'Campgrounds': 'Campground', 'Osteopaths': 'Osteopathic', 'Playgrounds': 'Playground', 'Apartments': 'Apartment', 'Kosher': 'KosherDiet', 'Education': 'EducationEvent', 'Vegan': 'VeganDiet', 'Automotive': 'AutomotiveBusiness', 'Tattoo': 'TattooParlor'}
+    print(class_hierarchy(dct))
 
-    import time
+    # from networkx import DiGraph
+    # from networkx.algorithms.traversal.depth_first_search import dfs_tree
+    #
+    # schema = pd.read_csv(get_path("schemaorg-current-https-types.csv"))[["id", "subTypeOf"]]
+    #
+    # graph = DiGraph()
+    # graph.add_edges_from(schema[['id', 'subTypeOf']].to_records(index=False))  # Here we add EVERY row to the graph
 
-    t1 = time.time()
-    test2 = get_class_mappings('Restaurants')
-    print(test2)
-    t2 = time.time()
-    print(t2-t1)
+    # print(graph.edges)
+
+    # supertypes = dfs_tree(graph, "https://schema.org/" + dct["Synagogues"])
+    # print(supertypes)
+
+    # import time
+    #
+    # t1 = time.time()
+    # test2 = get_class_mappings('Restaurants')
+    # print(test2)
+    # t2 = time.time()
+    # print(t2-t1)
 
 
 

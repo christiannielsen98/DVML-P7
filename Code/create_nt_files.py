@@ -1,5 +1,6 @@
 import gzip
 import json
+import pandas as pd
 
 
 from rdflib import Namespace, Graph, URIRef, Literal, BNode
@@ -26,23 +27,27 @@ def create_nt_file(file_name: str):
     """
 
     entity_name = file_name[22:-5]  # Either business, user, checkin or review
-    triple_file = gzip.open(filename=f"/home/ubuntu/vol1/virtuoso/import/yelp_{entity_name}.nt.gz", mode="at",
+    # triple_file = gzip.open(filename=f"/home/ubuntu/vol1/virtuoso/import/yelp_{entity_name}.nt.gz", mode="at",
+    #                         encoding="utf-8")
+    triple_file = gzip.open(filename=f"yelp_{entity_name}.nt.gz", mode="at",
                             encoding="utf-8")
     file_path = get_path(file_name)
 
+    if file_name == "yelp_academic_dataset_business.json":
+        class_mappings = get_class_mappings(file_path)
+        class_hierarchies = class_hierarchy(class_mappings)
+
+        G = Graph()
+        for key, value in class_hierarchies.items():
+            G.add(triple=(URIRef(Namespace(key)),
+                          RDFS.subClassOf,
+                          URIRef(Namespace(value))))
+
+        triple_file.write(G.serialize(format='nt'))  # Writes to the .nt file the graph now containing a RDF triple.
+
+        print("Done")
+
     with open(file=file_path, mode="r") as file:
-        if file_name == "yelp_academic_dataset_business.json":
-            class_mappings = get_class_mappings(file)
-            class_hierarchies = class_hierarchy(class_mappings)
-
-            G = Graph()
-            for key, value in class_hierarchies.items():
-                G.add(triple=(URIRef(key),
-                              RDFS.subClassOf,
-                              URIRef(value)))  # Thing -> NaN (might be problematic)
-
-            triple_file.write(G.serialize(format='nt'))  # Writes to the .nt file the graph now containing a RDF triple.
-
         for line in file:
             # Iterates over every object in the JSON file, as each object is one line.
             try:
@@ -77,7 +82,7 @@ def create_nt_file(file_name: str):
 
                 # Assigns a RDFS Class to every subject (checkin does not have its own subject).
                 if file_name != 'yelp_academic_dataset_checkin.json':
-                    if file_name == 'yelp_academic_dataset_business.json':
+                    if file_name == 'yelp_academic_dataset_business.json' and line['categories']:
                         # Get 'categories' key, unpack all its values, and run them through get_schema_type.
                         # If the specific category has a match in schema.org types CSV file, add that as a Class.
                         # If not we just add the parent class LocalBusiness.
@@ -91,7 +96,7 @@ def create_nt_file(file_name: str):
                             else:
                                 G.add(triple=(URIRef(subject),
                                               RDFS.Class,
-                                              URIRef(example + pos_type)))
+                                              URIRef(example + pos_type.replace(" ", "_"))))  # Fix " " in URI
 
                     else:
                         G.add(triple=(URIRef(subject),
@@ -100,8 +105,27 @@ def create_nt_file(file_name: str):
 
                 # Now we iterate over the rest of the key/value pairs and transform them to RDF format.
                 for _predicate, _object in line.items():
-                    if isinstance(_object, type(None)) or str(_object).lower() == "none":  # Why do we do this?
+                    try:
+                        _object = eval(_object)
+                        if _object == Ellipsis:  # Due to no text in a review
+                            _object = "..."
+                    except (TypeError, SyntaxError, NameError):
                         pass
+                    if isinstance(_object, type(None)) or str(_object).lower() in ["none", "null"]:  # Why do we do this?
+                        pass
+
+                    elif isinstance(_object, dict):
+                        predicate, object_type = get_schema_predicate(_predicate, _object, file_name)
+                        b_node = BNode()
+
+                        G.add(triple=(URIRef(subject),
+                                      URIRef(predicate),  # E.g., hasBusinessParking, hasHours
+                                      Literal(b_node)))  # Blank Node
+
+                        for __predicate, __object in _object.items():
+                            G.add(triple=(URIRef(b_node),
+                                          URIRef(example + "has" + __predicate),
+                                          Literal(__object)))
 
                     elif _predicate in ["categories", "date", "friends", "elite"]:  # The values to these keys contains listed objects
                         _object = str(_object)
@@ -119,7 +143,7 @@ def create_nt_file(file_name: str):
                     else:
                         if _predicate == "yelping_since":
                             _object = _object.replace(" ", "T")  # Cleans the yelping_since attribute
-                        #  Same as line 78
+
                         predicate, object_type = get_schema_predicate(_predicate, _object, file_name)
                         G.add(triple=(URIRef(subject),
                                       URIRef(predicate),
