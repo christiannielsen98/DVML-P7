@@ -1,0 +1,66 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix schema: <https://schema.org/> .
+@prefix xsd: <https://www.w3.org/2001/XMLSchema#>
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+# Vi vil gerne tjekke city, states og country? Har ET navn, MINDST et tal for population? Skal vi tjekke for relation imellem dem?
+# wdt:Q515 = City, wdt:P1448 = official name, P17 = country,  P1082 = population
+
+
+_:cityShape a sh:NodeShape ;
+    sh:targetClass wdt:Q515 ;
+    sh:property [
+        sh:path wdt:P1448 ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string
+    ] ;
+    sh:property [
+        sh:path wdt:P17 ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string
+    ] ;
+    sh:property [
+        sh:path schema:city;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string
+    ] ;
+    sh:property [
+        sh:path wdt:P1082 ;
+        sh:maxInclusive 5 ;
+        sh:minInclusive 1 ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:float
+    ] ;
+
+_:stateShape a sh:NodeShape ;
+    sh:targetClass wdt:? ;
+    sh:property [
+        sh:path wdt:P1448 ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string
+    ] ;
+    sh:property [
+        sh:path wdt:P17 ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string
+    ] ;
+    sh:property [
+        sh:path schema:city;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string
+    ] ;
+    sh:property [
+        sh:path wdt:P1082 ;
+        sh:maxInclusive 5 ;
+        sh:minInclusive 1 ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:float
+    ] ;
