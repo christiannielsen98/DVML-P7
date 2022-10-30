@@ -27,10 +27,10 @@ def create_nt_file(file_name: str):
     """
 
     entity_name = file_name[22:-5]  # Either business, user, checkin or review
-    # triple_file = gzip.open(filename=f"/home/ubuntu/vol1/virtuoso/import/yelp_{entity_name}.nt.gz", mode="at",
-    #                         encoding="utf-8")
-    triple_file = gzip.open(filename=f"yelp_{entity_name}.nt.gz", mode="at",
+    triple_file = gzip.open(filename=f"/home/ubuntu/vol1/virtuoso/import/yelp_{entity_name}.nt.gz", mode="at",
                             encoding="utf-8")
+    # triple_file = gzip.open(filename=f"yelp_{entity_name}.nt.gz", mode="at",
+    #                         encoding="utf-8")
     file_path = get_path(file_name)
 
     if file_name == "yelp_academic_dataset_business.json":
@@ -109,7 +109,7 @@ def create_nt_file(file_name: str):
                         _object = eval(_object)
                         if _object == Ellipsis:  # Due to no text in a review
                             _object = "..."
-                    except (TypeError, SyntaxError, NameError):
+                    except (TypeError, SyntaxError, NameError, AttributeError):
                         pass
                     if isinstance(_object, type(None)) or str(_object).lower() in ["none", "null"]:  # Why do we do this?
                         pass
@@ -215,4 +215,9 @@ def create_tip_nt_file():
 
 
 if __name__ == "__main__":
-    create_nt_file(file_name="yelp_academic_dataset_business.json")
+    files = [
+        # 'yelp_academic_dataset_business.json', 
+        'yelp_academic_dataset_user.json', 'yelp_academic_dataset_review.json', 'yelp_academic_dataset_checkin.json']
+    for i in files:
+        create_nt_file(file_name=i)
+    create_tip_nt_file()
