@@ -58,7 +58,7 @@ def get_schema_predicate(predicate, obj, file):
         case "text":
             return schema + "description", XSD.string
         case "BusinessParking" | "GoodForMeal" | "Ambience" | "Music" | "BestNights" | "HairSpecializesIn" | "DietaryRestrictions" | "hours":
-            return example + "has" + predicate.capitalize(), XSD.string  # TODO: Find
+            return example + "has" + predicate.capitalize(), XSD.string  # TODO: Find something instead of example
         case _:  # If no schema.org predicate can be found, create predicate using example.org
             if isinstance(obj, str):
                 object_type = XSD.string
@@ -121,14 +121,14 @@ def str_split(string):
         return string
 
 
-def get_class_mappings(file_path):
+def get_class_mappings():
     """
     This function is used to extract all business categories, and find their best schema.org type if it exists. 
     :param file: The file to be read as a dataframe. This function is only used for the business JSON.
     :return: Returns a dictionary with category as key and mapped schema type as value.
     """
 
-    biz = pd.read_json(file_path, lines=True)#["categories"]
+    biz = pd.read_json("yelp_academic_dataset_business", lines=True)
     schema = pd.read_csv(get_path("schemaorg-current-https-types.csv"))[["label", "subTypeOf"]]
 
     biz["categories"] = biz["categories"].apply(str_split)

@@ -34,7 +34,7 @@ def create_nt_file(file_name: str):
     file_path = get_path(file_name)
 
     if file_name == "yelp_academic_dataset_business.json":
-        class_mappings = get_class_mappings(file_path)
+        class_mappings = get_class_mappings()
         class_hierarchies = class_hierarchy(class_mappings)
 
         G = Graph()
