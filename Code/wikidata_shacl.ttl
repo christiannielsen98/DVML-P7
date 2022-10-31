@@ -3,9 +3,12 @@
 @prefix xsd: <https://www.w3.org/2001/XMLSchema#>
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
-# Vi vil gerne tjekke city, states og country? Har ET navn, MINDST et tal for population? Skal vi tjekke for relation imellem dem?
-# wdt:Q515 = City, wdt:P1448 = official name, P17 = country,  P1082 = population
+# Vi vil gerne tjekke city, states og country? Har ET navn, MINDST et tal for population?
+# Skal vi tjekke for relation imellem dem? Altså at city skal ligge i en state som skal ligge i et land
+# eller bare city skal ligge i enten en state eller country
+# Vi kan også tjekke at entities har coordinates.
 
+# wdt:Q515 = City, wdt:P1448 = official name, P17 = country,  P1082 = population
 
 _:cityShape a sh:NodeShape ;
     sh:targetClass wdt:Q515 ;
