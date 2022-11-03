@@ -1,6 +1,8 @@
 import pandas as pd
 from Code.UtilityFunctions.get_data_path import get_path
 from rdflib import Namespace, XSD
+from networkx import DiGraph
+from networkx.algorithms.traversal.depth_first_search import dfs_tree
 
 schema = Namespace("https://schema.org/")
 example = Namespace("https://example.org/")
@@ -166,24 +168,32 @@ def class_hierarchy(dictionary):
     from networkx import DiGraph
     from networkx.algorithms.traversal.depth_first_search import dfs_tree
 
-    schema = pd.read_csv(get_path("schemaorg-current-https-types.csv"))[["id", "subTypeOf"]].dropna()
+    schema_df = pd.read_csv(get_path("schemaorg-current-https-types.csv"))[["id", "subTypeOf"]].dropna()
+    schema_df = schema_df.apply(lambda x: x.str.split(', ').explode()) # Some types have multiple supertypes, so we explode those rows.
 
-    supertypes_set = set()
+    supertypes_dict = dict()
 
     graph = DiGraph()
-    graph.add_edges_from(list(zip(schema["id"], schema["subTypeOf"]))) # Here we add EVERY row to the graph
+    graph.add_edges_from(list(zip(schema_df["id"], schema_df["subTypeOf"]))) # Here we add EVERY row to the graph
 
+    # We do a depth first search on the constructed graph starting at each type in the input dictionary.
     for _class in dictionary.values():
         supertypes = dfs_tree(graph, "https://schema.org/" + _class)
-        supertypes_set.update(set(supertypes.nodes()))
+        edges = supertypes.edges()  # edges is a list of lists
+        for edge in edges:
+            supertypes_dict.setdefault(edge[0], set()).add(edge[1])
 
-    res_df = schema[schema["id"].isin(supertypes_set)]  # Extracts all relevant rows
-    res_df = res_df.apply(lambda x: x.str.split(', ').explode()) # Some types have multiple supertypes, so we explode those rows.
-    res_df = res_df.set_index('id').to_dict()['subTypeOf'] # Convert to dict with id as key and supertype as value
+    supertypes_df = pd.DataFrame(list(supertypes_dict.items()), columns=['type', 'superTypes'])
+    supertypes_df = supertypes_df.explode("superTypes")
 
-    return res_df
+    return supertypes_df
 
 
 if __name__ == "__main__":
     dct = {'Synagogues': 'Synagogue', 'Jewelry': 'JewelryStore', 'Preschools': 'Preschool', 'International': 'InternationalTrial', 'Courthouses': 'Courthouse', 'Pharmacy': 'Pharmacy', 'Grocery': 'GroceryStore', 'Insurance': 'InsuranceAgency', 'Electricians': 'Electrician', 'Vegetarian': 'VegetarianDiet', 'Shopping': 'ShoppingCenter', 'Contractors': 'GeneralContractor', 'Bowling': 'BowlingAlley', 'Embassy': 'Embassy', 'Parking': 'ParkingMap', 'Restaurants': 'Restaurant', 'Halal': 'HalalDiet', 'Electronics': 'ElectronicsStore', 'Campgrounds': 'Campground', 'Osteopaths': 'Osteopathic', 'Playgrounds': 'Playground', 'Apartments': 'Apartment', 'Kosher': 'KosherDiet', 'Education': 'EducationEvent', 'Vegan': 'VeganDiet', 'Automotive': 'AutomotiveBusiness', 'Tattoo': 'TattooParlor'}
-    print(class_hierarchy(dct))
+
+    class_mapping_dict = get_class_mappings()
+    
+    class_hierarchy_df = class_hierarchy(class_mapping_dict)
+
+    class_hierarchy_df.to_csv(path_or_buf=".../UtilityFiles/class_hierarchy.csv", index=False)
