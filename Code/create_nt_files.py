@@ -1,6 +1,5 @@
 import gzip
 import json
-import pandas as pd
 
 
 from rdflib import Namespace, Graph, URIRef, Literal, BNode
@@ -26,10 +25,10 @@ def create_nt_file(file_name: str):
     :return: a .nt.gz file with Yelp data in RDF format.
     """
     entity_name = file_name[22:-5]  # Either business, user, checkin or review
-    # triple_file = gzip.open(filename=f"/home/ubuntu/vol1/virtuoso/import/yelp_{entity_name}.nt.gz", mode="at",
-    #                         encoding="utf-8")
-    triple_file = gzip.open(filename=f"yelp_{entity_name}.nt.gz", mode="at",
+    triple_file = gzip.open(filename=f"/home/ubuntu/vol1/virtuoso/import/yelp_{entity_name}.nt.gz", mode="at",
                             encoding="utf-8")
+    # triple_file = gzip.open(filename=f"yelp_{entity_name}.nt.gz", mode="at",
+    #                         encoding="utf-8")
     file_path = get_path(file_name)
 
     if file_name == "yelp_academic_dataset_business.json":
@@ -228,10 +227,13 @@ def create_tip_nt_file():
 
 
 if __name__ == "__main__":
-    create_nt_file(file_name="yelp_academic_dataset_business.json")
-    # files = [
-    #     'yelp_academic_dataset_business.json',
-    #     'yelp_academic_dataset_user.json', 'yelp_academic_dataset_review.json', 'yelp_academic_dataset_checkin.json']
-    # for i in files:
-    #     create_nt_file(file_name=i)
-    # create_tip_nt_file()
+    # create_nt_file(file_name="yelp_academic_dataset_business.json")
+    files = [
+        'yelp_academic_dataset_business.json',
+        'yelp_academic_dataset_user.json',
+        'yelp_academic_dataset_review.json',
+        'yelp_academic_dataset_checkin.json'
+    ]
+    for i in files:
+        create_nt_file(file_name=i)
+    create_tip_nt_file()
