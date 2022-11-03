@@ -25,12 +25,11 @@ def create_nt_file(file_name: str):
     :param file_name: The Yelp JSON file to transform to RDF.
     :return: a .nt.gz file with Yelp data in RDF format.
     """
-
     entity_name = file_name[22:-5]  # Either business, user, checkin or review
-    triple_file = gzip.open(filename=f"/home/ubuntu/vol1/virtuoso/import/yelp_{entity_name}.nt.gz", mode="at",
-                            encoding="utf-8")
-    # triple_file = gzip.open(filename=f"yelp_{entity_name}.nt.gz", mode="at",
+    # triple_file = gzip.open(filename=f"/home/ubuntu/vol1/virtuoso/import/yelp_{entity_name}.nt.gz", mode="at",
     #                         encoding="utf-8")
+    triple_file = gzip.open(filename=f"yelp_{entity_name}.nt.gz", mode="at",
+                            encoding="utf-8")
     file_path = get_path(file_name)
 
     if file_name == "yelp_academic_dataset_business.json":
@@ -45,7 +44,11 @@ def create_nt_file(file_name: str):
 
         triple_file.write(G.serialize(format='nt'))  # Writes to the .nt file the graph now containing a RDF triple.
 
-        print("Done")
+        # Load location information based on Google API retireved data.
+        with open(file=get_path("location.json"), mode="r") as file:
+            location_dict = json.load(file)
+
+        location_dict = location_dict
 
     with open(file=file_path, mode="r") as file:
         for line in file:
@@ -82,21 +85,31 @@ def create_nt_file(file_name: str):
 
                 # Assigns a RDFS Class to every subject (checkin does not have its own subject).
                 if file_name != 'yelp_academic_dataset_checkin.json':
-                    if file_name == 'yelp_academic_dataset_business.json' and line['categories']:
-                        # Get 'categories' key, unpack all its values, and run them through get_schema_type.
-                        # If the specific category has a match in schema.org types CSV file, add that as a Class.
-                        # If not we just add the parent class LocalBusiness.
-                        possible_types = line['categories'].split(", ")
-                        for pos_type in possible_types:
-                            # schema_type = get_schema_type(pos_type)
-                            if pos_type in class_mappings.keys():
+                    if file_name == 'yelp_academic_dataset_business.json':
+                        if line['categories']:
+                            # Get 'categories' key, unpack all its values, and run them through get_schema_type.
+                            # If the specific category has a match in schema.org types CSV file, add that as a Class.
+                            # If not we just add the parent class LocalBusiness.
+                            possible_types = line['categories'].split(", ")
+                            for pos_type in possible_types:
+                                # schema_type = get_schema_type(pos_type)
+                                if pos_type in class_mappings.keys():
+                                    G.add(triple=(URIRef(subject),
+                                                  RDFS.Class,
+                                                  URIRef(class_mappings[pos_type])))
+                                else:
+                                    G.add(triple=(URIRef(subject),
+                                                  RDFS.Class,
+                                                  URIRef(example + pos_type.replace(" ", "_"))))  # Fix " " in URI
+
+                        # Add location information to the business based on Google API retrieved data.
+                        del [line['city'], line['state']]
+                        location_rounded = f"{round(line['latitude'], 2)},{round(line['longitude'], 2)}"
+                        for location_predicate, location_value in location_dict[location_rounded].items():
+                            if location_value is not None:
                                 G.add(triple=(URIRef(subject),
-                                              RDFS.Class,
-                                              URIRef(class_mappings[pos_type])))
-                            else:
-                                G.add(triple=(URIRef(subject),
-                                              RDFS.Class,
-                                              URIRef(example + pos_type.replace(" ", "_"))))  # Fix " " in URI
+                                              URIRef(example + "locatedIn" + location_predicate),
+                                              URIRef(example + location_predicate.lower() + "/" + location_value.replace(" ", "_"))))
 
                     else:
                         G.add(triple=(URIRef(subject),
@@ -215,9 +228,10 @@ def create_tip_nt_file():
 
 
 if __name__ == "__main__":
-    files = [
-        # 'yelp_academic_dataset_business.json', 
-        'yelp_academic_dataset_user.json', 'yelp_academic_dataset_review.json', 'yelp_academic_dataset_checkin.json']
-    for i in files:
-        create_nt_file(file_name=i)
-    create_tip_nt_file()
+    create_nt_file(file_name="yelp_academic_dataset_business.json")
+    # files = [
+    #     'yelp_academic_dataset_business.json',
+    #     'yelp_academic_dataset_user.json', 'yelp_academic_dataset_review.json', 'yelp_academic_dataset_checkin.json']
+    # for i in files:
+    #     create_nt_file(file_name=i)
+    # create_tip_nt_file()
