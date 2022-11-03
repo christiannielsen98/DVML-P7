@@ -9,7 +9,7 @@ schema_classes = pd.read_csv(get_path("schemaorg-current-https-types.csv"))
 schema_classes.update(schema_classes.subTypeOf.str.replace('https://schema.org/', '', regex=False))
 
 
-def get_schema_predicate(predicate, obj, file):
+def get_schema_predicate(predicate, obj=None, file=None):
     """
     This match function gets as input keys and values from the Yelp JSON files and tries to map the keys to proper
     schema.org predicates and proper XSD datatypes. If no schema.org predicate can be found, create an example.org
@@ -24,10 +24,10 @@ def get_schema_predicate(predicate, obj, file):
             return schema + "name", XSD.string
         case "address":
             return schema + "address", XSD.string
-        case "city":
-            return schema + "location", XSD.string
-        case "state":
-            return schema + "addressRegion", XSD.string
+        # case "city":
+        #     return schema + "location", XSD.string
+        # case "state":
+        #     return schema + "addressRegion", XSD.string
         case "postal_code":
             return schema + "postalCode", XSD.string  # integer?
         case "latitude":
@@ -128,7 +128,7 @@ def get_class_mappings():
     :return: Returns a dictionary with category as key and mapped schema type as value.
     """
 
-    biz = pd.read_json("yelp_academic_dataset_business", lines=True)
+    biz = pd.read_json(get_path("yelp_academic_dataset_business.json"), lines=True)
     schema = pd.read_csv(get_path("schemaorg-current-https-types.csv"))[["label", "subTypeOf"]]
 
     biz["categories"] = biz["categories"].apply(str_split)
@@ -187,27 +187,3 @@ def class_hierarchy(dictionary):
 if __name__ == "__main__":
     dct = {'Synagogues': 'Synagogue', 'Jewelry': 'JewelryStore', 'Preschools': 'Preschool', 'International': 'InternationalTrial', 'Courthouses': 'Courthouse', 'Pharmacy': 'Pharmacy', 'Grocery': 'GroceryStore', 'Insurance': 'InsuranceAgency', 'Electricians': 'Electrician', 'Vegetarian': 'VegetarianDiet', 'Shopping': 'ShoppingCenter', 'Contractors': 'GeneralContractor', 'Bowling': 'BowlingAlley', 'Embassy': 'Embassy', 'Parking': 'ParkingMap', 'Restaurants': 'Restaurant', 'Halal': 'HalalDiet', 'Electronics': 'ElectronicsStore', 'Campgrounds': 'Campground', 'Osteopaths': 'Osteopathic', 'Playgrounds': 'Playground', 'Apartments': 'Apartment', 'Kosher': 'KosherDiet', 'Education': 'EducationEvent', 'Vegan': 'VeganDiet', 'Automotive': 'AutomotiveBusiness', 'Tattoo': 'TattooParlor'}
     print(class_hierarchy(dct))
-
-    # from networkx import DiGraph
-    # from networkx.algorithms.traversal.depth_first_search import dfs_tree
-    #
-    # schema = pd.read_csv(get_path("schemaorg-current-https-types.csv"))[["id", "subTypeOf"]]
-    #
-    # graph = DiGraph()
-    # graph.add_edges_from(schema[['id', 'subTypeOf']].to_records(index=False))  # Here we add EVERY row to the graph
-
-    # print(graph.edges)
-
-    # supertypes = dfs_tree(graph, "https://schema.org/" + dct["Synagogues"])
-    # print(supertypes)
-
-    # import time
-    #
-    # t1 = time.time()
-    # test2 = get_class_mappings('Restaurants')
-    # print(test2)
-    # t2 = time.time()
-    # print(t2-t1)
-
-
-
