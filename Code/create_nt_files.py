@@ -43,10 +43,11 @@ def create_nt_file(file_name: str):
 
         triple_file.write(G.serialize(format='nt'))  # Writes to the .nt file the graph now containing a RDF triple.
 
-        # Load location information based on Google API retrieved data.
-        with open(file=get_path("location.json"), mode="r") as file:
+        # Load location information based on Google API retireved data.
+        with open(file=get_path("location_unique.json"), mode="r") as file:
             location_dict = json.load(file)
 
+        # Required...
         location_dict = location_dict
 
     with open(file=file_path, mode="r") as file:

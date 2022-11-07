@@ -93,7 +93,7 @@ def get_schema_type(entity: str):
             return schema + 'UserReview'
         case 'tip':
             return example + 'Tip'
-        case _:  # 
+        case _:  #
             print(f"Unknown schema type for entity: {entity}")
 
 
@@ -125,7 +125,7 @@ def str_split(string):
 
 def get_class_mappings():
     """
-    This function is used to extract all business categories, and find their best schema.org type if it exists. 
+    This function is used to extract all business categories, and find their best schema.org type if it exists.
     :param file: The file to be read as a dataframe. This function is only used for the business JSON.
     :return: Returns a dictionary with category as key and mapped schema type as value.
     """
@@ -193,9 +193,8 @@ if __name__ == "__main__":
     dct = {'Synagogues': 'Synagogue', 'Jewelry': 'JewelryStore', 'Preschools': 'Preschool', 'International': 'InternationalTrial', 'Courthouses': 'Courthouse', 'Pharmacy': 'Pharmacy', 'Grocery': 'GroceryStore', 'Insurance': 'InsuranceAgency', 'Electricians': 'Electrician', 'Vegetarian': 'VegetarianDiet', 'Shopping': 'ShoppingCenter', 'Contractors': 'GeneralContractor', 'Bowling': 'BowlingAlley', 'Embassy': 'Embassy', 'Parking': 'ParkingMap', 'Restaurants': 'Restaurant', 'Halal': 'HalalDiet', 'Electronics': 'ElectronicsStore', 'Campgrounds': 'Campground', 'Osteopaths': 'Osteopathic', 'Playgrounds': 'Playground', 'Apartments': 'Apartment', 'Kosher': 'KosherDiet', 'Education': 'EducationEvent', 'Vegan': 'VeganDiet', 'Automotive': 'AutomotiveBusiness', 'Tattoo': 'TattooParlor'}
 
     class_mapping_dict = get_class_mappings()
+    #class_mapping_df = pd.DataFrame(list(class_mapping_dict.items()), columns=['YelpCategory', 'SchemaType'])
+    #class_mapping_df.to_csv(path_or_buf=get_path("class_mappings.csv"), index=False)
 
-    print(len(class_mapping_dict))
-
-    class_hierarchy_df = class_hierarchy(class_mapping_dict)
-
-    class_hierarchy_df.to_csv(path_or_buf=get_path("") + "/class_hierarchy.csv", index=False)
+    #class_hierarchy_df = class_hierarchy(class_mapping_dict)
+    #class_hierarchy_df.to_csv(path_or_buf=get_path("class_hierarchy.csv"), index=False)
