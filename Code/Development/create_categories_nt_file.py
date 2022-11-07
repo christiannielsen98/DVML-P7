@@ -1,9 +1,12 @@
+import sys
+sys.path.append(sys.path[0][:sys.path[0].find('DVML-P7') + len('DVML-P7')])
 import pandas as pd
 from Code.UtilityFunctions.get_data_path import get_path
 from Code.UtilityFunctions.wikidata_query_tools import wikidata_query, retrieve_wikidata_claims
 from math import ceil
 import numpy as np
 import inflect
+
 
 def category_query(category: str):
     return f"""SELECT distinct ?item ?itemLabel ?itemDescription WHERE{{
@@ -60,7 +63,7 @@ def split_words(categories_unique, split_word_inc_slash):
 categories_dict = split_words(categories_unique, split_words_inc_slash)
 
 
-def turn_words_singular(p, categories_dict):
+def turn_words_singular(categories_dict):
     p = inflect.engine()
     categories_dict_singular = {}
     for key, value in categories_dict.items():
@@ -74,14 +77,14 @@ def turn_words_singular(p, categories_dict):
         categories_dict_singular[key] = new_value
     return categories_dict_singular
 
-categories_dict_singular = turn_words_singular(p, categories_dict)
+categories_dict_singular = turn_words_singular(categories_dict)
 
 # Maps the splitted categories to the original categories
 category_occurences['splitted_category'] = category_occurences['category'].map(categories_dict_singular)
 category_occurences = category_occurences.explode('splitted_category')
 
 # Maps the yelp categories that are already mapped to a schemaType to the original category.
-class_mapping = pd.read_csv('/home/ubuntu/DVML-P7/Code/UtilityFiles/class_mappings.csv')
+class_mapping = pd.read_csv('Code/UtilityFiles/class_mappings.csv')
 category_occurences = category_occurences.merge(class_mapping, left_on='category', right_on='YelpCategory', how='left')
 
 
