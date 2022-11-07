@@ -183,8 +183,8 @@ def class_hierarchy(dictionary):
         for edge in edges:
             supertypes_dict.setdefault(edge[0], set()).add(edge[1])
 
-    supertypes_df = pd.DataFrame(list(supertypes_dict.items()), columns=['type', 'superTypes'])
-    supertypes_df = supertypes_df.explode("superTypes")
+    supertypes_df = pd.DataFrame(list(supertypes_dict.items()), columns=['type', 'superType'])
+    supertypes_df = supertypes_df.explode("superType")
 
     return supertypes_df
 
@@ -198,4 +198,4 @@ if __name__ == "__main__":
 
     class_hierarchy_df = class_hierarchy(class_mapping_dict)
 
-    #class_hierarchy_df.to_csv(path_or_buf="../UtilityFiles/class_hierarchy.csv", index=False)
+    class_hierarchy_df.to_csv(path_or_buf=get_path("") + "/class_hierarchy.csv", index=False)
