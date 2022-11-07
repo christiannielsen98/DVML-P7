@@ -155,7 +155,7 @@ def get_class_mappings():
         if possible_classes:  # An empty dict will return False
             best_pos_class = max(possible_classes, key=possible_classes.get)  # Get the schema.org type with highest ratio
             category_mapping[category] = best_pos_class
-
+    
     return category_mapping
 
 
