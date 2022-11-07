@@ -109,7 +109,7 @@ def create_nt_file(file_name: str):
                             if location_value is not None:
                                 G.add(triple=(URIRef(subject),
                                               URIRef(example + "locatedIn" + location_predicate),
-                                              URIRef(example + location_predicate.lower() + "/" + location_value.replace(" ", "_"))))
+                                              URIRef(example + location_value.replace(" ", "_"))))
 
                     else:
                         G.add(triple=(URIRef(subject),
