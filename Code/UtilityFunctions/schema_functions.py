@@ -23,7 +23,7 @@ def get_schema_predicate(predicate, obj=None, file=None):
     """
     match predicate:
         case "name":
-            return schema + "name", XSD.string
+            return schema + "legalName", XSD.string
         case "address":
             return schema + "address", XSD.string
         # case "city":
@@ -37,7 +37,7 @@ def get_schema_predicate(predicate, obj=None, file=None):
         case "longitude":
             return schema + "longitude", XSD.decimal
         case "stars":
-            return schema + "starRating", XSD.decimal
+            return schema + "aggregateRating", XSD.decimal
         case "review_count":
             return schema + "reviewCount", XSD.integer
         case "is_open":
@@ -85,8 +85,6 @@ def get_schema_type(entity: str):
     """
 
     match entity:
-        case 'business':
-            return schema + "LocalBusiness"
         case 'user':
             return schema + 'Person'
         case 'review':
