@@ -1,7 +1,7 @@
 import gzip
 import json
 
-
+import pandas as pd
 from rdflib import Namespace, Graph, URIRef, Literal, BNode
 from rdflib.namespace import RDFS
 
@@ -33,20 +33,21 @@ def create_nt_file(file_name: str):
 
     if file_name == "yelp_academic_dataset_business.json":
         class_mappings = get_class_mappings()
-        class_hierarchies = class_hierarchy(class_mappings)
+        class_hierarchies = pd.read_csv(get_path("class_hierarchy.csv"))
 
         G = Graph()
-        for key, value in class_hierarchies.items():
-            G.add(triple=(URIRef(Namespace(key)),
+        for idx, row in class_hierarchies.iterrows():
+            G.add(triple=(URIRef(Namespace(row['type'])),
                           RDFS.subClassOf,
-                          URIRef(Namespace(value))))
+                          URIRef(Namespace(row['superType']))))
 
         triple_file.write(G.serialize(format='nt'))  # Writes to the .nt file the graph now containing a RDF triple.
 
         # Load location information based on Google API retireved data.
-        with open(file=get_path("location.json"), mode="r") as file:
+        with open(file=get_path("location_unique.json"), mode="r") as file:
             location_dict = json.load(file)
 
+        # Required...
         location_dict = location_dict
 
     with open(file=file_path, mode="r") as file:

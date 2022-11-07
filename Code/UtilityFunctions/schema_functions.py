@@ -23,7 +23,7 @@ def get_schema_predicate(predicate, obj=None, file=None):
     """
     match predicate:
         case "name":
-            return schema + "name", XSD.string
+            return schema + "legalName", XSD.string
         case "address":
             return schema + "address", XSD.string
         # case "city":
@@ -37,7 +37,7 @@ def get_schema_predicate(predicate, obj=None, file=None):
         case "longitude":
             return schema + "longitude", XSD.decimal
         case "stars":
-            return schema + "starRating", XSD.decimal
+            return schema + "aggregateRating", XSD.decimal
         case "review_count":
             return schema + "reviewCount", XSD.integer
         case "is_open":
@@ -85,15 +85,13 @@ def get_schema_type(entity: str):
     """
 
     match entity:
-        case 'business':
-            return schema + "LocalBusiness"
         case 'user':
             return schema + 'Person'
         case 'review':
             return schema + 'UserReview'
         case 'tip':
             return example + 'Tip'
-        case _:  # 
+        case _:  #
             print(f"Unknown schema type for entity: {entity}")
 
 
@@ -125,7 +123,7 @@ def str_split(string):
 
 def get_class_mappings():
     """
-    This function is used to extract all business categories, and find their best schema.org type if it exists. 
+    This function is used to extract all business categories, and find their best schema.org type if it exists.
     :param file: The file to be read as a dataframe. This function is only used for the business JSON.
     :return: Returns a dictionary with category as key and mapped schema type as value.
     """
@@ -183,8 +181,8 @@ def class_hierarchy(dictionary):
         for edge in edges:
             supertypes_dict.setdefault(edge[0], set()).add(edge[1])
 
-    supertypes_df = pd.DataFrame(list(supertypes_dict.items()), columns=['type', 'superTypes'])
-    supertypes_df = supertypes_df.explode("superTypes")
+    supertypes_df = pd.DataFrame(list(supertypes_dict.items()), columns=['type', 'superType'])
+    supertypes_df = supertypes_df.explode("superType")
 
     return supertypes_df
 
@@ -193,8 +191,8 @@ if __name__ == "__main__":
     dct = {'Synagogues': 'Synagogue', 'Jewelry': 'JewelryStore', 'Preschools': 'Preschool', 'International': 'InternationalTrial', 'Courthouses': 'Courthouse', 'Pharmacy': 'Pharmacy', 'Grocery': 'GroceryStore', 'Insurance': 'InsuranceAgency', 'Electricians': 'Electrician', 'Vegetarian': 'VegetarianDiet', 'Shopping': 'ShoppingCenter', 'Contractors': 'GeneralContractor', 'Bowling': 'BowlingAlley', 'Embassy': 'Embassy', 'Parking': 'ParkingMap', 'Restaurants': 'Restaurant', 'Halal': 'HalalDiet', 'Electronics': 'ElectronicsStore', 'Campgrounds': 'Campground', 'Osteopaths': 'Osteopathic', 'Playgrounds': 'Playground', 'Apartments': 'Apartment', 'Kosher': 'KosherDiet', 'Education': 'EducationEvent', 'Vegan': 'VeganDiet', 'Automotive': 'AutomotiveBusiness', 'Tattoo': 'TattooParlor'}
 
     class_mapping_dict = get_class_mappings()
-    class_mapping_df = pd.DataFrame(list(class_mapping_dict.items()), columns=['YelpCategory', 'SchemaType'])
-    class_mapping_df.to_csv(path_or_buf=get_path("class_mappings.csv"), index=False)
+    #class_mapping_df = pd.DataFrame(list(class_mapping_dict.items()), columns=['YelpCategory', 'SchemaType'])
+    #class_mapping_df.to_csv(path_or_buf=get_path("class_mappings.csv"), index=False)
 
-    class_hierarchy_df = class_hierarchy(class_mapping_dict)
-    class_hierarchy_df.to_csv(path_or_buf=get_path("class_hierarchy.csv"), index=False)
+    #class_hierarchy_df = class_hierarchy(class_mapping_dict)
+    #class_hierarchy_df.to_csv(path_or_buf=get_path("class_hierarchy.csv"), index=False)
