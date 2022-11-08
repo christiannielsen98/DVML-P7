@@ -121,7 +121,7 @@ def str_split(string):
         return string
 
 
-def get_class_mappings():
+def get_class_mappings(substring_threshold=0.90, ratio_thresold=1/2):
     """
     This function is used to extract all business categories, and find their best schema.org type if it exists.
     :param file: The file to be read as a dataframe. This function is only used for the business JSON.
@@ -145,9 +145,9 @@ def get_class_mappings():
         for schema_type in schema["label"]:
             # Only adds a schema type as a match if the longest common substring is at least 90% of the category,
             # and if the ratio between the category and schema type is 50 % or larger.
-            if long_com_substring(category, schema_type) >= category_length * 0.90:
-                ratio = category_length / len(schema_type)
-                if ratio >= 1/2:
+            if long_com_substring(category, schema_type) >= category_length * substring_threshold:
+                ratio = min(category_length, len(schema_type)) / max(category_length, len(schema_type))
+                if ratio >= ratio_thresold:
                     possible_classes[schema_type] = ratio
 
         if possible_classes:  # An empty dict will return False
