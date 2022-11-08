@@ -26,12 +26,8 @@ def get_schema_predicate(predicate, obj=None, file=None):
             return schema + "legalName", XSD.string
         case "address":
             return schema + "address", XSD.string
-        # case "city":
-        #     return schema + "location", XSD.string
-        # case "state":
-        #     return schema + "addressRegion", XSD.string
         case "postal_code":
-            return schema + "postalCode", XSD.string  # integer?
+            return schema + "postalCode", XSD.string
         case "latitude":
             return schema + "latitude", XSD.decimal
         case "longitude":
@@ -79,9 +75,9 @@ def get_schema_predicate(predicate, obj=None, file=None):
 
 def get_schema_type(entity: str):
     """
-    This function assigns a schema.org (or example.org) Class to a Yelp entity
-    :param entity: The subject we want to assign a Class to
-    :return: The proper class for the entity input
+    This function assigns a schema.org (or example.org) type to a Yelp entity
+    :param entity: The subject we want to assign a class to.
+    :return: The proper class for the entity input.
     """
 
     match entity:
@@ -95,11 +91,11 @@ def get_schema_type(entity: str):
             print(f"Unknown schema type for entity: {entity}")
 
 
-def long_com_substring(st1, st2):
+def long_com_substring(st1: str, st2: str):
     """
     This function is used for matching business categories with schema.org types.
     :param st1: The string we want to check for.
-    :param st2: The string we check longest substring (st1) in.
+    :param st2: The string we check longest substring in.
     :return: Returns the length of the longest substring
     """
 
@@ -121,21 +117,21 @@ def str_split(string):
         return string
 
 
+
 def get_class_mappings(substring_threshold=0.90, ratio_thresold=1/2):
     """
     This function is used to extract all business categories, and find their best schema.org type if it exists.
-    :param file: The file to be read as a dataframe. This function is only used for the business JSON.
+    :param substring_threshold: The threshold for how long the longest common substring should be
+    :param ratio_threshold: The threshold for the ratio between the category and its mapping word lengths.
     :return: Returns a dictionary with category as key and mapped schema type as value.
     """
 
     biz = pd.read_json(get_path("yelp_academic_dataset_business.json"), lines=True)
     schema = pd.read_csv(get_path("schemaorg-current-https-types.csv"))[["label", "subTypeOf"]]
-
     biz["categories"] = biz["categories"].apply(str_split)
 
     # Iterate over categories in sublists ('If sublist' checks if the sublist is None) and insert them into a large set.
     categories = list({category for sublist in biz["categories"].tolist() if sublist for category in sublist})
-
     category_mapping = dict()
 
     for category in categories:
@@ -151,7 +147,7 @@ def get_class_mappings(substring_threshold=0.90, ratio_thresold=1/2):
                     possible_classes[schema_type] = ratio
 
         if possible_classes:  # An empty dict will return False
-            best_pos_class = max(possible_classes, key=possible_classes.get)  # Get the schema.org type with highest ratio
+            best_pos_class = max(possible_classes, key=possible_classes.get)
             category_mapping[category] = best_pos_class
     
     return category_mapping
@@ -167,12 +163,12 @@ def class_hierarchy(dictionary):
     from networkx.algorithms.traversal.depth_first_search import dfs_tree
 
     schema_df = pd.read_csv(get_path("schemaorg-current-https-types.csv"))[["id", "subTypeOf"]].dropna()
-    schema_df = schema_df.apply(lambda x: x.str.split(', ').explode()) # Some types have multiple supertypes, so we explode those rows.
+    schema_df = schema_df.apply(lambda x: x.str.split(', ').explode())  # Some types have multiple supertypes, so we explode those rows.
 
     supertypes_dict = dict()
 
     graph = DiGraph()
-    graph.add_edges_from(list(zip(schema_df["id"], schema_df["subTypeOf"]))) # Here we add EVERY row to the graph
+    graph.add_edges_from(list(zip(schema_df["id"], schema_df["subTypeOf"])))  # Here we add EVERY row to the graph
 
     # We do a depth first search on the constructed graph starting at each type in the input dictionary.
     for _class in dictionary.values():
