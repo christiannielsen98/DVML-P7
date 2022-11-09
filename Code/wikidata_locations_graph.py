@@ -1,28 +1,17 @@
 import sys
+
 sys.path.append(sys.path[0][:sys.path[0].find('DVML-P7') + len('DVML-P7')])
 
-import pandas as pd
 import gzip
-from rdflib import Graph, Literal, Namespace, URIRef
-from rdflib.namespace import XSD, RDFS
 
 import Code.UtilityFunctions.get_data_path as adsga
+import pandas as pd
 from Code.UtilityFunctions.get_data_path import get_path
+from rdflib import Graph, Literal, Namespace, URIRef
+from rdflib.namespace import RDFS, XSD
 
 wd_entity_ns = Namespace("http://www.wikidata.org/entity/")
 wd_predicate_ns = Namespace("https://www.wikidata.org/wiki/Property:")
-
-
-def wd_predicate_lookup(column_name: str) -> tuple[str, XSD.anyURI]:
-    match column_name:
-        case "hasPopulation":
-            return wd_predicate_ns + "P1082", XSD.integer
-        case "isIn":
-            pass
-        case "inState":
-            pass
-        case "inCountry":
-            pass
 
 
 def wd_country_lookup(country: str) -> str:
@@ -37,6 +26,11 @@ def wd_locations() -> None:
     
     country_granularity_lookup = {"USA": ["Cities", "Counties", "States"], "Canada": ["Cities", "States"]}
     class_lookup = {"Cities": "Q515", "Counties": "Q28575", "States": "Q7275"}
+
+    location_predicate = wd_predicate_ns + "P131"
+    label_predicate = RDFS.label
+    population_predicate = wd_predicate_ns + "P1082"
+    instance_of_predicate = wd_predicate_ns + "P31"
 
     for country, granularity_list in country_granularity_lookup.items():
         outer_graph = Graph()
@@ -65,10 +59,14 @@ def wd_locations() -> None:
                 # 2 Subject Label LITERAL
                 # 3 Superclass IRI
                 # 4 Population LITERAL
-                
-                location_predicate = wd_predicate_ns + "P131"
-                label_predicate = RDFS.label
-                population_predicate = wd_predicate_ns + "P1082"
+
+                inner_graph.add(
+                    triple=(
+                        URIRef(tuple[1]),
+                        URIRef(instance_of_predicate),
+                        URIRef(wd_entity_ns + class_lookup[granularity])
+                    )
+                )
 
                 inner_graph.add(
                     triple=(
@@ -98,8 +96,6 @@ def wd_locations() -> None:
                 triple_file.write(inner_graph.serialize(format='nt'))
     
     triple_file.close()
-
-    
 
 
 if __name__ == "__main__":
