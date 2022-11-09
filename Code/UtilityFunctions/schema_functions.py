@@ -109,9 +109,8 @@ def get_class_mappings(substring_threshold=0.90, ratio_threshold=1 / 2):
     categories = list({category for sublist in biz["categories"].tolist() if sublist for category in sublist})
     categories = split_words(categories, split_words_inc_slash)  # Split categories with & and /
     categories = turn_words_singular(categories)  # Turn the categories singular
-    print(categories)
-
     categories = [category for sublist in categories.values() for category in sublist]  # Unpack the nested lists in dict values
+    
     category_mapping = dict()
 
     for category in categories:
