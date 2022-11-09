@@ -134,7 +134,7 @@ def class_hierarchy(dictionary):
     :param dictionary: Input here is the category to schema type mapping dictionary returned from get_class_mappings().
     :return: a dictionary with schema type as key and its supertype as value.
     """
-    
+
     schema_df = pd.read_csv(get_path("schemaorg-current-https-types.csv"))[["id", "subTypeOf"]].dropna()
     schema_df = schema_df.apply(
         lambda x: x.str.split(', ').explode())  # Some types have multiple supertypes, so we explode those rows.
