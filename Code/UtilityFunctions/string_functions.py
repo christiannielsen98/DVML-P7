@@ -1,5 +1,5 @@
 import inflect
-
+import re
 
 def str_split(string):
     if isinstance(string, str):
@@ -50,7 +50,10 @@ def split_words_inc_slash(word):
 def split_words(categories_unique, split_word_inc_slash):
     categories_dict = {}
     for word in categories_unique:
-        if '&' in word:
+        if '&' in word and '/' in word:
+            word_list = re.split('&|/',word.lower())
+            categories_dict[word] = word_list
+        elif '&' in word:
             word_list = list(filter(None, word.lower().split(sep=' & ')))
             categories_dict[word] = word_list
         elif '/' in word:
