@@ -1,8 +1,10 @@
 import pandas as pd
-from Code.UtilityFunctions.get_data_path import get_path
-from rdflib import Namespace, XSD
 from networkx import DiGraph
 from networkx.algorithms.traversal.depth_first_search import dfs_tree
+from rdflib import Namespace, XSD
+
+from UtilityFunctions.get_data_path import get_path
+from UtilityFunctions.string_functions import long_com_substring, str_split
 
 schema = Namespace("https://schema.org/")
 example = Namespace("https://example.org/")
@@ -91,34 +93,7 @@ def get_schema_type(entity: str):
             print(f"Unknown schema type for entity: {entity}")
 
 
-def long_com_substring(st1: str, st2: str):
-    """
-    This function is used for matching business categories with schema.org types.
-    :param st1: The string we want to check for.
-    :param st2: The string we check longest substring in.
-    :return: Returns the length of the longest substring
-    """
-
-    ans = 0
-    for a in range(len(st1)):
-        for b in range(len(st2)):
-            k = 0
-            while (a + k) < len(st1) and (b + k) < len(st2) and st1[a + k] == st2[b + k]:
-                k = k + 1
-            ans = max(ans, k)
-
-    return ans
-
-
-def str_split(string):
-    if isinstance(string, str):
-        return string.split(", ")
-    else:
-        return string
-
-
-
-def get_class_mappings(substring_threshold=0.90, ratio_thresold=1/2):
+def get_class_mappings(substring_threshold=0.90, ratio_threshold=1 / 2):
     """
     This function is used to extract all business categories, and find their best schema.org type if it exists.
     :param substring_threshold: The threshold for how long the longest common substring should be
@@ -143,13 +118,13 @@ def get_class_mappings(substring_threshold=0.90, ratio_thresold=1/2):
             # and if the ratio between the category and schema type is 50 % or larger.
             if long_com_substring(category, schema_type) >= category_length * substring_threshold:
                 ratio = min(category_length, len(schema_type)) / max(category_length, len(schema_type))
-                if ratio >= ratio_thresold:
+                if ratio >= ratio_threshold:
                     possible_classes[schema_type] = ratio
 
         if possible_classes:  # An empty dict will return False
             best_pos_class = max(possible_classes, key=possible_classes.get)
             category_mapping[category] = best_pos_class
-    
+
     return category_mapping
 
 
@@ -159,11 +134,10 @@ def class_hierarchy(dictionary):
     :param dictionary: Input here is the category to schema type mapping dictionary returned from get_class_mappings().
     :return: a dictionary with schema type as key and its supertype as value.
     """
-    from networkx import DiGraph
-    from networkx.algorithms.traversal.depth_first_search import dfs_tree
-
+    
     schema_df = pd.read_csv(get_path("schemaorg-current-https-types.csv"))[["id", "subTypeOf"]].dropna()
-    schema_df = schema_df.apply(lambda x: x.str.split(', ').explode())  # Some types have multiple supertypes, so we explode those rows.
+    schema_df = schema_df.apply(
+        lambda x: x.str.split(', ').explode())  # Some types have multiple supertypes, so we explode those rows.
 
     supertypes_dict = dict()
 
@@ -184,12 +158,20 @@ def class_hierarchy(dictionary):
 
 
 if __name__ == "__main__":
-    dct = {'Synagogues': 'Synagogue', 'Jewelry': 'JewelryStore', 'Preschools': 'Preschool', 'International': 'InternationalTrial', 'Courthouses': 'Courthouse', 'Pharmacy': 'Pharmacy', 'Grocery': 'GroceryStore', 'Insurance': 'InsuranceAgency', 'Electricians': 'Electrician', 'Vegetarian': 'VegetarianDiet', 'Shopping': 'ShoppingCenter', 'Contractors': 'GeneralContractor', 'Bowling': 'BowlingAlley', 'Embassy': 'Embassy', 'Parking': 'ParkingMap', 'Restaurants': 'Restaurant', 'Halal': 'HalalDiet', 'Electronics': 'ElectronicsStore', 'Campgrounds': 'Campground', 'Osteopaths': 'Osteopathic', 'Playgrounds': 'Playground', 'Apartments': 'Apartment', 'Kosher': 'KosherDiet', 'Education': 'EducationEvent', 'Vegan': 'VeganDiet', 'Automotive': 'AutomotiveBusiness', 'Tattoo': 'TattooParlor'}
+    dct = {'Synagogues': 'Synagogue', 'Jewelry': 'JewelryStore', 'Preschools': 'Preschool',
+           'International': 'InternationalTrial', 'Courthouses': 'Courthouse', 'Pharmacy': 'Pharmacy',
+           'Grocery': 'GroceryStore', 'Insurance': 'InsuranceAgency', 'Electricians': 'Electrician',
+           'Vegetarian': 'VegetarianDiet', 'Shopping': 'ShoppingCenter', 'Contractors': 'GeneralContractor',
+           'Bowling': 'BowlingAlley', 'Embassy': 'Embassy', 'Parking': 'ParkingMap', 'Restaurants': 'Restaurant',
+           'Halal': 'HalalDiet', 'Electronics': 'ElectronicsStore', 'Campgrounds': 'Campground',
+           'Osteopaths': 'Osteopathic', 'Playgrounds': 'Playground', 'Apartments': 'Apartment', 'Kosher': 'KosherDiet',
+           'Education': 'EducationEvent', 'Vegan': 'VeganDiet', 'Automotive': 'AutomotiveBusiness',
+           'Tattoo': 'TattooParlor'}
 
     class_mapping_dict = get_class_mappings()
     class_mapping_df = pd.DataFrame(list(class_mapping_dict.items()), columns=['YelpCategory', 'SchemaType'])
     print(class_mapping_df)
-    #class_mapping_df.to_csv(path_or_buf=get_path("class_mappings.csv"), index=False)
+    # class_mapping_df.to_csv(path_or_buf=get_path("class_mappings.csv"), index=False)
 
-    #class_hierarchy_df = class_hierarchy(class_mapping_dict)
-    #class_hierarchy_df.to_csv(path_or_buf=get_path("class_hierarchy.csv"), index=False)
+    # class_hierarchy_df = class_hierarchy(class_mapping_dict)
+    # class_hierarchy_df.to_csv(path_or_buf=get_path("class_hierarchy.csv"), index=False)

@@ -1,3 +1,4 @@
+import inflect
 
 
 def str_split(string):
@@ -72,6 +73,7 @@ def turn_words_singular(categories_dict):
             new_value.append(word)
         categories_dict_singular[key] = new_value
     return categories_dict_singular
+
 
 if __name__ == '__main__':
     pass

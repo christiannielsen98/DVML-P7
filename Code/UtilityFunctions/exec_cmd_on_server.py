@@ -1,6 +1,6 @@
 import paramiko
 
-from UtilityFunctions.get_data_path import get_path # DOES WORK - IGNORE ERROR
+from UtilityFunctions.get_data_path import get_path  # DOES WORK - IGNORE ERROR
 
 host = '10.92.0.48'
 user = 'ubuntu'
@@ -23,6 +23,7 @@ def exec_cmd_on_server(cmd_to_execute: str):
     # Get return code from command (0 is default for success)
     print(f'Return code: \n{ssh_stdin.channel.recv_exit_status()}')
     return ssh_stdout
+
 
 def exec_sparql_on_server(sparql_query: str):
     # cmd_to_execute = f'docker exec -i vos isql 1111 exec="{sparql_query}"'
