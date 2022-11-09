@@ -4,7 +4,7 @@ from networkx.algorithms.traversal.depth_first_search import dfs_tree
 from rdflib import Namespace, XSD
 
 from Code.UtilityFunctions.get_data_path import get_path
-from Code.UtilityFunctions.string_functions import long_com_substring, str_split
+from Code.UtilityFunctions.string_functions import long_com_substring, str_split, split_words, turn_words_singular, split_words_inc_slash
 
 schema = Namespace("https://schema.org/")
 example = Namespace("https://example.org/")
@@ -107,6 +107,11 @@ def get_class_mappings(substring_threshold=0.90, ratio_threshold=1 / 2):
 
     # Iterate over categories in sublists ('If sublist' checks if the sublist is None) and insert them into a large set.
     categories = list({category for sublist in biz["categories"].tolist() if sublist for category in sublist})
+    categories = split_words(categories, split_words_inc_slash)  # Split categories with & and /
+    categories = turn_words_singular(categories)  # Turn the categories singular
+    print(categories)
+
+    categories = [category for sublist in categories.values() for category in sublist]  # Unpack the nested lists in dict values
     category_mapping = dict()
 
     for category in categories:
@@ -158,7 +163,7 @@ def class_hierarchy(dictionary):
 
 
 if __name__ == "__main__":
-    dct = {'Synagogues': 'Synagogue', 'Jewelry': 'JewelryStore', 'Preschools': 'Preschool',
+    dct = {'Synagogues & Churches': 'Synagogue / Church', 'Jewelry': 'JewelryStore', 'Preschools': 'Preschool',
            'International': 'InternationalTrial', 'Courthouses': 'Courthouse', 'Pharmacy': 'Pharmacy',
            'Grocery': 'GroceryStore', 'Insurance': 'InsuranceAgency', 'Electricians': 'Electrician',
            'Vegetarian': 'VegetarianDiet', 'Shopping': 'ShoppingCenter', 'Contractors': 'GeneralContractor',
@@ -169,8 +174,8 @@ if __name__ == "__main__":
            'Tattoo': 'TattooParlor'}
 
     class_mapping_dict = get_class_mappings()
-    class_mapping_df = pd.DataFrame(list(class_mapping_dict.items()), columns=['YelpCategory', 'SchemaType'])
-    print(class_mapping_df)
+    #class_mapping_df = pd.DataFrame(list(class_mapping_dict.items()), columns=['YelpCategory', 'SchemaType'])
+    print(class_mapping_dict, len(class_mapping_dict))
     # class_mapping_df.to_csv(path_or_buf=get_path("class_mappings.csv"), index=False)
 
     # class_hierarchy_df = class_hierarchy(class_mapping_dict)

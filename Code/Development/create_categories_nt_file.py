@@ -1,14 +1,16 @@
 import sys
+
 sys.path.append(sys.path[0][:sys.path[0].find('DVML-P7') + len('DVML-P7')])
 from math import ceil
-import re
-import inflect
 import numpy as np
 import pandas as pd
+from collections import Counter
+from rdflib import Namespace, Graph, URIRef
 
 from Code.UtilityFunctions.get_data_path import get_path
 from Code.UtilityFunctions.wikidata_query_tools import (
     retrieve_wikidata_claims, wikidata_query)
+from Code.UtilityFunctions.string_functions import split_words_inc_slash, split_words, turn_words_singular
 
 
 def category_query(category: str):
@@ -20,110 +22,9 @@ def category_query(category: str):
     SERVICE wikibase:label {{ bd:serviceParam wikibase:language "en". }}}}"""
 
 
-biz = pd.read_json(get_path("yelp_academic_dataset_business.json"), lines=True)
-
-categories_unique = list(
-    set(biz['categories'].str.cat(sep=', ').split(sep=', ')))
-categories = list(biz['categories'].str.cat(sep=', ').split(sep=', '))
-
-from collections import Counter
-
-category_occurences = pd.DataFrame(list(dict(Counter(categories)).items()),
-                                   columns=['category', 'occurences'
-                                            ]).sort_values(by='occurences',
-                                                           ascending=False)
-
-
-def split_words_inc_slash(word):
-    # Splitting the words that have a slash in them, and turning them into two words
-    word_space = word.split(" ")
-    word_space
-    new_wordlist_a = []
-    new_wordlist_b = []
-    for i in word_space:
-        i = i.lower()
-        if "/" not in i:
-            new_wordlist_a.append(i)
-            new_wordlist_b.append(i)
-        else:
-            slash_split = i.split("/")
-            new_wordlist_a.append(slash_split[0])
-            new_wordlist_b.append(slash_split[1])
-    new_word_a = " ".join(new_wordlist_a)
-    new_word_b = " ".join(new_wordlist_b)
-    return [new_word_a, new_word_b]
-
-# transforms Yelp category words to words that is succesfull in finding the QID on wikidata
-# TODO: fix & split issues
-# TODO: fix & split has to be done first, and / split after
-
-
-def split_words(categories_unique, split_word_inc_slash):
-    categories_dict = {}
-    for word in categories_unique:
-        if '&' in word and '/' in word:
-            word_list = re.split('&|/',word.lower())
-            categories_dict[word] = word_list
-        elif '&' in word:
-            word_list = list(filter(None, word.lower().split(sep=' & ')))
-            categories_dict[word] = word_list
-        elif '/' in word:
-            categories_dict[word] = split_word_inc_slash(word)
-        else:
-            categories_dict[word] = [word.lower()]
-    return categories_dict
-
-
-categories_dict = split_words(categories_unique, split_words_inc_slash)
-
-
-def turn_words_singular(categories_dict):
-    p = inflect.engine()
-    categories_dict_singular = {}
-    for key, value in categories_dict.items():
-        new_value = []
-        for word in value:
-            if p.singular_noun(word) is False:
-                word = word
-            else:
-                word = p.singular_noun(word)
-            new_value.append(word)
-        categories_dict_singular[key] = new_value
-    return categories_dict_singular
-
-
-categories_dict_singular = turn_words_singular(categories_dict)
-
-# Maps the splitted categories to the original categories
-category_occurences['splitted_category'] = category_occurences['category'].map(categories_dict_singular)
-category_occurences = category_occurences.explode('splitted_category')
-
-# Maps the yelp categories that are already mapped to a schemaType to the original category.
-class_mapping = pd.read_csv('Code/UtilityFiles/class_mappings.csv')
-category_occurences = category_occurences.merge(class_mapping,
-                                                left_on='category',
-                                                right_on='YelpCategory',
-                                                how='left')
-
 def min_qid(df_qid):
     # Getting the minimum value of the QID number
     return 'Q' + str(df_qid['item.value'].apply(lambda x: int(x.split("/")[-1].replace("Q", ""))).min())
-
-
-# Query Wikidata for the QID of the splitted categories
-category_qid = {}
-for i in category_occurences['splitted_category'].to_list():
-    try:
-        cat = i.lower()
-        cat_qid = min_qid(wikidata_query(
-            category_query(category=cat)))
-        category_qid[cat] = cat_qid
-    except:
-        pass
-
-# Maps the QID to the splitted category
-category_occurences['qid'] = category_occurences['splitted_category'].map(
-    category_qid)
 
 
 def get_all_wikidata_claims(qid_list: list):
@@ -145,6 +46,46 @@ def get_all_wikidata_claims(qid_list: list):
     return category_wikidata
 
 
+biz = pd.read_json(get_path("yelp_academic_dataset_business.json"), lines=True)
+
+categories_unique = list(
+    set(biz['categories'].str.cat(sep=', ').split(sep=', ')))
+categories = list(biz['categories'].str.cat(sep=', ').split(sep=', '))
+
+category_occurences = pd.DataFrame(list(dict(Counter(categories)).items()),
+                                   columns=['category', 'occurences'
+                                            ]).sort_values(by='occurences',
+                                                           ascending=False)
+
+categories_dict = split_words(categories_unique, split_words_inc_slash)
+categories_dict_singular = turn_words_singular(categories_dict)
+
+# Maps the splitted categories to the original categories
+category_occurences['splitted_category'] = category_occurences['category'].map(categories_dict_singular)
+category_occurences = category_occurences.explode('splitted_category')
+
+# Maps the yelp categories that are already mapped to a schemaType to the original category.
+class_mapping = pd.read_csv('Code/UtilityFiles/class_mappings.csv')
+category_occurences = category_occurences.merge(class_mapping,
+                                                left_on='category',
+                                                right_on='YelpCategory',
+                                                how='left')
+
+# Query Wikidata for the QID of the splitted categories
+category_qid = {}
+for i in category_occurences['splitted_category'].to_list():
+    try:
+        cat = i.lower()
+        cat_qid = min_qid(wikidata_query(
+            category_query(category=cat)))
+        category_qid[cat] = cat_qid
+    except:
+        pass
+
+# Maps the QID to the splitted category
+category_occurences['qid'] = category_occurences['splitted_category'].map(
+    category_qid)
+
 category_wikidata = get_all_wikidata_claims(category_occurences['qid'])
 
 # Maps the wikidata subclasses to the splitted category
@@ -156,7 +97,6 @@ for key, values in category_wikidata.items():
                 data_value = obj['mainsnak']['datavalue']['value']['id']
                 category_triple[key] = category_triple.get(key,
                                                            []) + [data_value]
-category_triple
 
 wiki_subclasses = pd.DataFrame(list(category_triple.items()),
                                columns=['category_qid',
@@ -166,10 +106,6 @@ yelp_wiki_schema_triples_df = category_occurences.merge(
     wiki_subclasses, left_on='qid', right_on='category_qid', how='left')
 
 print(yelp_wiki_schema_triples_df)
-
-
-from rdflib import Namespace, Graph, URIRef, Literal, BNode
-from rdflib.namespace import RDFS
 
 schema = Namespace("https://schema.org/")
 example = Namespace("https://example.org/")
@@ -211,3 +147,7 @@ for i in yelp_wiki_schema_triples_df.itertuples():
 nt = G.serialize(destination="categories.nt", format="nt")
 
 # triple_file.write(G.serialize(format="nt"))
+
+
+if __name__ == "__main__":
+    pass

@@ -1,6 +1,7 @@
 import inflect
 import re
 
+
 def str_split(string):
     if isinstance(string, str):
         return string.split(", ")
@@ -28,9 +29,13 @@ def long_com_substring(st1: str, st2: str):
 
 
 def split_words_inc_slash(word):
+    """
+    Used in the function split_words to split Yelp categories containing a /
+    :param word:
+    :return:
+    """
     # Splitting the words that have a slash in them, and turning them into two words
     word_space = word.split(' ')
-    word_space
     new_wordlist_a = []
     new_wordlist_b = []
     for i in word_space:

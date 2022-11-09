@@ -7,8 +7,8 @@ from rdflib.namespace import RDFS
 
 from UtilityFunctions.dictionary_functions import flatten_dictionary
 from UtilityFunctions.get_data_path import get_path
-from UtilityFunctions.string_functions import
-from UtilityFunctions.schema_functions import get_schema_predicate, get_schema_type, get_class_mappings, class_hierarchy
+from UtilityFunctions.string_functions import split_words, turn_words_singular, split_words_inc_slash
+from UtilityFunctions.schema_functions import get_schema_predicate, get_schema_type, get_class_mappings
 from UtilityFunctions.get_uri import get_uri
 
 from Code.Development.create_categories_nt_file import split_words, split_words_inc_slash
@@ -90,14 +90,16 @@ def create_nt_file(file_name: str):
                 if file_name != 'yelp_academic_dataset_checkin.json':
                     if file_name == 'yelp_academic_dataset_business.json':
                         if line['categories']:
-                            # Get 'categories' key, unpack all its values, and run them through get_schema_type.
-                            # If the specific category has a match in schema.org types CSV file, add that as a Class.
-                            # If not we just add the parent class LocalBusiness.
+                            # Get 'categories' key, unpack the values, split those containing & and / and turn them singluar.
 
                             possible_types = line['categories'].split(", ")
-                            
+                            possible_types = split_words(possible_types, split_words_inc_slash)
+                            possible_types = turn_words_singular(possible_types)
+                            possible_types = [types for sublist in possible_types.values() for types in sublist]
+
+                            # If a category has a mapping to a schema.org type in the class_mappings dict, add the match
+                            # Else create an example.org class and add that to the graph
                             for pos_type in possible_types:
-                                # schema_type = get_schema_type(pos_type)
                                 if pos_type in class_mappings.keys():
                                     G.add(triple=(URIRef(subject),
                                                   RDFS.Class,
@@ -116,7 +118,7 @@ def create_nt_file(file_name: str):
                                               URIRef(example + "locatedIn" + location_predicate),
                                               URIRef(example + location_value.replace(" ", "_"))))
 
-                    else:
+                    else:  # Adds a class to Users, Reviews and Tips
                         G.add(triple=(URIRef(subject),
                                       RDFS.Class,
                                       URIRef(get_schema_type(entity_name))))
