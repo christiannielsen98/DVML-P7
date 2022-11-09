@@ -1,9 +1,9 @@
-from SPARQLWrapper import SPARQLWrapper, JSON
-import pandas as pd
-from Code.UtilityFunctions.get_data_path import get_path
 import sys
+
+import pandas as pd
 import requests
-from math import ceil
+from SPARQLWrapper import SPARQLWrapper, JSON
+
 
 def wikidata_query(sparql_query: str):
     # From https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples#Cats
@@ -38,7 +38,7 @@ def retrieve_wikidata_claims(item_list):
     with requests.Session() as S:
         DATA = dict(S.post(url=URL, headers={"user-agent": "magic browser", "Content-Type": "application/json"}).json())
     # Appends the properties of each item to a nested list
-        
+
     nested_dict = {}
     for entity in DATA["entities"]:
         try:

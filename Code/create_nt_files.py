@@ -7,6 +7,7 @@ from rdflib.namespace import RDFS
 
 from UtilityFunctions.dictionary_functions import flatten_dictionary
 from UtilityFunctions.get_data_path import get_path
+from UtilityFunctions.string_functions import
 from UtilityFunctions.schema_functions import get_schema_predicate, get_schema_type, get_class_mappings, class_hierarchy
 from UtilityFunctions.get_uri import get_uri
 
@@ -92,8 +93,9 @@ def create_nt_file(file_name: str):
                             # Get 'categories' key, unpack all its values, and run them through get_schema_type.
                             # If the specific category has a match in schema.org types CSV file, add that as a Class.
                             # If not we just add the parent class LocalBusiness.
-                            #possible_types = split_words(line['categories', split_words_inc_slash()])
+
                             possible_types = line['categories'].split(", ")
+                            
                             for pos_type in possible_types:
                                 # schema_type = get_schema_type(pos_type)
                                 if pos_type in class_mappings.keys():

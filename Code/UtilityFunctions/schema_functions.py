@@ -3,8 +3,8 @@ from networkx import DiGraph
 from networkx.algorithms.traversal.depth_first_search import dfs_tree
 from rdflib import Namespace, XSD
 
-from UtilityFunctions.get_data_path import get_path
-from UtilityFunctions.string_functions import long_com_substring, str_split
+from Code.UtilityFunctions.get_data_path import get_path
+from Code.UtilityFunctions.string_functions import long_com_substring, str_split
 
 schema = Namespace("https://schema.org/")
 example = Namespace("https://example.org/")
