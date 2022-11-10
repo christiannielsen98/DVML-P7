@@ -1,6 +1,8 @@
 import sys
 
 sys.path.append(sys.path[0][:sys.path[0].find('DVML-P7') + len('DVML-P7')])
+
+import gzip
 from math import ceil
 import numpy as np
 import pandas as pd
@@ -60,9 +62,9 @@ category_occurences = pd.DataFrame(list(dict(Counter(categories)).items()),
 categories_dict = split_words(categories_unique, split_words_inc_slash)
 categories_dict_singular = turn_words_singular(categories_dict)
 
-# Maps the splitted categories to the original categories
-category_occurences['splitted_category'] = category_occurences['category'].map(categories_dict_singular)
-category_occurences = category_occurences.explode('splitted_category')
+# Maps the split categories to the original categories
+category_occurences['split_category'] = category_occurences['category'].map(categories_dict_singular)
+category_occurences = category_occurences.explode('split_category')
 
 # Maps the yelp categories that are already mapped to a schemaType to the original category.
 class_mapping = pd.read_csv('Code/UtilityFiles/class_mappings.csv')
@@ -71,9 +73,9 @@ category_occurences = category_occurences.merge(class_mapping,
                                                 right_on='YelpCategory',
                                                 how='left')
 
-# Query Wikidata for the QID of the splitted categories
+# Query Wikidata for the QID of the split categories
 category_qid = {}
-for i in category_occurences['splitted_category'].to_list():
+for i in category_occurences['split_category'].to_list():
     try:
         cat = i.lower()
         cat_qid = min_qid(wikidata_query(
@@ -82,13 +84,13 @@ for i in category_occurences['splitted_category'].to_list():
     except:
         pass
 
-# Maps the QID to the splitted category
-category_occurences['qid'] = category_occurences['splitted_category'].map(
+# Maps the QID to the split category
+category_occurences['qid'] = category_occurences['split_category'].map(
     category_qid)
 
 category_wikidata = get_all_wikidata_claims(category_occurences['qid'])
 
-# Maps the wikidata subclasses to the splitted category
+# Maps the wikidata subclasses to the split category
 category_triple = {}
 for key, values in category_wikidata.items():
     for value in values:
@@ -105,13 +107,12 @@ wiki_subclasses = pd.DataFrame(list(category_triple.items()),
 yelp_wiki_schema_triples_df = category_occurences.merge(
     wiki_subclasses, left_on='qid', right_on='category_qid', how='left')
 
-print(yelp_wiki_schema_triples_df)
 
 schema = Namespace("https://schema.org/")
 example = Namespace("https://example.org/")
 wiki = Namespace("https://www.wikidata.org/entity/")
 
-# triple_file = gzip.open(filename=f"/home/ubuntu/vol1/virtuoso/import/yelp_business.nt.gz", mode="at",encoding="utf-8")
+triple_file = gzip.open(filename=f"/home/ubuntu/vol1/virtuoso/import/yelp_business.nt.gz", mode="at",encoding="utf-8")
 
 G = Graph()
 for i in yelp_wiki_schema_triples_df.itertuples():
@@ -144,10 +145,10 @@ for i in yelp_wiki_schema_triples_df.itertuples():
     if i.subclassOf is not None:
         G.add((wiki[i.category_qid], wiki["P279"], wiki[i.subclassOf]))
 
-nt = G.serialize(destination="categories.nt", format="nt")
+# nt = G.serialize(destination="categories.nt", format="nt")
 
-# triple_file.write(G.serialize(format="nt"))
-
+triple_file.write(G.serialize(format="nt"))
+triple_file.close()
 
 if __name__ == "__main__":
     pass
