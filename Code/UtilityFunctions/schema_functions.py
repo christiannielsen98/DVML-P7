@@ -93,7 +93,7 @@ def get_schema_type(entity: str):
             print(f"Unknown schema type for entity: {entity}")
 
 
-def get_class_mappings(substring_threshold=0.90, ratio_threshold=1 / 2):
+def get_class_mappings(substring_threshold=0.90, ratio_threshold=0.65):
     """
     This function is used to extract all business categories, and find their best schema.org type if it exists.
     :param substring_threshold: The threshold for how long the longest common substring should be
@@ -109,7 +109,7 @@ def get_class_mappings(substring_threshold=0.90, ratio_threshold=1 / 2):
     categories = list({category for sublist in biz["categories"].tolist() if sublist for category in sublist})
     categories = split_words(categories, split_words_inc_slash)  # Split categories with & and /
     categories = turn_words_singular(categories)  # Turn the categories singular
-    categories = [category for sublist in categories.values() for category in sublist]  # Unpack the nested lists in dict values
+    categories = [category.title().replace(" ", "") for sublist in categories.values() for category in sublist]  # Unpack the nested lists in dict values
     
     category_mapping = dict()
 
@@ -124,7 +124,6 @@ def get_class_mappings(substring_threshold=0.90, ratio_threshold=1 / 2):
                 ratio = min(category_length, len(schema_type)) / max(category_length, len(schema_type))
                 if ratio >= ratio_threshold:
                     possible_classes[schema_type] = ratio
-
         if possible_classes:  # An empty dict will return False
             best_pos_class = max(possible_classes, key=possible_classes.get)
             category_mapping[category] = best_pos_class

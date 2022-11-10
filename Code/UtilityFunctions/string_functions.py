@@ -16,7 +16,6 @@ def long_com_substring(st1: str, st2: str):
     :param st2: The string we check longest substring in.
     :return: Returns the length of the longest substring
     """
-
     ans = 0
     for a in range(len(st1)):
         for b in range(len(st2)):
