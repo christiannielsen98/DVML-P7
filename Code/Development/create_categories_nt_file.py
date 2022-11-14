@@ -1,11 +1,16 @@
 import sys
-
 sys.path.append(sys.path[0][:sys.path[0].find('DVML-P7') + len('DVML-P7')])
+
+import gzip
 from math import ceil
 import numpy as np
 import pandas as pd
 from collections import Counter
 from rdflib import Namespace, Graph, URIRef
+from rdflib.namespace import RDFS
+from pprint import pprint
+from deepdiff import DeepDiff
+import urllib.parse
 
 from Code.UtilityFunctions.get_data_path import get_path
 from Code.UtilityFunctions.wikidata_query_tools import (
@@ -23,8 +28,11 @@ def category_query(category: str):
 
 
 def min_qid(df_qid):
-    # Getting the minimum value of the QID number
-    return 'Q' + str(df_qid['item.value'].apply(lambda x: int(x.split("/")[-1].replace("Q", ""))).min())
+    # Getting the minimum value of the QID number and the itemLabel
+    index = df_qid['item.value'].apply(lambda x: int(x.split("/")[-1].replace("Q", ""))).idxmin()
+    df = df_qid.loc[index][['item.value','itemLabel.value']]
+    return df[0][31:], df[1]
+
 
 
 def get_all_wikidata_claims(qid_list: list):
@@ -60,35 +68,55 @@ category_occurences = pd.DataFrame(list(dict(Counter(categories)).items()),
 categories_dict = split_words(categories_unique, split_words_inc_slash)
 categories_dict_singular = turn_words_singular(categories_dict)
 
-# Maps the splitted categories to the original categories
-category_occurences['splitted_category'] = category_occurences['category'].map(categories_dict_singular)
-category_occurences = category_occurences.explode('splitted_category')
+# Maps the split categories to the original categories
+category_occurences['split_category'] = category_occurences['category'].map(categories_dict_singular)
+category_occurences = category_occurences.explode('split_category')
 
 # Maps the yelp categories that are already mapped to a schemaType to the original category.
-class_mapping = pd.read_csv('Code/UtilityFiles/class_mappings.csv')
+class_mapping = pd.read_csv(get_path('class_mappings.csv'))
 category_occurences = category_occurences.merge(class_mapping,
                                                 left_on='category',
                                                 right_on='YelpCategory',
                                                 how='left')
 
-# Query Wikidata for the QID of the splitted categories
+# Query Wikidata for the QID of the split categories
 category_qid = {}
-for i in category_occurences['splitted_category'].to_list():
+category_qid2 = {}
+for cat in category_occurences["split_category"].to_list():
     try:
-        cat = i.lower()
-        cat_qid = min_qid(wikidata_query(
-            category_query(category=cat)))
-        category_qid[cat] = cat_qid
+        wikidata_query_cat_query = wikidata_query(category_query(category=cat)) # Querys wikidata for the QID of the category
+        category_qid[cat] = (wikidata_query_cat_query["item.value"][0][31:],wikidata_query_cat_query["itemLabel.value"][0]) # Adds QID and label of the first result of the query
+        category_qid2[cat] = min_qid(wikidata_query_cat_query) # Adds QID and label with min_qid function
     except:
         pass
 
-# Maps the QID to the splitted category
-category_occurences['qid'] = category_occurences['splitted_category'].map(
-    category_qid)
+
+# compares the two dictionaries and returns the differences in old value and new value for every key
+ddiff = DeepDiff(category_qid, category_qid2, verbose_level=1) 
+
+def compare_qids(new_value: str, old_value: str):
+    # check if the new qid is an instance of old qid
+    return f"""SELECT ?s 
+                WHERE {{?s wdt:P31 wd:{old_value} . 
+                        VALUES ?s {{wd:{new_value}}} .
+                }}"""
+
+update_qid_dict = {}
+for key, value in ddiff['values_changed'].items():
+    # check if the new qid is an instance of old qid, then update with old qid if true
+    if wikidata_query(compare_qids(new_value=value['new_value'][0], old_value=value['old_value'][0])).empty is False:
+        print(f"Updating {key} from {value['old_value']} to {value['new_value']}")
+        update_qid_dict[key[6:-2]] = value['old_value']
+# update the qid dict with the new qids, updated values: {'airline': 'Q46970', 'boat tour': 'Q25040412', 'magazine': 'Q41298'}
+category_qid2.update(update_qid_dict) 
+
+# Maps the QID to the split category
+category_occurences['qid'] = category_occurences['split_category'].map(category_qid2)
+category_occurences[['qid','qid_label']] = pd.DataFrame(category_occurences['qid'].tolist(),index=category_occurences.index)
 
 category_wikidata = get_all_wikidata_claims(category_occurences['qid'])
 
-# Maps the wikidata subclasses to the splitted category
+# Maps the wikidata subclasses to the split category
 category_triple = {}
 for key, values in category_wikidata.items():
     for value in values:
@@ -98,6 +126,8 @@ for key, values in category_wikidata.items():
                 category_triple[key] = category_triple.get(key,
                                                            []) + [data_value]
 
+
+
 wiki_subclasses = pd.DataFrame(list(category_triple.items()),
                                columns=['category_qid',
                                         'subclassOf']).explode('subclassOf')
@@ -105,17 +135,15 @@ wiki_subclasses = pd.DataFrame(list(category_triple.items()),
 yelp_wiki_schema_triples_df = category_occurences.merge(
     wiki_subclasses, left_on='qid', right_on='category_qid', how='left')
 
-print(yelp_wiki_schema_triples_df)
-
 schema = Namespace("https://schema.org/")
 example = Namespace("https://example.org/")
 wiki = Namespace("https://www.wikidata.org/entity/")
 
-# triple_file = gzip.open(filename=f"/home/ubuntu/vol1/virtuoso/import/yelp_business.nt.gz", mode="at",encoding="utf-8")
+triple_file = gzip.open(filename=f"yelp_business.nt.gz", mode="at",encoding="utf-8")
 
 G = Graph()
 for i in yelp_wiki_schema_triples_df.itertuples():
-    if i.SchemaType is not np.nan:
+    if i.qid is not np.nan and i.SchemaType is not np.nan:
         G.add(
             (
                 URIRef(schema[i.SchemaType]),
@@ -125,12 +153,19 @@ for i in yelp_wiki_schema_triples_df.itertuples():
         )
     else:
         if i.qid is not np.nan:
+            G.add(
+                (
+                    URIRef(wiki[i.qid]),
+                    URIRef(RDFS["label"]),
+                    URIRef(example[urllib.parse.quote("_".join(i.qid_label.split(" ")))])
+                )
+            )
             if "&" in i.category:
                 G.add(
                     (
                         URIRef(example["_".join(i.category.split(" "))]),
                         URIRef(example["superclassOf"]),
-                        URIRef(wiki[i.qid]),
+                        URIRef(wiki[i.qid])
                     )
                 )
             else:
@@ -138,16 +173,17 @@ for i in yelp_wiki_schema_triples_df.itertuples():
                     (
                         URIRef(example["_".join(i.category.split(" "))]),
                         URIRef(schema["sameAs"]),
-                        URIRef(wiki[i.qid]),
+                        URIRef(wiki[i.qid])
                     )
                 )
     if i.subclassOf is not None:
         G.add((wiki[i.category_qid], wiki["P279"], wiki[i.subclassOf]))
 
-nt = G.serialize(destination="categories.nt", format="nt")
 
-# triple_file.write(G.serialize(format="nt"))
+# nt = G.serialize(destination="categories.nt", format="nt")
 
+triple_file.write(G.serialize(format="nt"))
+triple_file.close()
 
 if __name__ == "__main__":
     pass
