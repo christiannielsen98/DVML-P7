@@ -106,11 +106,14 @@ def get_class_mappings(substring_threshold=0.90, ratio_threshold=0.65):
     biz["categories"] = biz["categories"].apply(str_split)
 
     # Iterate over categories in sublists ('If sublist' checks if the sublist is None) and insert them into a large set.
-    categories = list({category for sublist in biz["categories"].tolist() if sublist for category in sublist})
-    categories = split_words(categories, split_words_inc_slash)  # Split categories with & and /
+    yelp_categories = list({category for sublist in biz["categories"].tolist() if sublist for category in sublist})
+
+    categories = split_words(yelp_categories, split_words_inc_slash)  # Split categories with & and /
     categories = turn_words_singular(categories)  # Turn the categories singular
-    categories = [category.title().replace(" ", "") for sublist in categories.values() for category in sublist]  # Unpack the nested lists in dict values
-    
+
+    # Unpack the nested lists in dict values and turn them CamelCase to match schema.org structure.
+    categories = [category.title().replace(" ", "") for sublist in categories.values() for category in sublist]
+
     category_mapping = dict()
 
     for category in categories:
@@ -118,8 +121,8 @@ def get_class_mappings(substring_threshold=0.90, ratio_threshold=0.65):
         possible_classes = dict()
 
         for schema_type in schema["label"]:
-            # Only adds a schema type as a match if the longest common substring is at least 90% of the category,
-            # and if the ratio between the category and schema type is 50 % or larger.
+            # Only adds a schema type as a match if the longest common substring is at least parameter % of the category,
+            # and if the ratio between the category and schema type is parameter % or larger.
             if long_com_substring(category, schema_type) >= category_length * substring_threshold:
                 ratio = min(category_length, len(schema_type)) / max(category_length, len(schema_type))
                 if ratio >= ratio_threshold:
@@ -133,12 +136,12 @@ def get_class_mappings(substring_threshold=0.90, ratio_threshold=0.65):
 
 def class_hierarchy(dictionary):
     """
-    This function is used to create the hiearchy only for the relevant schema.org types for this ontology.
+    This function is used to create the hierarchy only for the relevant schema.org types for this ontology.
     :param dictionary: Input here is the category to schema type mapping dictionary returned from get_class_mappings().
-    :return: a dictionary with schema type as key and its supertype as value.
+    :return: a dataframe with schema type and its supertype(s).
     """
 
-    schema_df = pd.read_csv(get_path("schemaorg-current-https-types.csv"))[["id", "subTypeOf"]].dropna()
+    schema_df = pd.read_csv(get_path("schemaorg-current-https-types.csv"))[["id", "subTypeOf"]]
     schema_df = schema_df.apply(
         lambda x: x.str.split(', ').explode())  # Some types have multiple supertypes, so we explode those rows.
 
@@ -156,6 +159,7 @@ def class_hierarchy(dictionary):
 
     supertypes_df = pd.DataFrame(list(supertypes_dict.items()), columns=['type', 'superType'])
     supertypes_df = supertypes_df.explode("superType")
+    supertypes_df.dropna(inplace=True)
 
     return supertypes_df
 
@@ -171,10 +175,10 @@ if __name__ == "__main__":
            'Education': 'EducationEvent', 'Vegan': 'VeganDiet', 'Automotive': 'AutomotiveBusiness',
            'Tattoo': 'TattooParlor'}
 
-    class_mapping_dict = get_class_mappings()
-    #class_mapping_df = pd.DataFrame(list(class_mapping_dict.items()), columns=['YelpCategory', 'SchemaType'])
+    class_mapping_dict = get_class_mappings(substring_threshold=0.75, ratio_threshold=0.5)
+    class_mapping_df = pd.DataFrame(list(class_mapping_dict.items()), columns=['YelpCategory', 'SchemaType'])
     print(class_mapping_dict, len(class_mapping_dict))
-    # class_mapping_df.to_csv(path_or_buf=get_path("class_mappings.csv"), index=False)
+    #class_mapping_df.to_csv(path_or_buf=get_path("class_mappings.csv"), index=False)
 
-    # class_hierarchy_df = class_hierarchy(class_mapping_dict)
-    # class_hierarchy_df.to_csv(path_or_buf=get_path("class_hierarchy.csv"), index=False)
+    class_hierarchy_df = class_hierarchy(class_mapping_dict)
+    class_hierarchy_df.to_csv(path_or_buf=get_path("class_hierarchy.csv"), index=False)
