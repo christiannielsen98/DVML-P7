@@ -3,8 +3,6 @@ from time import sleep
 import pandas as pd
 from geopy.geocoders import Nominatim
 
-from Code.UtilityFunctions.get_data_path import get_path
-
 
 def update_business_locations(df: pd.DataFrame,
                               coordinate_rounding: int=2,
@@ -55,12 +53,14 @@ def update_business_locations(df: pd.DataFrame,
         if address is not None:
             address_dict[location] = {level: address[level] for level in desired_address_levels if level in address}
     
-    if report_missing:
-        # Count entries in address_dict that have no key in desired_address_levels
+    if report_missing:  # Count entries in address_dict that have no key in desired_address_levels
         missing_count_dict = {}
+        desired_address_levels_set = set(desired_address_levels)
         for location, address in address_dict:
-            if set(list(address.keys()) != set(desired_address_levels)):
-                for missing_location in set(desired_address_levels).difference(set(list(address.keys()))):
+            included_addresses_set = set(list(address.keys()))
+            if included_addresses_set != desired_address_levels_set:  # If the address is missing any of the desired levels
+                missing_locations = desired_address_levels_set.difference(included_addresses_set)  # Get the missing levels
+                for missing_location in missing_locations:  # Add to the missing_count_dict
                     missing_count_dict[missing_location] += 1
         print(missing_count_dict)
     
@@ -74,3 +74,13 @@ def update_business_locations(df: pd.DataFrame,
     updated_businesses.drop("coordinate_set", inplace=True, axis=1)
     
     return updated_businesses
+
+
+if __name__ == '__main__':
+    from Code.UtilityFunctions.get_data_path import get_path
+    
+    business_file = "yelp_academic_dataset_business.json"
+    businesses = pd.read_json(path_or_buf=get_path(business_file), lines=True)
+    
+    updated_businesses = update_business_locations(businesses, report_missing=True)
+    
