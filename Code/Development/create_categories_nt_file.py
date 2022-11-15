@@ -6,7 +6,7 @@ from math import ceil
 import numpy as np
 import pandas as pd
 from collections import Counter
-from rdflib import Namespace, Graph, URIRef
+from rdflib import Namespace, Graph, URIRef, Literal
 from rdflib.namespace import RDFS
 from pprint import pprint
 from deepdiff import DeepDiff
@@ -74,8 +74,9 @@ category_occurences = category_occurences.explode('split_category')
 
 # Maps the yelp categories that are already mapped to a schemaType to the original category.
 class_mapping = pd.read_csv(get_path('class_mappings.csv'))
+category_occurences['split_category'] = category_occurences['split_category'].apply(lambda x: x.title().replace(' ',''))
 category_occurences = category_occurences.merge(class_mapping,
-                                                left_on='category',
+                                                left_on='split_category',
                                                 right_on='YelpCategory',
                                                 how='left')
 
@@ -92,7 +93,9 @@ for cat in category_occurences["split_category"].to_list():
 
 
 # compares the two dictionaries and returns the differences in old value and new value for every key
-ddiff = DeepDiff(category_qid, category_qid2, verbose_level=1) 
+category_qid_only_qid = {key:value[0] for (key,value) in category_qid.items()}
+category_qid2_only_qid = {key:value[0] for (key,value) in category_qid2.items()}
+ddiff = DeepDiff(category_qid_only_qid, category_qid2_only_qid, verbose_level=1) 
 
 def compare_qids(new_value: str, old_value: str):
     # check if the new qid is an instance of old qid
@@ -101,14 +104,18 @@ def compare_qids(new_value: str, old_value: str):
                         VALUES ?s {{wd:{new_value}}} .
                 }}"""
 
+
 update_qid_dict = {}
 for key, value in ddiff['values_changed'].items():
-    # check if the new qid is an instance of old qid, then update with old qid if true
-    if wikidata_query(compare_qids(new_value=value['new_value'][0], old_value=value['old_value'][0])).empty is False:
-        print(f"Updating {key} from {value['old_value']} to {value['new_value']}")
-        update_qid_dict[key[6:-2]] = value['old_value']
+    if key.__contains__("[0]") is True:
+        # check if the new qid is an instance of old qid, then update with old qid if true
+        if wikidata_query(compare_qids(new_value=value['new_value'], old_value=value['old_value'])).empty is False:
+            print(f"Updating {key} from {value['new_value']} to {value['old_value']}")
+            update_qid_dict[key[6:-5]] = category_qid[key[6:-5]]
 # update the qid dict with the new qids, updated values: {'airline': 'Q46970', 'boat tour': 'Q25040412', 'magazine': 'Q41298'}
-category_qid2.update(update_qid_dict) 
+category_qid2.update(update_qid_dict)
+
+
 
 # Maps the QID to the split category
 category_occurences['qid'] = category_occurences['split_category'].map(category_qid2)
@@ -143,41 +150,15 @@ triple_file = gzip.open(filename=f"yelp_business.nt.gz", mode="at",encoding="utf
 
 G = Graph()
 for i in yelp_wiki_schema_triples_df.itertuples():
-    if i.qid is not np.nan and i.SchemaType is not np.nan:
-        G.add(
-            (
-                URIRef(schema[i.SchemaType]),
-                URIRef(schema["sameAs"]),
-                URIRef(wiki[i.qid]),
-            )
-        )
-    else:
-        if i.qid is not np.nan:
-            G.add(
-                (
-                    URIRef(wiki[i.qid]),
-                    URIRef(RDFS["label"]),
-                    URIRef(example[urllib.parse.quote("_".join(i.qid_label.split(" ")))])
-                )
-            )
-            if "&" in i.category:
-                G.add(
-                    (
-                        URIRef(example["_".join(i.category.split(" "))]),
-                        URIRef(example["superclassOf"]),
-                        URIRef(wiki[i.qid])
-                    )
-                )
-            else:
-                G.add(
-                    (
-                        URIRef(example["_".join(i.category.split(" "))]),
-                        URIRef(schema["sameAs"]),
-                        URIRef(wiki[i.qid])
-                    )
-                )
-    if i.subclassOf is not None:
-        G.add((wiki[i.category_qid], wiki["P279"], wiki[i.subclassOf]))
+    if i.subclassOf is not np.nan:
+        G.add((URIRef(wiki[i.qid]), URIRef(wiki["P279"]), URIRef(wiki[i.subclassOf])))
+    if i.qid is not np.nan:
+        G.add((URIRef(wiki[i.qid]), URIRef(RDFS["label"]), Literal(i.qid_label)))
+        G.add((URIRef(wiki[i.qid]), URIRef(RDFS["Class"]), URIRef(example['WikiCategory'])))
+        if i.SchemaType is not np.nan:
+            G.add((URIRef(schema[i.SchemaType]), URIRef(schema["sameAs"]), URIRef(wiki[i.qid])))
+        else:
+            G.add((URIRef(example[i.split_category]), URIRef(schema["sameAs"]), URIRef(wiki[i.qid])))
 
 
 # nt = G.serialize(destination="categories.nt", format="nt")
