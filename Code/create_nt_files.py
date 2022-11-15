@@ -15,6 +15,7 @@ from Code.Development.create_categories_nt_file import split_words, split_words_
 
 schema = Namespace("https://schema.org/")
 example = Namespace("https://example.org/")
+skos = Namespace("http://www.w3.org/2004/02/skos/core#")
 
 business_uri = Namespace("https://www.yelp.com/biz/")
 user_uri = Namespace("https://www.yelp.com/user_details?userid=")
@@ -70,7 +71,8 @@ def create_nt_file(file_name: str):
 
                 json_key = list(line.keys())[0]  # Each dictionary has the ID as the value to the first key
                 subject = get_uri(file_name) + line[json_key]  # get_uri makes sure the ID is a proper URI.
-                del line[json_key]  # After assigning the URI to the subject variable, we no longer need the first key/value pair
+                del line[
+                    json_key]  # After assigning the URI to the subject variable, we no longer need the first key/value pair
 
                 # Creates a triple pointing to the subjects corresponding URL (Best practice).
                 G.add(triple=(URIRef(subject),  # Subject
@@ -84,30 +86,55 @@ def create_nt_file(file_name: str):
                                   URIRef(get_uri(file_name) + subject)))
                     del line["user_id"]  # No longer need the this key/value pair.
 
-                line = flatten_dictionary(line)  # Some values are dictionaries themselves, so we flatten them before proceeding
+                line = flatten_dictionary(
+                    line)  # Some values are dictionaries themselves, so we flatten them before proceeding
 
                 # Assigns a RDFS Class to every subject (checkin does not have its own subject).
                 if file_name != 'yelp_academic_dataset_checkin.json':
                     if file_name == 'yelp_academic_dataset_business.json':
                         if line['categories']:
-                            # Get 'categories' key, unpack the values, split those containing & and / and turn them singluar.
 
-                            possible_types = line['categories'].split(", ")
-                            possible_types = split_words(possible_types, split_words_inc_slash)
-                            possible_types = turn_words_singular(possible_types)
-                            possible_types = [types for sublist in possible_types.values() for types in sublist]
+                            categories = line['categories'].split(", ")
 
-                            # If a category has a mapping to a schema.org type in the class_mappings dict, add the match
-                            # Else create an example.org class and add that to the graph
-                            for pos_type in possible_types:
-                                if pos_type in class_mappings.keys():
-                                    G.add(triple=(URIRef(subject),
-                                                  RDFS.Class,
-                                                  URIRef(class_mappings[pos_type])))
-                                else:
-                                    G.add(triple=(URIRef(subject),
-                                                  RDFS.Class,
-                                                  URIRef(example + pos_type.replace(" ", "_"))))  # Fix " " in URI
+                            for category in categories:
+
+                                G.add(triple=(URIRef(subject),
+                                              URIRef(example + "hasCategory"),
+                                              URIRef(example + category)))
+
+                                G.add(triple=(URIRef(example + category),
+                                              RDFS.Class,
+                                              URIRef(example + "YelpCategory")))
+
+                                # For each category: Split them if they contain & or /, turn them singular,
+                                # and turn them into CamelCase. This makes them into the form of schema.org types.
+                                # This is also the approach taken when mapping, so the Yelp categories
+                                # in the keys in class_mapping is represented in the same way.
+                                possible_types = split_words(categories, split_words_inc_slash)
+                                possible_types = turn_words_singular(possible_types)
+                                possible_types = [types.title().replace(" ", "") for sublist in possible_types.values()
+                                                  for types in sublist]
+
+                                # If a split category has a mapping to a schema.org type in the class_mappings dict,
+                                # add the match.
+                                # Else create an example.org class and add that to the graph
+                                for pos_type in possible_types:
+                                    if pos_type in class_mappings.keys():
+                                        G.add(triple=(URIRef(example + category),
+                                                      URIRef(skos + "narrowMatch"),
+                                                      URIRef(class_mappings[pos_type])))
+
+                                        G.add(triple=(URIRef(class_mappings[pos_type]),
+                                                      RDFS.Class,
+                                                      URIRef(example + "SchemaCategory")))
+                                    else:
+                                        G.add(triple=(URIRef(example + category),
+                                                      URIRef(skos + "narrowMatch"),
+                                                      URIRef(example + pos_type.replace(" ", "_"))))  # Fix " " in URI
+
+                                        G.add(triple=(URIRef(example + pos_type.replace(" ", "_")),
+                                                      RDFS.Class,
+                                                      URIRef(example + "ExampleCategory")))
 
                         # Add location information to the business based on Google API retrieved data.
                         del [line['city'], line['state']]
@@ -131,7 +158,8 @@ def create_nt_file(file_name: str):
                             _object = "..."
                     except (TypeError, SyntaxError, NameError, AttributeError):
                         pass
-                    if isinstance(_object, type(None)) or str(_object).lower() in ["none", "null"]:  # Why do we do this?
+                    if isinstance(_object, type(None)) or str(_object).lower() in ["none",
+                                                                                   "null"]:  # Why do we do this?
                         pass
 
                     elif isinstance(_object, dict):
@@ -147,9 +175,11 @@ def create_nt_file(file_name: str):
                                           URIRef(example + "has" + __predicate),
                                           Literal(__object)))
 
-                    elif _predicate in ["categories", "date", "friends", "elite"]:  # The values to these keys contains listed objects
+                    elif _predicate in ["categories", "date", "friends",
+                                        "elite"]:  # The values to these keys contains listed objects
                         _object = str(_object)
-                        obj_lst = _object.split(", ") if _predicate != "elite" else _object.split( ",")  # Splits the listed objects
+                        obj_lst = _object.split(", ") if _predicate != "elite" else _object.split(
+                            ",")  # Splits the listed objects
 
                         # get_schema_predicate assigns returns a proper schema.org predicate based on the key and a proper object datatype.
                         predicate, object_type = get_schema_predicate(_predicate, _object, file_name)
@@ -169,7 +199,8 @@ def create_nt_file(file_name: str):
                                       URIRef(predicate),
                                       Literal(_object, datatype=object_type)))
 
-                triple_file.write(G.serialize(format='nt'))  # Writes to the .nt file the graph now containing a RDF triple.
+                triple_file.write(
+                    G.serialize(format='nt'))  # Writes to the .nt file the graph now containing a RDF triple.
 
             except Exception as e:
                 print(e)
