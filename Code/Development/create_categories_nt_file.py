@@ -73,7 +73,7 @@ category_occurences['split_category'] = category_occurences['category'].map(cate
 category_occurences = category_occurences.explode('split_category')
 
 # Maps the yelp categories that are already mapped to a schemaType to the original category.
-class_mapping = pd.read_csv('Code/UtilityFiles/class_mappings.csv')
+class_mapping = pd.read_csv(get_path('class_mappings.csv'))
 category_occurences = category_occurences.merge(class_mapping,
                                                 left_on='category',
                                                 right_on='YelpCategory',

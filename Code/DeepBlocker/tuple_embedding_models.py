@@ -1,5 +1,4 @@
 #GiG
-
 from collections import Counter
 import random 
 
@@ -11,7 +10,7 @@ import fasttext
 from torchtext.data import get_tokenizer
 
 import Code.DeepBlocker.dl_models
-from configurations import *
+from Code.DeepBlocker.configurations import *
 
 #This is the Abstract Base Class for all Tuple Embedding models
 class ABCTupleEmbedding:
