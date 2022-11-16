@@ -53,24 +53,26 @@ def get_all_wikidata_claims(qid_list: list):
     return category_wikidata
 
 
+def categories_dict_singular(biz: pd.DataFrame):
+    categories_unique = list(set(biz['categories'].str.cat(sep=', ').split(sep=', ')))
+
+    # categories_dict = split_words(categories_unique, split_words_inc_slash)
+    cat_string_man_handle_dict = pd.read_excel(get_path("split_categories.xlsx"), sheet_name="Sheet1", index_col=0, names=['column']).to_dict()['column']
+    cat_string_man_handle_dict = {k: v.split(', ') for k, v in cat_string_man_handle_dict.items()}
+    categories_dict = {i: [i] for i in categories_unique}
+    categories_dict.update(cat_string_man_handle_dict)
+
+    categories_dict_singular = turn_words_singular(categories_dict)
+    return categories_dict_singular
+
 biz = pd.read_json(get_path("yelp_academic_dataset_business.json"), lines=True)
+categories_dict_singular = categories_dict_singular(biz)
 
-categories_unique = list(set(biz['categories'].str.cat(sep=', ').split(sep=', ')))
 categories = list(biz['categories'].str.cat(sep=', ').split(sep=', '))
-
 category_occurences = pd.DataFrame(list(dict(Counter(categories)).items()),
                                    columns=['category', 'occurences'
                                             ]).sort_values(by='occurences',
                                                            ascending=False)
-
-# categories_dict = split_words(categories_unique, split_words_inc_slash)
-cat_string_man_handle_dict = pd.read_excel(get_path("split_categories.xlsx"), sheet_name="Sheet1", index_col=0, names=['column']).to_dict()['column']
-cat_string_man_handle_dict = {k: v.split(', ') for k, v in cat_string_man_handle_dict.items()}
-categories_dict = {category_occurences["category"][i]: [category_occurences["category"][i]] for i in range(len(category_occurences))}
-categories_dict.update(cat_string_man_handle_dict)
-
-categories_dict_singular = turn_words_singular(categories_dict)
-
 # Maps the split categories to the original categories
 category_occurences['split_category'] = category_occurences['category'].map(categories_dict_singular)
 category_occurences = category_occurences.explode('split_category')
@@ -169,9 +171,7 @@ schema = Namespace("https://schema.org/")
 example = Namespace("https://example.org/")
 wiki = Namespace("https://www.wikidata.org/entity/")
 
-triple_file = gzip.open(filename=f"yelp_business.nt.gz",
-                        mode="at",
-                        encoding="utf-8")
+triple_file = gzip.open(filename=f"yelp_business.nt.gz", mode="at", encoding="utf-8")
 
 G = Graph()
 for i in yelp_wiki_schema_triples_df.itertuples():
