@@ -3,7 +3,7 @@
 import torch
 from torch import nn
 from torch.utils.data import Dataset, DataLoader
-from configurations import * 
+from Code.DeepBlocker.configurations import * 
 
 def get_device():
     if torch.cuda.is_available():

@@ -30,8 +30,8 @@ def long_com_substring(st1: str, st2: str):
 def split_words_inc_slash(word):
     """
     Used in the function split_words to split Yelp categories containing a /
-    :param word:
-    :return:
+    :param word: the word to be split
+    :return: A list of two strings.
     """
     # Splitting the words that have a slash in them, and turning them into two words
     word_space = word.split(' ')
@@ -52,6 +52,17 @@ def split_words_inc_slash(word):
 
 
 def split_words(categories_unique, split_word_inc_slash):
+    """
+    If the word has an ampersand or a slash, split the word into a list of words. If the word has an
+    ampersand, split the word into a list of words using the ampersand as the separator. If the word has
+    a slash, split the word into a list of words using the slash as the separator. If the word has
+    neither an ampersand nor a slash, return the word as a list of words
+    
+    :param categories_unique: a list of unique categories
+    :param split_word_inc_slash: a function that splits a word that includes a slash
+    :return: A dictionary with the key being the original word and the value being a list of the words
+    that make up the original word.
+    """
     categories_dict = {}
     for word in categories_unique:
         if '&' in word and '/' in word:
@@ -68,6 +79,14 @@ def split_words(categories_unique, split_word_inc_slash):
 
 
 def turn_words_singular(categories_dict):
+    """
+    For each key in the dictionary, the function takes the value (a list of words) and turns each word
+    into its singular form
+    
+    :param categories_dict: a dictionary of categories and their associated words
+    :return: A dictionary with the same keys as the original dictionary, but with the values being a
+    list of singular words.
+    """
     p = inflect.engine()
     categories_dict_singular = {}
     for key, value in categories_dict.items():
