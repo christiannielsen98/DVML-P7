@@ -36,32 +36,33 @@ def create_nt_file(file_name: str):
     file_path = get_path(file_name)
 
     if file_name == "yelp_academic_dataset_business.json":
-        class_mappings = get_class_mappings()
+
+        class_mappings = pd.read_csv(get_path("class_mappings.csv"))
         class_hierarchies = pd.read_csv(get_path("class_hierarchy.csv"))
 
         G = Graph()
-        for idx, row in class_hierarchies.iterrows():
+        for idx, row in class_hierarchies.iterrows():  # Adds class hierarchies to the graph
             G.add(triple=(URIRef(Namespace(row['type'])),
                           RDFS.subClassOf,
                           URIRef(Namespace(row['superType']))))
 
-        triple_file.write(G.serialize(format='nt'))  # Writes to the .nt file the graph now containing a RDF triple.
+        triple_file.write(G.serialize(format='nt'))
 
-        # Load location information based on Google API retireved data.
+        # Load location information based on Google API retrieved data.
         with open(file=get_path("location_unique.json"), mode="r") as file:
             location_dict = json.load(file)
 
-        # Required...
+        # Required
         location_dict = location_dict
 
     with open(file=file_path, mode="r") as file:
+        # Iterate over every object in the JSON file as each object is one line.
         for line in file:
-            # Iterates over every object in the JSON file, as each object is one line.
             try:
                 line = json.loads(line)  # json.loads loads the JSON object into a dictionary.
-                G = Graph()  # initialize a empty graph object to write a RDF triple to.
+                G = Graph()  # Initialize a empty graph object to write a RDF triple to.
 
-                # business and checkin both use the business Namespace, reviews uses a custom one, and user also has its own.
+                # Namespaces needed for URIs
                 if file_name in ["yelp_academic_dataset_business.json", "yelp_academic_dataset_checkin.json"]:
                     uri = business_uri
                 elif file_name == 'yelp_academic_dataset_review.json':
@@ -71,8 +72,7 @@ def create_nt_file(file_name: str):
 
                 json_key = list(line.keys())[0]  # Each dictionary has the ID as the value to the first key
                 subject = get_uri(file_name) + line[json_key]  # get_uri makes sure the ID is a proper URI.
-                del line[
-                    json_key]  # After assigning the URI to the subject variable, we no longer need the first key/value pair
+                del line[json_key]  # After assigning the URI to the subject variable, we no longer need the first key/value pair
 
                 # Creates a triple pointing to the subjects corresponding URL (Best practice).
                 G.add(triple=(URIRef(subject),  # Subject
@@ -86,14 +86,14 @@ def create_nt_file(file_name: str):
                                   URIRef(get_uri(file_name) + subject)))
                     del line["user_id"]  # No longer need the this key/value pair.
 
-                line = flatten_dictionary(
-                    line)  # Some values are dictionaries themselves, so we flatten them before proceeding
+                line = flatten_dictionary(line)  # Some values are dictionaries themselves, so we flatten them before proceeding
 
-                # Assigns a RDFS Class to every subject (checkin does not have its own subject).
+                # Assign a RDFS Class to every subject (checkin does not have its own subject).
                 if file_name != 'yelp_academic_dataset_checkin.json':
                     if file_name == 'yelp_academic_dataset_business.json':
                         if line['categories']:
 
+                            # Categories are initially one long comma-separated string.
                             categories = line['categories'].split(", ")
 
                             for category in categories:
@@ -116,8 +116,7 @@ def create_nt_file(file_name: str):
                                                   for types in sublist]
 
                                 # If a split category has a mapping to a schema.org type in the class_mappings dict,
-                                # add the match.
-                                # Else create an example.org class and add that to the graph
+                                # add the match. Else create an example.org class and add that to the graph
                                 for pos_type in possible_types:
                                     if pos_type in class_mappings.keys():
                                         G.add(triple=(URIRef(example + category),
@@ -126,7 +125,7 @@ def create_nt_file(file_name: str):
 
                                         G.add(triple=(URIRef(class_mappings[pos_type]),
                                                       RDFS.Class,
-                                                      URIRef(example + "SchemaCategory")))
+                                                      URIRef(example + "SchemaClass")))
                                     else:
                                         G.add(triple=(URIRef(example + category),
                                                       URIRef(skos + "narrowMatch"),
@@ -134,7 +133,7 @@ def create_nt_file(file_name: str):
 
                                         G.add(triple=(URIRef(example + pos_type.replace(" ", "_")),
                                                       RDFS.Class,
-                                                      URIRef(example + "ExampleCategory")))
+                                                      URIRef(example + "ExampleClass")))
 
                         # Add location information to the business based on Google API retrieved data.
                         del [line['city'], line['state']]
@@ -146,9 +145,19 @@ def create_nt_file(file_name: str):
                                               URIRef(example + location_value.replace(" ", "_"))))
 
                     else:  # Adds a class to Users, Reviews and Tips
+
+                        # get_schema_type returns the class for subjects in [0], and the class for these classes
+                        # i.e. 'SchemaClass' or 'ExampleClass' in [1]
+                        subject_class = get_schema_type(entity_name)[0]
+                        class_class = get_schema_type(entity_name)[1]
+
                         G.add(triple=(URIRef(subject),
                                       RDFS.Class,
-                                      URIRef(get_schema_type(entity_name))))
+                                      URIRef(subject_class)))
+
+                        G.add(triple=(URIRef(subject_class),
+                                      RDFS.Class,
+                                      URIRef(class_class)))
 
                 # Now we iterate over the rest of the key/value pairs and transform them to RDF format.
                 for _predicate, _object in line.items():
@@ -158,8 +167,7 @@ def create_nt_file(file_name: str):
                             _object = "..."
                     except (TypeError, SyntaxError, NameError, AttributeError):
                         pass
-                    if isinstance(_object, type(None)) or str(_object).lower() in ["none",
-                                                                                   "null"]:  # Why do we do this?
+                    if isinstance(_object, type(None)) or str(_object).lower() in ["none", "null"]:  # Why do we do this?
                         pass
 
                     elif isinstance(_object, dict):
@@ -175,13 +183,13 @@ def create_nt_file(file_name: str):
                                           URIRef(example + "has" + __predicate),
                                           Literal(__object)))
 
-                    elif _predicate in ["categories", "date", "friends",
-                                        "elite"]:  # The values to these keys contains listed objects
+                    elif _predicate in ["categories", "date", "friends", "elite"]:  # The values to these keys contains listed objects
                         _object = str(_object)
                         obj_lst = _object.split(", ") if _predicate != "elite" else _object.split(
                             ",")  # Splits the listed objects
 
-                        # get_schema_predicate assigns returns a proper schema.org predicate based on the key and a proper object datatype.
+                        # get_schema_predicate assigns returns a proper schema.org predicate based on the key
+                        # and a proper object datatype.
                         predicate, object_type = get_schema_predicate(_predicate, _object, file_name)
                         for obj in obj_lst:
                             if _predicate == "date":
@@ -192,7 +200,7 @@ def create_nt_file(file_name: str):
 
                     else:
                         if _predicate == "yelping_since":
-                            _object = _object.replace(" ", "T")  # Cleans the yelping_since attribute
+                            _object = _object.replace(" ", "T")
 
                         predicate, object_type = get_schema_predicate(_predicate, _object, file_name)
                         G.add(triple=(URIRef(subject),

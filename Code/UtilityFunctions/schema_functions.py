@@ -84,11 +84,11 @@ def get_schema_type(entity: str):
 
     match entity:
         case 'user':
-            return schema + 'Person'
+            return schema + 'Person', example + 'SchemaClass'
         case 'review':
-            return schema + 'UserReview'
+            return schema + 'UserReview', example + 'SchemaClass'
         case 'tip':
-            return example + 'Tip'
+            return example + 'Tip', example + 'ExampleClass'
         case _:  #
             print(f"Unknown schema type for entity: {entity}")
 
