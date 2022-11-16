@@ -18,6 +18,12 @@ from Code.UtilityFunctions.string_functions import split_words_inc_slash, split_
 
 
 def category_query(category: str):
+    """
+    It takes a category name as a string, and returns a query that will return all the possible QID's and QID-labels for that category.
+    :param category: The category you want to search for
+    :type category: str
+    :return: The query returns the item, itemLabel, and itemDescription of the category.
+    """
     return f"""SELECT distinct ?item ?itemLabel ?itemDescription WHERE{{
     ?item ?label "{category}"@en.
     ?article schema:about ?item .
@@ -26,7 +32,14 @@ def category_query(category: str):
     SERVICE wikibase:label {{ bd:serviceParam wikibase:language "en". }}}}"""
 
 
-def min_qid(df_qid):
+def min_qid(df_qid: pd.DataFrame):
+    """
+    It takes a dataframe of QIDs and returns the minimum QID number and the itemLabel
+    
+    :param df_qid: the dataframe of the QID numbers and itemLabels
+    :type df_qid: pd.DataFrame
+    :return: The minimum QID number and the itemLabel
+    """
     # Getting the minimum value of the QID number and the itemLabel
     index = df_qid['item.value'].apply(
         lambda x: int(x.split("/")[-1].replace("Q", ""))).idxmin()
@@ -35,6 +48,13 @@ def min_qid(df_qid):
 
 
 def get_all_wikidata_claims(qid_list: list):
+    """
+    The function takes a list of wikidata QID's and returns a dictionary with the QID's as keys and the
+    claims as values.
+    :param qid_list: list
+    :type qid_list: list
+    :return: A dictionary with the QID as key and the claims as value
+    """
     # Create list of all QID's
     category_qid_list = qid_list.tolist()
     category_qid_list = [i for i in category_qid_list if i is not np.nan]
@@ -53,7 +73,16 @@ def get_all_wikidata_claims(qid_list: list):
     return category_wikidata
 
 
+
 def categories_dict_singular(biz: pd.DataFrame):
+    """
+    It takes the categories column of the business dataframe, and returns a dictionary of the
+    categories, where each category is singular.
+    :param biz: the business dataframe
+    :type biz: pd.DataFrame
+    :return: A dictionary of categories with the singular form of the category as the key and the plural
+    form of the category as the value.
+    """
     categories_unique = list(set(biz['categories'].str.cat(sep=', ').split(sep=', ')))
 
     # categories_dict = split_words(categories_unique, split_words_inc_slash)
