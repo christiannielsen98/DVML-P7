@@ -8,10 +8,9 @@ from rdflib.namespace import RDFS
 from UtilityFunctions.dictionary_functions import flatten_dictionary
 from UtilityFunctions.get_data_path import get_path
 from UtilityFunctions.string_functions import split_words, turn_words_singular, split_words_inc_slash
+from UtilityFunctions.wikidata_functions import wikidata_query, retrieve_wikidata_claims, category_query, min_qid, get_all_wikidata_claims, compare_qids, categories_dict_singular
 from UtilityFunctions.schema_functions import get_schema_predicate, get_schema_type, get_class_mappings
 from UtilityFunctions.get_uri import get_uri
-
-from Code.Development.create_categories_nt_file import split_words, split_words_inc_slash
 
 schema = Namespace("https://schema.org/")
 example = Namespace("https://example.org/")
@@ -97,7 +96,7 @@ def create_nt_file(file_name: str):
                             categories = line['categories'].split(", ")
 
                             for category in categories:
-
+                                category = category.title().replace(' ', '')  # Capitalize first letter of each word
                                 G.add(triple=(URIRef(subject),
                                               URIRef(example + "hasCategory"),
                                               URIRef(example + category)))
@@ -110,8 +109,8 @@ def create_nt_file(file_name: str):
                                 # and turn them into CamelCase. This makes them into the form of schema.org types.
                                 # This is also the approach taken when mapping, so the Yelp categories
                                 # in the keys in class_mapping is represented in the same way.
-                                possible_types = split_words(categories, split_words_inc_slash)
-                                possible_types = turn_words_singular(possible_types)
+                                possible_types = categories
+                                possible_types = categories_dict_singular(possible_types)
                                 possible_types = [types.title().replace(" ", "") for sublist in possible_types.values()
                                                   for types in sublist]
 
@@ -274,6 +273,8 @@ def create_tip_nt_file():
 
 
 if __name__ == "__main__":
+    import time
+    start = time.time()
     # create_nt_file(file_name="yelp_academic_dataset_business.json")
     files = [
         'yelp_academic_dataset_business.json',
@@ -284,3 +285,4 @@ if __name__ == "__main__":
     for i in files:
         create_nt_file(file_name=i)
     create_tip_nt_file()
+    print('It took', time.time()-start, 'seconds.')
