@@ -92,6 +92,7 @@ def turn_words_singular(categories_dict):
     for key, value in categories_dict.items():
         new_value = []
         for word in value:
+            word = word.lower()
             if p.singular_noun(word) is False:
                 word = word
             else:

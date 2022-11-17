@@ -31,15 +31,15 @@ def retrieve_wikidata_claims(item_list):
     :return: A nested list, with all the properties each item has
     """
     # Creates the query by seperating each item with "|"
-    item_list_query = ""
+    qid_list = ""
     for item in range(len(item_list)):
         if item == (len(item_list) - 1):
-            item_list_query += item_list[item]
+            qid_list += item_list[item]
         else:
-            item_list_query += item_list[item] + "%7C"
+            qid_list += item_list[item] + "%7C"
 
     # The string with API wbgetentities to find multiple items in an optimal format
-    URL = f"https://www.wikidata.org/w/api.php?action=wbgetentities&format=json&ids={item_list_query}&props=claims&languages=en&formatversion=2"
+    URL = f"https://www.wikidata.org/w/api.php?action=wbgetentities&format=json&ids={qid_list}&props=claims&languages=en"
 
     # Opens a HTMl session and gets the DATA from the API
     with requests.Session() as S:
