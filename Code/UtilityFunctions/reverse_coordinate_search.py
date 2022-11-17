@@ -8,7 +8,7 @@ from Code.UtilityFunctions.get_data_path import get_path
 
 def find_business_locations(df: pd.DataFrame,
                               coordinate_rounding: int=2,
-                              min_delay_seconds: int=2,
+                              min_delay_seconds: int=1,
                               zoom_level: int=14,
                               report_missing: bool=False):
     """
