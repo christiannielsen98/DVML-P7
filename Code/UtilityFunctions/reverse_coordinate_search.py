@@ -3,12 +3,14 @@ from time import sleep
 import pandas as pd
 from geopy.geocoders import Nominatim
 
+from Code.UtilityFunctions.get_data_path import get_path
 
-def update_business_locations(df: pd.DataFrame,
+
+def find_business_locations(df: pd.DataFrame,
                               coordinate_rounding: int=2,
                               min_delay_seconds: int=2,
                               zoom_level: int=14,
-                              report_missing: bool=False) -> pd.DataFrame:
+                              report_missing: bool=False):
     """
     Take a pd.dataframe with two columns ["latitude", "longitude"] and update the locations to the neighbourhood level
     using the geopy library to reverse search this coordinate set, rounded to the coordinate_rounding.
@@ -45,7 +47,7 @@ def update_business_locations(df: pd.DataFrame,
             location_dict[location] = None
         sleep(min_delay_seconds)  # Sleep to avoid API timeout
     
-    desired_address_levels = ["neighbourhood", "city", "county", "state", "country"]
+    desired_address_levels = ["neighbourhood", "postcode", "city", "county", "state", "country"]
     address_dict = {}
     
     # Extract only desired address levels from location_dict into address_dict
@@ -72,15 +74,12 @@ def update_business_locations(df: pd.DataFrame,
 
     # Remove the rounded coordinate set column
     updated_businesses.drop("coordinate_set", inplace=True, axis=1)
-    
-    return updated_businesses
+    updated_businesses = updated_businesses[["business_id", "neighbourhood", "postcode", "city", "county", "state", "country"]]
+    updated_businesses.to_csv(get_path("business_locations.csv"), index=False)
 
 
 if __name__ == '__main__':
-    from Code.UtilityFunctions.get_data_path import get_path
-    
     business_file = "yelp_academic_dataset_business.json"
     businesses = pd.read_json(path_or_buf=get_path(business_file), lines=True)
-    
-    updated_businesses = update_business_locations(businesses, report_missing=True)
+    find_business_locations(businesses, report_missing=True)
     
