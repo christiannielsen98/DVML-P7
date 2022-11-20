@@ -14,7 +14,7 @@ from UtilityFunctions.get_uri import get_uri
 
 schema = Namespace("https://schema.org/")
 example = Namespace("https://example.org/")
-skos = Namespace("http://www.w3.org/2004/02/skos/core#")
+skos = Namespace("https://www.w3.org/2004/02/skos/core#")
 
 business_uri = Namespace("https://www.yelp.com/biz/")
 user_uri = Namespace("https://www.yelp.com/user_details?userid=")
