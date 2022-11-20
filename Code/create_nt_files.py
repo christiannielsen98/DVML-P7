@@ -117,12 +117,12 @@ def create_nt_file(file_name: str):
                                 # If a split category has a mapping to a schema.org type in the class_mappings dict,
                                 # add the match. Else create an example.org class and add that to the graph
                                 for pos_type in possible_types:
-                                    if pos_type in class_mappings.keys():
+                                    if pos_type in class_mappings['YelpCategory'].values:
                                         G.add(triple=(URIRef(example + category),
                                                       URIRef(skos + "narrowMatch"),
-                                                      URIRef(class_mappings[pos_type])))
+                                                      URIRef(schema + class_mappings.loc[class_mappings['YelpCategory'] == pos_type, 'SchemaType'].values[0])))
 
-                                        G.add(triple=(URIRef(class_mappings[pos_type]),
+                                        G.add(triple=(URIRef(schema + class_mappings.loc[class_mappings['YelpCategory'] == pos_type, 'SchemaType'].values[0]),
                                                       RDFS.Class,
                                                       URIRef(example + "SchemaClass")))
                                     else:
@@ -138,7 +138,7 @@ def create_nt_file(file_name: str):
                         del [line['city'], line['state']]
                         location_rounded = f"{round(line['latitude'], 2)},{round(line['longitude'], 2)}"
                         for location_predicate, location_value in location_dict[location_rounded].items():
-                            if location_value is not None:
+                            if location_value != None:
                                 G.add(triple=(URIRef(subject),
                                               URIRef(example + "locatedIn" + location_predicate),
                                               URIRef(example + location_value.replace(" ", "_"))))
@@ -236,19 +236,28 @@ def create_tip_nt_file():
                 G = Graph()
                 b_node = BNode()
 
-                subject = get_uri(file_name) + line["user_id"]
+                subject = line["user_id"]
+                
+                # get_schema_type returns the class for subjects in [0], and the class for these classes
+                # i.e. 'SchemaClass' or 'ExampleClass' in [1]
+                subject_class = get_schema_type(entity_name)[0]
+                class_class = get_schema_type(entity_name)[1]
                 del line["user_id"]
 
                 # Creates the edge between a user and their tip
                 G.add(triple=(URIRef(user_uri + subject),
                               URIRef(schema + "author"),
                               Literal(b_node)))
-
+                
                 # Assigns a RDFS Class to the blank node.
                 G.add(triple=(URIRef(b_node),
                               RDFS.Class,
-                              URIRef(get_schema_type(entity_name))))
-
+                              URIRef(subject_class)))
+                
+                G.add(triple=(URIRef(subject_class),
+                                RDFS.Class,
+                                URIRef(class_class)))
+                
                 for _predicate, _object in line.items():
                     predicate, object_type = get_schema_predicate(_predicate, _object, file_name)
 
@@ -274,7 +283,7 @@ def create_tip_nt_file():
 
 if __name__ == "__main__":
     import time
-    start = time.time()
+    
     # create_nt_file(file_name="yelp_academic_dataset_business.json")
     files = [
         'yelp_academic_dataset_business.json',
@@ -282,7 +291,13 @@ if __name__ == "__main__":
         'yelp_academic_dataset_review.json',
         'yelp_academic_dataset_checkin.json'
     ]
-    for i in files:
-        create_nt_file(file_name=i)
+    start = time.time()
+    # for i in files:
+    #     _start = time.time()
+    #     create_nt_file(file_name=i)
+    #     print(f'For {i} It took', time.time()-_start, 'seconds.')
+    start_tip = time.time()
     create_tip_nt_file()
-    print('It took', time.time()-start, 'seconds.')
+    print(f'For tip It took', time.time()-start_tip, 'seconds.')
+    print(f'In total it took', time.time()-start, 'seconds.')
+    

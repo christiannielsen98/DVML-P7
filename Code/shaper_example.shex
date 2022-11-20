@@ -1,0 +1,27 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX ex: <http://example.org/>
+PREFIX weso-s: <http://weso.es/shapes/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+weso-s:Person
+{
+   rdf:type  [ex:Person]  ;                                    # 100.0 %
+   ex:age  xsd:int  ;                                          # 100.0 %
+   ex:name  xsd:string  ;                                      # 100.0 %
+   ex:gender  @weso-s:Gender  ;                                # 100.0 %
+   ex:occupation  IRI  ?;
+            # 50.0 % obj: IRI. Cardinality: {1}
+   ex:brother  IRI  ?;
+            # 50.0 % obj: IRI. Cardinality: {1}
+   ex:surname  xsd:string  ?
+            # 50.0 % obj: xsd:string. Cardinality: {1}
+}
+
+
+weso-s:Gender
+{
+   rdf:type  [ex:Gender]  ;                                    # 100.0 %
+   <http://www.w3.org/2000/01/rdf-schema#label>  xsd:string            # 100.0 %
+}
+
+
