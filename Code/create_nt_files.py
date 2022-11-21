@@ -116,6 +116,7 @@ def create_nt_file(file_name: str):
                                 # schema_category_mappping_dict is the mappings to schema.org obtained by MODEL
                                 if category in schema_category_mappings_dict.keys():
                                     mappings = schema_category_mappings_dict[category]
+                                    # If there is only one mapping, it is an exactMatch
                                     if len(mappings) == 1:
                                         G.add(triple=(URIRef(category_uri + category),
                                                       URIRef(skos + "exactMatch"),
@@ -125,6 +126,7 @@ def create_nt_file(file_name: str):
                                                       RDFS.Class,
                                                       URIRef(example + "SchemaCategory")))
 
+                                    # If there are multiple mappings add each mapping as a narrowMatch
                                     else:
                                         for subcategory in mappings:
                                             G.add(triple=(URIRef(category_uri + category),
@@ -135,6 +137,8 @@ def create_nt_file(file_name: str):
                                                           RDFS.Class,
                                                           URIRef(example + "SchemaCategory")))
 
+                                # If the category is not in the mapping, we check if it is a split category,
+                                # and if true, add each of the split categories (example) as narrowMatch
                                 elif category in split_categories_dict.keys():
                                     for subcategory in split_categories_dict[category]:
                                         G.add(triple=(URIRef(category_uri + category),
@@ -145,6 +149,8 @@ def create_nt_file(file_name: str):
                                                       RDFS.Class,
                                                       URIRef(example + "ExampleCategory")))
 
+                                # If the category is not mapped AND not split, add a corresponding example category
+                                # as an exactMatch.
                                 else:
                                     G.add(triple=(URIRef(category_uri + category),
                                                   URIRef(skos + "exactMatch"),
