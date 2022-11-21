@@ -78,13 +78,13 @@ def create_nt_file(file_name: str):
                     uri = user_uri
 
                 json_key = list(line.keys())[0]  # Each dictionary has the ID as the value to the first key
-                subject = line[json_key] # get_uri makes sure the ID is a proper URI.
+                subject = get_uri(file_name) + line[json_key]  # get_uri makes sure the ID is a proper URI.
                 del line[json_key]  # After assigning the URI to the subject variable, we no longer need the first key/value pair
 
                 # Creates a triple pointing to the subjects corresponding URL (Best practice).
-                G.add(triple=(URIRef(get_uri(file_name) + subject),  # Subject
+                G.add(triple=(URIRef(subject),  # Subject
                               URIRef(schema + 'url'),  # Predicate
-                              URIRef(uri + subject)))  # Object
+                              URIRef(uri + line[json_key])))  # Object
 
                 # For reviews create a special triple making a connection between user and the review.
                 if file_name == "yelp_academic_dataset_review.json":
@@ -105,7 +105,7 @@ def create_nt_file(file_name: str):
 
                             for category in categories:
                                 category = category.replace(' ', '_')  # Need to replace whitespace as we use it as URI
-                                G.add(triple=(URIRef(uri + subject),
+                                G.add(triple=(URIRef(subject),
                                               URIRef(example + "hasCategory"),
                                               URIRef(category_uri + category)))
 
@@ -165,7 +165,7 @@ def create_nt_file(file_name: str):
                         location_rounded = f"{round(line['latitude'], 2)},{round(line['longitude'], 2)}"
                         for location_predicate, location_value in location_dict[location_rounded].items():
                             if location_value != None:
-                                G.add(triple=(URIRef(uri + subject),
+                                G.add(triple=(URIRef(subject),
                                               URIRef(example + "locatedIn" + location_predicate),
                                               URIRef(example + location_value.replace(" ", "_"))))
 
@@ -176,7 +176,7 @@ def create_nt_file(file_name: str):
                         subject_class = get_schema_type(entity_name)[0]
                         class_class = get_schema_type(entity_name)[1]
 
-                        G.add(triple=(URIRef(uri + subject),
+                        G.add(triple=(URIRef(subject),
                                       RDFS.Class,
                                       URIRef(subject_class)))
 
@@ -199,7 +199,7 @@ def create_nt_file(file_name: str):
                         predicate, object_type = get_schema_predicate(_predicate, _object, file_name)
                         b_node = BNode()
 
-                        G.add(triple=(URIRef(uri + subject),
+                        G.add(triple=(URIRef(subject),
                                       URIRef(predicate),  # E.g., hasBusinessParking, hasHours
                                       Literal(b_node)))  # Blank Node
 
@@ -219,7 +219,7 @@ def create_nt_file(file_name: str):
                         for obj in obj_lst:
                             if _predicate == "date":
                                 obj = obj.replace(" ", "T")  # Cleans the date attribute
-                            G.add(triple=(URIRef(uri + subject),
+                            G.add(triple=(URIRef(subject),
                                           URIRef(predicate),
                                           Literal(obj, datatype=object_type)))
 
@@ -228,7 +228,7 @@ def create_nt_file(file_name: str):
                             _object = _object.replace(" ", "T")
 
                         predicate, object_type = get_schema_predicate(_predicate, _object, file_name)
-                        G.add(triple=(URIRef(uri + subject),
+                        G.add(triple=(URIRef(subject),
                                       URIRef(predicate),
                                       Literal(_object, datatype=object_type)))
 
