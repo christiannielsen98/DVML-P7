@@ -58,7 +58,7 @@ def find_business_locations(df: pd.DataFrame,
     if report_missing:  # Count entries in address_dict that have no key in desired_address_levels
         missing_count_dict = {}
         desired_address_levels_set = set(desired_address_levels)
-        for location, address in address_dict:
+        for location, address in address_dict.items():
             included_addresses_set = set(list(address.keys()))
             if included_addresses_set != desired_address_levels_set:  # If the address is missing any of the desired levels
                 missing_locations = desired_address_levels_set.difference(included_addresses_set)  # Get the missing levels
