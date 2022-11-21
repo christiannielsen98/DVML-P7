@@ -123,7 +123,7 @@ for i in yelp_wiki_schema_triples_df.itertuples():
         G.add((URIRef(wiki[i.qid]), URIRef(wiki["P279"]), URIRef(wiki[i.subclassOf])))
     if i.qid is not np.nan:
         G.add((URIRef(wiki[i.qid]), URIRef(RDFS["label"]), Literal(i.qid_label)))
-        G.add((URIRef(wiki[i.qid]), URIRef(RDFS["Class"]), URIRef(example['WikiClass'])))
+        G.add((URIRef(wiki[i.qid]), URIRef(RDFS["Class"]), URIRef(example['WikiCategory'])))
         if i.SchemaType is not np.nan:
             G.add((URIRef(schema[i.SchemaType]), URIRef(schema["sameAs"]), URIRef(wiki[i.qid])))
         else:

@@ -109,7 +109,7 @@ def create_nt_file(file_name: str):
                                 # and turn them into CamelCase. This makes them into the form of schema.org types.
                                 # This is also the approach taken when mapping, so the Yelp categories
                                 # in the keys in class_mapping is represented in the same way.
-                                possible_types = categories
+                                possible_types = category
                                 possible_types = categories_dict_singular(possible_types)
                                 possible_types = [types.title().replace(" ", "") for sublist in possible_types.values()
                                                   for types in sublist]
@@ -292,10 +292,10 @@ if __name__ == "__main__":
         'yelp_academic_dataset_checkin.json'
     ]
     start = time.time()
-    # for i in files:
-    #     _start = time.time()
-    #     create_nt_file(file_name=i)
-    #     print(f'For {i} It took', time.time()-_start, 'seconds.')
+    for i in files:
+        _start = time.time()
+        create_nt_file(file_name=i)
+        print(f'For {i} It took', time.time()-_start, 'seconds.')
     start_tip = time.time()
     create_tip_nt_file()
     print(f'For tip It took', time.time()-start_tip, 'seconds.')
