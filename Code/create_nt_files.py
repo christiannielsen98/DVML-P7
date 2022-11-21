@@ -78,11 +78,11 @@ def create_nt_file(file_name: str):
                     uri = user_uri
 
                 json_key = list(line.keys())[0]  # Each dictionary has the ID as the value to the first key
-                subject = get_uri(file_name) + line[json_key]  # get_uri makes sure the ID is a proper URI.
+                subject = line[json_key] # get_uri makes sure the ID is a proper URI.
                 del line[json_key]  # After assigning the URI to the subject variable, we no longer need the first key/value pair
 
                 # Creates a triple pointing to the subjects corresponding URL (Best practice).
-                G.add(triple=(URIRef(subject),  # Subject
+                G.add(triple=(URIRef(get_uri(file_name) + subject),  # Subject
                               URIRef(schema + 'url'),  # Predicate
                               URIRef(uri + subject)))  # Object
 
@@ -105,7 +105,7 @@ def create_nt_file(file_name: str):
 
                             for category in categories:
                                 category = category.replace(' ', '_')  # Need to replace whitespace as we use it as URI
-                                G.add(triple=(URIRef(subject),
+                                G.add(triple=(URIRef(uri + subject),
                                               URIRef(example + "hasCategory"),
                                               URIRef(category_uri + category)))
 
@@ -165,7 +165,7 @@ def create_nt_file(file_name: str):
                         location_rounded = f"{round(line['latitude'], 2)},{round(line['longitude'], 2)}"
                         for location_predicate, location_value in location_dict[location_rounded].items():
                             if location_value != None:
-                                G.add(triple=(URIRef(subject),
+                                G.add(triple=(URIRef(uri + subject),
                                               URIRef(example + "locatedIn" + location_predicate),
                                               URIRef(example + location_value.replace(" ", "_"))))
 
@@ -176,7 +176,7 @@ def create_nt_file(file_name: str):
                         subject_class = get_schema_type(entity_name)[0]
                         class_class = get_schema_type(entity_name)[1]
 
-                        G.add(triple=(URIRef(subject),
+                        G.add(triple=(URIRef(uri + subject),
                                       RDFS.Class,
                                       URIRef(subject_class)))
 
@@ -199,7 +199,7 @@ def create_nt_file(file_name: str):
                         predicate, object_type = get_schema_predicate(_predicate, _object, file_name)
                         b_node = BNode()
 
-                        G.add(triple=(URIRef(subject),
+                        G.add(triple=(URIRef(uri + subject),
                                       URIRef(predicate),  # E.g., hasBusinessParking, hasHours
                                       Literal(b_node)))  # Blank Node
 
@@ -219,7 +219,7 @@ def create_nt_file(file_name: str):
                         for obj in obj_lst:
                             if _predicate == "date":
                                 obj = obj.replace(" ", "T")  # Cleans the date attribute
-                            G.add(triple=(URIRef(subject),
+                            G.add(triple=(URIRef(uri + subject),
                                           URIRef(predicate),
                                           Literal(obj, datatype=object_type)))
 
@@ -228,7 +228,7 @@ def create_nt_file(file_name: str):
                             _object = _object.replace(" ", "T")
 
                         predicate, object_type = get_schema_predicate(_predicate, _object, file_name)
-                        G.add(triple=(URIRef(subject),
+                        G.add(triple=(URIRef(uri + subject),
                                       URIRef(predicate),
                                       Literal(_object, datatype=object_type)))
 
@@ -263,7 +263,7 @@ def create_tip_nt_file():
                 b_node = BNode()
 
                 subject = line["user_id"]
-                
+
                 # get_schema_type returns the class for subjects in [0], and the class for these classes
                 # i.e. 'SchemaClass' or 'ExampleClass' in [1]
                 subject_class = get_schema_type(entity_name)[0]
@@ -274,16 +274,16 @@ def create_tip_nt_file():
                 G.add(triple=(URIRef(user_uri + subject),
                               URIRef(schema + "author"),
                               Literal(b_node)))
-                
+
                 # Assigns a RDFS Class to the blank node.
                 G.add(triple=(URIRef(b_node),
                               RDFS.Class,
                               URIRef(subject_class)))
-                
+
                 G.add(triple=(URIRef(subject_class),
                                 RDFS.Class,
                                 URIRef(class_class)))
-                
+
                 for _predicate, _object in line.items():
                     predicate, object_type = get_schema_predicate(_predicate, _object, file_name)
 
@@ -309,7 +309,7 @@ def create_tip_nt_file():
 
 if __name__ == "__main__":
     import time
-    
+
     # create_nt_file(file_name="yelp_academic_dataset_business.json")
     files = [
         'yelp_academic_dataset_business.json',
@@ -326,4 +326,3 @@ if __name__ == "__main__":
     create_tip_nt_file()
     print(f'For tip It took', time.time()-start_tip, 'seconds.')
     print(f'In total it took', time.time()-start, 'seconds.')
-    
