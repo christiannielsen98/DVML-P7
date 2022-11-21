@@ -70,12 +70,11 @@ def category_mappings(threshold):
 
     mappings = mappings[mappings['similarity'] >= threshold]
     mappings['mapped_schema'][mappings['mapped_schema'] == "None"] = None
-    mappings.set_index('yelp_category', inplace=True)
 
-    mapping_dictionary = mappings["mapped_schema"].squeeze().to_dict()
+    mapping_dictionary = mappings[["yelp_category", "mapped_schema"]].set_index('yelp_category').stack().groupby(level=0).agg(list).to_dict()
 
     return mapping_dictionary
 
 
 if __name__ == "__main__":
-    category_mappings(0.68)
+    print(category_mappings(0.68))
