@@ -18,7 +18,7 @@ shaper = Shaper(target_classes=target_classes,
                 input_format=NT,
                 instantiation_property="http://www.w3.org/1999/02/22-rdf-syntax-ns#type")  # Default rdf:type
 
-output_file = "shaper_example.shex"
+output_file = "shaper_yelp_business.shex"
 
 shaper.shex_graph(output_file=output_file,
                   acceptance_threshold=0.5,)

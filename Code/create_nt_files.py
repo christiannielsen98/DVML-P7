@@ -38,7 +38,7 @@ def create_nt_file(file_name: str):
     if file_name == "yelp_academic_dataset_business.json":
 
         schema_category_mappings_df = pd.read_csv(get_path("class_mappings.csv"))
-        schema_category_mappings_dict = dict([(i,x) for i, x in zip(schema_category_mappings_df['YelpCategory'],
+        schema_category_mappings_dict = dict([(i,x.split(", ")) for i, x in zip(schema_category_mappings_df['YelpCategory'],
                                                                     schema_category_mappings_df['SchemaType'])])
 
         class_hierarchies = pd.read_csv(get_path("class_hierarchy.csv"))
@@ -79,13 +79,14 @@ def create_nt_file(file_name: str):
 
                 json_key = list(line.keys())[0]  # Each dictionary has the ID as the value to the first key
                 subject = get_uri(file_name) + line[json_key]  # get_uri makes sure the ID is a proper URI.
-                del line[json_key]  # After assigning the URI to the subject variable, we no longer need the first key/value pair
+                
 
                 # Creates a triple pointing to the subjects corresponding URL (Best practice).
                 G.add(triple=(URIRef(subject),  # Subject
                               URIRef(schema + 'url'),  # Predicate
                               URIRef(uri + line[json_key])))  # Object
-
+                
+                del line[json_key]  # After assigning the URI to the subject variable, we no longer need the first key/value pair
                 # For reviews create a special triple making a connection between user and the review.
                 if file_name == "yelp_academic_dataset_review.json":
                     G.add(triple=(URIRef(example + 'user_id/' + line["user_id"]),
