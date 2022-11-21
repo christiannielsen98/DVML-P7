@@ -18,6 +18,7 @@ skos = Namespace("https://www.w3.org/2004/02/skos/core#")
 
 business_uri = Namespace("https://www.yelp.com/biz/")
 user_uri = Namespace("https://www.yelp.com/user_details?userid=")
+category_uri = Namespace("https://www.yelp.com/category/")
 
 
 def create_nt_file(file_name: str):
@@ -36,8 +37,15 @@ def create_nt_file(file_name: str):
 
     if file_name == "yelp_academic_dataset_business.json":
 
-        class_mappings = pd.read_csv(get_path("class_mappings.csv"))
+        schema_category_mappings_df = pd.read_csv(get_path("class_mappings.csv"))
+        schema_category_mappings_dict = dict([(i,x) for i, x in zip(schema_category_mappings_df['YelpCategory'],
+                                                                    schema_category_mappings_df['SchemaType'])])
+
         class_hierarchies = pd.read_csv(get_path("class_hierarchy.csv"))
+
+        split_categories_df = pd.read_excel(get_path("split_categories.xlsx"), names=["category", "split_category"])
+        split_categories_dict = dict([(i,x.split(', ')) for i, x in zip(split_categories_df['category'],
+                                                                        split_categories_df['split_category'])])
 
         G = Graph()
         for idx, row in class_hierarchies.iterrows():  # Adds class hierarchies to the graph
@@ -96,43 +104,55 @@ def create_nt_file(file_name: str):
                             categories = line['categories'].split(", ")
 
                             for category in categories:
-                                category = category.title().replace(' ', '')  # Capitalize first letter of each word
+                                category = category.replace(' ', '_')  # Need to replace whitespace as we use it as URI
                                 G.add(triple=(URIRef(subject),
                                               URIRef(example + "hasCategory"),
-                                              URIRef(example + category)))
+                                              URIRef(category_uri + category)))
 
-                                G.add(triple=(URIRef(example + category),
+                                G.add(triple=(URIRef(category_uri + category),
                                               RDFS.Class,
                                               URIRef(example + "YelpCategory")))
 
-                                # For each category: Split them if they contain & or /, turn them singular,
-                                # and turn them into CamelCase. This makes them into the form of schema.org types.
-                                # This is also the approach taken when mapping, so the Yelp categories
-                                # in the keys in class_mapping is represented in the same way.
-                                possible_types = category
-                                possible_types = categories_dict_singular(possible_types)
-                                possible_types = [types.title().replace(" ", "") for sublist in possible_types.values()
-                                                  for types in sublist]
+                                # schema_category_mappping_dict is the mappings to schema.org obtained by MODEL
+                                if category in schema_category_mappings_dict.keys():
+                                    mappings = schema_category_mappings_dict[category]
+                                    if len(mappings) == 1:
+                                        G.add(triple=(URIRef(category_uri + category),
+                                                      URIRef(skos + "exactMatch"),
+                                                      URIRef(schema + mappings[0])))
 
-                                # If a split category has a mapping to a schema.org type in the class_mappings dict,
-                                # add the match. Else create an example.org class and add that to the graph
-                                for pos_type in possible_types:
-                                    if pos_type in class_mappings['YelpCategory'].values:
-                                        G.add(triple=(URIRef(example + category),
-                                                      URIRef(skos + "narrowMatch"),
-                                                      URIRef(schema + class_mappings.loc[class_mappings['YelpCategory'] == pos_type, 'SchemaType'].values[0])))
-
-                                        G.add(triple=(URIRef(schema + class_mappings.loc[class_mappings['YelpCategory'] == pos_type, 'SchemaType'].values[0]),
+                                        G.add(triple=(URIRef(schema + mappings[0]),
                                                       RDFS.Class,
-                                                      URIRef(example + "SchemaClass")))
+                                                      URIRef(example + "SchemaCategory")))
+
                                     else:
-                                        G.add(triple=(URIRef(example + category),
-                                                      URIRef(skos + "narrowMatch"),
-                                                      URIRef(example + pos_type.replace(" ", "_"))))  # Fix " " in URI
+                                        for subcategory in mappings:
+                                            G.add(triple=(URIRef(category_uri + category),
+                                                          URIRef(skos + "narrowMatch"),
+                                                          URIRef(schema + subcategory)))
 
-                                        G.add(triple=(URIRef(example + pos_type.replace(" ", "_")),
+                                            G.add(triple=(URIRef(schema + subcategory),
+                                                          RDFS.Class,
+                                                          URIRef(example + "SchemaCategory")))
+
+                                elif category in split_categories_dict.keys():
+                                    for subcategory in split_categories_dict[category]:
+                                        G.add(triple=(URIRef(category_uri + category),
+                                                      URIRef(skos + "narrowMatch"),
+                                                      URIRef(example + subcategory)))
+
+                                        G.add(triple=(URIRef(example + subcategory),
                                                       RDFS.Class,
-                                                      URIRef(example + "ExampleClass")))
+                                                      URIRef(example + "ExampleCategory")))
+
+                                else:
+                                    G.add(triple=(URIRef(category_uri + category),
+                                                  URIRef(skos + "exactMatch"),
+                                                  URIRef(example + category)))
+
+                                    G.add(triple=(URIRef(example + category),
+                                                  RDFS.Class,
+                                                  URIRef(example + "ExampleCategory")))
 
                         # Add location information to the business based on Google API retrieved data.
                         del [line['city'], line['state']]
