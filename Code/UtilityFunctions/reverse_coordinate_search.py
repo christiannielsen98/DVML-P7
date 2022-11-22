@@ -63,6 +63,7 @@ def find_business_locations(df: pd.DataFrame,
             if included_addresses_set != desired_address_levels_set:  # If the address is missing any of the desired levels
                 missing_locations = desired_address_levels_set.difference(included_addresses_set)  # Get the missing levels
                 for missing_location in missing_locations:  # Add to the missing_count_dict
+                    missing_count_dict.setdefault(missing_location, 0)
                     missing_count_dict[missing_location] += 1
         print(missing_count_dict)
     

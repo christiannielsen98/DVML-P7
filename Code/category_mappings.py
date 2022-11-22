@@ -77,4 +77,7 @@ def category_mappings(threshold):
 
 
 if __name__ == "__main__":
+    import time
+    start = time.time()
     print(category_mappings(0.68))
+    print(f"It took {(time.time() - start)} seconds")
