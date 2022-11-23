@@ -1,0 +1,26 @@
+PREFIX : <http://weso.es/shapes/>
+
+:YelpCategory
+{
+   <http://www.w3.org/2000/01/rdf-schema#Class>  [<https://example.org/YelpCategory>]  ;          # 100.0 %
+   <https://www.w3.org/2004/02/skos/core#exactMatch>  IRI  *
+            # 99.7406323246314 % obj: IRI. Cardinality: +
+            # 7.818125522586976 % obj: IRI. Cardinality: {52268}
+            # 4.155417179593418 % obj: IRI. Cardinality: {27781}
+            # 3.6489471975876113 % obj: IRI. Cardinality: {24395}
+            # 2.1473369939974485 % obj: IRI. Cardinality: {14356}
+            # 2.137764023280268 % obj: IRI. Cardinality: {14292}
+            # 1.8369633340263765 % obj: IRI. Cardinality: {12281}
+            # 1.7784784660511046 % obj: IRI. Cardinality: {11890}
+            # 1.6749707201715955 % obj: IRI. Cardinality: {11198}
+            # 1.6550768903999555 % obj: IRI. Cardinality: {11065}
+            # 1.6114002115028219 % obj: IRI. Cardinality: {10773}
+            # 1.480071019476508 % obj: IRI. Cardinality: {9895}
+            # 1.2513667659363787 % obj: IRI. Cardinality: {8366}
+            # 1.2174126354238808 % obj: IRI. Cardinality: {8139}
+            # 1.1498035297337967 % obj: IRI. Cardinality: {7687}
+            # 1.0609543952649694 % obj: IRI. Cardinality: {7093}
+            # 1.0026191049571536 % obj: IRI. Cardinality: {6703}
+}
+
+
