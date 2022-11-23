@@ -83,4 +83,5 @@ if __name__ == "__main__":
     print(mappings)
     print(f"It took {(time.time() - start)} seconds")
 
-    mappings.to_csv(path_or_buf=get_path("class_mappings.csv"), index=False)
+    class_mapping_df = pd.DataFrame(list(mappings.items()), columns=['YelpCategory', 'SchemaType'])
+    class_mapping_df.to_csv(path_or_buf=get_path("class_mappings.csv"), index=False)
