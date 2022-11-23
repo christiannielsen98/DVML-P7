@@ -7,13 +7,11 @@ from rdflib.namespace import RDFS
 
 from UtilityFunctions.dictionary_functions import flatten_dictionary
 from UtilityFunctions.get_data_path import get_path
-from UtilityFunctions.string_functions import split_words, turn_words_singular, split_words_inc_slash
-from UtilityFunctions.wikidata_functions import wikidata_query, retrieve_wikidata_claims, category_query, min_qid, get_all_wikidata_claims, compare_qids, categories_dict_singular
-from UtilityFunctions.schema_functions import get_schema_predicate, get_schema_type, get_class_mappings
+from UtilityFunctions.schema_functions import get_schema_predicate, get_schema_type
 from UtilityFunctions.get_uri import get_uri
 
 schema = Namespace("https://schema.org/")
-example = Namespace("https://example.org/")
+example = Namespace("https://example.org/")  # TODO: Find a better Namespace than example
 skos = Namespace("https://www.w3.org/2004/02/skos/core#")
 
 business_uri = Namespace("https://www.yelp.com/biz/")
@@ -38,14 +36,14 @@ def create_nt_file(file_name: str):
     if file_name == "yelp_academic_dataset_business.json":
 
         schema_category_mappings_df = pd.read_csv(get_path("class_mappings.csv"))
-        schema_category_mappings_dict = dict([(i,x.split(", ")) for i, x in zip(schema_category_mappings_df['YelpCategory'],
-                                                                    schema_category_mappings_df['SchemaType'])])
+        schema_category_mappings_dict = dict([(i, eval(x)) for i, x in zip(schema_category_mappings_df['YelpCategory'],
+                                                                           schema_category_mappings_df['SchemaType'])])
 
         class_hierarchies = pd.read_csv(get_path("class_hierarchy.csv"))
 
         split_categories_df = pd.read_excel(get_path("split_categories.xlsx"), names=["category", "split_category"])
-        split_categories_dict = dict([(i,x.split(', ')) for i, x in zip(split_categories_df['category'],
-                                                                        split_categories_df['split_category'])])
+        split_categories_dict = dict([(i, x.split(', ')) for i, x in zip(split_categories_df['category'],
+                                                                         split_categories_df['split_category'])])
 
         G = Graph()
         for idx, row in class_hierarchies.iterrows():  # Adds class hierarchies to the graph
@@ -56,26 +54,28 @@ def create_nt_file(file_name: str):
         triple_file.write(G.serialize(format='nt'))
 
         # Load location information based on Google API retrieved data.
-        with open(file=get_path("location_unique.json"), mode="r") as file:
+        with open(file=get_path("location_unique.json"), mode="r") as file:  # TODO: Load new data.
             location_dict = json.load(file)
 
-        # Required
+        # Required because when using "with open" the file is overwritten.
         location_dict = location_dict
 
     with open(file=file_path, mode="r") as file:
+        # Namespaces needed for URIs
+        if file_name in ["yelp_academic_dataset_business.json", "yelp_academic_dataset_checkin.json"]:
+            url = business_uri
+        elif file_name == 'yelp_academic_dataset_review.json':
+            url = business_uri + line['business_id'] + '?hrid='
+        else:
+            url = user_uri
+            
+        category_cache = set()  # Cache for categories to avoid duplicates.
+        category_mappings_cache = set()  # Cache for category mappings to avoid duplicates.
         # Iterate over every object in the JSON file as each object is one line.
         for line in file:
             try:
                 line = json.loads(line)  # json.loads loads the JSON object into a dictionary.
                 G = Graph()  # Initialize a empty graph object to write a RDF triple to.
-
-                # Namespaces needed for URIs
-                if file_name in ["yelp_academic_dataset_business.json", "yelp_academic_dataset_checkin.json"]:
-                    uri = business_uri
-                elif file_name == 'yelp_academic_dataset_review.json':
-                    uri = business_uri + line['business_id'] + '?hrid='
-                else:  #
-                    uri = user_uri
 
                 json_key = list(line.keys())[0]  # Each dictionary has the ID as the value to the first key
                 subject = get_uri(file_name) + line[json_key]  # get_uri makes sure the ID is a proper URI.
@@ -84,106 +84,100 @@ def create_nt_file(file_name: str):
                 # Creates a triple pointing to the subjects corresponding URL (Best practice).
                 G.add(triple=(URIRef(subject),  # Subject
                               URIRef(schema + 'url'),  # Predicate
-                              URIRef(uri + line[json_key])))  # Object
+                              URIRef(url + line[json_key])))  # Object
                 
                 del line[json_key]  # After assigning the URI to the subject variable, we no longer need the first key/value pair
                 # For reviews create a special triple making a connection between user and the review.
                 if file_name == "yelp_academic_dataset_review.json":
-                    G.add(triple=(URIRef(example + 'user_id/' + line["user_id"]),
+                    G.add(triple=(URIRef(get_uri(file_name) + subject),
                                   URIRef(schema + "author"),
-                                  URIRef(get_uri(file_name) + subject)))
+                                  URIRef(example + 'user_id/' + line["user_id"])))
                     del line["user_id"]  # No longer need the this key/value pair.
 
                 line = flatten_dictionary(line)  # Some values are dictionaries themselves, so we flatten them before proceeding
 
-                # Assign a RDFS Class to every subject (checkin does not have its own subject).
-                if file_name != 'yelp_academic_dataset_checkin.json':
-                    if file_name == 'yelp_academic_dataset_business.json':
-                        if line['categories']:
-
-                            # Categories are initially one long comma-separated string.
-                            categories = line['categories'].split(", ")
-
-                            for category in categories:
-                                category = category.replace(' ', '_')  # Need to replace whitespace as we use it as URI
-                                G.add(triple=(URIRef(subject),
-                                              URIRef(example + "hasCategory"),
-                                              URIRef(category_uri + category)))
-
+                # Assign an RDFS Class to every subject (checkin does not have its own subject).
+                if file_name == 'yelp_academic_dataset_business.json':
+                    
+                    if line['categories']:
+                        # Categories are initially one long comma-separated string.
+                        categories = line['categories'].split(", ")
+                        del line['categories']  # No longer need this key/value pair.
+                        
+                        for category in categories:
+                            category = category.replace(' ', '_')  # Need to replace whitespace as we use it as URI
+                            G.add(triple=(URIRef(subject),
+                                            URIRef(schema + "category"),
+                                            URIRef(category_uri + category)))
+                            
+                            if category not in category_cache:
                                 G.add(triple=(URIRef(category_uri + category),
-                                              RDFS.Class,
-                                              URIRef(example + "YelpCategory")))
-
+                                                RDFS.Class,
+                                                URIRef(example + "yelpCategory")))
+                            
                                 # schema_category_mappping_dict is the mappings to schema.org obtained by MODEL
-                                if category in schema_category_mappings_dict.keys():
-                                    mappings = schema_category_mappings_dict[category]
+                                if category.replace('_', ' ') in schema_category_mappings_dict.keys():
+                                    mappings = schema_category_mappings_dict[category.replace('_', ' ')]
                                     # If there is only one mapping, it is an exactMatch
-                                    if len(mappings) == 1:
-                                        G.add(triple=(URIRef(category_uri + category),
-                                                      URIRef(skos + "exactMatch"),
-                                                      URIRef(schema + mappings[0])))
-
-                                        G.add(triple=(URIRef(schema + mappings[0]),
-                                                      RDFS.Class,
-                                                      URIRef(example + "SchemaCategory")))
-
+                                   
                                     # If there are multiple mappings add each mapping as a narrowMatch
-                                    else:
-                                        for subcategory in mappings:
-                                            G.add(triple=(URIRef(category_uri + category),
-                                                          URIRef(skos + "narrowMatch"),
-                                                          URIRef(schema + subcategory)))
-
+                                    for subcategory in mappings:
+                                        G.add(triple=(URIRef(category_uri + category),
+                                                      URIRef(skos + "narrowMatch") if "&" in category or "/" in category 
+                                                                                   else URIRef(skos + "exactMatch"),
+                                                      URIRef(schema + subcategory)))
+                                        if subcategory not in category_mappings_cache:
                                             G.add(triple=(URIRef(schema + subcategory),
                                                           RDFS.Class,
-                                                          URIRef(example + "SchemaCategory")))
+                                                          URIRef(example + "schemaCategory")))
+                                            category_mappings_cache.add(subcategory)
 
                                 # If the category is not in the mapping, we check if it is a split category,
                                 # and if true, add each of the split categories (example) as narrowMatch
                                 elif category in split_categories_dict.keys():
                                     for subcategory in split_categories_dict[category]:
                                         G.add(triple=(URIRef(category_uri + category),
-                                                      URIRef(skos + "narrowMatch"),
-                                                      URIRef(example + subcategory)))
+                                                        URIRef(skos + "narrowMatch"),
+                                                        URIRef(example + subcategory)))
 
-                                        G.add(triple=(URIRef(example + subcategory),
-                                                      RDFS.Class,
-                                                      URIRef(example + "ExampleCategory")))
+                                        if subcategory not in category_mappings_cache:
+                                            G.add(triple=(URIRef(example + subcategory),
+                                                          RDFS.Class,
+                                                          URIRef(example + "exampleCategory")))
+                                            category_mappings_cache.add(subcategory)
 
                                 # If the category is not mapped AND not split, add a corresponding example category
                                 # as an exactMatch.
                                 else:
                                     G.add(triple=(URIRef(category_uri + category),
-                                                  URIRef(skos + "exactMatch"),
-                                                  URIRef(example + category)))
+                                                    URIRef(skos + "exactMatch"),
+                                                    URIRef(example + category)))
 
-                                    G.add(triple=(URIRef(example + category),
-                                                  RDFS.Class,
-                                                  URIRef(example + "ExampleCategory")))
+                                    if subcategory not in category_mappings_cache:
+                                            G.add(triple=(URIRef(example + subcategory),
+                                                          RDFS.Class,
+                                                          URIRef(example + "exampleCategory")))
+                                            category_mappings_cache.add(subcategory)
+                            category_cache.add(category)
 
-                        # Add location information to the business based on Google API retrieved data.
-                        del [line['city'], line['state']]
-                        location_rounded = f"{round(line['latitude'], 2)},{round(line['longitude'], 2)}"
-                        for location_predicate, location_value in location_dict[location_rounded].items():
-                            if location_value != None:
-                                G.add(triple=(URIRef(subject),
-                                              URIRef(example + "locatedIn" + location_predicate),
-                                              URIRef(example + location_value.replace(" ", "_"))))
+                    # Add location information to the business based on Google API retrieved data.
+                    # TODO: implement new method of adding location information.
+                    del [line['city'], line['state']]
+                    location_rounded = f"{round(line['latitude'], 2)},{round(line['longitude'], 2)}"
+                    for location_predicate, location_value in location_dict[location_rounded].items():
+                        if location_value != None:
+                            G.add(triple=(URIRef(subject),
+                                            URIRef(example + "locatedIn" + location_predicate),
+                                            URIRef(example + location_value.replace(" ", "_"))))
 
-                    else:  # Adds a class to Users, Reviews and Tips
+                elif file_name != 'yelp_academic_dataset_checkin.json':  # Adds a class to Users, Reviews and Tips
 
-                        # get_schema_type returns the class for subjects in [0], and the class for these classes
-                        # i.e. 'SchemaClass' or 'ExampleClass' in [1]
-                        subject_class = get_schema_type(entity_name)[0]
-                        class_class = get_schema_type(entity_name)[1]
+                    # get_schema_type returns the class for subjects.
+                    subject_class = get_schema_type(entity_name)
 
-                        G.add(triple=(URIRef(subject),
-                                      RDFS.Class,
-                                      URIRef(subject_class)))
-
-                        G.add(triple=(URIRef(subject_class),
-                                      RDFS.Class,
-                                      URIRef(class_class)))
+                    G.add(triple=(URIRef(subject),
+                                  RDFS.Class,
+                                  URIRef(subject_class)))
 
                 # Now we iterate over the rest of the key/value pairs and transform them to RDF format.
                 for _predicate, _object in line.items():
@@ -192,9 +186,9 @@ def create_nt_file(file_name: str):
                         if _object == Ellipsis:  # Due to no text in a review
                             _object = "..."
                     except (TypeError, SyntaxError, NameError, AttributeError):
-                        pass
-                    if isinstance(_object, type(None)) or str(_object).lower() in ["none", "null"]:  # Why do we do this?
-                        pass
+                        pass  # if the object cannot evaluate to a python object, we keep it as a string.
+                    if isinstance(_object, type(None)) or str(_object).lower() == "null":  # Handle missng data in the JSON
+                        continue
 
                     elif isinstance(_object, dict):
                         predicate, object_type = get_schema_predicate(_predicate, _object, file_name)
@@ -204,15 +198,14 @@ def create_nt_file(file_name: str):
                                       URIRef(predicate),  # E.g., hasBusinessParking, hasHours
                                       Literal(b_node)))  # Blank Node
 
-                        for __predicate, __object in _object.items():
+                        for sub_predicate, sub_object in _object.items():
                             G.add(triple=(URIRef(b_node),
-                                          URIRef(example + "has" + __predicate),
-                                          Literal(__object)))
+                                          URIRef(example + "has" + sub_predicate),
+                                          Literal(sub_object)))
 
-                    elif _predicate in ["categories", "date", "friends", "elite"]:  # The values to these keys contains listed objects
+                    elif _predicate in ["date", "friends", "elite"]:  # The values to these keys contains listed objects
                         _object = str(_object)
-                        obj_lst = _object.split(", ") if _predicate != "elite" else _object.split(
-                            ",")  # Splits the listed objects
+                        obj_lst = _object.split(", ") if _predicate != "elite" else _object.split(",")  # Splits the listed objects
 
                         # get_schema_predicate assigns returns a proper schema.org predicate based on the key
                         # and a proper object datatype.
@@ -265,10 +258,8 @@ def create_tip_nt_file():
 
                 subject = line["user_id"]
 
-                # get_schema_type returns the class for subjects in [0], and the class for these classes
-                # i.e. 'SchemaClass' or 'ExampleClass' in [1]
-                subject_class = get_schema_type(entity_name)[0]
-                class_class = get_schema_type(entity_name)[1]
+                # get_schema_type returns the class for subjects.
+                subject_class = get_schema_type(entity_name)
                 del line["user_id"]
 
                 # Creates the edge between a user and their tip
@@ -280,10 +271,6 @@ def create_tip_nt_file():
                 G.add(triple=(URIRef(b_node),
                               RDFS.Class,
                               URIRef(subject_class)))
-
-                G.add(triple=(URIRef(subject_class),
-                                RDFS.Class,
-                                URIRef(class_class)))
 
                 for _predicate, _object in line.items():
                     predicate, object_type = get_schema_predicate(_predicate, _object, file_name)

@@ -4,10 +4,8 @@ import time
 start = time.time()
 
 target_classes = [
-    "https://example.org/SchemaClass",
-    "https://example.org/YelpCategory",
-    "https://example.org/ExampleClass",
-    # "https://schema.org/Restaurant"
+    "https://www.yelp.com/category/Restaurants",
+    "https://www.yelp.com/category/Art_Classes"
 ]
 
 
@@ -16,7 +14,7 @@ input_nt_file = "/home/ubuntu/vol1/virtuoso/import/yelp_business.nt"
 shaper = Shaper(target_classes=target_classes,
                 graph_file_input=input_nt_file,
                 input_format=NT,
-                instantiation_property="http://www.w3.org/2000/01/rdf-schema#Class")  # Default rdf:type
+                instantiation_property="https://schema.org/category")  # Default rdf:type
 
 output_file_shex = "shaper_yelp_business.shex"
 output_file_ttl = "shaper_yelp_business.ttl"
