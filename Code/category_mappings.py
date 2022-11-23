@@ -79,5 +79,8 @@ def category_mappings(threshold):
 if __name__ == "__main__":
     import time
     start = time.time()
-    print(category_mappings(0.68))
+    mappings = category_mappings(0.68)
+    print(mappings)
     print(f"It took {(time.time() - start)} seconds")
+
+    mappings.to_csv(path_or_buf=get_path("class_mappings.csv"), index=False)
