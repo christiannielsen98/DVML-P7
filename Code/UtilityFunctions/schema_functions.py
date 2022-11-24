@@ -71,7 +71,7 @@ def get_schema_predicate(predicate, obj=None, file=None):
             else:
                 print("Error in SCHEMA!", "Type: ", type(obj))
                 print(predicate, obj)
-                return None
+                pass
             return example + predicate, object_type
 
 
@@ -181,4 +181,5 @@ if __name__ == "__main__":
     #class_mapping_df.to_csv(path_or_buf=get_path("class_mappings.csv"), index=False)
 
     class_hierarchy_df = class_hierarchy(class_mapping_dict)
-    class_hierarchy_df.to_csv(path_or_buf=get_path("class_hierarchy.csv"), index=False)
+    #class_hierarchy_df.to_csv(path_or_buf=get_path("class_hierarchy.csv"), index=False)
+

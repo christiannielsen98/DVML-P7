@@ -4,8 +4,7 @@ import time
 start = time.time()
 
 target_classes = [
-    "https://www.yelp.com/category/Restaurants",
-    "https://www.yelp.com/category/Art_Classes"
+    "https://www.yelp.com/category/Restaurants"
 ]
 
 
