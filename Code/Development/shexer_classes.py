@@ -17,11 +17,11 @@ shaper = Shaper(target_classes=target_classes,
 
 output_file_shex = "shaper_yelp_business.shex"
 output_file_ttl = "shaper_yelp_business.ttl"
-shaper.shex_graph(output_file=output_file_shex,
-                  acceptance_threshold=0.01,)
+# shaper.shex_graph(output_file=output_file_shex,
+#                   acceptance_threshold=0.01,)
 
 shaper.shex_graph(output_file=output_file_ttl,
-                  acceptance_threshold=0.01,
+                  acceptance_threshold=0.5,
                   output_format=SHACL_TURTLE
                   )
 
