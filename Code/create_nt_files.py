@@ -114,6 +114,13 @@ def create_nt_file(file_name: str):
                                 G.add(triple=(URIRef(category_uri + category),
                                                 RDFS.Class,
                                                 URIRef(example + "yelpCategory")))
+
+                                G.add(triple=(URIRef(category_uri + category),
+                                              RDFS.subClassOf,
+                                              URIRef(schema + "LocalBusiness")))
+
+
+
                             
                                 # schema_category_mappping_dict is the mappings to schema.org obtained by MODEL
                                 if category.replace('_', ' ') in schema_category_mappings_dict.keys():
