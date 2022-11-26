@@ -64,15 +64,16 @@ def create_nt_file(file_name: str):
         # Namespaces needed for URIs
         if file_name in ["yelp_academic_dataset_business.json", "yelp_academic_dataset_checkin.json"]:
             url = business_uri
-        elif file_name == 'yelp_academic_dataset_review.json':
-            url = business_uri + line['business_id'] + '?hrid='
-        else:
+        elif file_name == 'yelp_academic_dataset_user.json':
             url = user_uri
             
         category_cache = set()  # Cache for categories to avoid duplicates.
         category_mappings_cache = set()  # Cache for category mappings to avoid duplicates.
         # Iterate over every object in the JSON file as each object is one line.
         for line in file:
+            # If the file is reviews, the url depends on the line being iterated over.
+            if file_name == 'yelp_academic_dataset_review.json':
+                url = business_uri + line['business_id'] + '?hrid='
             try:
                 line = json.loads(line)  # json.loads loads the JSON object into a dictionary.
                 G = Graph()  # Initialize a empty graph object to write a RDF triple to.
