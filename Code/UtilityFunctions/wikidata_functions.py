@@ -140,3 +140,17 @@ def categories_dict_singular(categories: list):
 
     categories_dict_singular = turn_words_singular(categories_dict)
     return categories_dict_singular
+
+def get_qid_label(qid):
+    query = f"""PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+                PREFIX wd: <http://www.wikidata.org/entity/> 
+                SELECT  *
+                WHERE {{
+                        wd:{qid} rdfs:label ?label .
+                        FILTER (langMatches( lang(?label), "EN" ) )
+                    }}
+                LIMIT 1"""
+    try:
+        return wikidata_query(query)['label.value'][0]
+    except:
+        return "No label defined"

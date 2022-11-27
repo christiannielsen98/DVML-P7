@@ -64,9 +64,7 @@ def create_nt_file(file_name: str):
         # Namespaces needed for URIs
         if file_name in ["yelp_academic_dataset_business.json", "yelp_academic_dataset_checkin.json"]:
             url = business_uri
-        elif file_name == 'yelp_academic_dataset_review.json':
-            url = business_uri + line['business_id'] + '?hrid='
-        else:
+        elif file_name == 'yelp_academic_dataset_user.json':
             url = user_uri
             
         category_cache = set()  # Cache for categories to avoid duplicates.
@@ -75,6 +73,9 @@ def create_nt_file(file_name: str):
         for line in file:
             try:
                 line = json.loads(line)  # json.loads loads the JSON object into a dictionary.
+                # If the file is reviews, the url depends on the line being iterated over.
+                if file_name == 'yelp_academic_dataset_review.json':
+                    url = business_uri + line['business_id'] + '?hrid='
                 G = Graph()  # Initialize a empty graph object to write a RDF triple to.
 
                 json_key = list(line.keys())[0]  # Each dictionary has the ID as the value to the first key
@@ -114,6 +115,10 @@ def create_nt_file(file_name: str):
                                 G.add(triple=(URIRef(category_uri + category),
                                                 RDFS.Class,
                                                 URIRef(example + "yelpCategory")))
+
+                                G.add(triple=(URIRef(category_uri + category),
+                                              RDFS.subClassOf,
+                                              URIRef(schema + "LocalBusiness")))    
                             
                                 # schema_category_mappping_dict is the mappings to schema.org obtained by MODEL
                                 if category.replace('_', ' ') in schema_category_mappings_dict.keys():
@@ -300,8 +305,8 @@ if __name__ == "__main__":
 
     # create_nt_file(file_name="yelp_academic_dataset_business.json")
     files = [
-        'yelp_academic_dataset_business.json',
-        'yelp_academic_dataset_user.json',
+        # 'yelp_academic_dataset_business.json',
+        # 'yelp_academic_dataset_user.json',
         'yelp_academic_dataset_review.json',
         'yelp_academic_dataset_checkin.json'
     ]

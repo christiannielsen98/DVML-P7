@@ -1,0 +1,34 @@
+PREFIX schema: <https://schema.org/>
+PREFIX example: <http://example.org/>
+PREFIX skos: <https://www.w3.org/2004/02/skos/core#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX business_uri: <https://www.yelp.com/biz/>
+PREFIX user_uri: <https://www.yelp.com/user_details?userid=>
+PREFIX category_uri: <https://www.yelp.com/category/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX : <http://weso.es/shapes/>
+
+:Restaurants
+{
+   schema:url  IRI  ;                                          # 100.0 %
+   schema:reviewCount  xsd:integer  ;                          # 100.0 %
+   schema:address  xsd:string  ;                               # 100.0 %
+   schema:category  [category_uri:Restaurants]  ;              # 100.0 %
+   schema:postalCode  xsd:string  ;                            # 100.0 %
+   schema:longitude  xsd:decimal  ;                            # 100.0 %
+   schema:latitude  xsd:decimal  ;                             # 100.0 %
+   <https://example.org/locatedInState>  IRI  ;                # 100.0 %
+   <https://example.org/locatedInCountry>  IRI  ;              # 100.0 %
+   schema:legalName  xsd:string  ;                             # 100.0 %
+   schema:publicAccess  xsd:string  ;                          # 100.0 %
+   schema:aggregateRating  xsd:decimal  ;                      # 100.0 %
+   <https://example.org/locatedInCity>  IRI  ?;
+            # 99.55422055559808 % obj: IRI. Cardinality: {1}
+   <https://example.org/locatedInCounty>  IRI  ?;
+            # 92.7890870130864 % obj: IRI. Cardinality: {1}
+   <https://example.org/RestaurantsTakeOut>  xsd:integer  ?
+            # 91.12267544195302 % obj: xsd:integer. Cardinality: {1}
+}
+
+
