@@ -35,7 +35,7 @@ category_occurences['split_category'] = category_occurences['split_category'].ap
 category_occurences = category_occurences.merge(class_mapping,
                                                 left_on='category',
                                                 right_on='YelpCategory',
-                                                how='left')
+                                                how='left').drop(columns=['YelpCategory'])
 
 # Query Wikidata for the QID of the split categories
 category_qid = {}
@@ -126,7 +126,7 @@ for i in yelp_wiki_schema_triples_df.itertuples():
         G.add((URIRef(wiki[i.qid]), URIRef(schema["label"]), Literal(i.subclassOf_label)))
     if i.qid is not np.nan:
         if i.SchemaType is not np.nan:
-            G.add((URIRef(schema[i.SchemaType]), URIRef(schema["sameAs"]), URIRef(wiki[i.qid])))
+            G.add((URIRef(schema[i.SchemaType[0]]), URIRef(schema["sameAs"]), URIRef(wiki[i.qid])))
         else:
             G.add((URIRef(example[i.split_category]), URIRef(schema["sameAs"]), URIRef(wiki[i.qid])))
         G.add((URIRef(wiki[i.qid]), URIRef(RDFS["label"]), Literal(i.qid_label)))
