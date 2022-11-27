@@ -120,7 +120,7 @@ def compare_qids(new_value: str, old_value: str):
                         VALUES ?s {{wd:{new_value}}} .
                 }}"""
 
-def categories_dict_singular(categories: list):
+def _categories_dict_singular(categories: list):
     """
     It takes the categories column of the business dataframe, and returns a dictionary of the
     categories, where each category is singular.

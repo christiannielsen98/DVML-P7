@@ -12,28 +12,28 @@ from pprint import pprint
 from deepdiff import DeepDiff
 
 
-from Code.UtilityFunctions.wikidata_functions import wikidata_query, retrieve_wikidata_claims, category_query, min_qid, get_all_wikidata_claims, compare_qids, categories_dict_singular, get_qid_label
+from Code.UtilityFunctions.wikidata_functions import wikidata_query, retrieve_wikidata_claims, category_query, min_qid, get_all_wikidata_claims, compare_qids, _categories_dict_singular, get_qid_label
 from Code.UtilityFunctions.get_data_path import get_path
 
 
 
 biz = pd.read_json(get_path("yelp_academic_dataset_business.json"), lines=True)
 categories = list(biz['categories'].str.cat(sep=', ').split(sep=', '))
-categories_dict_singular = categories_dict_singular(categories)
+_categories_dict_singular = _categories_dict_singular(categories)
 
 category_occurences = pd.DataFrame(list(dict(Counter(categories)).items()),
                                    columns=['category', 'occurences'
                                             ]).sort_values(by='occurences',
                                                            ascending=False)
 # Maps the split categories to the original categories
-category_occurences['split_category'] = category_occurences['category'].map(categories_dict_singular)
+category_occurences['split_category'] = category_occurences['category'].map(_categories_dict_singular)
 category_occurences = category_occurences.explode('split_category')
 
 # Maps the yelp categories that are already mapped to a schemaType to the original category.
 class_mapping = pd.read_csv(get_path('class_mappings.csv'))
 category_occurences['split_category'] = category_occurences['split_category'].apply(lambda x: x.title().replace(' ', ''))
 category_occurences = category_occurences.merge(class_mapping,
-                                                left_on='split_category',
+                                                left_on='category',
                                                 right_on='YelpCategory',
                                                 how='left')
 
