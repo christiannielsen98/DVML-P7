@@ -65,6 +65,7 @@ def category_query(category: str):
     :type category: str
     :return: The query returns the item, itemLabel, and itemDescription of the category.
     """
+    category = category.lower()
     return f"""SELECT distinct ?item ?itemLabel ?itemDescription WHERE{{
     ?item ?label "{category}"@en.
     ?article schema:about ?item .
@@ -120,7 +121,7 @@ def compare_qids(new_value: str, old_value: str):
                         VALUES ?s {{wd:{new_value}}} .
                 }}"""
 
-def _categories_dict_singular(categories: list):
+def categories_dict_singular(categories: list):
     """
     It takes the categories column of the business dataframe, and returns a dictionary of the
     categories, where each category is singular.
@@ -154,3 +155,19 @@ def get_qid_label(qid):
         return wikidata_query(query)['label.value'][0]
     except:
         return "No label defined"
+
+def get_subclass_of_wikientity(qid):
+    try:
+        query = f"""SELECT ?item ?itemLabel 
+                WHERE 
+                    {{
+                    wd:{qid} wdt:P279 ?item .
+                    SERVICE wikibase:label {{ bd:serviceParam wikibase:language "en". }}
+                    }}"""
+        df = wikidata_query(query)[['item.value', 'itemLabel.value']]
+        df['item.value'] = df.apply(lambda x: x['item.value'][31:], axis=1)
+        df.rename(columns={'item.value': 'subclassOf', 'itemLabel.value': 'subclassOf_label'}, inplace=True)
+        df['qid'] = qid
+        return df
+    except:
+        pass
