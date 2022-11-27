@@ -120,7 +120,7 @@ def compare_qids(new_value: str, old_value: str):
                         VALUES ?s {{wd:{new_value}}} .
                 }}"""
 
-def categories_dict_singular(categories: list):
+def _categories_dict_singular(categories: list):
     """
     It takes the categories column of the business dataframe, and returns a dictionary of the
     categories, where each category is singular.
@@ -140,3 +140,17 @@ def categories_dict_singular(categories: list):
 
     categories_dict_singular = turn_words_singular(categories_dict)
     return categories_dict_singular
+
+def get_qid_label(qid):
+    query = f"""PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+                PREFIX wd: <http://www.wikidata.org/entity/> 
+                SELECT  *
+                WHERE {{
+                        wd:{qid} rdfs:label ?label .
+                        FILTER (langMatches( lang(?label), "EN" ) )
+                    }}
+                LIMIT 1"""
+    try:
+        return wikidata_query(query)['label.value'][0]
+    except:
+        return "No label defined"

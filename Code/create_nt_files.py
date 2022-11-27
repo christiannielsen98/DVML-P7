@@ -71,11 +71,11 @@ def create_nt_file(file_name: str):
         category_mappings_cache = set()  # Cache for category mappings to avoid duplicates.
         # Iterate over every object in the JSON file as each object is one line.
         for line in file:
-            # If the file is reviews, the url depends on the line being iterated over.
-            if file_name == 'yelp_academic_dataset_review.json':
-                url = business_uri + line['business_id'] + '?hrid='
             try:
                 line = json.loads(line)  # json.loads loads the JSON object into a dictionary.
+                # If the file is reviews, the url depends on the line being iterated over.
+                if file_name == 'yelp_academic_dataset_review.json':
+                    url = business_uri + line['business_id'] + '?hrid='
                 G = Graph()  # Initialize a empty graph object to write a RDF triple to.
 
                 json_key = list(line.keys())[0]  # Each dictionary has the ID as the value to the first key
@@ -305,8 +305,8 @@ if __name__ == "__main__":
 
     # create_nt_file(file_name="yelp_academic_dataset_business.json")
     files = [
-        'yelp_academic_dataset_business.json',
-        'yelp_academic_dataset_user.json',
+        # 'yelp_academic_dataset_business.json',
+        # 'yelp_academic_dataset_user.json',
         'yelp_academic_dataset_review.json',
         'yelp_academic_dataset_checkin.json'
     ]

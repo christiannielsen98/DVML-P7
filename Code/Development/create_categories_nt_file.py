@@ -12,30 +12,30 @@ from pprint import pprint
 from deepdiff import DeepDiff
 
 
-from Code.UtilityFunctions.wikidata_functions import wikidata_query, retrieve_wikidata_claims, category_query, min_qid, get_all_wikidata_claims, compare_qids, categories_dict_singular
+from Code.UtilityFunctions.wikidata_functions import wikidata_query, retrieve_wikidata_claims, category_query, min_qid, get_all_wikidata_claims, compare_qids, _categories_dict_singular, get_qid_label
 from Code.UtilityFunctions.get_data_path import get_path
 
 
 
 biz = pd.read_json(get_path("yelp_academic_dataset_business.json"), lines=True)
 categories = list(biz['categories'].str.cat(sep=', ').split(sep=', '))
-categories_dict_singular = categories_dict_singular(categories)
+_categories_dict_singular = _categories_dict_singular(categories)
 
 category_occurences = pd.DataFrame(list(dict(Counter(categories)).items()),
                                    columns=['category', 'occurences'
                                             ]).sort_values(by='occurences',
                                                            ascending=False)
 # Maps the split categories to the original categories
-category_occurences['split_category'] = category_occurences['category'].map(categories_dict_singular)
+category_occurences['split_category'] = category_occurences['category'].map(_categories_dict_singular)
 category_occurences = category_occurences.explode('split_category')
 
 # Maps the yelp categories that are already mapped to a schemaType to the original category.
 class_mapping = pd.read_csv(get_path('class_mappings.csv'))
 category_occurences['split_category'] = category_occurences['split_category'].apply(lambda x: x.title().replace(' ', ''))
 category_occurences = category_occurences.merge(class_mapping,
-                                                left_on='split_category',
+                                                left_on='category',
                                                 right_on='YelpCategory',
-                                                how='left')
+                                                how='left').drop(columns=['YelpCategory'])
 
 # Query Wikidata for the QID of the split categories
 category_qid = {}
@@ -106,6 +106,8 @@ wiki_subclasses = pd.DataFrame(list(category_triple.items()),
                                columns=['category_qid',
                                         'subclassOf']).explode('subclassOf')
 
+wiki_subclasses['subclassOf_label'] = wiki_subclasses.apply(lambda x: get_qid_label(x.subclassOf), axis=1)
+print(wiki_subclasses)
 yelp_wiki_schema_triples_df = category_occurences.merge(wiki_subclasses, 
                                                         left_on='qid', 
                                                         right_on='category_qid', 
@@ -115,19 +117,20 @@ schema = Namespace("https://schema.org/")
 example = Namespace("https://example.org/")
 wiki = Namespace("https://www.wikidata.org/entity/")
 
-triple_file = gzip.open(filename=f"yelp_business.nt.gz", mode="at", encoding="utf-8")
+triple_file = gzip.open(filename="wikidata_category_triples.nt.gz", mode="at", encoding="utf-8")
 
 G = Graph()
 for i in yelp_wiki_schema_triples_df.itertuples():
     if i.subclassOf is not np.nan:
         G.add((URIRef(wiki[i.qid]), URIRef(wiki["P279"]), URIRef(wiki[i.subclassOf])))
+        G.add((URIRef(wiki[i.qid]), URIRef(schema["label"]), Literal(i.subclassOf_label)))
     if i.qid is not np.nan:
-        G.add((URIRef(wiki[i.qid]), URIRef(RDFS["label"]), Literal(i.qid_label)))
-        G.add((URIRef(wiki[i.qid]), URIRef(RDFS["Class"]), URIRef(example['WikiCategory'])))
         if i.SchemaType is not np.nan:
-            G.add((URIRef(schema[i.SchemaType]), URIRef(schema["sameAs"]), URIRef(wiki[i.qid])))
+            G.add((URIRef(schema[i.SchemaType[0]]), URIRef(schema["sameAs"]), URIRef(wiki[i.qid])))
         else:
             G.add((URIRef(example[i.split_category]), URIRef(schema["sameAs"]), URIRef(wiki[i.qid])))
+        G.add((URIRef(wiki[i.qid]), URIRef(RDFS["label"]), Literal(i.qid_label)))
+        G.add((URIRef(wiki[i.qid]), URIRef(RDFS["Class"]), URIRef(example['WikiCategory'])))
 
 triple_file.write(G.serialize(format="nt"))
 triple_file.close()
