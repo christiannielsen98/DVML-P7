@@ -65,6 +65,7 @@ def category_query(category: str):
     :type category: str
     :return: The query returns the item, itemLabel, and itemDescription of the category.
     """
+    category = category.lower()
     return f"""SELECT distinct ?item ?itemLabel ?itemDescription WHERE{{
     ?item ?label "{category}"@en.
     ?article schema:about ?item .
@@ -120,7 +121,7 @@ def compare_qids(new_value: str, old_value: str):
                         VALUES ?s {{wd:{new_value}}} .
                 }}"""
 
-def _categories_dict_singular(categories: list):
+def categories_dict_singular(categories: list):
     """
     It takes the categories column of the business dataframe, and returns a dictionary of the
     categories, where each category is singular.

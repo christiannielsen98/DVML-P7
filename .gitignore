@@ -127,3 +127,4 @@ dmypy.json
 *.xml
 .DS_Store
 OneDrive.lnk
+Code/.vector_cache/glove.6B.zip

@@ -12,21 +12,21 @@ from pprint import pprint
 from deepdiff import DeepDiff
 
 
-from Code.UtilityFunctions.wikidata_functions import wikidata_query, retrieve_wikidata_claims, category_query, min_qid, get_all_wikidata_claims, compare_qids, _categories_dict_singular, get_qid_label
+from Code.UtilityFunctions.wikidata_functions import wikidata_query, retrieve_wikidata_claims, category_query, min_qid, get_all_wikidata_claims, compare_qids, categories_dict_singular, get_qid_label, get_subclass_of_wikientity
 from Code.UtilityFunctions.get_data_path import get_path
 
 
 
 biz = pd.read_json(get_path("yelp_academic_dataset_business.json"), lines=True)
 categories = list(biz['categories'].str.cat(sep=', ').split(sep=', '))
-_categories_dict_singular = _categories_dict_singular(categories)
+categories_dict_singular = categories_dict_singular(categories)
 
 category_occurences = pd.DataFrame(list(dict(Counter(categories)).items()),
                                    columns=['category', 'occurences'
                                             ]).sort_values(by='occurences',
                                                            ascending=False)
 # Maps the split categories to the original categories
-category_occurences['split_category'] = category_occurences['category'].map(_categories_dict_singular)
+category_occurences['split_category'] = category_occurences['category'].map(categories_dict_singular)
 category_occurences = category_occurences.explode('split_category')
 
 # Maps the yelp categories that are already mapped to a schemaType to the original category.
@@ -84,11 +84,8 @@ for key, value in ddiff['values_changed'].items():
 category_qid2.update(update_qid_dict)
 
 # Maps the QID to the split category
-category_occurences['qid'] = category_occurences['split_category'].map(
-    category_qid2)
-category_occurences[['qid', 'qid_label'
-                     ]] = pd.DataFrame(category_occurences['qid'].tolist(),
-                                       index=category_occurences.index)
+category_occurences['qid'] = category_occurences['split_category'].map(category_qid2)
+category_occurences[['qid', 'qid_label']] = pd.DataFrame(category_occurences['qid'].tolist(),index=category_occurences.index)
 
 category_wikidata = get_all_wikidata_claims(category_occurences['qid'])
 
@@ -99,15 +96,18 @@ for key, values in category_wikidata.items():
         for obj in value:
             if obj['mainsnak']['property'] == 'P279':
                 data_value = obj['mainsnak']['datavalue']['value']['id']
-                category_triple[key] = category_triple.get(key,
-                                                           []) + [data_value]
+                category_triple[key] = category_triple.get(key,[]) + [data_value]
 
 wiki_subclasses = pd.DataFrame(list(category_triple.items()),
                                columns=['category_qid',
                                         'subclassOf']).explode('subclassOf')
 
 wiki_subclasses['subclassOf_label'] = wiki_subclasses.apply(lambda x: get_qid_label(x.subclassOf), axis=1)
-print(wiki_subclasses)
+
+# wiki_subclasses = pd.DataFrame()
+# for qid in category_occurences['qid']:
+#     wiki_subclasses = pd.concat([wiki_subclasses, get_subclass_of_wikientity(qid)], ignore_index=True)
+
 yelp_wiki_schema_triples_df = category_occurences.merge(wiki_subclasses, 
                                                         left_on='qid', 
                                                         right_on='category_qid', 
@@ -123,7 +123,7 @@ G = Graph()
 for i in yelp_wiki_schema_triples_df.itertuples():
     if i.subclassOf is not np.nan:
         G.add((URIRef(wiki[i.qid]), URIRef(wiki["P279"]), URIRef(wiki[i.subclassOf])))
-        G.add((URIRef(wiki[i.qid]), URIRef(schema["label"]), Literal(i.subclassOf_label)))
+        G.add((URIRef(wiki[i.subclassOf]), URIRef(schema["label"]), Literal(i.subclassOf_label)))
     if i.qid is not np.nan:
         if i.SchemaType is not np.nan:
             G.add((URIRef(schema[i.SchemaType[0]]), URIRef(schema["sameAs"]), URIRef(wiki[i.qid])))
