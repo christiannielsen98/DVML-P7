@@ -1,5 +1,6 @@
 from rdflib import Namespace
 
+
 example = Namespace("https://example.org/")
 
 

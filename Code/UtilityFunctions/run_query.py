@@ -5,8 +5,8 @@ from pandas import json_normalize
 
 def run_query(query, as_dataframe=False, do_print=False, include_types=False):
     pd.set_option('display.max_colwidth', None)
-    pd.set_option('display.max_rows', None)
-    pd.set_option('display.max_columns', None)
+    pd.set_option('display.max_rows', 10)
+    pd.set_option('display.max_columns', 10)
 
     endpoint = SPARQLWrapper("http://localhost:8890/sparql")
     endpoint.setReturnFormat(JSON)
