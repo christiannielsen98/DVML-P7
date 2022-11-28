@@ -221,7 +221,15 @@ def create_nt_file(file_name: str):
                             G.add(triple=(URIRef(subject),
                                           URIRef(predicate),
                                           Literal(obj, datatype=object_type)))
-
+                    elif _predicate == "business_id":  # If we are dealing with a reivew, we add a link to the business
+                        predicate, object_type = get_schema_predicate(_predicate, _object, file_name)
+                        obj = business_uri + _object
+                        
+                        G.add(triple=(
+                            URIRef(subject),
+                            URIRef(predicate),
+                            URIRef(obj)
+                        ))
                     else:
                         if _predicate == "yelping_since":
                             _object = _object.replace(" ", "T")
