@@ -201,7 +201,7 @@ def create_nt_file(file_name: str):
 
                         G.add(triple=(URIRef(subject),
                                       URIRef(predicate),  # E.g., hasBusinessParking, hasHours
-                                      Literal(b_node)))  # Blank Node
+                                      URIRef(b_node)))  # Blank Node
 
                         for sub_predicate, sub_object in _object.items():
                             G.add(triple=(URIRef(b_node),
@@ -268,9 +268,9 @@ def create_tip_nt_file():
                 del line["user_id"]
 
                 # Creates the edge between a user and their tip
-                G.add(triple=(URIRef(user_uri + subject),
+                G.add(triple=(URIRef(b_node),
                               URIRef(schema + "author"),
-                              Literal(b_node)))
+                              URIRef(user_uri + subject)))
 
                 # Assigns a RDFS Class to the blank node.
                 G.add(triple=(URIRef(b_node),
