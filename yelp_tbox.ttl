@@ -1,0 +1,91 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dc: <http://purl.org/dc/terms/> .
+@prefix ns0: <http://purl.org/vocab/vann/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix cc: <http://creativecommons.org/ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix schema: <http://schema.org/> .
+@prefix bont: <http://ontology.bonsai.uno/core#> .
+@prefix om2: <http://www.ontology-of-units-of-measure.org/resource/om-2/> .
+@prefix time: <http://www.w3.org/2006/time#> .
+
+##############################################
+
+# Metadata
+
+##############################################
+
+<>
+  a owl:Ontology ;
+  dc:title "The Yelp ontology"@en ;
+  dc:description "The Yelp ontology provides context to concepts and entities found in the Yelp Open Dataset"@en ;
+  foaf:homepage <> ;
+  ns0:preferredNamespacePrefix "" ;
+  ns0:preferredNamespaceUri "" ;
+  rdfs:isDefinedBy <> ;
+  owl:versionInfo "Version 0.1 - 2022-11-28"@en ;
+  dc:modified "2022-11-28"^^xsd:date ;
+  dc:publisher "" ;
+  dc:creator <> ;
+  dc:contributor "Mads Corfixen", "Thomas Heede", "Christian Filerup Pind Nielsen", "Magnus Olesen"  ;
+  cc:license <https://mit-license.org> .
+  
+ 
+##############################################
+
+# Classes definitions
+
+##############################################
+
+
+<http://ontology.bonsai.uno/core#Tip>
+  a owl:Class ;
+  rdfs:comment "A tip is a short description of a visit by a Yelp <User> pertaining to a Yelp <Business>. Is a shorter version of a Yelp <Review>."@en ;
+  rdfs:label "Tip"@en ;
+  
+<http://ontology.bonsai.uno/core#YelpCategory>
+  a owl:Class ;
+  rdfs:comment "A Yelp Category is a class assigned to objects which originates in the Yelp Open Dataset. These objects describe the type of a Yelp <Business>."@en ;
+  rdfs:label "Yelp Category"@en ;
+  
+<http://ontology.bonsai.uno/core#SchemaCategory>
+  a owl:Class ;
+  rdfs:comment "A Schema Category is a class assigned to objects which originates from the schema.org ontology."@en ;
+  rdfs:label "Schema Category"@en ;
+  
+<http://ontology.bonsai.uno/core#PurlCategory>
+  a owl:Class ;
+  rdfs:comment "A Purl Category is a class assigned to the objects in the Yelp ontology."@en ;
+  rdfs:label "Purl category"@en ;
+  
+<http://ontology.bonsai.uno/core#WikidataCategory>
+  a owl:Class ;
+  rdfs:comment "A Wikidata Category is a class assigned to the ..."@en ;
+  rdfs:label "Wikidata Category"@en ;
+  
+##############################################
+
+# Property definitions
+
+##############################################
+
+
+<AgesAllowed>
+  a owl:FunctionalProperty, owl:ObjectProperty ;
+  rdfs:comment "Specifies the Activity that a Flow is an input to."@en ;
+  rdfs:domain bont:Flow ;
+  rdfs:label "input of"@en ;
+  rdfs:range bont:Activity .
+
+ 
+  
+  
+  
+  
+  
+  
+  
+  
+  
