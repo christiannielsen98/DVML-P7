@@ -1,3 +1,7 @@
+# For the GeoPy Documentation, see https://geopy.readthedocs.io/en/latest/#
+# For the Nominatim Documentation, see https://nominatim.org/release-docs/latest/
+# For the Nominatim Terms of Service, see https://operations.osmfoundation.org/policies/nominatim/
+
 from time import sleep
 
 import pandas as pd

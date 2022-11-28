@@ -44,7 +44,7 @@ def get_schema_predicate(predicate, obj=None, file=None):
             return schema + "category", XSD.string
         case "date":
             if file == "yelp_academic_dataset_checkin.json":
-                return schema + "checkinTime", XSD.dateTime
+                return schema + "checkinTime", XSD.dateTime 
             else:
                 return schema + "dateCreated", XSD.dateTime
         case "friends":
