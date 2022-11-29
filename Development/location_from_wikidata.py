@@ -17,4 +17,4 @@ location_mappings_df = pd.DataFrame(coordinates_df['coordinates'].apply(lambda x
 if __name__ == "__main__":    
     location_mappings_df.to_csv(path_or_buf='/home/ubuntu/OneDrive/DVML-P7/Data/location_mappings.csv',index=False)
     
-    webhook = DiscordWebhook(url='https://discord.com/api/webhooks/918876596763525150/d1aGYekdsL64QP0Dbx4zuaOrs_opUpFuTYkj1sHjYBJ8oUXOrruXhshP_cIFSq5phW-e', content=f'Done in hh:mm:ss {datetime.datetime.now() - begin_time}').execute()
+    webhook = DiscordWebhook(url='https://discord.com/api/webhooks/918876596763525150/d1aGYekdsL64QP0Dbx4zuaOrs_opUpFuTYkj1sHjYBJ8oUXOrruXhshP_cIFSq5phW-e', content=f'Location_from_wikidata done in hh:mm:ss {datetime.datetime.now() - begin_time}').execute()

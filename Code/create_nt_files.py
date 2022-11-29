@@ -99,6 +99,10 @@ def create_nt_file(file_name: str):
 
                 # Assign an RDFS Class to every subject (checkin does not have its own subject).
                 if file_name == 'yelp_academic_dataset_business.json':
+
+                    G.add(triple=(URIRef(subject),
+                                    RDFS.Class,
+                                    URIRef(schema + "LocalBusiness")))  
                     
                     if line['categories']:
                         # Categories are initially one long comma-separated string.
@@ -310,14 +314,30 @@ def create_tip_nt_file():
 
 if __name__ == "__main__":
     import time
-
+    from discord_webhook import DiscordWebhook
+    import datetime
+    begin_time = datetime.datetime.now()
+    import os
+    myfiles=["/home/ubuntu/vol1/virtuoso/import/yelp_business.nt.gz", 
+             "/home/ubuntu/vol1/virtuoso/import/yelp_checkin.nt.gz", 
+             "/home/ubuntu/vol1/virtuoso/import/yelp_review.nt.gz", 
+             "/home/ubuntu/vol1/virtuoso/import/yelp_user.nt.gz", 
+             "/home/ubuntu/vol1/virtuoso/import/yelp_tip.nt.gz"]
+    for i in myfiles:
+        ## If file exists, delete it ##
+        if os.path.isfile(i):
+            os.remove(i)
+        else:    ## Show an error ##
+            print("Error: %s file not found" % i)
+    
     # create_nt_file(file_name="yelp_academic_dataset_business.json")
     files = [
-        # 'yelp_academic_dataset_business.json',
-        # 'yelp_academic_dataset_user.json',
+        'yelp_academic_dataset_business.json',
+        'yelp_academic_dataset_user.json',
         'yelp_academic_dataset_review.json',
         'yelp_academic_dataset_checkin.json'
     ]
+    
     start = time.time()
     for i in files:
         _start = time.time()
@@ -327,3 +347,5 @@ if __name__ == "__main__":
     create_tip_nt_file()
     print(f'For tip It took', time.time()-start_tip, 'seconds.')
     print(f'In total it took', time.time()-start, 'seconds.')
+
+    webhook = DiscordWebhook(url='https://discord.com/api/webhooks/918876596763525150/d1aGYekdsL64QP0Dbx4zuaOrs_opUpFuTYkj1sHjYBJ8oUXOrruXhshP_cIFSq5phW-e', content=f'create_nt_files done in hh:mm:ss {datetime.datetime.now() - begin_time}').execute()
