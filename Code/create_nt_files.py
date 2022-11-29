@@ -16,8 +16,8 @@ skos = Namespace("https://www.w3.org/2004/02/skos/core#")
 
 business_uri = Namespace("https://www.yelp.com/biz/")
 user_uri = Namespace("https://www.yelp.com/user_details?userid=")
-category_uri = Namespace("https://www.yelp.com/category/")
-
+category_uri = Namespace("https://purl.archive.org/purl/yelp/business_categories#")
+ontology_uri = Namespace("https://purl.archive.org/purl/yelp/ontology#")
 
 def create_nt_file(file_name: str):
     """
@@ -118,7 +118,7 @@ def create_nt_file(file_name: str):
                             if category not in category_cache:
                                 G.add(triple=(URIRef(category_uri + category),
                                                 RDFS.Class,
-                                                URIRef(example + "yelpCategory")))
+                                                URIRef(ontology_uri + "datasetCategory")))
 
                                 G.add(triple=(URIRef(category_uri + category),
                                               RDFS.subClassOf,
@@ -138,7 +138,7 @@ def create_nt_file(file_name: str):
                                         if subcategory not in category_mappings_cache:
                                             G.add(triple=(URIRef(schema + subcategory),
                                                           RDFS.Class,
-                                                          URIRef(example + "schemaCategory")))
+                                                          URIRef(ontology_uri + "schemaCategory")))
                                             category_mappings_cache.add(subcategory)
 
                                 # If the category is not in the mapping, we check if it is a split category,
@@ -147,26 +147,14 @@ def create_nt_file(file_name: str):
                                     for subcategory in split_categories_dict[category]:
                                         G.add(triple=(URIRef(category_uri + category),
                                                         URIRef(skos + "narrowMatch"),
-                                                        URIRef(example + subcategory)))
+                                                        URIRef(category_uri + subcategory)))
 
                                         if subcategory not in category_mappings_cache:
-                                            G.add(triple=(URIRef(example + subcategory),
+                                            G.add(triple=(URIRef(category_uri + subcategory),
                                                           RDFS.Class,
-                                                          URIRef(example + "exampleCategory")))
+                                                          URIRef(ontology_uri + "yelpCategory")))
                                             category_mappings_cache.add(subcategory)
 
-                                # If the category is not mapped AND not split, add a corresponding example category
-                                # as an exactMatch.
-                                else:
-                                    G.add(triple=(URIRef(category_uri + category),
-                                                    URIRef(skos + "exactMatch"),
-                                                    URIRef(example + category)))
-
-                                    if subcategory not in category_mappings_cache:
-                                            G.add(triple=(URIRef(example + subcategory),
-                                                          RDFS.Class,
-                                                          URIRef(example + "exampleCategory")))
-                                            category_mappings_cache.add(subcategory)
                             category_cache.add(category)
 
                     # Add location information to the business based on Google API retrieved data.
@@ -209,7 +197,7 @@ def create_nt_file(file_name: str):
 
                         for sub_predicate, sub_object in _object.items():
                             G.add(triple=(URIRef(b_node),
-                                          URIRef(example + "has" + sub_predicate),
+                                          URIRef(ontology_uri + "has" + sub_predicate),
                                           Literal(sub_object)))
 
                     elif _predicate in ["date", "friends", "elite"]:  # The values to these keys contains listed objects
@@ -219,12 +207,13 @@ def create_nt_file(file_name: str):
                         # get_schema_predicate assigns returns a proper schema.org predicate based on the key
                         # and a proper object datatype.
                         predicate, object_type = get_schema_predicate(_predicate, _object, file_name)
-                        for obj in obj_lst:
-                            if _predicate == "date":
-                                obj = obj.replace(" ", "T")  # Cleans the date attribute
-                            G.add(triple=(URIRef(subject),
-                                          URIRef(predicate),
-                                          Literal(obj, datatype=object_type)))
+                        if obj_lst:
+                            for obj in obj_lst:
+                                if _predicate == "date":
+                                    obj = obj.replace(" ", "T")  # Cleans the date attribute
+                                G.add(triple=(URIRef(subject),
+                                            URIRef(predicate),
+                                            Literal(obj, datatype=object_type)))
                     elif _predicate == "business_id":  # If we are dealing with a reivew, we add a link to the business
                         predicate, object_type = get_schema_predicate(_predicate, _object, file_name)
                         obj = business_uri + _object

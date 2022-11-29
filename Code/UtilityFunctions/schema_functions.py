@@ -8,6 +8,8 @@ from Code.UtilityFunctions.string_functions import long_com_substring, str_split
 
 schema = Namespace("https://schema.org/")
 example = Namespace("https://example.org/")
+category_uri = Namespace("https://purl.archive.org/purl/yelp/business_categories#")
+ontology_uri = Namespace("https://purl.archive.org/purl/yelp/ontology#")
 
 schema_classes = pd.read_csv(get_path("schemaorg-current-https-types.csv"))
 schema_classes.update(schema_classes.subTypeOf.str.replace('https://schema.org/', '', regex=False))
@@ -58,7 +60,7 @@ def get_schema_predicate(predicate, obj=None, file=None):
         case "text":
             return schema + "description", XSD.string
         case "BusinessParking" | "GoodForMeal" | "Ambience" | "Music" | "BestNights" | "HairSpecializesIn" | "DietaryRestrictions" | "hours":
-            return example + "has" + predicate.capitalize(), XSD.string  # TODO: Find something instead of example
+            return ontology_uri + "has" + predicate.capitalize(), XSD.string  # TODO: Find something instead of example
         case _:  # If no schema.org predicate can be found, create predicate using example.org
             if isinstance(obj, str):
                 object_type = XSD.string
@@ -72,7 +74,7 @@ def get_schema_predicate(predicate, obj=None, file=None):
                 print("Error in SCHEMA!", "Type: ", type(obj))
                 print(predicate, obj)
                 pass
-            return example + predicate, object_type
+            return ontology_uri + predicate, object_type
 
 
 def get_schema_type(entity: str):
@@ -88,7 +90,7 @@ def get_schema_type(entity: str):
         case 'review':
             return schema + 'UserReview'
         case 'tip':
-            return example + 'Tip'
+            return ontology_uri + 'Tip'
         case _:  #
             print(f"Unknown schema type for entity: {entity}")
 
