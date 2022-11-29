@@ -155,3 +155,54 @@ def get_qid_label(qid):
         return wikidata_query(query)['label.value'][0]
     except:
         return "No label defined"
+
+
+def get_name_of_location_with_long_lat(longitude_and_latitude: str) -> tuple[str, str]:
+    try:
+        query =f""" 
+        SELECT DISTINCT ?distance ?city ?cityLabel ?population ?county ?countyLabel ?state ?stateLabel ?country ?countryLabel WHERE {{
+
+        # Use the around service
+        SERVICE wikibase:around {{ 
+            # Looking for items with coordinate locations(P625)
+            ?city wdt:P625 ?location . 
+
+            # That are in a circle with a centre of with a point
+            bd:serviceParam wikibase:center "Point({longitude_and_latitude})"^^geo:wktLiteral   . 
+            # Where the circle has a radius of 20km
+            bd:serviceParam wikibase:radius "20" . 
+            bd:serviceParam wikibase:distance ?distance .
+        }} .
+
+        {{?city wdt:P31/wdt:P279* wd:Q1093829.}} # Q1093829 = city in the United States
+        UNION
+        {{?city wdt:P31/wdt:P279* wd:Q4946305.}} # Q4946305 = borough in the United States
+        UNION
+        {{?city wdt:P31/wdt:P279* wd:Q515.}} # Q515 = city
+        UNION
+        {{?city wdt:P31/wdt:P279* wd:Q15127012.}} # Q15127012 = town in the United States
+        UNION
+        {{?city wdt:P31/wdt:P279* wd:Q498162.}} # Q498162 = census-designated place in the United States
+        
+        OPTIONAL {{ ?city wdt:P131 ?county . }}
+        OPTIONAL {{ ?county wdt:P131 ?state . }}
+        OPTIONAL {{ ?state wdt:P131 ?country . }}
+        ?city p:P1082 ?statement .
+        ?statement ps:P1082 ?population .
+        ?statement pq:P585 ?date .
+        FILTER NOT EXISTS {{
+            ?city p:P1082/pq:P585 ?date2 .
+            FILTER(?date2 > ?date)
+        }}
+        # Use the label service to get the English label
+        SERVICE wikibase:label {{
+        bd:serviceParam wikibase:language "en" . 
+        }}
+        }}
+        ORDER BY ?distance
+        LIMIT 1"""
+        
+        a = wikidata_query(query)
+        return a['city.value'][0][31:], a['cityLabel.value'][0], a['population.value'][0], a['county.value'][0][31:], a['countyLabel.value'][0], a['state.value'][0][31:], a['stateLabel.value'][0], a['country.value'][0][31:], a['countryLabel.value'][0]
+    except:
+        return (None, None, None, None, None, None, None, None, None)

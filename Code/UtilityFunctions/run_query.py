@@ -17,6 +17,7 @@ def run_query(query, as_dataframe=False, do_print=False, include_types=False):
     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
     PREFIX schema: <https://schema.org/> 
     PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> 
+    PREFIX yelp_category: <https://www.yelp.com/category/>
     """
     
     endpoint.setQuery(PREFIX+query)
