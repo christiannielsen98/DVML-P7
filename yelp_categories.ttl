@@ -1,1 +1,3837 @@
+@prefix ontology_uri: <https://purl.archive.org/purl/yelp/ontology#> 
+ @prefix category_uri: <https://purl.archive.org/purl/yelp/business_categories#> 
+ @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
 
+ category_uri:Restaurants a ontology_uri:datasetCategory ; 
+ rdfs:label "Restaurants is a category in Yelp used to describe a business" . 
+
+ category_uri:Food a ontology_uri:datasetCategory ; 
+ rdfs:label "Food is a category in Yelp used to describe a business" . 
+
+ category_uri:Home Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Home Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Beauty & Spas a ontology_uri:datasetCategory ; 
+ rdfs:label "Beauty & Spas is a category in Yelp used to describe a business" . 
+
+ category_uri:Health & Medical a ontology_uri:datasetCategory ; 
+ rdfs:label "Health & Medical is a category in Yelp used to describe a business" . 
+
+ category_uri:Local Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Local Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Bars a ontology_uri:datasetCategory ; 
+ rdfs:label "Bars is a category in Yelp used to describe a business" . 
+
+ category_uri:Event Planning & Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Event Planning & Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Sandwiches a ontology_uri:datasetCategory ; 
+ rdfs:label "Sandwiches is a category in Yelp used to describe a business" . 
+
+ category_uri:American (Traditional) a ontology_uri:datasetCategory ; 
+ rdfs:label "American (Traditional) is a category in Yelp used to describe a business" . 
+
+ category_uri:Active Life a ontology_uri:datasetCategory ; 
+ rdfs:label "Active Life is a category in Yelp used to describe a business" . 
+
+ category_uri:Pizza a ontology_uri:datasetCategory ; 
+ rdfs:label "Pizza is a category in Yelp used to describe a business" . 
+
+ category_uri:Coffee & Tea a ontology_uri:datasetCategory ; 
+ rdfs:label "Coffee & Tea is a category in Yelp used to describe a business" . 
+
+ category_uri:Fast Food a ontology_uri:datasetCategory ; 
+ rdfs:label "Fast Food is a category in Yelp used to describe a business" . 
+
+ category_uri:Breakfast & Brunch a ontology_uri:datasetCategory ; 
+ rdfs:label "Breakfast & Brunch is a category in Yelp used to describe a business" . 
+
+ category_uri:American (New) a ontology_uri:datasetCategory ; 
+ rdfs:label "American (New) is a category in Yelp used to describe a business" . 
+
+ category_uri:Hotels & Travel a ontology_uri:datasetCategory ; 
+ rdfs:label "Hotels & Travel is a category in Yelp used to describe a business" . 
+
+ category_uri:Home & Garden a ontology_uri:datasetCategory ; 
+ rdfs:label "Home & Garden is a category in Yelp used to describe a business" . 
+
+ category_uri:Fashion a ontology_uri:datasetCategory ; 
+ rdfs:label "Fashion is a category in Yelp used to describe a business" . 
+
+ category_uri:Burgers a ontology_uri:datasetCategory ; 
+ rdfs:label "Burgers is a category in Yelp used to describe a business" . 
+
+ category_uri:Arts & Entertainment a ontology_uri:datasetCategory ; 
+ rdfs:label "Arts & Entertainment is a category in Yelp used to describe a business" . 
+
+ category_uri:Auto Repair a ontology_uri:datasetCategory ; 
+ rdfs:label "Auto Repair is a category in Yelp used to describe a business" . 
+
+ category_uri:Hair Salons a ontology_uri:datasetCategory ; 
+ rdfs:label "Hair Salons is a category in Yelp used to describe a business" . 
+
+ category_uri:Nail Salons a ontology_uri:datasetCategory ; 
+ rdfs:label "Nail Salons is a category in Yelp used to describe a business" . 
+
+ category_uri:Mexican a ontology_uri:datasetCategory ; 
+ rdfs:label "Mexican is a category in Yelp used to describe a business" . 
+
+ category_uri:Italian a ontology_uri:datasetCategory ; 
+ rdfs:label "Italian is a category in Yelp used to describe a business" . 
+
+ category_uri:Specialty Food a ontology_uri:datasetCategory ; 
+ rdfs:label "Specialty Food is a category in Yelp used to describe a business" . 
+
+ category_uri:Doctors a ontology_uri:datasetCategory ; 
+ rdfs:label "Doctors is a category in Yelp used to describe a business" . 
+
+ category_uri:Pets a ontology_uri:datasetCategory ; 
+ rdfs:label "Pets is a category in Yelp used to describe a business" . 
+
+ category_uri:Real Estate a ontology_uri:datasetCategory ; 
+ rdfs:label "Real Estate is a category in Yelp used to describe a business" . 
+
+ category_uri:Seafood a ontology_uri:datasetCategory ; 
+ rdfs:label "Seafood is a category in Yelp used to describe a business" . 
+
+ category_uri:Fitness & Instruction a ontology_uri:datasetCategory ; 
+ rdfs:label "Fitness & Instruction is a category in Yelp used to describe a business" . 
+
+ category_uri:Professional Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Professional Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Hair Removal a ontology_uri:datasetCategory ; 
+ rdfs:label "Hair Removal is a category in Yelp used to describe a business" . 
+
+ category_uri:Desserts a ontology_uri:datasetCategory ; 
+ rdfs:label "Desserts is a category in Yelp used to describe a business" . 
+
+ category_uri:Bakeries a ontology_uri:datasetCategory ; 
+ rdfs:label "Bakeries is a category in Yelp used to describe a business" . 
+
+ category_uri:Salad a ontology_uri:datasetCategory ; 
+ rdfs:label "Salad is a category in Yelp used to describe a business" . 
+
+ category_uri:Hotels a ontology_uri:datasetCategory ; 
+ rdfs:label "Hotels is a category in Yelp used to describe a business" . 
+
+ category_uri:Chicken Wings a ontology_uri:datasetCategory ; 
+ rdfs:label "Chicken Wings is a category in Yelp used to describe a business" . 
+
+ category_uri:Cafes a ontology_uri:datasetCategory ; 
+ rdfs:label "Cafes is a category in Yelp used to describe a business" . 
+
+ category_uri:Ice Cream & Frozen Yogurt a ontology_uri:datasetCategory ; 
+ rdfs:label "Ice Cream & Frozen Yogurt is a category in Yelp used to describe a business" . 
+
+ category_uri:Caterers a ontology_uri:datasetCategory ; 
+ rdfs:label "Caterers is a category in Yelp used to describe a business" . 
+
+ category_uri:Pet Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Pet Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Dentists a ontology_uri:datasetCategory ; 
+ rdfs:label "Dentists is a category in Yelp used to describe a business" . 
+
+ category_uri:Skin Care a ontology_uri:datasetCategory ; 
+ rdfs:label "Skin Care is a category in Yelp used to describe a business" . 
+
+ category_uri:Venues & Event Spaces a ontology_uri:datasetCategory ; 
+ rdfs:label "Venues & Event Spaces is a category in Yelp used to describe a business" . 
+
+ category_uri:Tires a ontology_uri:datasetCategory ; 
+ rdfs:label "Tires is a category in Yelp used to describe a business" . 
+
+ category_uri:Wine & Spirits a ontology_uri:datasetCategory ; 
+ rdfs:label "Wine & Spirits is a category in Yelp used to describe a business" . 
+
+ category_uri:Delis a ontology_uri:datasetCategory ; 
+ rdfs:label "Delis is a category in Yelp used to describe a business" . 
+
+ category_uri:Oil Change Stations a ontology_uri:datasetCategory ; 
+ rdfs:label "Oil Change Stations is a category in Yelp used to describe a business" . 
+
+ category_uri:Waxing a ontology_uri:datasetCategory ; 
+ rdfs:label "Waxing is a category in Yelp used to describe a business" . 
+
+ category_uri:Contractors a ontology_uri:datasetCategory ; 
+ rdfs:label "Contractors is a category in Yelp used to describe a business" . 
+
+ category_uri:Women'S Clothing a ontology_uri:datasetCategory ; 
+ rdfs:label "Women'S Clothing is a category in Yelp used to describe a business" . 
+
+ category_uri:Massage a ontology_uri:datasetCategory ; 
+ rdfs:label "Massage is a category in Yelp used to describe a business" . 
+
+ category_uri:Sports Bars a ontology_uri:datasetCategory ; 
+ rdfs:label "Sports Bars is a category in Yelp used to describe a business" . 
+
+ category_uri:Day Spas a ontology_uri:datasetCategory ; 
+ rdfs:label "Day Spas is a category in Yelp used to describe a business" . 
+
+ category_uri:General Dentistry a ontology_uri:datasetCategory ; 
+ rdfs:label "General Dentistry is a category in Yelp used to describe a business" . 
+
+ category_uri:Flowers & Gifts a ontology_uri:datasetCategory ; 
+ rdfs:label "Flowers & Gifts is a category in Yelp used to describe a business" . 
+
+ category_uri:Auto Parts & Supplies a ontology_uri:datasetCategory ; 
+ rdfs:label "Auto Parts & Supplies is a category in Yelp used to describe a business" . 
+
+ category_uri:Apartments a ontology_uri:datasetCategory ; 
+ rdfs:label "Apartments is a category in Yelp used to describe a business" . 
+
+ category_uri:Convenience Stores a ontology_uri:datasetCategory ; 
+ rdfs:label "Convenience Stores is a category in Yelp used to describe a business" . 
+
+ category_uri:Home Decor a ontology_uri:datasetCategory ; 
+ rdfs:label "Home Decor is a category in Yelp used to describe a business" . 
+
+ category_uri:Gyms a ontology_uri:datasetCategory ; 
+ rdfs:label "Gyms is a category in Yelp used to describe a business" . 
+
+ category_uri:Japanese a ontology_uri:datasetCategory ; 
+ rdfs:label "Japanese is a category in Yelp used to describe a business" . 
+
+ category_uri:Pubs a ontology_uri:datasetCategory ; 
+ rdfs:label "Pubs is a category in Yelp used to describe a business" . 
+
+ category_uri:Cocktail Bars a ontology_uri:datasetCategory ; 
+ rdfs:label "Cocktail Bars is a category in Yelp used to describe a business" . 
+
+ category_uri:Sushi Bars a ontology_uri:datasetCategory ; 
+ rdfs:label "Sushi Bars is a category in Yelp used to describe a business" . 
+
+ category_uri:Barbeque a ontology_uri:datasetCategory ; 
+ rdfs:label "Barbeque is a category in Yelp used to describe a business" . 
+
+ category_uri:Juice Bars & Smoothies a ontology_uri:datasetCategory ; 
+ rdfs:label "Juice Bars & Smoothies is a category in Yelp used to describe a business" . 
+
+ category_uri:Barbers a ontology_uri:datasetCategory ; 
+ rdfs:label "Barbers is a category in Yelp used to describe a business" . 
+
+ category_uri:Car Dealers a ontology_uri:datasetCategory ; 
+ rdfs:label "Car Dealers is a category in Yelp used to describe a business" . 
+
+ category_uri:Sporting Goods a ontology_uri:datasetCategory ; 
+ rdfs:label "Sporting Goods is a category in Yelp used to describe a business" . 
+
+ category_uri:Accessories a ontology_uri:datasetCategory ; 
+ rdfs:label "Accessories is a category in Yelp used to describe a business" . 
+
+ category_uri:Drugstores a ontology_uri:datasetCategory ; 
+ rdfs:label "Drugstores is a category in Yelp used to describe a business" . 
+
+ category_uri:Cosmetic Dentists a ontology_uri:datasetCategory ; 
+ rdfs:label "Cosmetic Dentists is a category in Yelp used to describe a business" . 
+
+ category_uri:Local Flavor a ontology_uri:datasetCategory ; 
+ rdfs:label "Local Flavor is a category in Yelp used to describe a business" . 
+
+ category_uri:Furniture Stores a ontology_uri:datasetCategory ; 
+ rdfs:label "Furniture Stores is a category in Yelp used to describe a business" . 
+
+ category_uri:Pet Groomers a ontology_uri:datasetCategory ; 
+ rdfs:label "Pet Groomers is a category in Yelp used to describe a business" . 
+
+ category_uri:Asian Fusion a ontology_uri:datasetCategory ; 
+ rdfs:label "Asian Fusion is a category in Yelp used to describe a business" . 
+
+ category_uri:Cosmetics & Beauty Supply a ontology_uri:datasetCategory ; 
+ rdfs:label "Cosmetics & Beauty Supply is a category in Yelp used to describe a business" . 
+
+ category_uri:Steakhouses a ontology_uri:datasetCategory ; 
+ rdfs:label "Steakhouses is a category in Yelp used to describe a business" . 
+
+ category_uri:Diners a ontology_uri:datasetCategory ; 
+ rdfs:label "Diners is a category in Yelp used to describe a business" . 
+
+ category_uri:Financial Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Financial Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Trainers a ontology_uri:datasetCategory ; 
+ rdfs:label "Trainers is a category in Yelp used to describe a business" . 
+
+ category_uri:Hair Stylists a ontology_uri:datasetCategory ; 
+ rdfs:label "Hair Stylists is a category in Yelp used to describe a business" . 
+
+ category_uri:Arts & Crafts a ontology_uri:datasetCategory ; 
+ rdfs:label "Arts & Crafts is a category in Yelp used to describe a business" . 
+
+ category_uri:Department Stores a ontology_uri:datasetCategory ; 
+ rdfs:label "Department Stores is a category in Yelp used to describe a business" . 
+
+ category_uri:Electronics a ontology_uri:datasetCategory ; 
+ rdfs:label "Electronics is a category in Yelp used to describe a business" . 
+
+ category_uri:Veterinarians a ontology_uri:datasetCategory ; 
+ rdfs:label "Veterinarians is a category in Yelp used to describe a business" . 
+
+ category_uri:Massage Therapy a ontology_uri:datasetCategory ; 
+ rdfs:label "Massage Therapy is a category in Yelp used to describe a business" . 
+
+ category_uri:Pet Sitting a ontology_uri:datasetCategory ; 
+ rdfs:label "Pet Sitting is a category in Yelp used to describe a business" . 
+
+ category_uri:Eyelash Service a ontology_uri:datasetCategory ; 
+ rdfs:label "Eyelash Service is a category in Yelp used to describe a business" . 
+
+ category_uri:Men'S Clothing a ontology_uri:datasetCategory ; 
+ rdfs:label "Men'S Clothing is a category in Yelp used to describe a business" . 
+
+ category_uri:Food Trucks a ontology_uri:datasetCategory ; 
+ rdfs:label "Food Trucks is a category in Yelp used to describe a business" . 
+
+ category_uri:Mediterranean a ontology_uri:datasetCategory ; 
+ rdfs:label "Mediterranean is a category in Yelp used to describe a business" . 
+
+ category_uri:Body Shops a ontology_uri:datasetCategory ; 
+ rdfs:label "Body Shops is a category in Yelp used to describe a business" . 
+
+ category_uri:Public Services & Government a ontology_uri:datasetCategory ; 
+ rdfs:label "Public Services & Government is a category in Yelp used to describe a business" . 
+
+ category_uri:Heating & Air Conditioning/Hvac a ontology_uri:datasetCategory ; 
+ rdfs:label "Heating & Air Conditioning/Hvac is a category in Yelp used to describe a business" . 
+
+ category_uri:Lounges a ontology_uri:datasetCategory ; 
+ rdfs:label "Lounges is a category in Yelp used to describe a business" . 
+
+ category_uri:Wine Bars a ontology_uri:datasetCategory ; 
+ rdfs:label "Wine Bars is a category in Yelp used to describe a business" . 
+
+ category_uri:It Services & Computer Repair a ontology_uri:datasetCategory ; 
+ rdfs:label "It Services & Computer Repair is a category in Yelp used to describe a business" . 
+
+ category_uri:Laundry Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Laundry Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Medical Centers a ontology_uri:datasetCategory ; 
+ rdfs:label "Medical Centers is a category in Yelp used to describe a business" . 
+
+ category_uri:Optometrists a ontology_uri:datasetCategory ; 
+ rdfs:label "Optometrists is a category in Yelp used to describe a business" . 
+
+ category_uri:Gas Stations a ontology_uri:datasetCategory ; 
+ rdfs:label "Gas Stations is a category in Yelp used to describe a business" . 
+
+ category_uri:Music Venues a ontology_uri:datasetCategory ; 
+ rdfs:label "Music Venues is a category in Yelp used to describe a business" . 
+
+ category_uri:Donuts a ontology_uri:datasetCategory ; 
+ rdfs:label "Donuts is a category in Yelp used to describe a business" . 
+
+ category_uri:Dry Cleaning & Laundry a ontology_uri:datasetCategory ; 
+ rdfs:label "Dry Cleaning & Laundry is a category in Yelp used to describe a business" . 
+
+ category_uri:Party & Event Planning a ontology_uri:datasetCategory ; 
+ rdfs:label "Party & Event Planning is a category in Yelp used to describe a business" . 
+
+ category_uri:Soup a ontology_uri:datasetCategory ; 
+ rdfs:label "Soup is a category in Yelp used to describe a business" . 
+
+ category_uri:Food Delivery Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Food Delivery Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Pet Stores a ontology_uri:datasetCategory ; 
+ rdfs:label "Pet Stores is a category in Yelp used to describe a business" . 
+
+ category_uri:Tacos a ontology_uri:datasetCategory ; 
+ rdfs:label "Tacos is a category in Yelp used to describe a business" . 
+
+ category_uri:Shoe Stores a ontology_uri:datasetCategory ; 
+ rdfs:label "Shoe Stores is a category in Yelp used to describe a business" . 
+
+ category_uri:Eyewear & Opticians a ontology_uri:datasetCategory ; 
+ rdfs:label "Eyewear & Opticians is a category in Yelp used to describe a business" . 
+
+ category_uri:Southern a ontology_uri:datasetCategory ; 
+ rdfs:label "Southern is a category in Yelp used to describe a business" . 
+
+ category_uri:Parks a ontology_uri:datasetCategory ; 
+ rdfs:label "Parks is a category in Yelp used to describe a business" . 
+
+ category_uri:Mags a ontology_uri:datasetCategory ; 
+ rdfs:label "Mags is a category in Yelp used to describe a business" . 
+
+ category_uri:Music & Video a ontology_uri:datasetCategory ; 
+ rdfs:label "Music & Video is a category in Yelp used to describe a business" . 
+
+ category_uri:Books a ontology_uri:datasetCategory ; 
+ rdfs:label "Books is a category in Yelp used to describe a business" . 
+
+ category_uri:Makeup Artists a ontology_uri:datasetCategory ; 
+ rdfs:label "Makeup Artists is a category in Yelp used to describe a business" . 
+
+ category_uri:Thai a ontology_uri:datasetCategory ; 
+ rdfs:label "Thai is a category in Yelp used to describe a business" . 
+
+ category_uri:Car Wash a ontology_uri:datasetCategory ; 
+ rdfs:label "Car Wash is a category in Yelp used to describe a business" . 
+
+ category_uri:Florists a ontology_uri:datasetCategory ; 
+ rdfs:label "Florists is a category in Yelp used to describe a business" . 
+
+ category_uri:Building Supplies a ontology_uri:datasetCategory ; 
+ rdfs:label "Building Supplies is a category in Yelp used to describe a business" . 
+
+ category_uri:Mobile Phones a ontology_uri:datasetCategory ; 
+ rdfs:label "Mobile Phones is a category in Yelp used to describe a business" . 
+
+ category_uri:Movers a ontology_uri:datasetCategory ; 
+ rdfs:label "Movers is a category in Yelp used to describe a business" . 
+
+ category_uri:Yoga a ontology_uri:datasetCategory ; 
+ rdfs:label "Yoga is a category in Yelp used to describe a business" . 
+
+ category_uri:Specialty Schools a ontology_uri:datasetCategory ; 
+ rdfs:label "Specialty Schools is a category in Yelp used to describe a business" . 
+
+ category_uri:Cajun/Creole a ontology_uri:datasetCategory ; 
+ rdfs:label "Cajun/Creole is a category in Yelp used to describe a business" . 
+
+ category_uri:Tex-Mex a ontology_uri:datasetCategory ; 
+ rdfs:label "Tex-Mex is a category in Yelp used to describe a business" . 
+
+ category_uri:Auto Detailing a ontology_uri:datasetCategory ; 
+ rdfs:label "Auto Detailing is a category in Yelp used to describe a business" . 
+
+ category_uri:Landscaping a ontology_uri:datasetCategory ; 
+ rdfs:label "Landscaping is a category in Yelp used to describe a business" . 
+
+ category_uri:Nurseries & Gardening a ontology_uri:datasetCategory ; 
+ rdfs:label "Nurseries & Gardening is a category in Yelp used to describe a business" . 
+
+ category_uri:Appliances a ontology_uri:datasetCategory ; 
+ rdfs:label "Appliances is a category in Yelp used to describe a business" . 
+
+ category_uri:Beer Bar a ontology_uri:datasetCategory ; 
+ rdfs:label "Beer Bar is a category in Yelp used to describe a business" . 
+
+ category_uri:Discount Store a ontology_uri:datasetCategory ; 
+ rdfs:label "Discount Store is a category in Yelp used to describe a business" . 
+
+ category_uri:Breweries a ontology_uri:datasetCategory ; 
+ rdfs:label "Breweries is a category in Yelp used to describe a business" . 
+
+ category_uri:Transportation a ontology_uri:datasetCategory ; 
+ rdfs:label "Transportation is a category in Yelp used to describe a business" . 
+
+ category_uri:Vietnamese a ontology_uri:datasetCategory ; 
+ rdfs:label "Vietnamese is a category in Yelp used to describe a business" . 
+
+ category_uri:Home Cleaning a ontology_uri:datasetCategory ; 
+ rdfs:label "Home Cleaning is a category in Yelp used to describe a business" . 
+
+ category_uri:Tours a ontology_uri:datasetCategory ; 
+ rdfs:label "Tours is a category in Yelp used to describe a business" . 
+
+ category_uri:Sewing & Alterations a ontology_uri:datasetCategory ; 
+ rdfs:label "Sewing & Alterations is a category in Yelp used to describe a business" . 
+
+ category_uri:Indian a ontology_uri:datasetCategory ; 
+ rdfs:label "Indian is a category in Yelp used to describe a business" . 
+
+ category_uri:Men'S Hair Salons a ontology_uri:datasetCategory ; 
+ rdfs:label "Men'S Hair Salons is a category in Yelp used to describe a business" . 
+
+ category_uri:Latin American a ontology_uri:datasetCategory ; 
+ rdfs:label "Latin American is a category in Yelp used to describe a business" . 
+
+ category_uri:Chicken Shop a ontology_uri:datasetCategory ; 
+ rdfs:label "Chicken Shop is a category in Yelp used to describe a business" . 
+
+ category_uri:Appliances & Repair a ontology_uri:datasetCategory ; 
+ rdfs:label "Appliances & Repair is a category in Yelp used to describe a business" . 
+
+ category_uri:Real Estate Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Real Estate Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Gift Shops a ontology_uri:datasetCategory ; 
+ rdfs:label "Gift Shops is a category in Yelp used to describe a business" . 
+
+ category_uri:Self Storage a ontology_uri:datasetCategory ; 
+ rdfs:label "Self Storage is a category in Yelp used to describe a business" . 
+
+ category_uri:Shipping Centers a ontology_uri:datasetCategory ; 
+ rdfs:label "Shipping Centers is a category in Yelp used to describe a business" . 
+
+ category_uri:Hardware Stores a ontology_uri:datasetCategory ; 
+ rdfs:label "Hardware Stores is a category in Yelp used to describe a business" . 
+
+ category_uri:Printing Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Printing Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Art Galleries a ontology_uri:datasetCategory ; 
+ rdfs:label "Art Galleries is a category in Yelp used to describe a business" . 
+
+ category_uri:Medical Spas a ontology_uri:datasetCategory ; 
+ rdfs:label "Medical Spas is a category in Yelp used to describe a business" . 
+
+ category_uri:Greek a ontology_uri:datasetCategory ; 
+ rdfs:label "Greek is a category in Yelp used to describe a business" . 
+
+ category_uri:Hot Dogs a ontology_uri:datasetCategory ; 
+ rdfs:label "Hot Dogs is a category in Yelp used to describe a business" . 
+
+ category_uri:Kitchen & Bath a ontology_uri:datasetCategory ; 
+ rdfs:label "Kitchen & Bath is a category in Yelp used to describe a business" . 
+
+ category_uri:Property Management a ontology_uri:datasetCategory ; 
+ rdfs:label "Property Management is a category in Yelp used to describe a business" . 
+
+ category_uri:Vintage & Consignment a ontology_uri:datasetCategory ; 
+ rdfs:label "Vintage & Consignment is a category in Yelp used to describe a business" . 
+
+ category_uri:Used a ontology_uri:datasetCategory ; 
+ rdfs:label "Used is a category in Yelp used to describe a business" . 
+
+ category_uri:Oral Surgeons a ontology_uri:datasetCategory ; 
+ rdfs:label "Oral Surgeons is a category in Yelp used to describe a business" . 
+
+ category_uri:Banks & Credit Unions a ontology_uri:datasetCategory ; 
+ rdfs:label "Banks & Credit Unions is a category in Yelp used to describe a business" . 
+
+ category_uri:Comfort Food a ontology_uri:datasetCategory ; 
+ rdfs:label "Comfort Food is a category in Yelp used to describe a business" . 
+
+ category_uri:Bagels a ontology_uri:datasetCategory ; 
+ rdfs:label "Bagels is a category in Yelp used to describe a business" . 
+
+ category_uri:Auto Glass Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Auto Glass Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Chiropractors a ontology_uri:datasetCategory ; 
+ rdfs:label "Chiropractors is a category in Yelp used to describe a business" . 
+
+ category_uri:Wedding Planning a ontology_uri:datasetCategory ; 
+ rdfs:label "Wedding Planning is a category in Yelp used to describe a business" . 
+
+ category_uri:Endodontists a ontology_uri:datasetCategory ; 
+ rdfs:label "Endodontists is a category in Yelp used to describe a business" . 
+
+ category_uri:Towing a ontology_uri:datasetCategory ; 
+ rdfs:label "Towing is a category in Yelp used to describe a business" . 
+
+ category_uri:Tobacco Shops a ontology_uri:datasetCategory ; 
+ rdfs:label "Tobacco Shops is a category in Yelp used to describe a business" . 
+
+ category_uri:Car Rental a ontology_uri:datasetCategory ; 
+ rdfs:label "Car Rental is a category in Yelp used to describe a business" . 
+
+ category_uri:Tanning a ontology_uri:datasetCategory ; 
+ rdfs:label "Tanning is a category in Yelp used to describe a business" . 
+
+ category_uri:Orthodontists a ontology_uri:datasetCategory ; 
+ rdfs:label "Orthodontists is a category in Yelp used to describe a business" . 
+
+ category_uri:Ethnic Food a ontology_uri:datasetCategory ; 
+ rdfs:label "Ethnic Food is a category in Yelp used to describe a business" . 
+
+ category_uri:Transmission Repair a ontology_uri:datasetCategory ; 
+ rdfs:label "Transmission Repair is a category in Yelp used to describe a business" . 
+
+ category_uri:Antiques a ontology_uri:datasetCategory ; 
+ rdfs:label "Antiques is a category in Yelp used to describe a business" . 
+
+ category_uri:Dive Bars a ontology_uri:datasetCategory ; 
+ rdfs:label "Dive Bars is a category in Yelp used to describe a business" . 
+
+ category_uri:Mattresses a ontology_uri:datasetCategory ; 
+ rdfs:label "Mattresses is a category in Yelp used to describe a business" . 
+
+ category_uri:Hair Extensions a ontology_uri:datasetCategory ; 
+ rdfs:label "Hair Extensions is a category in Yelp used to describe a business" . 
+
+ category_uri:Buffets a ontology_uri:datasetCategory ; 
+ rdfs:label "Buffets is a category in Yelp used to describe a business" . 
+
+ category_uri:Cheesesteaks a ontology_uri:datasetCategory ; 
+ rdfs:label "Cheesesteaks is a category in Yelp used to describe a business" . 
+
+ category_uri:Thrift Stores a ontology_uri:datasetCategory ; 
+ rdfs:label "Thrift Stores is a category in Yelp used to describe a business" . 
+
+ category_uri:Health Markets a ontology_uri:datasetCategory ; 
+ rdfs:label "Health Markets is a category in Yelp used to describe a business" . 
+
+ category_uri:Caribbean a ontology_uri:datasetCategory ; 
+ rdfs:label "Caribbean is a category in Yelp used to describe a business" . 
+
+ category_uri:Middle Eastern a ontology_uri:datasetCategory ; 
+ rdfs:label "Middle Eastern is a category in Yelp used to describe a business" . 
+
+ category_uri:Performing Arts a ontology_uri:datasetCategory ; 
+ rdfs:label "Performing Arts is a category in Yelp used to describe a business" . 
+
+ category_uri:Sports Wear a ontology_uri:datasetCategory ; 
+ rdfs:label "Sports Wear is a category in Yelp used to describe a business" . 
+
+ category_uri:Real Estate Agents a ontology_uri:datasetCategory ; 
+ rdfs:label "Real Estate Agents is a category in Yelp used to describe a business" . 
+
+ category_uri:Pet Training a ontology_uri:datasetCategory ; 
+ rdfs:label "Pet Training is a category in Yelp used to describe a business" . 
+
+ category_uri:Tree Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Tree Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Physical Therapy a ontology_uri:datasetCategory ; 
+ rdfs:label "Physical Therapy is a category in Yelp used to describe a business" . 
+
+ category_uri:Water Heater Installation/Repair a ontology_uri:datasetCategory ; 
+ rdfs:label "Water Heater Installation/Repair is a category in Yelp used to describe a business" . 
+
+ category_uri:Bridal a ontology_uri:datasetCategory ; 
+ rdfs:label "Bridal is a category in Yelp used to describe a business" . 
+
+ category_uri:Hobby Shops a ontology_uri:datasetCategory ; 
+ rdfs:label "Hobby Shops is a category in Yelp used to describe a business" . 
+
+ category_uri:Meat Shops a ontology_uri:datasetCategory ; 
+ rdfs:label "Meat Shops is a category in Yelp used to describe a business" . 
+
+ category_uri:Urgent Care a ontology_uri:datasetCategory ; 
+ rdfs:label "Urgent Care is a category in Yelp used to describe a business" . 
+
+ category_uri:Soul Food a ontology_uri:datasetCategory ; 
+ rdfs:label "Soul Food is a category in Yelp used to describe a business" . 
+
+ category_uri:Fruits & Veggies a ontology_uri:datasetCategory ; 
+ rdfs:label "Fruits & Veggies is a category in Yelp used to describe a business" . 
+
+ category_uri:Pediatric Dentists a ontology_uri:datasetCategory ; 
+ rdfs:label "Pediatric Dentists is a category in Yelp used to describe a business" . 
+
+ category_uri:Carpet Cleaning a ontology_uri:datasetCategory ; 
+ rdfs:label "Carpet Cleaning is a category in Yelp used to describe a business" . 
+
+ category_uri:Mobile Phone Repair a ontology_uri:datasetCategory ; 
+ rdfs:label "Mobile Phone Repair is a category in Yelp used to describe a business" . 
+
+ category_uri:Toy Stores a ontology_uri:datasetCategory ; 
+ rdfs:label "Toy Stores is a category in Yelp used to describe a business" . 
+
+ category_uri:Notaries a ontology_uri:datasetCategory ; 
+ rdfs:label "Notaries is a category in Yelp used to describe a business" . 
+
+ category_uri:Gastropubs a ontology_uri:datasetCategory ; 
+ rdfs:label "Gastropubs is a category in Yelp used to describe a business" . 
+
+ category_uri:Interior Design a ontology_uri:datasetCategory ; 
+ rdfs:label "Interior Design is a category in Yelp used to describe a business" . 
+
+ category_uri:Photographers a ontology_uri:datasetCategory ; 
+ rdfs:label "Photographers is a category in Yelp used to describe a business" . 
+
+ category_uri:Electronics Repair a ontology_uri:datasetCategory ; 
+ rdfs:label "Electronics Repair is a category in Yelp used to describe a business" . 
+
+ category_uri:Family Practice a ontology_uri:datasetCategory ; 
+ rdfs:label "Family Practice is a category in Yelp used to describe a business" . 
+
+ category_uri:French a ontology_uri:datasetCategory ; 
+ rdfs:label "French is a category in Yelp used to describe a business" . 
+
+ category_uri:Community Service/Non-Profit a ontology_uri:datasetCategory ; 
+ rdfs:label "Community Service/Non-Profit is a category in Yelp used to describe a business" . 
+
+ category_uri:Pest Control a ontology_uri:datasetCategory ; 
+ rdfs:label "Pest Control is a category in Yelp used to describe a business" . 
+
+ category_uri:Farmers Market a ontology_uri:datasetCategory ; 
+ rdfs:label "Farmers Market is a category in Yelp used to describe a business" . 
+
+ category_uri:Korean a ontology_uri:datasetCategory ; 
+ rdfs:label "Korean is a category in Yelp used to describe a business" . 
+
+ category_uri:Electricians a ontology_uri:datasetCategory ; 
+ rdfs:label "Electricians is a category in Yelp used to describe a business" . 
+
+ category_uri:Bubble Tea a ontology_uri:datasetCategory ; 
+ rdfs:label "Bubble Tea is a category in Yelp used to describe a business" . 
+
+ category_uri:Vape Shops a ontology_uri:datasetCategory ; 
+ rdfs:label "Vape Shops is a category in Yelp used to describe a business" . 
+
+ category_uri:Mobile Phone Accessories a ontology_uri:datasetCategory ; 
+ rdfs:label "Mobile Phone Accessories is a category in Yelp used to describe a business" . 
+
+ category_uri:Diagnostic Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Diagnostic Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Photography Stores & Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Photography Stores & Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Periodontists a ontology_uri:datasetCategory ; 
+ rdfs:label "Periodontists is a category in Yelp used to describe a business" . 
+
+ category_uri:Bikes a ontology_uri:datasetCategory ; 
+ rdfs:label "Bikes is a category in Yelp used to describe a business" . 
+
+ category_uri:Blow Dry/Out Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Blow Dry/Out Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Eyebrow Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Eyebrow Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Dance Clubs a ontology_uri:datasetCategory ; 
+ rdfs:label "Dance Clubs is a category in Yelp used to describe a business" . 
+
+ category_uri:Windows Installation a ontology_uri:datasetCategory ; 
+ rdfs:label "Windows Installation is a category in Yelp used to describe a business" . 
+
+ category_uri:Painters a ontology_uri:datasetCategory ; 
+ rdfs:label "Painters is a category in Yelp used to describe a business" . 
+
+ category_uri:Children'S Clothing a ontology_uri:datasetCategory ; 
+ rdfs:label "Children'S Clothing is a category in Yelp used to describe a business" . 
+
+ category_uri:Festivals a ontology_uri:datasetCategory ; 
+ rdfs:label "Festivals is a category in Yelp used to describe a business" . 
+
+ category_uri:Weight Loss Centers a ontology_uri:datasetCategory ; 
+ rdfs:label "Weight Loss Centers is a category in Yelp used to describe a business" . 
+
+ category_uri:Tapas/Small Plates a ontology_uri:datasetCategory ; 
+ rdfs:label "Tapas/Small Plates is a category in Yelp used to describe a business" . 
+
+ category_uri:Nutritionists a ontology_uri:datasetCategory ; 
+ rdfs:label "Nutritionists is a category in Yelp used to describe a business" . 
+
+ category_uri:Used Car Dealers a ontology_uri:datasetCategory ; 
+ rdfs:label "Used Car Dealers is a category in Yelp used to describe a business" . 
+
+ category_uri:Pet Boarding a ontology_uri:datasetCategory ; 
+ rdfs:label "Pet Boarding is a category in Yelp used to describe a business" . 
+
+ category_uri:Acupuncture a ontology_uri:datasetCategory ; 
+ rdfs:label "Acupuncture is a category in Yelp used to describe a business" . 
+
+ category_uri:Food Stands a ontology_uri:datasetCategory ; 
+ rdfs:label "Food Stands is a category in Yelp used to describe a business" . 
+
+ category_uri:Cupcakes a ontology_uri:datasetCategory ; 
+ rdfs:label "Cupcakes is a category in Yelp used to describe a business" . 
+
+ category_uri:Ophthalmologists a ontology_uri:datasetCategory ; 
+ rdfs:label "Ophthalmologists is a category in Yelp used to describe a business" . 
+
+ category_uri:Bookstores a ontology_uri:datasetCategory ; 
+ rdfs:label "Bookstores is a category in Yelp used to describe a business" . 
+
+ category_uri:Child Care & Day Care a ontology_uri:datasetCategory ; 
+ rdfs:label "Child Care & Day Care is a category in Yelp used to describe a business" . 
+
+ category_uri:Museums a ontology_uri:datasetCategory ; 
+ rdfs:label "Museums is a category in Yelp used to describe a business" . 
+
+ category_uri:Reflexology a ontology_uri:datasetCategory ; 
+ rdfs:label "Reflexology is a category in Yelp used to describe a business" . 
+
+ category_uri:Junk Removal & Hauling a ontology_uri:datasetCategory ; 
+ rdfs:label "Junk Removal & Hauling is a category in Yelp used to describe a business" . 
+
+ category_uri:Telecommunications a ontology_uri:datasetCategory ; 
+ rdfs:label "Telecommunications is a category in Yelp used to describe a business" . 
+
+ category_uri:Hospitals a ontology_uri:datasetCategory ; 
+ rdfs:label "Hospitals is a category in Yelp used to describe a business" . 
+
+ category_uri:Laser Hair Removal a ontology_uri:datasetCategory ; 
+ rdfs:label "Laser Hair Removal is a category in Yelp used to describe a business" . 
+
+ category_uri:Noodles a ontology_uri:datasetCategory ; 
+ rdfs:label "Noodles is a category in Yelp used to describe a business" . 
+
+ category_uri:Dry Cleaning a ontology_uri:datasetCategory ; 
+ rdfs:label "Dry Cleaning is a category in Yelp used to describe a business" . 
+
+ category_uri:Arcades a ontology_uri:datasetCategory ; 
+ rdfs:label "Arcades is a category in Yelp used to describe a business" . 
+
+ category_uri:Permanent Makeup a ontology_uri:datasetCategory ; 
+ rdfs:label "Permanent Makeup is a category in Yelp used to describe a business" . 
+
+ category_uri:Office Cleaning a ontology_uri:datasetCategory ; 
+ rdfs:label "Office Cleaning is a category in Yelp used to describe a business" . 
+
+ category_uri:Outdoor Gear a ontology_uri:datasetCategory ; 
+ rdfs:label "Outdoor Gear is a category in Yelp used to describe a business" . 
+
+ category_uri:Piercing a ontology_uri:datasetCategory ; 
+ rdfs:label "Piercing is a category in Yelp used to describe a business" . 
+
+ category_uri:Kids Activities a ontology_uri:datasetCategory ; 
+ rdfs:label "Kids Activities is a category in Yelp used to describe a business" . 
+
+ category_uri:Cosmetic Surgeons a ontology_uri:datasetCategory ; 
+ rdfs:label "Cosmetic Surgeons is a category in Yelp used to describe a business" . 
+
+ category_uri:Mortgage Brokers a ontology_uri:datasetCategory ; 
+ rdfs:label "Mortgage Brokers is a category in Yelp used to describe a business" . 
+
+ category_uri:Masonry/Concrete a ontology_uri:datasetCategory ; 
+ rdfs:label "Masonry/Concrete is a category in Yelp used to describe a business" . 
+
+ category_uri:Lawyers a ontology_uri:datasetCategory ; 
+ rdfs:label "Lawyers is a category in Yelp used to describe a business" . 
+
+ category_uri:Street Vendors a ontology_uri:datasetCategory ; 
+ rdfs:label "Street Vendors is a category in Yelp used to describe a business" . 
+
+ category_uri:Session Photography a ontology_uri:datasetCategory ; 
+ rdfs:label "Session Photography is a category in Yelp used to describe a business" . 
+
+ category_uri:Candy Stores a ontology_uri:datasetCategory ; 
+ rdfs:label "Candy Stores is a category in Yelp used to describe a business" . 
+
+ category_uri:Handyman a ontology_uri:datasetCategory ; 
+ rdfs:label "Handyman is a category in Yelp used to describe a business" . 
+
+ category_uri:Internet Service Providers a ontology_uri:datasetCategory ; 
+ rdfs:label "Internet Service Providers is a category in Yelp used to describe a business" . 
+
+ category_uri:Damage Restoration a ontology_uri:datasetCategory ; 
+ rdfs:label "Damage Restoration is a category in Yelp used to describe a business" . 
+
+ category_uri:Windshield Installation & Repair a ontology_uri:datasetCategory ; 
+ rdfs:label "Windshield Installation & Repair is a category in Yelp used to describe a business" . 
+
+ category_uri:Jewelry Repair a ontology_uri:datasetCategory ; 
+ rdfs:label "Jewelry Repair is a category in Yelp used to describe a business" . 
+
+ category_uri:Preschools a ontology_uri:datasetCategory ; 
+ rdfs:label "Preschools is a category in Yelp used to describe a business" . 
+
+ category_uri:Wineries a ontology_uri:datasetCategory ; 
+ rdfs:label "Wineries is a category in Yelp used to describe a business" . 
+
+ category_uri:Mailbox Centers a ontology_uri:datasetCategory ; 
+ rdfs:label "Mailbox Centers is a category in Yelp used to describe a business" . 
+
+ category_uri:Computers a ontology_uri:datasetCategory ; 
+ rdfs:label "Computers is a category in Yelp used to describe a business" . 
+
+ category_uri:Chocolatiers & Shops a ontology_uri:datasetCategory ; 
+ rdfs:label "Chocolatiers & Shops is a category in Yelp used to describe a business" . 
+
+ category_uri:Seafood Markets a ontology_uri:datasetCategory ; 
+ rdfs:label "Seafood Markets is a category in Yelp used to describe a business" . 
+
+ category_uri:Boot Camps a ontology_uri:datasetCategory ; 
+ rdfs:label "Boot Camps is a category in Yelp used to describe a business" . 
+
+ category_uri:Lighting Fixtures & Equipment a ontology_uri:datasetCategory ; 
+ rdfs:label "Lighting Fixtures & Equipment is a category in Yelp used to describe a business" . 
+
+ category_uri:Dermatologists a ontology_uri:datasetCategory ; 
+ rdfs:label "Dermatologists is a category in Yelp used to describe a business" . 
+
+ category_uri:Spray Tanning a ontology_uri:datasetCategory ; 
+ rdfs:label "Spray Tanning is a category in Yelp used to describe a business" . 
+
+ category_uri:Watches a ontology_uri:datasetCategory ; 
+ rdfs:label "Watches is a category in Yelp used to describe a business" . 
+
+ category_uri:Airport Shuttles a ontology_uri:datasetCategory ; 
+ rdfs:label "Airport Shuttles is a category in Yelp used to describe a business" . 
+
+ category_uri:Post Offices a ontology_uri:datasetCategory ; 
+ rdfs:label "Post Offices is a category in Yelp used to describe a business" . 
+
+ category_uri:Karaoke a ontology_uri:datasetCategory ; 
+ rdfs:label "Karaoke is a category in Yelp used to describe a business" . 
+
+ category_uri:Event Photography a ontology_uri:datasetCategory ; 
+ rdfs:label "Event Photography is a category in Yelp used to describe a business" . 
+
+ category_uri:Bed & Breakfast a ontology_uri:datasetCategory ; 
+ rdfs:label "Bed & Breakfast is a category in Yelp used to describe a business" . 
+
+ category_uri:Keys & Locksmiths a ontology_uri:datasetCategory ; 
+ rdfs:label "Keys & Locksmiths is a category in Yelp used to describe a business" . 
+
+ category_uri:Gutter Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Gutter Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Nail Technicians a ontology_uri:datasetCategory ; 
+ rdfs:label "Nail Technicians is a category in Yelp used to describe a business" . 
+
+ category_uri:Couriers & Delivery Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Couriers & Delivery Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Sports Clubs a ontology_uri:datasetCategory ; 
+ rdfs:label "Sports Clubs is a category in Yelp used to describe a business" . 
+
+ category_uri:Pressure Washers a ontology_uri:datasetCategory ; 
+ rdfs:label "Pressure Washers is a category in Yelp used to describe a business" . 
+
+ category_uri:Obstetricians & Gynecologists a ontology_uri:datasetCategory ; 
+ rdfs:label "Obstetricians & Gynecologists is a category in Yelp used to describe a business" . 
+
+ category_uri:Art Supplies a ontology_uri:datasetCategory ; 
+ rdfs:label "Art Supplies is a category in Yelp used to describe a business" . 
+
+ category_uri:Auto Customization a ontology_uri:datasetCategory ; 
+ rdfs:label "Auto Customization is a category in Yelp used to describe a business" . 
+
+ category_uri:Wraps a ontology_uri:datasetCategory ; 
+ rdfs:label "Wraps is a category in Yelp used to describe a business" . 
+
+ category_uri:Party Supplies a ontology_uri:datasetCategory ; 
+ rdfs:label "Party Supplies is a category in Yelp used to describe a business" . 
+
+ category_uri:Carpeting a ontology_uri:datasetCategory ; 
+ rdfs:label "Carpeting is a category in Yelp used to describe a business" . 
+
+ category_uri:Wheel & Rim Repair a ontology_uri:datasetCategory ; 
+ rdfs:label "Wheel & Rim Repair is a category in Yelp used to describe a business" . 
+
+ category_uri:Landmarks & Historical Buildings a ontology_uri:datasetCategory ; 
+ rdfs:label "Landmarks & Historical Buildings is a category in Yelp used to describe a business" . 
+
+ category_uri:Pool & Hot Tub Service a ontology_uri:datasetCategory ; 
+ rdfs:label "Pool & Hot Tub Service is a category in Yelp used to describe a business" . 
+
+ category_uri:Shopping Centers a ontology_uri:datasetCategory ; 
+ rdfs:label "Shopping Centers is a category in Yelp used to describe a business" . 
+
+ category_uri:Bike Rentals a ontology_uri:datasetCategory ; 
+ rdfs:label "Bike Rentals is a category in Yelp used to describe a business" . 
+
+ category_uri:Custom Cakes a ontology_uri:datasetCategory ; 
+ rdfs:label "Custom Cakes is a category in Yelp used to describe a business" . 
+
+ category_uri:Pilates a ontology_uri:datasetCategory ; 
+ rdfs:label "Pilates is a category in Yelp used to describe a business" . 
+
+ category_uri:Limos a ontology_uri:datasetCategory ; 
+ rdfs:label "Limos is a category in Yelp used to describe a business" . 
+
+ category_uri:Organic Stores a ontology_uri:datasetCategory ; 
+ rdfs:label "Organic Stores is a category in Yelp used to describe a business" . 
+
+ category_uri:Sports Medicine a ontology_uri:datasetCategory ; 
+ rdfs:label "Sports Medicine is a category in Yelp used to describe a business" . 
+
+ category_uri:Security Systems a ontology_uri:datasetCategory ; 
+ rdfs:label "Security Systems is a category in Yelp used to describe a business" . 
+
+ category_uri:Home Inspectors a ontology_uri:datasetCategory ; 
+ rdfs:label "Home Inspectors is a category in Yelp used to describe a business" . 
+
+ category_uri:Religious Organizations a ontology_uri:datasetCategory ; 
+ rdfs:label "Religious Organizations is a category in Yelp used to describe a business" . 
+
+ category_uri:Spanish a ontology_uri:datasetCategory ; 
+ rdfs:label "Spanish is a category in Yelp used to describe a business" . 
+
+ category_uri:Dog Walkers a ontology_uri:datasetCategory ; 
+ rdfs:label "Dog Walkers is a category in Yelp used to describe a business" . 
+
+ category_uri:Cuban a ontology_uri:datasetCategory ; 
+ rdfs:label "Cuban is a category in Yelp used to describe a business" . 
+
+ category_uri:Amusement Parks a ontology_uri:datasetCategory ; 
+ rdfs:label "Amusement Parks is a category in Yelp used to describe a business" . 
+
+ category_uri:Formal Wear a ontology_uri:datasetCategory ; 
+ rdfs:label "Formal Wear is a category in Yelp used to describe a business" . 
+
+ category_uri:Swimming Pools a ontology_uri:datasetCategory ; 
+ rdfs:label "Swimming Pools is a category in Yelp used to describe a business" . 
+
+ category_uri:Coffee Roasteries a ontology_uri:datasetCategory ; 
+ rdfs:label "Coffee Roasteries is a category in Yelp used to describe a business" . 
+
+ category_uri:Musical Instruments & Teachers a ontology_uri:datasetCategory ; 
+ rdfs:label "Musical Instruments & Teachers is a category in Yelp used to describe a business" . 
+
+ category_uri:Door Sales/Installation a ontology_uri:datasetCategory ; 
+ rdfs:label "Door Sales/Installation is a category in Yelp used to describe a business" . 
+
+ category_uri:Wholesale Stores a ontology_uri:datasetCategory ; 
+ rdfs:label "Wholesale Stores is a category in Yelp used to describe a business" . 
+
+ category_uri:Bike Repair/Maintenance a ontology_uri:datasetCategory ; 
+ rdfs:label "Bike Repair/Maintenance is a category in Yelp used to describe a business" . 
+
+ category_uri:Shaved Ice a ontology_uri:datasetCategory ; 
+ rdfs:label "Shaved Ice is a category in Yelp used to describe a business" . 
+
+ category_uri:Laboratory Testing a ontology_uri:datasetCategory ; 
+ rdfs:label "Laboratory Testing is a category in Yelp used to describe a business" . 
+
+ category_uri:Air Duct Cleaning a ontology_uri:datasetCategory ; 
+ rdfs:label "Air Duct Cleaning is a category in Yelp used to describe a business" . 
+
+ category_uri:Travel Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Travel Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Packing Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Packing Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Acai Bowls a ontology_uri:datasetCategory ; 
+ rdfs:label "Acai Bowls is a category in Yelp used to describe a business" . 
+
+ category_uri:Playgrounds a ontology_uri:datasetCategory ; 
+ rdfs:label "Playgrounds is a category in Yelp used to describe a business" . 
+
+ category_uri:Shades & Blinds a ontology_uri:datasetCategory ; 
+ rdfs:label "Shades & Blinds is a category in Yelp used to describe a business" . 
+
+ category_uri:Martial Arts a ontology_uri:datasetCategory ; 
+ rdfs:label "Martial Arts is a category in Yelp used to describe a business" . 
+
+ category_uri:Office Equipment a ontology_uri:datasetCategory ; 
+ rdfs:label "Office Equipment is a category in Yelp used to describe a business" . 
+
+ category_uri:Canadian (New) a ontology_uri:datasetCategory ; 
+ rdfs:label "Canadian (New) is a category in Yelp used to describe a business" . 
+
+ category_uri:Hot Tub & Pool a ontology_uri:datasetCategory ; 
+ rdfs:label "Hot Tub & Pool is a category in Yelp used to describe a business" . 
+
+ category_uri:Floral Designers a ontology_uri:datasetCategory ; 
+ rdfs:label "Floral Designers is a category in Yelp used to describe a business" . 
+
+ category_uri:Shoe Repair a ontology_uri:datasetCategory ; 
+ rdfs:label "Shoe Repair is a category in Yelp used to describe a business" . 
+
+ category_uri:Gardeners a ontology_uri:datasetCategory ; 
+ rdfs:label "Gardeners is a category in Yelp used to describe a business" . 
+
+ category_uri:Vitamins & Supplements a ontology_uri:datasetCategory ; 
+ rdfs:label "Vitamins & Supplements is a category in Yelp used to describe a business" . 
+
+ category_uri:Pediatricians a ontology_uri:datasetCategory ; 
+ rdfs:label "Pediatricians is a category in Yelp used to describe a business" . 
+
+ category_uri:Cards & Stationery a ontology_uri:datasetCategory ; 
+ rdfs:label "Cards & Stationery is a category in Yelp used to describe a business" . 
+
+ category_uri:Taxis a ontology_uri:datasetCategory ; 
+ rdfs:label "Taxis is a category in Yelp used to describe a business" . 
+
+ category_uri:Car Stereo Installation a ontology_uri:datasetCategory ; 
+ rdfs:label "Car Stereo Installation is a category in Yelp used to describe a business" . 
+
+ category_uri:Guns & Ammo a ontology_uri:datasetCategory ; 
+ rdfs:label "Guns & Ammo is a category in Yelp used to describe a business" . 
+
+ category_uri:Recreation Centers a ontology_uri:datasetCategory ; 
+ rdfs:label "Recreation Centers is a category in Yelp used to describe a business" . 
+
+ category_uri:Baby Gear & Furniture a ontology_uri:datasetCategory ; 
+ rdfs:label "Baby Gear & Furniture is a category in Yelp used to describe a business" . 
+
+ category_uri:Watch Repair a ontology_uri:datasetCategory ; 
+ rdfs:label "Watch Repair is a category in Yelp used to describe a business" . 
+
+ category_uri:Art Classes a ontology_uri:datasetCategory ; 
+ rdfs:label "Art Classes is a category in Yelp used to describe a business" . 
+
+ category_uri:Landscape Architects a ontology_uri:datasetCategory ; 
+ rdfs:label "Landscape Architects is a category in Yelp used to describe a business" . 
+
+ category_uri:Graphic Design a ontology_uri:datasetCategory ; 
+ rdfs:label "Graphic Design is a category in Yelp used to describe a business" . 
+
+ category_uri:Tiling a ontology_uri:datasetCategory ; 
+ rdfs:label "Tiling is a category in Yelp used to describe a business" . 
+
+ category_uri:Hookah Bars a ontology_uri:datasetCategory ; 
+ rdfs:label "Hookah Bars is a category in Yelp used to describe a business" . 
+
+ category_uri:Music & Dvds a ontology_uri:datasetCategory ; 
+ rdfs:label "Music & Dvds is a category in Yelp used to describe a business" . 
+
+ category_uri:Window Washing a ontology_uri:datasetCategory ; 
+ rdfs:label "Window Washing is a category in Yelp used to describe a business" . 
+
+ category_uri:Summer Camps a ontology_uri:datasetCategory ; 
+ rdfs:label "Summer Camps is a category in Yelp used to describe a business" . 
+
+ category_uri:Tea Rooms a ontology_uri:datasetCategory ; 
+ rdfs:label "Tea Rooms is a category in Yelp used to describe a business" . 
+
+ category_uri:Car Window Tinting a ontology_uri:datasetCategory ; 
+ rdfs:label "Car Window Tinting is a category in Yelp used to describe a business" . 
+
+ category_uri:Pakistani a ontology_uri:datasetCategory ; 
+ rdfs:label "Pakistani is a category in Yelp used to describe a business" . 
+
+ category_uri:Tapas Bars a ontology_uri:datasetCategory ; 
+ rdfs:label "Tapas Bars is a category in Yelp used to describe a business" . 
+
+ category_uri:Motorcycle Dealers a ontology_uri:datasetCategory ; 
+ rdfs:label "Motorcycle Dealers is a category in Yelp used to describe a business" . 
+
+ category_uri:Counseling & Mental Health a ontology_uri:datasetCategory ; 
+ rdfs:label "Counseling & Mental Health is a category in Yelp used to describe a business" . 
+
+ category_uri:Orthopedists a ontology_uri:datasetCategory ; 
+ rdfs:label "Orthopedists is a category in Yelp used to describe a business" . 
+
+ category_uri:Ramen a ontology_uri:datasetCategory ; 
+ rdfs:label "Ramen is a category in Yelp used to describe a business" . 
+
+ category_uri:Glass & Mirrors a ontology_uri:datasetCategory ; 
+ rdfs:label "Glass & Mirrors is a category in Yelp used to describe a business" . 
+
+ category_uri:Rehabilitation Center a ontology_uri:datasetCategory ; 
+ rdfs:label "Rehabilitation Center is a category in Yelp used to describe a business" . 
+
+ category_uri:Elementary Schools a ontology_uri:datasetCategory ; 
+ rdfs:label "Elementary Schools is a category in Yelp used to describe a business" . 
+
+ category_uri:Naturopathic/Holistic a ontology_uri:datasetCategory ; 
+ rdfs:label "Naturopathic/Holistic is a category in Yelp used to describe a business" . 
+
+ category_uri:Smog Check Stations a ontology_uri:datasetCategory ; 
+ rdfs:label "Smog Check Stations is a category in Yelp used to describe a business" . 
+
+ category_uri:Internal Medicine a ontology_uri:datasetCategory ; 
+ rdfs:label "Internal Medicine is a category in Yelp used to describe a business" . 
+
+ category_uri:Adult Entertainment a ontology_uri:datasetCategory ; 
+ rdfs:label "Adult Entertainment is a category in Yelp used to describe a business" . 
+
+ category_uri:Churches a ontology_uri:datasetCategory ; 
+ rdfs:label "Churches is a category in Yelp used to describe a business" . 
+
+ category_uri:Cabinetry a ontology_uri:datasetCategory ; 
+ rdfs:label "Cabinetry is a category in Yelp used to describe a business" . 
+
+ category_uri:Irish a ontology_uri:datasetCategory ; 
+ rdfs:label "Irish is a category in Yelp used to describe a business" . 
+
+ category_uri:Hiking a ontology_uri:datasetCategory ; 
+ rdfs:label "Hiking is a category in Yelp used to describe a business" . 
+
+ category_uri:Poke a ontology_uri:datasetCategory ; 
+ rdfs:label "Poke is a category in Yelp used to describe a business" . 
+
+ category_uri:Irrigation a ontology_uri:datasetCategory ; 
+ rdfs:label "Irrigation is a category in Yelp used to describe a business" . 
+
+ category_uri:Pool Cleaners a ontology_uri:datasetCategory ; 
+ rdfs:label "Pool Cleaners is a category in Yelp used to describe a business" . 
+
+ category_uri:Libraries a ontology_uri:datasetCategory ; 
+ rdfs:label "Libraries is a category in Yelp used to describe a business" . 
+
+ category_uri:Truck Rental a ontology_uri:datasetCategory ; 
+ rdfs:label "Truck Rental is a category in Yelp used to describe a business" . 
+
+ category_uri:International Grocery a ontology_uri:datasetCategory ; 
+ rdfs:label "International Grocery is a category in Yelp used to describe a business" . 
+
+ category_uri:Motorcycle Repair a ontology_uri:datasetCategory ; 
+ rdfs:label "Motorcycle Repair is a category in Yelp used to describe a business" . 
+
+ category_uri:Signmaking a ontology_uri:datasetCategory ; 
+ rdfs:label "Signmaking is a category in Yelp used to describe a business" . 
+
+ category_uri:Interval Training Gyms a ontology_uri:datasetCategory ; 
+ rdfs:label "Interval Training Gyms is a category in Yelp used to describe a business" . 
+
+ category_uri:Fish & Chips a ontology_uri:datasetCategory ; 
+ rdfs:label "Fish & Chips is a category in Yelp used to describe a business" . 
+
+ category_uri:Lingerie a ontology_uri:datasetCategory ; 
+ rdfs:label "Lingerie is a category in Yelp used to describe a business" . 
+
+ category_uri:Reiki a ontology_uri:datasetCategory ; 
+ rdfs:label "Reiki is a category in Yelp used to describe a business" . 
+
+ category_uri:Imported Food a ontology_uri:datasetCategory ; 
+ rdfs:label "Imported Food is a category in Yelp used to describe a business" . 
+
+ category_uri:Head Shops a ontology_uri:datasetCategory ; 
+ rdfs:label "Head Shops is a category in Yelp used to describe a business" . 
+
+ category_uri:Dance Studios a ontology_uri:datasetCategory ; 
+ rdfs:label "Dance Studios is a category in Yelp used to describe a business" . 
+
+ category_uri:Fences & Gates a ontology_uri:datasetCategory ; 
+ rdfs:label "Fences & Gates is a category in Yelp used to describe a business" . 
+
+ category_uri:Laundromat a ontology_uri:datasetCategory ; 
+ rdfs:label "Laundromat is a category in Yelp used to describe a business" . 
+
+ category_uri:Auto Insurance a ontology_uri:datasetCategory ; 
+ rdfs:label "Auto Insurance is a category in Yelp used to describe a business" . 
+
+ category_uri:Gelato a ontology_uri:datasetCategory ; 
+ rdfs:label "Gelato is a category in Yelp used to describe a business" . 
+
+ category_uri:Framing a ontology_uri:datasetCategory ; 
+ rdfs:label "Framing is a category in Yelp used to describe a business" . 
+
+ category_uri:Medical Supplies a ontology_uri:datasetCategory ; 
+ rdfs:label "Medical Supplies is a category in Yelp used to describe a business" . 
+
+ category_uri:Party Equipment Rentals a ontology_uri:datasetCategory ; 
+ rdfs:label "Party Equipment Rentals is a category in Yelp used to describe a business" . 
+
+ category_uri:Pasta Shops a ontology_uri:datasetCategory ; 
+ rdfs:label "Pasta Shops is a category in Yelp used to describe a business" . 
+
+ category_uri:Laser Eye Surgery/Lasik a ontology_uri:datasetCategory ; 
+ rdfs:label "Laser Eye Surgery/Lasik is a category in Yelp used to describe a business" . 
+
+ category_uri:Waffles a ontology_uri:datasetCategory ; 
+ rdfs:label "Waffles is a category in Yelp used to describe a business" . 
+
+ category_uri:Videos & Video Game Rental a ontology_uri:datasetCategory ; 
+ rdfs:label "Videos & Video Game Rental is a category in Yelp used to describe a business" . 
+
+ category_uri:Brewpubs a ontology_uri:datasetCategory ; 
+ rdfs:label "Brewpubs is a category in Yelp used to describe a business" . 
+
+ category_uri:Hawaiian a ontology_uri:datasetCategory ; 
+ rdfs:label "Hawaiian is a category in Yelp used to describe a business" . 
+
+ category_uri:Beer Gardens a ontology_uri:datasetCategory ; 
+ rdfs:label "Beer Gardens is a category in Yelp used to describe a business" . 
+
+ category_uri:Outlet Stores a ontology_uri:datasetCategory ; 
+ rdfs:label "Outlet Stores is a category in Yelp used to describe a business" . 
+
+ category_uri:Butcher a ontology_uri:datasetCategory ; 
+ rdfs:label "Butcher is a category in Yelp used to describe a business" . 
+
+ category_uri:Siding a ontology_uri:datasetCategory ; 
+ rdfs:label "Siding is a category in Yelp used to describe a business" . 
+
+ category_uri:Financial Advising a ontology_uri:datasetCategory ; 
+ rdfs:label "Financial Advising is a category in Yelp used to describe a business" . 
+
+ category_uri:Jazz & Blues a ontology_uri:datasetCategory ; 
+ rdfs:label "Jazz & Blues is a category in Yelp used to describe a business" . 
+
+ category_uri:Colleges & Universities a ontology_uri:datasetCategory ; 
+ rdfs:label "Colleges & Universities is a category in Yelp used to describe a business" . 
+
+ category_uri:Diagnostic Imaging a ontology_uri:datasetCategory ; 
+ rdfs:label "Diagnostic Imaging is a category in Yelp used to describe a business" . 
+
+ category_uri:Fabric Stores a ontology_uri:datasetCategory ; 
+ rdfs:label "Fabric Stores is a category in Yelp used to describe a business" . 
+
+ category_uri:Auto Loan Providers a ontology_uri:datasetCategory ; 
+ rdfs:label "Auto Loan Providers is a category in Yelp used to describe a business" . 
+
+ category_uri:Escape Games a ontology_uri:datasetCategory ; 
+ rdfs:label "Escape Games is a category in Yelp used to describe a business" . 
+
+ category_uri:Traditional Chinese Medicine a ontology_uri:datasetCategory ; 
+ rdfs:label "Traditional Chinese Medicine is a category in Yelp used to describe a business" . 
+
+ category_uri:Musical Instrument Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Musical Instrument Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Resorts a ontology_uri:datasetCategory ; 
+ rdfs:label "Resorts is a category in Yelp used to describe a business" . 
+
+ category_uri:Garage Door Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Garage Door Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Pool Halls a ontology_uri:datasetCategory ; 
+ rdfs:label "Pool Halls is a category in Yelp used to describe a business" . 
+
+ category_uri:Dog Parks a ontology_uri:datasetCategory ; 
+ rdfs:label "Dog Parks is a category in Yelp used to describe a business" . 
+
+ category_uri:Packing Supplies a ontology_uri:datasetCategory ; 
+ rdfs:label "Packing Supplies is a category in Yelp used to describe a business" . 
+
+ category_uri:Pet Adoption a ontology_uri:datasetCategory ; 
+ rdfs:label "Pet Adoption is a category in Yelp used to describe a business" . 
+
+ category_uri:Funeral Services & Cemeteries a ontology_uri:datasetCategory ; 
+ rdfs:label "Funeral Services & Cemeteries is a category in Yelp used to describe a business" . 
+
+ category_uri:Personal Shopping a ontology_uri:datasetCategory ; 
+ rdfs:label "Personal Shopping is a category in Yelp used to describe a business" . 
+
+ category_uri:Creperies a ontology_uri:datasetCategory ; 
+ rdfs:label "Creperies is a category in Yelp used to describe a business" . 
+
+ category_uri:Furniture Reupholstery a ontology_uri:datasetCategory ; 
+ rdfs:label "Furniture Reupholstery is a category in Yelp used to describe a business" . 
+
+ category_uri:Roadside Assistance a ontology_uri:datasetCategory ; 
+ rdfs:label "Roadside Assistance is a category in Yelp used to describe a business" . 
+
+ category_uri:Snow Removal a ontology_uri:datasetCategory ; 
+ rdfs:label "Snow Removal is a category in Yelp used to describe a business" . 
+
+ category_uri:Recycling Center a ontology_uri:datasetCategory ; 
+ rdfs:label "Recycling Center is a category in Yelp used to describe a business" . 
+
+ category_uri:Home Window Tinting a ontology_uri:datasetCategory ; 
+ rdfs:label "Home Window Tinting is a category in Yelp used to describe a business" . 
+
+ category_uri:Television Service Providers a ontology_uri:datasetCategory ; 
+ rdfs:label "Television Service Providers is a category in Yelp used to describe a business" . 
+
+ category_uri:Fishing a ontology_uri:datasetCategory ; 
+ rdfs:label "Fishing is a category in Yelp used to describe a business" . 
+
+ category_uri:Barre Classes a ontology_uri:datasetCategory ; 
+ rdfs:label "Barre Classes is a category in Yelp used to describe a business" . 
+
+ category_uri:Home Organization a ontology_uri:datasetCategory ; 
+ rdfs:label "Home Organization is a category in Yelp used to describe a business" . 
+
+ category_uri:Irish Pub a ontology_uri:datasetCategory ; 
+ rdfs:label "Irish Pub is a category in Yelp used to describe a business" . 
+
+ category_uri:Mass Media a ontology_uri:datasetCategory ; 
+ rdfs:label "Mass Media is a category in Yelp used to describe a business" . 
+
+ category_uri:Lawn Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Lawn Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Countertop Installation a ontology_uri:datasetCategory ; 
+ rdfs:label "Countertop Installation is a category in Yelp used to describe a business" . 
+
+ category_uri:Threading Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Threading Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Pretzels a ontology_uri:datasetCategory ; 
+ rdfs:label "Pretzels is a category in Yelp used to describe a business" . 
+
+ category_uri:Gun/Rifle Ranges a ontology_uri:datasetCategory ; 
+ rdfs:label "Gun/Rifle Ranges is a category in Yelp used to describe a business" . 
+
+ category_uri:Drywall Installation & Repair a ontology_uri:datasetCategory ; 
+ rdfs:label "Drywall Installation & Repair is a category in Yelp used to describe a business" . 
+
+ category_uri:Rugs a ontology_uri:datasetCategory ; 
+ rdfs:label "Rugs is a category in Yelp used to describe a business" . 
+
+ category_uri:Cheese Shops a ontology_uri:datasetCategory ; 
+ rdfs:label "Cheese Shops is a category in Yelp used to describe a business" . 
+
+ category_uri:Home & Rental Insurance a ontology_uri:datasetCategory ; 
+ rdfs:label "Home & Rental Insurance is a category in Yelp used to describe a business" . 
+
+ category_uri:Animal Shelters a ontology_uri:datasetCategory ; 
+ rdfs:label "Animal Shelters is a category in Yelp used to describe a business" . 
+
+ category_uri:Wine Tasting Room a ontology_uri:datasetCategory ; 
+ rdfs:label "Wine Tasting Room is a category in Yelp used to describe a business" . 
+
+ category_uri:Cardio Classes a ontology_uri:datasetCategory ; 
+ rdfs:label "Cardio Classes is a category in Yelp used to describe a business" . 
+
+ category_uri:Refinishing Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Refinishing Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Comic Books a ontology_uri:datasetCategory ; 
+ rdfs:label "Comic Books is a category in Yelp used to describe a business" . 
+
+ category_uri:Walk-In Clinics a ontology_uri:datasetCategory ; 
+ rdfs:label "Walk-In Clinics is a category in Yelp used to describe a business" . 
+
+ category_uri:Life Insurance a ontology_uri:datasetCategory ; 
+ rdfs:label "Life Insurance is a category in Yelp used to describe a business" . 
+
+ category_uri:Propane a ontology_uri:datasetCategory ; 
+ rdfs:label "Propane is a category in Yelp used to describe a business" . 
+
+ category_uri:Personal Injury Law a ontology_uri:datasetCategory ; 
+ rdfs:label "Personal Injury Law is a category in Yelp used to describe a business" . 
+
+ category_uri:Do-It-Yourself Food a ontology_uri:datasetCategory ; 
+ rdfs:label "Do-It-Yourself Food is a category in Yelp used to describe a business" . 
+
+ category_uri:Internet Cafes a ontology_uri:datasetCategory ; 
+ rdfs:label "Internet Cafes is a category in Yelp used to describe a business" . 
+
+ category_uri:Vacation Rentals a ontology_uri:datasetCategory ; 
+ rdfs:label "Vacation Rentals is a category in Yelp used to describe a business" . 
+
+ category_uri:Vinyl Records a ontology_uri:datasetCategory ; 
+ rdfs:label "Vinyl Records is a category in Yelp used to describe a business" . 
+
+ category_uri:Departments Of Motor Vehicles a ontology_uri:datasetCategory ; 
+ rdfs:label "Departments Of Motor Vehicles is a category in Yelp used to describe a business" . 
+
+ category_uri:Dim Sum a ontology_uri:datasetCategory ; 
+ rdfs:label "Dim Sum is a category in Yelp used to describe a business" . 
+
+ category_uri:Leather Goods a ontology_uri:datasetCategory ; 
+ rdfs:label "Leather Goods is a category in Yelp used to describe a business" . 
+
+ category_uri:Social Clubs a ontology_uri:datasetCategory ; 
+ rdfs:label "Social Clubs is a category in Yelp used to describe a business" . 
+
+ category_uri:Cannabis Clinics a ontology_uri:datasetCategory ; 
+ rdfs:label "Cannabis Clinics is a category in Yelp used to describe a business" . 
+
+ category_uri:Tax Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Tax Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Home Theatre Installation a ontology_uri:datasetCategory ; 
+ rdfs:label "Home Theatre Installation is a category in Yelp used to describe a business" . 
+
+ category_uri:Costumes a ontology_uri:datasetCategory ; 
+ rdfs:label "Costumes is a category in Yelp used to describe a business" . 
+
+ category_uri:Historical Tours a ontology_uri:datasetCategory ; 
+ rdfs:label "Historical Tours is a category in Yelp used to describe a business" . 
+
+ category_uri:Supernatural Readings a ontology_uri:datasetCategory ; 
+ rdfs:label "Supernatural Readings is a category in Yelp used to describe a business" . 
+
+ category_uri:Team Building Activities a ontology_uri:datasetCategory ; 
+ rdfs:label "Team Building Activities is a category in Yelp used to describe a business" . 
+
+ category_uri:Divorce & Family Law a ontology_uri:datasetCategory ; 
+ rdfs:label "Divorce & Family Law is a category in Yelp used to describe a business" . 
+
+ category_uri:Public Transportation a ontology_uri:datasetCategory ; 
+ rdfs:label "Public Transportation is a category in Yelp used to describe a business" . 
+
+ category_uri:Educational Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Educational Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Gay Bars a ontology_uri:datasetCategory ; 
+ rdfs:label "Gay Bars is a category in Yelp used to describe a business" . 
+
+ category_uri:Plus Size Fashion a ontology_uri:datasetCategory ; 
+ rdfs:label "Plus Size Fashion is a category in Yelp used to describe a business" . 
+
+ category_uri:Carpet Installation a ontology_uri:datasetCategory ; 
+ rdfs:label "Carpet Installation is a category in Yelp used to describe a business" . 
+
+ category_uri:Water Purification Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Water Purification Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Gold Buyers a ontology_uri:datasetCategory ; 
+ rdfs:label "Gold Buyers is a category in Yelp used to describe a business" . 
+
+ category_uri:Modern European a ontology_uri:datasetCategory ; 
+ rdfs:label "Modern European is a category in Yelp used to describe a business" . 
+
+ category_uri:Country Clubs a ontology_uri:datasetCategory ; 
+ rdfs:label "Country Clubs is a category in Yelp used to describe a business" . 
+
+ category_uri:Boxing a ontology_uri:datasetCategory ; 
+ rdfs:label "Boxing is a category in Yelp used to describe a business" . 
+
+ category_uri:Stadiums & Arenas a ontology_uri:datasetCategory ; 
+ rdfs:label "Stadiums & Arenas is a category in Yelp used to describe a business" . 
+
+ category_uri:Life Coach a ontology_uri:datasetCategory ; 
+ rdfs:label "Life Coach is a category in Yelp used to describe a business" . 
+
+ category_uri:Boat Charters a ontology_uri:datasetCategory ; 
+ rdfs:label "Boat Charters is a category in Yelp used to describe a business" . 
+
+ category_uri:Food Court a ontology_uri:datasetCategory ; 
+ rdfs:label "Food Court is a category in Yelp used to describe a business" . 
+
+ category_uri:Tanning Beds a ontology_uri:datasetCategory ; 
+ rdfs:label "Tanning Beds is a category in Yelp used to describe a business" . 
+
+ category_uri:Cannabis Dispensaries a ontology_uri:datasetCategory ; 
+ rdfs:label "Cannabis Dispensaries is a category in Yelp used to describe a business" . 
+
+ category_uri:Screen Printing/T-Shirt Printing a ontology_uri:datasetCategory ; 
+ rdfs:label "Screen Printing/T-Shirt Printing is a category in Yelp used to describe a business" . 
+
+ category_uri:Web Design a ontology_uri:datasetCategory ; 
+ rdfs:label "Web Design is a category in Yelp used to describe a business" . 
+
+ category_uri:Marketing a ontology_uri:datasetCategory ; 
+ rdfs:label "Marketing is a category in Yelp used to describe a business" . 
+
+ category_uri:Party Bus Rentals a ontology_uri:datasetCategory ; 
+ rdfs:label "Party Bus Rentals is a category in Yelp used to describe a business" . 
+
+ category_uri:Djs a ontology_uri:datasetCategory ; 
+ rdfs:label "Djs is a category in Yelp used to describe a business" . 
+
+ category_uri:Rafting/Kayaking a ontology_uri:datasetCategory ; 
+ rdfs:label "Rafting/Kayaking is a category in Yelp used to describe a business" . 
+
+ category_uri:Accountants a ontology_uri:datasetCategory ; 
+ rdfs:label "Accountants is a category in Yelp used to describe a business" . 
+
+ category_uri:Fireplace Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Fireplace Services is a category in Yelp used to describe a business" . 
+
+ category_uri:German a ontology_uri:datasetCategory ; 
+ rdfs:label "German is a category in Yelp used to describe a business" . 
+
+ category_uri:Podiatrists a ontology_uri:datasetCategory ; 
+ rdfs:label "Podiatrists is a category in Yelp used to describe a business" . 
+
+ category_uri:Knitting Supplies a ontology_uri:datasetCategory ; 
+ rdfs:label "Knitting Supplies is a category in Yelp used to describe a business" . 
+
+ category_uri:Surgeons a ontology_uri:datasetCategory ; 
+ rdfs:label "Surgeons is a category in Yelp used to describe a business" . 
+
+ category_uri:Home Automation a ontology_uri:datasetCategory ; 
+ rdfs:label "Home Automation is a category in Yelp used to describe a business" . 
+
+ category_uri:Teeth Whitening a ontology_uri:datasetCategory ; 
+ rdfs:label "Teeth Whitening is a category in Yelp used to describe a business" . 
+
+ category_uri:Beaches a ontology_uri:datasetCategory ; 
+ rdfs:label "Beaches is a category in Yelp used to describe a business" . 
+
+ category_uri:Airports a ontology_uri:datasetCategory ; 
+ rdfs:label "Airports is a category in Yelp used to describe a business" . 
+
+ category_uri:Mortgage Lenders a ontology_uri:datasetCategory ; 
+ rdfs:label "Mortgage Lenders is a category in Yelp used to describe a business" . 
+
+ category_uri:University Housing a ontology_uri:datasetCategory ; 
+ rdfs:label "University Housing is a category in Yelp used to describe a business" . 
+
+ category_uri:Cycling Classes a ontology_uri:datasetCategory ; 
+ rdfs:label "Cycling Classes is a category in Yelp used to describe a business" . 
+
+ category_uri:Data Recovery a ontology_uri:datasetCategory ; 
+ rdfs:label "Data Recovery is a category in Yelp used to describe a business" . 
+
+ category_uri:Paint Stores a ontology_uri:datasetCategory ; 
+ rdfs:label "Paint Stores is a category in Yelp used to describe a business" . 
+
+ category_uri:Adult a ontology_uri:datasetCategory ; 
+ rdfs:label "Adult is a category in Yelp used to describe a business" . 
+
+ category_uri:Airlines a ontology_uri:datasetCategory ; 
+ rdfs:label "Airlines is a category in Yelp used to describe a business" . 
+
+ category_uri:Decks & Railing a ontology_uri:datasetCategory ; 
+ rdfs:label "Decks & Railing is a category in Yelp used to describe a business" . 
+
+ category_uri:Septic Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Septic Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Patisserie/Cake Shop a ontology_uri:datasetCategory ; 
+ rdfs:label "Patisserie/Cake Shop is a category in Yelp used to describe a business" . 
+
+ category_uri:Amateur Sports Teams a ontology_uri:datasetCategory ; 
+ rdfs:label "Amateur Sports Teams is a category in Yelp used to describe a business" . 
+
+ category_uri:Commercial Real Estate a ontology_uri:datasetCategory ; 
+ rdfs:label "Commercial Real Estate is a category in Yelp used to describe a business" . 
+
+ category_uri:Solar Installation a ontology_uri:datasetCategory ; 
+ rdfs:label "Solar Installation is a category in Yelp used to describe a business" . 
+
+ category_uri:Personal Chefs a ontology_uri:datasetCategory ; 
+ rdfs:label "Personal Chefs is a category in Yelp used to describe a business" . 
+
+ category_uri:Pain Management a ontology_uri:datasetCategory ; 
+ rdfs:label "Pain Management is a category in Yelp used to describe a business" . 
+
+ category_uri:African a ontology_uri:datasetCategory ; 
+ rdfs:label "African is a category in Yelp used to describe a business" . 
+
+ category_uri:Casinos a ontology_uri:datasetCategory ; 
+ rdfs:label "Casinos is a category in Yelp used to describe a business" . 
+
+ category_uri:Szechuan a ontology_uri:datasetCategory ; 
+ rdfs:label "Szechuan is a category in Yelp used to describe a business" . 
+
+ category_uri:Chimney Sweeps a ontology_uri:datasetCategory ; 
+ rdfs:label "Chimney Sweeps is a category in Yelp used to describe a business" . 
+
+ category_uri:Souvenir Shops a ontology_uri:datasetCategory ; 
+ rdfs:label "Souvenir Shops is a category in Yelp used to describe a business" . 
+
+ category_uri:Home Health Care a ontology_uri:datasetCategory ; 
+ rdfs:label "Home Health Care is a category in Yelp used to describe a business" . 
+
+ category_uri:Herbs & Spices a ontology_uri:datasetCategory ; 
+ rdfs:label "Herbs & Spices is a category in Yelp used to describe a business" . 
+
+ category_uri:Skating Rinks a ontology_uri:datasetCategory ; 
+ rdfs:label "Skating Rinks is a category in Yelp used to describe a business" . 
+
+ category_uri:Swimwear a ontology_uri:datasetCategory ; 
+ rdfs:label "Swimwear is a category in Yelp used to describe a business" . 
+
+ category_uri:New Mexican Cuisine a ontology_uri:datasetCategory ; 
+ rdfs:label "New Mexican Cuisine is a category in Yelp used to describe a business" . 
+
+ category_uri:Wine Tours a ontology_uri:datasetCategory ; 
+ rdfs:label "Wine Tours is a category in Yelp used to describe a business" . 
+
+ category_uri:Candle Stores a ontology_uri:datasetCategory ; 
+ rdfs:label "Candle Stores is a category in Yelp used to describe a business" . 
+
+ category_uri:Rv Dealers a ontology_uri:datasetCategory ; 
+ rdfs:label "Rv Dealers is a category in Yelp used to describe a business" . 
+
+ category_uri:Paint & Sip a ontology_uri:datasetCategory ; 
+ rdfs:label "Paint & Sip is a category in Yelp used to describe a business" . 
+
+ category_uri:Rv Repair a ontology_uri:datasetCategory ; 
+ rdfs:label "Rv Repair is a category in Yelp used to describe a business" . 
+
+ category_uri:Pawn Shops a ontology_uri:datasetCategory ; 
+ rdfs:label "Pawn Shops is a category in Yelp used to describe a business" . 
+
+ category_uri:Filipino a ontology_uri:datasetCategory ; 
+ rdfs:label "Filipino is a category in Yelp used to describe a business" . 
+
+ category_uri:Grout Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Grout Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Distilleries a ontology_uri:datasetCategory ; 
+ rdfs:label "Distilleries is a category in Yelp used to describe a business" . 
+
+ category_uri:Carpenters a ontology_uri:datasetCategory ; 
+ rdfs:label "Carpenters is a category in Yelp used to describe a business" . 
+
+ category_uri:Bespoke Clothing a ontology_uri:datasetCategory ; 
+ rdfs:label "Bespoke Clothing is a category in Yelp used to describe a business" . 
+
+ category_uri:Plastic Surgeons a ontology_uri:datasetCategory ; 
+ rdfs:label "Plastic Surgeons is a category in Yelp used to describe a business" . 
+
+ category_uri:Falafel a ontology_uri:datasetCategory ; 
+ rdfs:label "Falafel is a category in Yelp used to describe a business" . 
+
+ category_uri:Dance Schools a ontology_uri:datasetCategory ; 
+ rdfs:label "Dance Schools is a category in Yelp used to describe a business" . 
+
+ category_uri:Utilities a ontology_uri:datasetCategory ; 
+ rdfs:label "Utilities is a category in Yelp used to describe a business" . 
+
+ category_uri:Donation Center a ontology_uri:datasetCategory ; 
+ rdfs:label "Donation Center is a category in Yelp used to describe a business" . 
+
+ category_uri:Video Game Stores a ontology_uri:datasetCategory ; 
+ rdfs:label "Video Game Stores is a category in Yelp used to describe a business" . 
+
+ category_uri:Walking Tours a ontology_uri:datasetCategory ; 
+ rdfs:label "Walking Tours is a category in Yelp used to describe a business" . 
+
+ category_uri:Occupational Therapy a ontology_uri:datasetCategory ; 
+ rdfs:label "Occupational Therapy is a category in Yelp used to describe a business" . 
+
+ category_uri:Wildlife Control a ontology_uri:datasetCategory ; 
+ rdfs:label "Wildlife Control is a category in Yelp used to describe a business" . 
+
+ category_uri:Meditation Centers a ontology_uri:datasetCategory ; 
+ rdfs:label "Meditation Centers is a category in Yelp used to describe a business" . 
+
+ category_uri:Puerto Rican a ontology_uri:datasetCategory ; 
+ rdfs:label "Puerto Rican is a category in Yelp used to describe a business" . 
+
+ category_uri:Paddleboarding a ontology_uri:datasetCategory ; 
+ rdfs:label "Paddleboarding is a category in Yelp used to describe a business" . 
+
+ category_uri:Waterproofing a ontology_uri:datasetCategory ; 
+ rdfs:label "Waterproofing is a category in Yelp used to describe a business" . 
+
+ category_uri:Fitness/Exercise Equipment a ontology_uri:datasetCategory ; 
+ rdfs:label "Fitness/Exercise Equipment is a category in Yelp used to describe a business" . 
+
+ category_uri:Comedy Clubs a ontology_uri:datasetCategory ; 
+ rdfs:label "Comedy Clubs is a category in Yelp used to describe a business" . 
+
+ category_uri:Retirement Homes a ontology_uri:datasetCategory ; 
+ rdfs:label "Retirement Homes is a category in Yelp used to describe a business" . 
+
+ category_uri:Shutters a ontology_uri:datasetCategory ; 
+ rdfs:label "Shutters is a category in Yelp used to describe a business" . 
+
+ category_uri:Car Buyers a ontology_uri:datasetCategory ; 
+ rdfs:label "Car Buyers is a category in Yelp used to describe a business" . 
+
+ category_uri:Mini Golf a ontology_uri:datasetCategory ; 
+ rdfs:label "Mini Golf is a category in Yelp used to describe a business" . 
+
+ category_uri:Art Schools a ontology_uri:datasetCategory ; 
+ rdfs:label "Art Schools is a category in Yelp used to describe a business" . 
+
+ category_uri:Adult Education a ontology_uri:datasetCategory ; 
+ rdfs:label "Adult Education is a category in Yelp used to describe a business" . 
+
+ category_uri:Body Contouring a ontology_uri:datasetCategory ; 
+ rdfs:label "Body Contouring is a category in Yelp used to describe a business" . 
+
+ category_uri:Cosmetology Schools a ontology_uri:datasetCategory ; 
+ rdfs:label "Cosmetology Schools is a category in Yelp used to describe a business" . 
+
+ category_uri:Cantonese a ontology_uri:datasetCategory ; 
+ rdfs:label "Cantonese is a category in Yelp used to describe a business" . 
+
+ category_uri:Emergency Rooms a ontology_uri:datasetCategory ; 
+ rdfs:label "Emergency Rooms is a category in Yelp used to describe a business" . 
+
+ category_uri:Battery Stores a ontology_uri:datasetCategory ; 
+ rdfs:label "Battery Stores is a category in Yelp used to describe a business" . 
+
+ category_uri:Insulation Installation a ontology_uri:datasetCategory ; 
+ rdfs:label "Insulation Installation is a category in Yelp used to describe a business" . 
+
+ category_uri:Campgrounds a ontology_uri:datasetCategory ; 
+ rdfs:label "Campgrounds is a category in Yelp used to describe a business" . 
+
+ category_uri:Photo Booth Rentals a ontology_uri:datasetCategory ; 
+ rdfs:label "Photo Booth Rentals is a category in Yelp used to describe a business" . 
+
+ category_uri:Cooking Classes a ontology_uri:datasetCategory ; 
+ rdfs:label "Cooking Classes is a category in Yelp used to describe a business" . 
+
+ category_uri:Tattoo Removal a ontology_uri:datasetCategory ; 
+ rdfs:label "Tattoo Removal is a category in Yelp used to describe a business" . 
+
+ category_uri:Criminal Defense Law a ontology_uri:datasetCategory ; 
+ rdfs:label "Criminal Defense Law is a category in Yelp used to describe a business" . 
+
+ category_uri:Advertising a ontology_uri:datasetCategory ; 
+ rdfs:label "Advertising is a category in Yelp used to describe a business" . 
+
+ category_uri:Kebab a ontology_uri:datasetCategory ; 
+ rdfs:label "Kebab is a category in Yelp used to describe a business" . 
+
+ category_uri:Uniforms a ontology_uri:datasetCategory ; 
+ rdfs:label "Uniforms is a category in Yelp used to describe a business" . 
+
+ category_uri:Psychiatrists a ontology_uri:datasetCategory ; 
+ rdfs:label "Psychiatrists is a category in Yelp used to describe a business" . 
+
+ category_uri:Live/Raw Food a ontology_uri:datasetCategory ; 
+ rdfs:label "Live/Raw Food is a category in Yelp used to describe a business" . 
+
+ category_uri:Customized Merchandise a ontology_uri:datasetCategory ; 
+ rdfs:label "Customized Merchandise is a category in Yelp used to describe a business" . 
+
+ category_uri:Farms a ontology_uri:datasetCategory ; 
+ rdfs:label "Farms is a category in Yelp used to describe a business" . 
+
+ category_uri:Spiritual Shop a ontology_uri:datasetCategory ; 
+ rdfs:label "Spiritual Shop is a category in Yelp used to describe a business" . 
+
+ category_uri:Tennis a ontology_uri:datasetCategory ; 
+ rdfs:label "Tennis is a category in Yelp used to describe a business" . 
+
+ category_uri:Motorcycle Gear a ontology_uri:datasetCategory ; 
+ rdfs:label "Motorcycle Gear is a category in Yelp used to describe a business" . 
+
+ category_uri:Video/Film Production a ontology_uri:datasetCategory ; 
+ rdfs:label "Video/Film Production is a category in Yelp used to describe a business" . 
+
+ category_uri:Vehicle Wraps a ontology_uri:datasetCategory ; 
+ rdfs:label "Vehicle Wraps is a category in Yelp used to describe a business" . 
+
+ category_uri:Hunting & Fishing Supplies a ontology_uri:datasetCategory ; 
+ rdfs:label "Hunting & Fishing Supplies is a category in Yelp used to describe a business" . 
+
+ category_uri:Wigs a ontology_uri:datasetCategory ; 
+ rdfs:label "Wigs is a category in Yelp used to describe a business" . 
+
+ category_uri:Rv Parks a ontology_uri:datasetCategory ; 
+ rdfs:label "Rv Parks is a category in Yelp used to describe a business" . 
+
+ category_uri:Donairs a ontology_uri:datasetCategory ; 
+ rdfs:label "Donairs is a category in Yelp used to describe a business" . 
+
+ category_uri:Turkish a ontology_uri:datasetCategory ; 
+ rdfs:label "Turkish is a category in Yelp used to describe a business" . 
+
+ category_uri:Whiskey Bars a ontology_uri:datasetCategory ; 
+ rdfs:label "Whiskey Bars is a category in Yelp used to describe a business" . 
+
+ category_uri:Guitar Stores a ontology_uri:datasetCategory ; 
+ rdfs:label "Guitar Stores is a category in Yelp used to describe a business" . 
+
+ category_uri:Legal Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Legal Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Lebanese a ontology_uri:datasetCategory ; 
+ rdfs:label "Lebanese is a category in Yelp used to describe a business" . 
+
+ category_uri:Swimming Lessons/Schools a ontology_uri:datasetCategory ; 
+ rdfs:label "Swimming Lessons/Schools is a category in Yelp used to describe a business" . 
+
+ category_uri:Outdoor Furniture Stores a ontology_uri:datasetCategory ; 
+ rdfs:label "Outdoor Furniture Stores is a category in Yelp used to describe a business" . 
+
+ category_uri:Peruvian a ontology_uri:datasetCategory ; 
+ rdfs:label "Peruvian is a category in Yelp used to describe a business" . 
+
+ category_uri:Appraisal Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Appraisal Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Employment Agencies a ontology_uri:datasetCategory ; 
+ rdfs:label "Employment Agencies is a category in Yelp used to describe a business" . 
+
+ category_uri:Screen Printing a ontology_uri:datasetCategory ; 
+ rdfs:label "Screen Printing is a category in Yelp used to describe a business" . 
+
+ category_uri:Indoor Playcentre a ontology_uri:datasetCategory ; 
+ rdfs:label "Indoor Playcentre is a category in Yelp used to describe a business" . 
+
+ category_uri:Radiologists a ontology_uri:datasetCategory ; 
+ rdfs:label "Radiologists is a category in Yelp used to describe a business" . 
+
+ category_uri:Auto Upholstery a ontology_uri:datasetCategory ; 
+ rdfs:label "Auto Upholstery is a category in Yelp used to describe a business" . 
+
+ category_uri:Kickboxing a ontology_uri:datasetCategory ; 
+ rdfs:label "Kickboxing is a category in Yelp used to describe a business" . 
+
+ category_uri:Metal Fabricators a ontology_uri:datasetCategory ; 
+ rdfs:label "Metal Fabricators is a category in Yelp used to describe a business" . 
+
+ category_uri:Ear Nose & Throat a ontology_uri:datasetCategory ; 
+ rdfs:label "Ear Nose & Throat is a category in Yelp used to describe a business" . 
+
+ category_uri:General Litigation a ontology_uri:datasetCategory ; 
+ rdfs:label "General Litigation is a category in Yelp used to describe a business" . 
+
+ category_uri:Boat Repair a ontology_uri:datasetCategory ; 
+ rdfs:label "Boat Repair is a category in Yelp used to describe a business" . 
+
+ category_uri:Registration Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Registration Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Brazilian a ontology_uri:datasetCategory ; 
+ rdfs:label "Brazilian is a category in Yelp used to describe a business" . 
+
+ category_uri:Middle Schools & High Schools a ontology_uri:datasetCategory ; 
+ rdfs:label "Middle Schools & High Schools is a category in Yelp used to describe a business" . 
+
+ category_uri:Taiwanese a ontology_uri:datasetCategory ; 
+ rdfs:label "Taiwanese is a category in Yelp used to describe a business" . 
+
+ category_uri:Tabletop Games a ontology_uri:datasetCategory ; 
+ rdfs:label "Tabletop Games is a category in Yelp used to describe a business" . 
+
+ category_uri:Print Media a ontology_uri:datasetCategory ; 
+ rdfs:label "Print Media is a category in Yelp used to describe a business" . 
+
+ category_uri:Cooking Schools a ontology_uri:datasetCategory ; 
+ rdfs:label "Cooking Schools is a category in Yelp used to describe a business" . 
+
+ category_uri:Pop-Up Restaurants a ontology_uri:datasetCategory ; 
+ rdfs:label "Pop-Up Restaurants is a category in Yelp used to describe a business" . 
+
+ category_uri:Smokehouse a ontology_uri:datasetCategory ; 
+ rdfs:label "Smokehouse is a category in Yelp used to describe a business" . 
+
+ category_uri:British a ontology_uri:datasetCategory ; 
+ rdfs:label "British is a category in Yelp used to describe a business" . 
+
+ category_uri:Hot Pot a ontology_uri:datasetCategory ; 
+ rdfs:label "Hot Pot is a category in Yelp used to describe a business" . 
+
+ category_uri:Embroidery & Crochet a ontology_uri:datasetCategory ; 
+ rdfs:label "Embroidery & Crochet is a category in Yelp used to describe a business" . 
+
+ category_uri:Gymnastics a ontology_uri:datasetCategory ; 
+ rdfs:label "Gymnastics is a category in Yelp used to describe a business" . 
+
+ category_uri:Trampoline Parks a ontology_uri:datasetCategory ; 
+ rdfs:label "Trampoline Parks is a category in Yelp used to describe a business" . 
+
+ category_uri:Emergency Pet Hospital a ontology_uri:datasetCategory ; 
+ rdfs:label "Emergency Pet Hospital is a category in Yelp used to describe a business" . 
+
+ category_uri:Videographers a ontology_uri:datasetCategory ; 
+ rdfs:label "Videographers is a category in Yelp used to describe a business" . 
+
+ category_uri:Estate Planning Law a ontology_uri:datasetCategory ; 
+ rdfs:label "Estate Planning Law is a category in Yelp used to describe a business" . 
+
+ category_uri:Tiki Bars a ontology_uri:datasetCategory ; 
+ rdfs:label "Tiki Bars is a category in Yelp used to describe a business" . 
+
+ category_uri:Generator Installation/Repair a ontology_uri:datasetCategory ; 
+ rdfs:label "Generator Installation/Repair is a category in Yelp used to describe a business" . 
+
+ category_uri:Golf Equipment a ontology_uri:datasetCategory ; 
+ rdfs:label "Golf Equipment is a category in Yelp used to describe a business" . 
+
+ category_uri:Orthotics a ontology_uri:datasetCategory ; 
+ rdfs:label "Orthotics is a category in Yelp used to describe a business" . 
+
+ category_uri:Bus Tours a ontology_uri:datasetCategory ; 
+ rdfs:label "Bus Tours is a category in Yelp used to describe a business" . 
+
+ category_uri:Flea Markets a ontology_uri:datasetCategory ; 
+ rdfs:label "Flea Markets is a category in Yelp used to describe a business" . 
+
+ category_uri:Dui Law a ontology_uri:datasetCategory ; 
+ rdfs:label "Dui Law is a category in Yelp used to describe a business" . 
+
+ category_uri:Aquariums a ontology_uri:datasetCategory ; 
+ rdfs:label "Aquariums is a category in Yelp used to describe a business" . 
+
+ category_uri:Pan Asian a ontology_uri:datasetCategory ; 
+ rdfs:label "Pan Asian is a category in Yelp used to describe a business" . 
+
+ category_uri:Colombian a ontology_uri:datasetCategory ; 
+ rdfs:label "Colombian is a category in Yelp used to describe a business" . 
+
+ category_uri:Ethiopian a ontology_uri:datasetCategory ; 
+ rdfs:label "Ethiopian is a category in Yelp used to describe a business" . 
+
+ category_uri:Horseback Riding a ontology_uri:datasetCategory ; 
+ rdfs:label "Horseback Riding is a category in Yelp used to describe a business" . 
+
+ category_uri:Saunas a ontology_uri:datasetCategory ; 
+ rdfs:label "Saunas is a category in Yelp used to describe a business" . 
+
+ category_uri:Allergists a ontology_uri:datasetCategory ; 
+ rdfs:label "Allergists is a category in Yelp used to describe a business" . 
+
+ category_uri:Mountain Biking a ontology_uri:datasetCategory ; 
+ rdfs:label "Mountain Biking is a category in Yelp used to describe a business" . 
+
+ category_uri:Commercial Truck Repair a ontology_uri:datasetCategory ; 
+ rdfs:label "Commercial Truck Repair is a category in Yelp used to describe a business" . 
+
+ category_uri:Patio Coverings a ontology_uri:datasetCategory ; 
+ rdfs:label "Patio Coverings is a category in Yelp used to describe a business" . 
+
+ category_uri:Tv Mounting a ontology_uri:datasetCategory ; 
+ rdfs:label "Tv Mounting is a category in Yelp used to describe a business" . 
+
+ category_uri:Furniture Assembly a ontology_uri:datasetCategory ; 
+ rdfs:label "Furniture Assembly is a category in Yelp used to describe a business" . 
+
+ category_uri:Hydro-Jetting a ontology_uri:datasetCategory ; 
+ rdfs:label "Hydro-Jetting is a category in Yelp used to describe a business" . 
+
+ category_uri:Empanadas a ontology_uri:datasetCategory ; 
+ rdfs:label "Empanadas is a category in Yelp used to describe a business" . 
+
+ category_uri:Farming Equipment a ontology_uri:datasetCategory ; 
+ rdfs:label "Farming Equipment is a category in Yelp used to describe a business" . 
+
+ category_uri:Golf Lessons a ontology_uri:datasetCategory ; 
+ rdfs:label "Golf Lessons is a category in Yelp used to describe a business" . 
+
+ category_uri:Food Tours a ontology_uri:datasetCategory ; 
+ rdfs:label "Food Tours is a category in Yelp used to describe a business" . 
+
+ category_uri:Vocational & Technical School a ontology_uri:datasetCategory ; 
+ rdfs:label "Vocational & Technical School is a category in Yelp used to describe a business" . 
+
+ category_uri:Christmas Trees a ontology_uri:datasetCategory ; 
+ rdfs:label "Christmas Trees is a category in Yelp used to describe a business" . 
+
+ category_uri:Guest Houses a ontology_uri:datasetCategory ; 
+ rdfs:label "Guest Houses is a category in Yelp used to describe a business" . 
+
+ category_uri:Boat Tours a ontology_uri:datasetCategory ; 
+ rdfs:label "Boat Tours is a category in Yelp used to describe a business" . 
+
+ category_uri:Security Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Security Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Salvadoran a ontology_uri:datasetCategory ; 
+ rdfs:label "Salvadoran is a category in Yelp used to describe a business" . 
+
+ category_uri:Business Consulting a ontology_uri:datasetCategory ; 
+ rdfs:label "Business Consulting is a category in Yelp used to describe a business" . 
+
+ category_uri:Perfume a ontology_uri:datasetCategory ; 
+ rdfs:label "Perfume is a category in Yelp used to describe a business" . 
+
+ category_uri:Driving Schools a ontology_uri:datasetCategory ; 
+ rdfs:label "Driving Schools is a category in Yelp used to describe a business" . 
+
+ category_uri:Wholesalers a ontology_uri:datasetCategory ; 
+ rdfs:label "Wholesalers is a category in Yelp used to describe a business" . 
+
+ category_uri:Botanical Gardens a ontology_uri:datasetCategory ; 
+ rdfs:label "Botanical Gardens is a category in Yelp used to describe a business" . 
+
+ category_uri:Climbing a ontology_uri:datasetCategory ; 
+ rdfs:label "Climbing is a category in Yelp used to describe a business" . 
+
+ category_uri:Cultural Center a ontology_uri:datasetCategory ; 
+ rdfs:label "Cultural Center is a category in Yelp used to describe a business" . 
+
+ category_uri:Hair Loss Centers a ontology_uri:datasetCategory ; 
+ rdfs:label "Hair Loss Centers is a category in Yelp used to describe a business" . 
+
+ category_uri:Shared Office Spaces a ontology_uri:datasetCategory ; 
+ rdfs:label "Shared Office Spaces is a category in Yelp used to describe a business" . 
+
+ category_uri:Stucco Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Stucco Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Hats a ontology_uri:datasetCategory ; 
+ rdfs:label "Hats is a category in Yelp used to describe a business" . 
+
+ category_uri:Psychics a ontology_uri:datasetCategory ; 
+ rdfs:label "Psychics is a category in Yelp used to describe a business" . 
+
+ category_uri:Alternative Medicine a ontology_uri:datasetCategory ; 
+ rdfs:label "Alternative Medicine is a category in Yelp used to describe a business" . 
+
+ category_uri:Firearm Training a ontology_uri:datasetCategory ; 
+ rdfs:label "Firearm Training is a category in Yelp used to describe a business" . 
+
+ category_uri:Professional Sports Teams a ontology_uri:datasetCategory ; 
+ rdfs:label "Professional Sports Teams is a category in Yelp used to describe a business" . 
+
+ category_uri:Auction Houses a ontology_uri:datasetCategory ; 
+ rdfs:label "Auction Houses is a category in Yelp used to describe a business" . 
+
+ category_uri:Environmental Testing a ontology_uri:datasetCategory ; 
+ rdfs:label "Environmental Testing is a category in Yelp used to describe a business" . 
+
+ category_uri:Rv Rental a ontology_uri:datasetCategory ; 
+ rdfs:label "Rv Rental is a category in Yelp used to describe a business" . 
+
+ category_uri:Popcorn Shops a ontology_uri:datasetCategory ; 
+ rdfs:label "Popcorn Shops is a category in Yelp used to describe a business" . 
+
+ category_uri:Tutoring Centers a ontology_uri:datasetCategory ; 
+ rdfs:label "Tutoring Centers is a category in Yelp used to describe a business" . 
+
+ category_uri:Assisted Living Facilities a ontology_uri:datasetCategory ; 
+ rdfs:label "Assisted Living Facilities is a category in Yelp used to describe a business" . 
+
+ category_uri:Maternity Wear a ontology_uri:datasetCategory ; 
+ rdfs:label "Maternity Wear is a category in Yelp used to describe a business" . 
+
+ category_uri:Business Law a ontology_uri:datasetCategory ; 
+ rdfs:label "Business Law is a category in Yelp used to describe a business" . 
+
+ category_uri:Special Education a ontology_uri:datasetCategory ; 
+ rdfs:label "Special Education is a category in Yelp used to describe a business" . 
+
+ category_uri:Axe Throwing a ontology_uri:datasetCategory ; 
+ rdfs:label "Axe Throwing is a category in Yelp used to describe a business" . 
+
+ category_uri:Town Car Service a ontology_uri:datasetCategory ; 
+ rdfs:label "Town Car Service is a category in Yelp used to describe a business" . 
+
+ category_uri:Cigar Bars a ontology_uri:datasetCategory ; 
+ rdfs:label "Cigar Bars is a category in Yelp used to describe a business" . 
+
+ category_uri:Macarons a ontology_uri:datasetCategory ; 
+ rdfs:label "Macarons is a category in Yelp used to describe a business" . 
+
+ category_uri:Furniture Repair a ontology_uri:datasetCategory ; 
+ rdfs:label "Furniture Repair is a category in Yelp used to describe a business" . 
+
+ category_uri:Beverage Store a ontology_uri:datasetCategory ; 
+ rdfs:label "Beverage Store is a category in Yelp used to describe a business" . 
+
+ category_uri:Sleep Specialists a ontology_uri:datasetCategory ; 
+ rdfs:label "Sleep Specialists is a category in Yelp used to describe a business" . 
+
+ category_uri:Sunglasses a ontology_uri:datasetCategory ; 
+ rdfs:label "Sunglasses is a category in Yelp used to describe a business" . 
+
+ category_uri:Zoos a ontology_uri:datasetCategory ; 
+ rdfs:label "Zoos is a category in Yelp used to describe a business" . 
+
+ category_uri:Auto Security a ontology_uri:datasetCategory ; 
+ rdfs:label "Auto Security is a category in Yelp used to describe a business" . 
+
+ category_uri:Home Network Installation a ontology_uri:datasetCategory ; 
+ rdfs:label "Home Network Installation is a category in Yelp used to describe a business" . 
+
+ category_uri:Diving a ontology_uri:datasetCategory ; 
+ rdfs:label "Diving is a category in Yelp used to describe a business" . 
+
+ category_uri:Beer Tours a ontology_uri:datasetCategory ; 
+ rdfs:label "Beer Tours is a category in Yelp used to describe a business" . 
+
+ category_uri:Boat Dealers a ontology_uri:datasetCategory ; 
+ rdfs:label "Boat Dealers is a category in Yelp used to describe a business" . 
+
+ category_uri:Cardiologists a ontology_uri:datasetCategory ; 
+ rdfs:label "Cardiologists is a category in Yelp used to describe a business" . 
+
+ category_uri:Float Spa a ontology_uri:datasetCategory ; 
+ rdfs:label "Float Spa is a category in Yelp used to describe a business" . 
+
+ category_uri:Herbal Shops a ontology_uri:datasetCategory ; 
+ rdfs:label "Herbal Shops is a category in Yelp used to describe a business" . 
+
+ category_uri:Environmental Abatement a ontology_uri:datasetCategory ; 
+ rdfs:label "Environmental Abatement is a category in Yelp used to describe a business" . 
+
+ category_uri:Challenge Courses a ontology_uri:datasetCategory ; 
+ rdfs:label "Challenge Courses is a category in Yelp used to describe a business" . 
+
+ category_uri:Bartenders a ontology_uri:datasetCategory ; 
+ rdfs:label "Bartenders is a category in Yelp used to describe a business" . 
+
+ category_uri:Laser Tag a ontology_uri:datasetCategory ; 
+ rdfs:label "Laser Tag is a category in Yelp used to describe a business" . 
+
+ category_uri:Brazilian Jiu-Jitsu a ontology_uri:datasetCategory ; 
+ rdfs:label "Brazilian Jiu-Jitsu is a category in Yelp used to describe a business" . 
+
+ category_uri:Employment Law a ontology_uri:datasetCategory ; 
+ rdfs:label "Employment Law is a category in Yelp used to describe a business" . 
+
+ category_uri:Kids Hair Salons a ontology_uri:datasetCategory ; 
+ rdfs:label "Kids Hair Salons is a category in Yelp used to describe a business" . 
+
+ category_uri:Moroccan a ontology_uri:datasetCategory ; 
+ rdfs:label "Moroccan is a category in Yelp used to describe a business" . 
+
+ category_uri:Demolition Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Demolition Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Hostels a ontology_uri:datasetCategory ; 
+ rdfs:label "Hostels is a category in Yelp used to describe a business" . 
+
+ category_uri:Estheticians a ontology_uri:datasetCategory ; 
+ rdfs:label "Estheticians is a category in Yelp used to describe a business" . 
+
+ category_uri:Yelp Events a ontology_uri:datasetCategory ; 
+ rdfs:label "Yelp Events is a category in Yelp used to describe a business" . 
+
+ category_uri:Haunted Houses a ontology_uri:datasetCategory ; 
+ rdfs:label "Haunted Houses is a category in Yelp used to describe a business" . 
+
+ category_uri:Laotian a ontology_uri:datasetCategory ; 
+ rdfs:label "Laotian is a category in Yelp used to describe a business" . 
+
+ category_uri:Venezuelan a ontology_uri:datasetCategory ; 
+ rdfs:label "Venezuelan is a category in Yelp used to describe a business" . 
+
+ category_uri:Service Stations a ontology_uri:datasetCategory ; 
+ rdfs:label "Service Stations is a category in Yelp used to describe a business" . 
+
+ category_uri:Iv Hydration a ontology_uri:datasetCategory ; 
+ rdfs:label "Iv Hydration is a category in Yelp used to describe a business" . 
+
+ category_uri:Piano Bars a ontology_uri:datasetCategory ; 
+ rdfs:label "Piano Bars is a category in Yelp used to describe a business" . 
+
+ category_uri:Acne Treatment a ontology_uri:datasetCategory ; 
+ rdfs:label "Acne Treatment is a category in Yelp used to describe a business" . 
+
+ category_uri:Real Estate Law a ontology_uri:datasetCategory ; 
+ rdfs:label "Real Estate Law is a category in Yelp used to describe a business" . 
+
+ category_uri:Cafeteria a ontology_uri:datasetCategory ; 
+ rdfs:label "Cafeteria is a category in Yelp used to describe a business" . 
+
+ category_uri:Brewing Supplies a ontology_uri:datasetCategory ; 
+ rdfs:label "Brewing Supplies is a category in Yelp used to describe a business" . 
+
+ category_uri:Tui Na a ontology_uri:datasetCategory ; 
+ rdfs:label "Tui Na is a category in Yelp used to describe a business" . 
+
+ category_uri:Piano Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Piano Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Brasseries a ontology_uri:datasetCategory ; 
+ rdfs:label "Brasseries is a category in Yelp used to describe a business" . 
+
+ category_uri:Art Museums a ontology_uri:datasetCategory ; 
+ rdfs:label "Art Museums is a category in Yelp used to describe a business" . 
+
+ category_uri:Fertility a ontology_uri:datasetCategory ; 
+ rdfs:label "Fertility is a category in Yelp used to describe a business" . 
+
+ category_uri:Skilled Nursing a ontology_uri:datasetCategory ; 
+ rdfs:label "Skilled Nursing is a category in Yelp used to describe a business" . 
+
+ category_uri:Radio Stations a ontology_uri:datasetCategory ; 
+ rdfs:label "Radio Stations is a category in Yelp used to describe a business" . 
+
+ category_uri:Private Tutors a ontology_uri:datasetCategory ; 
+ rdfs:label "Private Tutors is a category in Yelp used to describe a business" . 
+
+ category_uri:Bankruptcy Law a ontology_uri:datasetCategory ; 
+ rdfs:label "Bankruptcy Law is a category in Yelp used to describe a business" . 
+
+ category_uri:Blood & Plasma Donation Centers a ontology_uri:datasetCategory ; 
+ rdfs:label "Blood & Plasma Donation Centers is a category in Yelp used to describe a business" . 
+
+ category_uri:Musicians a ontology_uri:datasetCategory ; 
+ rdfs:label "Musicians is a category in Yelp used to describe a business" . 
+
+ category_uri:Leisure Centers a ontology_uri:datasetCategory ; 
+ rdfs:label "Leisure Centers is a category in Yelp used to describe a business" . 
+
+ category_uri:Aquarium Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Aquarium Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Officiants a ontology_uri:datasetCategory ; 
+ rdfs:label "Officiants is a category in Yelp used to describe a business" . 
+
+ category_uri:Skate Shops a ontology_uri:datasetCategory ; 
+ rdfs:label "Skate Shops is a category in Yelp used to describe a business" . 
+
+ category_uri:Car Inspectors a ontology_uri:datasetCategory ; 
+ rdfs:label "Car Inspectors is a category in Yelp used to describe a business" . 
+
+ category_uri:Tasting Classes a ontology_uri:datasetCategory ; 
+ rdfs:label "Tasting Classes is a category in Yelp used to describe a business" . 
+
+ category_uri:Payroll Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Payroll Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Home Staging a ontology_uri:datasetCategory ; 
+ rdfs:label "Home Staging is a category in Yelp used to describe a business" . 
+
+ category_uri:Afghan a ontology_uri:datasetCategory ; 
+ rdfs:label "Afghan is a category in Yelp used to describe a business" . 
+
+ category_uri:Midwives a ontology_uri:datasetCategory ; 
+ rdfs:label "Midwives is a category in Yelp used to describe a business" . 
+
+ category_uri:Used Bookstore a ontology_uri:datasetCategory ; 
+ rdfs:label "Used Bookstore is a category in Yelp used to describe a business" . 
+
+ category_uri:Dominican a ontology_uri:datasetCategory ; 
+ rdfs:label "Dominican is a category in Yelp used to describe a business" . 
+
+ category_uri:Polish a ontology_uri:datasetCategory ; 
+ rdfs:label "Polish is a category in Yelp used to describe a business" . 
+
+ category_uri:Dental Hygienists a ontology_uri:datasetCategory ; 
+ rdfs:label "Dental Hygienists is a category in Yelp used to describe a business" . 
+
+ category_uri:Pool & Billiards a ontology_uri:datasetCategory ; 
+ rdfs:label "Pool & Billiards is a category in Yelp used to describe a business" . 
+
+ category_uri:Trailer Repair a ontology_uri:datasetCategory ; 
+ rdfs:label "Trailer Repair is a category in Yelp used to describe a business" . 
+
+ category_uri:Aestheticians a ontology_uri:datasetCategory ; 
+ rdfs:label "Aestheticians is a category in Yelp used to describe a business" . 
+
+ category_uri:Kombucha a ontology_uri:datasetCategory ; 
+ rdfs:label "Kombucha is a category in Yelp used to describe a business" . 
+
+ category_uri:Newspapers & Magazines a ontology_uri:datasetCategory ; 
+ rdfs:label "Newspapers & Magazines is a category in Yelp used to describe a business" . 
+
+ category_uri:Buses a ontology_uri:datasetCategory ; 
+ rdfs:label "Buses is a category in Yelp used to describe a business" . 
+
+ category_uri:Foundation Repair a ontology_uri:datasetCategory ; 
+ rdfs:label "Foundation Repair is a category in Yelp used to describe a business" . 
+
+ category_uri:Russian a ontology_uri:datasetCategory ; 
+ rdfs:label "Russian is a category in Yelp used to describe a business" . 
+
+ category_uri:Prosthodontists a ontology_uri:datasetCategory ; 
+ rdfs:label "Prosthodontists is a category in Yelp used to describe a business" . 
+
+ category_uri:Firewood a ontology_uri:datasetCategory ; 
+ rdfs:label "Firewood is a category in Yelp used to describe a business" . 
+
+ category_uri:Grilling Equipment a ontology_uri:datasetCategory ; 
+ rdfs:label "Grilling Equipment is a category in Yelp used to describe a business" . 
+
+ category_uri:Luggage a ontology_uri:datasetCategory ; 
+ rdfs:label "Luggage is a category in Yelp used to describe a business" . 
+
+ category_uri:Holiday Decorations a ontology_uri:datasetCategory ; 
+ rdfs:label "Holiday Decorations is a category in Yelp used to describe a business" . 
+
+ category_uri:Lighting Stores a ontology_uri:datasetCategory ; 
+ rdfs:label "Lighting Stores is a category in Yelp used to describe a business" . 
+
+ category_uri:Circuit Training Gyms a ontology_uri:datasetCategory ; 
+ rdfs:label "Circuit Training Gyms is a category in Yelp used to describe a business" . 
+
+ category_uri:Persian/Iranian a ontology_uri:datasetCategory ; 
+ rdfs:label "Persian/Iranian is a category in Yelp used to describe a business" . 
+
+ category_uri:Vehicle Shipping a ontology_uri:datasetCategory ; 
+ rdfs:label "Vehicle Shipping is a category in Yelp used to describe a business" . 
+
+ category_uri:Hypnosis/Hypnotherapy a ontology_uri:datasetCategory ; 
+ rdfs:label "Hypnosis/Hypnotherapy is a category in Yelp used to describe a business" . 
+
+ category_uri:Ski & Snowboard Shops a ontology_uri:datasetCategory ; 
+ rdfs:label "Ski & Snowboard Shops is a category in Yelp used to describe a business" . 
+
+ category_uri:Local Fish Stores a ontology_uri:datasetCategory ; 
+ rdfs:label "Local Fish Stores is a category in Yelp used to describe a business" . 
+
+ category_uri:Hospice a ontology_uri:datasetCategory ; 
+ rdfs:label "Hospice is a category in Yelp used to describe a business" . 
+
+ category_uri:Day Camps a ontology_uri:datasetCategory ; 
+ rdfs:label "Day Camps is a category in Yelp used to describe a business" . 
+
+ category_uri:Basque a ontology_uri:datasetCategory ; 
+ rdfs:label "Basque is a category in Yelp used to describe a business" . 
+
+ category_uri:Sugaring a ontology_uri:datasetCategory ; 
+ rdfs:label "Sugaring is a category in Yelp used to describe a business" . 
+
+ category_uri:Csa a ontology_uri:datasetCategory ; 
+ rdfs:label "Csa is a category in Yelp used to describe a business" . 
+
+ category_uri:Roof Inspectors a ontology_uri:datasetCategory ; 
+ rdfs:label "Roof Inspectors is a category in Yelp used to describe a business" . 
+
+ category_uri:Farm Equipment Repair a ontology_uri:datasetCategory ; 
+ rdfs:label "Farm Equipment Repair is a category in Yelp used to describe a business" . 
+
+ category_uri:Marinas a ontology_uri:datasetCategory ; 
+ rdfs:label "Marinas is a category in Yelp used to describe a business" . 
+
+ category_uri:Henna Artists a ontology_uri:datasetCategory ; 
+ rdfs:label "Henna Artists is a category in Yelp used to describe a business" . 
+
+ category_uri:Check Cashing/Pay-Day Loans a ontology_uri:datasetCategory ; 
+ rdfs:label "Check Cashing/Pay-Day Loans is a category in Yelp used to describe a business" . 
+
+ category_uri:Osteopathic Physicians a ontology_uri:datasetCategory ; 
+ rdfs:label "Osteopathic Physicians is a category in Yelp used to describe a business" . 
+
+ category_uri:Fire Protection Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Fire Protection Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Livestock Feed & Supply a ontology_uri:datasetCategory ; 
+ rdfs:label "Livestock Feed & Supply is a category in Yelp used to describe a business" . 
+
+ category_uri:Mobile Dent Repair a ontology_uri:datasetCategory ; 
+ rdfs:label "Mobile Dent Repair is a category in Yelp used to describe a business" . 
+
+ category_uri:Trusts a ontology_uri:datasetCategory ; 
+ rdfs:label "Trusts is a category in Yelp used to describe a business" . 
+
+ category_uri:Excavation Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Excavation Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Wills a ontology_uri:datasetCategory ; 
+ rdfs:label "Wills is a category in Yelp used to describe a business" . 
+
+ category_uri:Go Karts a ontology_uri:datasetCategory ; 
+ rdfs:label "Go Karts is a category in Yelp used to describe a business" . 
+
+ category_uri:Teppanyaki a ontology_uri:datasetCategory ; 
+ rdfs:label "Teppanyaki is a category in Yelp used to describe a business" . 
+
+ category_uri:Pet Transportation a ontology_uri:datasetCategory ; 
+ rdfs:label "Pet Transportation is a category in Yelp used to describe a business" . 
+
+ category_uri:& Probates a ontology_uri:datasetCategory ; 
+ rdfs:label "& Probates is a category in Yelp used to describe a business" . 
+
+ category_uri:Pet Hospice a ontology_uri:datasetCategory ; 
+ rdfs:label "Pet Hospice is a category in Yelp used to describe a business" . 
+
+ category_uri:Pet Cremation Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Pet Cremation Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Olive Oil a ontology_uri:datasetCategory ; 
+ rdfs:label "Olive Oil is a category in Yelp used to describe a business" . 
+
+ category_uri:Paint-Your-Own Pottery a ontology_uri:datasetCategory ; 
+ rdfs:label "Paint-Your-Own Pottery is a category in Yelp used to describe a business" . 
+
+ category_uri:Clothing Rental a ontology_uri:datasetCategory ; 
+ rdfs:label "Clothing Rental is a category in Yelp used to describe a business" . 
+
+ category_uri:Estate Liquidation a ontology_uri:datasetCategory ; 
+ rdfs:label "Estate Liquidation is a category in Yelp used to describe a business" . 
+
+ category_uri:Travel Agents a ontology_uri:datasetCategory ; 
+ rdfs:label "Travel Agents is a category in Yelp used to describe a business" . 
+
+ category_uri:Boudoir Photography a ontology_uri:datasetCategory ; 
+ rdfs:label "Boudoir Photography is a category in Yelp used to describe a business" . 
+
+ category_uri:Cryotherapy a ontology_uri:datasetCategory ; 
+ rdfs:label "Cryotherapy is a category in Yelp used to describe a business" . 
+
+ category_uri:Trailer Dealers a ontology_uri:datasetCategory ; 
+ rdfs:label "Trailer Dealers is a category in Yelp used to describe a business" . 
+
+ category_uri:Archery a ontology_uri:datasetCategory ; 
+ rdfs:label "Archery is a category in Yelp used to describe a business" . 
+
+ category_uri:Mongolian a ontology_uri:datasetCategory ; 
+ rdfs:label "Mongolian is a category in Yelp used to describe a business" . 
+
+ category_uri:Wedding Chapels a ontology_uri:datasetCategory ; 
+ rdfs:label "Wedding Chapels is a category in Yelp used to describe a business" . 
+
+ category_uri:Arabic a ontology_uri:datasetCategory ; 
+ rdfs:label "Arabic is a category in Yelp used to describe a business" . 
+
+ category_uri:Race Tracks a ontology_uri:datasetCategory ; 
+ rdfs:label "Race Tracks is a category in Yelp used to describe a business" . 
+
+ category_uri:Audiologist a ontology_uri:datasetCategory ; 
+ rdfs:label "Audiologist is a category in Yelp used to describe a business" . 
+
+ category_uri:Recording & Rehearsal Studios a ontology_uri:datasetCategory ; 
+ rdfs:label "Recording & Rehearsal Studios is a category in Yelp used to describe a business" . 
+
+ category_uri:Train Stations a ontology_uri:datasetCategory ; 
+ rdfs:label "Train Stations is a category in Yelp used to describe a business" . 
+
+ category_uri:Dinner Theater a ontology_uri:datasetCategory ; 
+ rdfs:label "Dinner Theater is a category in Yelp used to describe a business" . 
+
+ category_uri:Rock Climbing a ontology_uri:datasetCategory ; 
+ rdfs:label "Rock Climbing is a category in Yelp used to describe a business" . 
+
+ category_uri:Engraving a ontology_uri:datasetCategory ; 
+ rdfs:label "Engraving is a category in Yelp used to describe a business" . 
+
+ category_uri:Career Counseling a ontology_uri:datasetCategory ; 
+ rdfs:label "Career Counseling is a category in Yelp used to describe a business" . 
+
+ category_uri:Police Departments a ontology_uri:datasetCategory ; 
+ rdfs:label "Police Departments is a category in Yelp used to describe a business" . 
+
+ category_uri:Awnings a ontology_uri:datasetCategory ; 
+ rdfs:label "Awnings is a category in Yelp used to describe a business" . 
+
+ category_uri:Shoe Shine a ontology_uri:datasetCategory ; 
+ rdfs:label "Shoe Shine is a category in Yelp used to describe a business" . 
+
+ category_uri:Workers Compensation Law a ontology_uri:datasetCategory ; 
+ rdfs:label "Workers Compensation Law is a category in Yelp used to describe a business" . 
+
+ category_uri:Argentine a ontology_uri:datasetCategory ; 
+ rdfs:label "Argentine is a category in Yelp used to describe a business" . 
+
+ category_uri:Scuba Diving a ontology_uri:datasetCategory ; 
+ rdfs:label "Scuba Diving is a category in Yelp used to describe a business" . 
+
+ category_uri:Dumpster Rental a ontology_uri:datasetCategory ; 
+ rdfs:label "Dumpster Rental is a category in Yelp used to describe a business" . 
+
+ category_uri:Jet Skis a ontology_uri:datasetCategory ; 
+ rdfs:label "Jet Skis is a category in Yelp used to describe a business" . 
+
+ category_uri:Strip Clubs a ontology_uri:datasetCategory ; 
+ rdfs:label "Strip Clubs is a category in Yelp used to describe a business" . 
+
+ category_uri:Paintball a ontology_uri:datasetCategory ; 
+ rdfs:label "Paintball is a category in Yelp used to describe a business" . 
+
+ category_uri:Psychologists a ontology_uri:datasetCategory ; 
+ rdfs:label "Psychologists is a category in Yelp used to describe a business" . 
+
+ category_uri:Portuguese a ontology_uri:datasetCategory ; 
+ rdfs:label "Portuguese is a category in Yelp used to describe a business" . 
+
+ category_uri:Health Coach a ontology_uri:datasetCategory ; 
+ rdfs:label "Health Coach is a category in Yelp used to describe a business" . 
+
+ category_uri:Bistros a ontology_uri:datasetCategory ; 
+ rdfs:label "Bistros is a category in Yelp used to describe a business" . 
+
+ category_uri:Prenatal/Perinatal Care a ontology_uri:datasetCategory ; 
+ rdfs:label "Prenatal/Perinatal Care is a category in Yelp used to describe a business" . 
+
+ category_uri:Test Preparation a ontology_uri:datasetCategory ; 
+ rdfs:label "Test Preparation is a category in Yelp used to describe a business" . 
+
+ category_uri:Ethnic Grocery a ontology_uri:datasetCategory ; 
+ rdfs:label "Ethnic Grocery is a category in Yelp used to describe a business" . 
+
+ category_uri:Soccer a ontology_uri:datasetCategory ; 
+ rdfs:label "Soccer is a category in Yelp used to describe a business" . 
+
+ category_uri:Community Centers a ontology_uri:datasetCategory ; 
+ rdfs:label "Community Centers is a category in Yelp used to describe a business" . 
+
+ category_uri:Bike Tours a ontology_uri:datasetCategory ; 
+ rdfs:label "Bike Tours is a category in Yelp used to describe a business" . 
+
+ category_uri:Spine Surgeons a ontology_uri:datasetCategory ; 
+ rdfs:label "Spine Surgeons is a category in Yelp used to describe a business" . 
+
+ category_uri:Real Estate Photography a ontology_uri:datasetCategory ; 
+ rdfs:label "Real Estate Photography is a category in Yelp used to describe a business" . 
+
+ category_uri:Balloon Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Balloon Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Urologists a ontology_uri:datasetCategory ; 
+ rdfs:label "Urologists is a category in Yelp used to describe a business" . 
+
+ category_uri:Wine Tasting Classes a ontology_uri:datasetCategory ; 
+ rdfs:label "Wine Tasting Classes is a category in Yelp used to describe a business" . 
+
+ category_uri:Pop-Up Shops a ontology_uri:datasetCategory ; 
+ rdfs:label "Pop-Up Shops is a category in Yelp used to describe a business" . 
+
+ category_uri:Television Stations a ontology_uri:datasetCategory ; 
+ rdfs:label "Television Stations is a category in Yelp used to describe a business" . 
+
+ category_uri:Doulas a ontology_uri:datasetCategory ; 
+ rdfs:label "Doulas is a category in Yelp used to describe a business" . 
+
+ category_uri:Gemstones & Minerals a ontology_uri:datasetCategory ; 
+ rdfs:label "Gemstones & Minerals is a category in Yelp used to describe a business" . 
+
+ category_uri:Knife Sharpening a ontology_uri:datasetCategory ; 
+ rdfs:label "Knife Sharpening is a category in Yelp used to describe a business" . 
+
+ category_uri:Commercial Truck Dealers a ontology_uri:datasetCategory ; 
+ rdfs:label "Commercial Truck Dealers is a category in Yelp used to describe a business" . 
+
+ category_uri:Speakeasies a ontology_uri:datasetCategory ; 
+ rdfs:label "Speakeasies is a category in Yelp used to describe a business" . 
+
+ category_uri:Surfing a ontology_uri:datasetCategory ; 
+ rdfs:label "Surfing is a category in Yelp used to describe a business" . 
+
+ category_uri:Delicatessen a ontology_uri:datasetCategory ; 
+ rdfs:label "Delicatessen is a category in Yelp used to describe a business" . 
+
+ category_uri:Self-Defense Classes a ontology_uri:datasetCategory ; 
+ rdfs:label "Self-Defense Classes is a category in Yelp used to describe a business" . 
+
+ category_uri:Malaysian a ontology_uri:datasetCategory ; 
+ rdfs:label "Malaysian is a category in Yelp used to describe a business" . 
+
+ category_uri:Lakes a ontology_uri:datasetCategory ; 
+ rdfs:label "Lakes is a category in Yelp used to describe a business" . 
+
+ category_uri:Personal Assistants a ontology_uri:datasetCategory ; 
+ rdfs:label "Personal Assistants is a category in Yelp used to describe a business" . 
+
+ category_uri:Cremation Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Cremation Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Ticket Sales a ontology_uri:datasetCategory ; 
+ rdfs:label "Ticket Sales is a category in Yelp used to describe a business" . 
+
+ category_uri:Mobility Equipment Sales & Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Mobility Equipment Sales & Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Water Delivery a ontology_uri:datasetCategory ; 
+ rdfs:label "Water Delivery is a category in Yelp used to describe a business" . 
+
+ category_uri:Pumpkin Patches a ontology_uri:datasetCategory ; 
+ rdfs:label "Pumpkin Patches is a category in Yelp used to describe a business" . 
+
+ category_uri:Pole Dancing Classes a ontology_uri:datasetCategory ; 
+ rdfs:label "Pole Dancing Classes is a category in Yelp used to describe a business" . 
+
+ category_uri:Skate Parks a ontology_uri:datasetCategory ; 
+ rdfs:label "Skate Parks is a category in Yelp used to describe a business" . 
+
+ category_uri:Trailer Rental a ontology_uri:datasetCategory ; 
+ rdfs:label "Trailer Rental is a category in Yelp used to describe a business" . 
+
+ category_uri:Horse Boarding a ontology_uri:datasetCategory ; 
+ rdfs:label "Horse Boarding is a category in Yelp used to describe a business" . 
+
+ category_uri:Eatertainment a ontology_uri:datasetCategory ; 
+ rdfs:label "Eatertainment is a category in Yelp used to describe a business" . 
+
+ category_uri:Psychic Mediums a ontology_uri:datasetCategory ; 
+ rdfs:label "Psychic Mediums is a category in Yelp used to describe a business" . 
+
+ category_uri:Kitchen Supplies a ontology_uri:datasetCategory ; 
+ rdfs:label "Kitchen Supplies is a category in Yelp used to describe a business" . 
+
+ category_uri:Airport Lounges a ontology_uri:datasetCategory ; 
+ rdfs:label "Airport Lounges is a category in Yelp used to describe a business" . 
+
+ category_uri:Bookkeepers a ontology_uri:datasetCategory ; 
+ rdfs:label "Bookkeepers is a category in Yelp used to describe a business" . 
+
+ category_uri:Themed Cafes a ontology_uri:datasetCategory ; 
+ rdfs:label "Themed Cafes is a category in Yelp used to describe a business" . 
+
+ category_uri:Lactation Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Lactation Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Fondue a ontology_uri:datasetCategory ; 
+ rdfs:label "Fondue is a category in Yelp used to describe a business" . 
+
+ category_uri:Condominiums a ontology_uri:datasetCategory ; 
+ rdfs:label "Condominiums is a category in Yelp used to describe a business" . 
+
+ category_uri:Champagne Bars a ontology_uri:datasetCategory ; 
+ rdfs:label "Champagne Bars is a category in Yelp used to describe a business" . 
+
+ category_uri:Gunsmith a ontology_uri:datasetCategory ; 
+ rdfs:label "Gunsmith is a category in Yelp used to describe a business" . 
+
+ category_uri:High Fidelity Audio Equipment a ontology_uri:datasetCategory ; 
+ rdfs:label "High Fidelity Audio Equipment is a category in Yelp used to describe a business" . 
+
+ category_uri:Hearing Aid Providers a ontology_uri:datasetCategory ; 
+ rdfs:label "Hearing Aid Providers is a category in Yelp used to describe a business" . 
+
+ category_uri:Cpr Classes a ontology_uri:datasetCategory ; 
+ rdfs:label "Cpr Classes is a category in Yelp used to describe a business" . 
+
+ category_uri:Medical Transportation a ontology_uri:datasetCategory ; 
+ rdfs:label "Medical Transportation is a category in Yelp used to describe a business" . 
+
+ category_uri:Surf Shop a ontology_uri:datasetCategory ; 
+ rdfs:label "Surf Shop is a category in Yelp used to describe a business" . 
+
+ category_uri:Cabaret a ontology_uri:datasetCategory ; 
+ rdfs:label "Cabaret is a category in Yelp used to describe a business" . 
+
+ category_uri:Magicians a ontology_uri:datasetCategory ; 
+ rdfs:label "Magicians is a category in Yelp used to describe a business" . 
+
+ category_uri:Pick Your Own Farms a ontology_uri:datasetCategory ; 
+ rdfs:label "Pick Your Own Farms is a category in Yelp used to describe a business" . 
+
+ category_uri:Poutineries a ontology_uri:datasetCategory ; 
+ rdfs:label "Poutineries is a category in Yelp used to describe a business" . 
+
+ category_uri:Bar Crawl a ontology_uri:datasetCategory ; 
+ rdfs:label "Bar Crawl is a category in Yelp used to describe a business" . 
+
+ category_uri:Machine & Tool Rental a ontology_uri:datasetCategory ; 
+ rdfs:label "Machine & Tool Rental is a category in Yelp used to describe a business" . 
+
+ category_uri:Restaurant Supplies a ontology_uri:datasetCategory ; 
+ rdfs:label "Restaurant Supplies is a category in Yelp used to describe a business" . 
+
+ category_uri:Cideries a ontology_uri:datasetCategory ; 
+ rdfs:label "Cideries is a category in Yelp used to describe a business" . 
+
+ category_uri:Endocrinologists a ontology_uri:datasetCategory ; 
+ rdfs:label "Endocrinologists is a category in Yelp used to describe a business" . 
+
+ category_uri:Virtual Reality Centers a ontology_uri:datasetCategory ; 
+ rdfs:label "Virtual Reality Centers is a category in Yelp used to describe a business" . 
+
+ category_uri:Batting Cages a ontology_uri:datasetCategory ; 
+ rdfs:label "Batting Cages is a category in Yelp used to describe a business" . 
+
+ category_uri:Health Retreats a ontology_uri:datasetCategory ; 
+ rdfs:label "Health Retreats is a category in Yelp used to describe a business" . 
+
+ category_uri:Attraction Farms a ontology_uri:datasetCategory ; 
+ rdfs:label "Attraction Farms is a category in Yelp used to describe a business" . 
+
+ category_uri:Medical Cannabis Referrals a ontology_uri:datasetCategory ; 
+ rdfs:label "Medical Cannabis Referrals is a category in Yelp used to describe a business" . 
+
+ category_uri:Clock Repair a ontology_uri:datasetCategory ; 
+ rdfs:label "Clock Repair is a category in Yelp used to describe a business" . 
+
+ category_uri:Shredding Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Shredding Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Architects a ontology_uri:datasetCategory ; 
+ rdfs:label "Architects is a category in Yelp used to describe a business" . 
+
+ category_uri:Artificial Turf a ontology_uri:datasetCategory ; 
+ rdfs:label "Artificial Turf is a category in Yelp used to describe a business" . 
+
+ category_uri:Face Painting a ontology_uri:datasetCategory ; 
+ rdfs:label "Face Painting is a category in Yelp used to describe a business" . 
+
+ category_uri:Honduran a ontology_uri:datasetCategory ; 
+ rdfs:label "Honduran is a category in Yelp used to describe a business" . 
+
+ category_uri:Karate a ontology_uri:datasetCategory ; 
+ rdfs:label "Karate is a category in Yelp used to describe a business" . 
+
+ category_uri:Water Parks a ontology_uri:datasetCategory ; 
+ rdfs:label "Water Parks is a category in Yelp used to describe a business" . 
+
+ category_uri:Reproductive Health Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Reproductive Health Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Belgian a ontology_uri:datasetCategory ; 
+ rdfs:label "Belgian is a category in Yelp used to describe a business" . 
+
+ category_uri:Medical Law a ontology_uri:datasetCategory ; 
+ rdfs:label "Medical Law is a category in Yelp used to describe a business" . 
+
+ category_uri:Religious Items a ontology_uri:datasetCategory ; 
+ rdfs:label "Religious Items is a category in Yelp used to describe a business" . 
+
+ category_uri:Indonesian a ontology_uri:datasetCategory ; 
+ rdfs:label "Indonesian is a category in Yelp used to describe a business" . 
+
+ category_uri:Halotherapy a ontology_uri:datasetCategory ; 
+ rdfs:label "Halotherapy is a category in Yelp used to describe a business" . 
+
+ category_uri:Personal Care Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Personal Care Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Public Markets a ontology_uri:datasetCategory ; 
+ rdfs:label "Public Markets is a category in Yelp used to describe a business" . 
+
+ category_uri:Trophy Shops a ontology_uri:datasetCategory ; 
+ rdfs:label "Trophy Shops is a category in Yelp used to describe a business" . 
+
+ category_uri:Childbirth Education a ontology_uri:datasetCategory ; 
+ rdfs:label "Childbirth Education is a category in Yelp used to describe a business" . 
+
+ category_uri:Bird Shops a ontology_uri:datasetCategory ; 
+ rdfs:label "Bird Shops is a category in Yelp used to describe a business" . 
+
+ category_uri:Outdoor Power Equipment Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Outdoor Power Equipment Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Addiction Medicine a ontology_uri:datasetCategory ; 
+ rdfs:label "Addiction Medicine is a category in Yelp used to describe a business" . 
+
+ category_uri:Races & Competitions a ontology_uri:datasetCategory ; 
+ rdfs:label "Races & Competitions is a category in Yelp used to describe a business" . 
+
+ category_uri:Shaved Snow a ontology_uri:datasetCategory ; 
+ rdfs:label "Shaved Snow is a category in Yelp used to describe a business" . 
+
+ category_uri:Nurse Practitioner a ontology_uri:datasetCategory ; 
+ rdfs:label "Nurse Practitioner is a category in Yelp used to describe a business" . 
+
+ category_uri:Disc Golf a ontology_uri:datasetCategory ; 
+ rdfs:label "Disc Golf is a category in Yelp used to describe a business" . 
+
+ category_uri:Oncologist a ontology_uri:datasetCategory ; 
+ rdfs:label "Oncologist is a category in Yelp used to describe a business" . 
+
+ category_uri:Structural Engineers a ontology_uri:datasetCategory ; 
+ rdfs:label "Structural Engineers is a category in Yelp used to describe a business" . 
+
+ category_uri:Pet Photography a ontology_uri:datasetCategory ; 
+ rdfs:label "Pet Photography is a category in Yelp used to describe a business" . 
+
+ category_uri:Basketball Courts a ontology_uri:datasetCategory ; 
+ rdfs:label "Basketball Courts is a category in Yelp used to describe a business" . 
+
+ category_uri:Himalayan/Nepalese a ontology_uri:datasetCategory ; 
+ rdfs:label "Himalayan/Nepalese is a category in Yelp used to describe a business" . 
+
+ category_uri:House Sitters a ontology_uri:datasetCategory ; 
+ rdfs:label "House Sitters is a category in Yelp used to describe a business" . 
+
+ category_uri:Dietitians a ontology_uri:datasetCategory ; 
+ rdfs:label "Dietitians is a category in Yelp used to describe a business" . 
+
+ category_uri:Memory Care a ontology_uri:datasetCategory ; 
+ rdfs:label "Memory Care is a category in Yelp used to describe a business" . 
+
+ category_uri:Children'S Museums a ontology_uri:datasetCategory ; 
+ rdfs:label "Children'S Museums is a category in Yelp used to describe a business" . 
+
+ category_uri:Muay Thai a ontology_uri:datasetCategory ; 
+ rdfs:label "Muay Thai is a category in Yelp used to describe a business" . 
+
+ category_uri:Pulmonologist a ontology_uri:datasetCategory ; 
+ rdfs:label "Pulmonologist is a category in Yelp used to describe a business" . 
+
+ category_uri:Colonics a ontology_uri:datasetCategory ; 
+ rdfs:label "Colonics is a category in Yelp used to describe a business" . 
+
+ category_uri:Haitian a ontology_uri:datasetCategory ; 
+ rdfs:label "Haitian is a category in Yelp used to describe a business" . 
+
+ category_uri:Public Art a ontology_uri:datasetCategory ; 
+ rdfs:label "Public Art is a category in Yelp used to describe a business" . 
+
+ category_uri:Nanny Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Nanny Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Airport Terminals a ontology_uri:datasetCategory ; 
+ rdfs:label "Airport Terminals is a category in Yelp used to describe a business" . 
+
+ category_uri:Massage Schools a ontology_uri:datasetCategory ; 
+ rdfs:label "Massage Schools is a category in Yelp used to describe a business" . 
+
+ category_uri:Tai Chi a ontology_uri:datasetCategory ; 
+ rdfs:label "Tai Chi is a category in Yelp used to describe a business" . 
+
+ category_uri:Well Drilling a ontology_uri:datasetCategory ; 
+ rdfs:label "Well Drilling is a category in Yelp used to describe a business" . 
+
+ category_uri:Health Insurance Offices a ontology_uri:datasetCategory ; 
+ rdfs:label "Health Insurance Offices is a category in Yelp used to describe a business" . 
+
+ category_uri:Speech Therapists a ontology_uri:datasetCategory ; 
+ rdfs:label "Speech Therapists is a category in Yelp used to describe a business" . 
+
+ category_uri:Title Loans a ontology_uri:datasetCategory ; 
+ rdfs:label "Title Loans is a category in Yelp used to describe a business" . 
+
+ category_uri:Immigration Law a ontology_uri:datasetCategory ; 
+ rdfs:label "Immigration Law is a category in Yelp used to describe a business" . 
+
+ category_uri:Car Share Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Car Share Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Aerial Fitness a ontology_uri:datasetCategory ; 
+ rdfs:label "Aerial Fitness is a category in Yelp used to describe a business" . 
+
+ category_uri:Music Production Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Music Production Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Motorsport Vehicle Repairs a ontology_uri:datasetCategory ; 
+ rdfs:label "Motorsport Vehicle Repairs is a category in Yelp used to describe a business" . 
+
+ category_uri:Fingerprinting a ontology_uri:datasetCategory ; 
+ rdfs:label "Fingerprinting is a category in Yelp used to describe a business" . 
+
+ category_uri:Courthouses a ontology_uri:datasetCategory ; 
+ rdfs:label "Courthouses is a category in Yelp used to describe a business" . 
+
+ category_uri:Powder Coating a ontology_uri:datasetCategory ; 
+ rdfs:label "Powder Coating is a category in Yelp used to describe a business" . 
+
+ category_uri:Cambodian a ontology_uri:datasetCategory ; 
+ rdfs:label "Cambodian is a category in Yelp used to describe a business" . 
+
+ category_uri:Party Bike Rentals a ontology_uri:datasetCategory ; 
+ rdfs:label "Party Bike Rentals is a category in Yelp used to describe a business" . 
+
+ category_uri:Valet Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Valet Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Art Tours a ontology_uri:datasetCategory ; 
+ rdfs:label "Art Tours is a category in Yelp used to describe a business" . 
+
+ category_uri:Ukrainian a ontology_uri:datasetCategory ; 
+ rdfs:label "Ukrainian is a category in Yelp used to describe a business" . 
+
+ category_uri:Flight Instruction a ontology_uri:datasetCategory ; 
+ rdfs:label "Flight Instruction is a category in Yelp used to describe a business" . 
+
+ category_uri:Burmese a ontology_uri:datasetCategory ; 
+ rdfs:label "Burmese is a category in Yelp used to describe a business" . 
+
+ category_uri:Safe Stores a ontology_uri:datasetCategory ; 
+ rdfs:label "Safe Stores is a category in Yelp used to describe a business" . 
+
+ category_uri:Honey a ontology_uri:datasetCategory ; 
+ rdfs:label "Honey is a category in Yelp used to describe a business" . 
+
+ category_uri:Motorcycle Rental a ontology_uri:datasetCategory ; 
+ rdfs:label "Motorcycle Rental is a category in Yelp used to describe a business" . 
+
+ category_uri:Skydiving a ontology_uri:datasetCategory ; 
+ rdfs:label "Skydiving is a category in Yelp used to describe a business" . 
+
+ category_uri:Wallpapering a ontology_uri:datasetCategory ; 
+ rdfs:label "Wallpapering is a category in Yelp used to describe a business" . 
+
+ category_uri:Talent Agencies a ontology_uri:datasetCategory ; 
+ rdfs:label "Talent Agencies is a category in Yelp used to describe a business" . 
+
+ category_uri:Vacation Rental Agents a ontology_uri:datasetCategory ; 
+ rdfs:label "Vacation Rental Agents is a category in Yelp used to describe a business" . 
+
+ category_uri:Concierge Medicine a ontology_uri:datasetCategory ; 
+ rdfs:label "Concierge Medicine is a category in Yelp used to describe a business" . 
+
+ category_uri:Trinidadian a ontology_uri:datasetCategory ; 
+ rdfs:label "Trinidadian is a category in Yelp used to describe a business" . 
+
+ category_uri:Shanghainese a ontology_uri:datasetCategory ; 
+ rdfs:label "Shanghainese is a category in Yelp used to describe a business" . 
+
+ category_uri:Sicilian a ontology_uri:datasetCategory ; 
+ rdfs:label "Sicilian is a category in Yelp used to describe a business" . 
+
+ category_uri:Lice Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Lice Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Holistic Animal Care a ontology_uri:datasetCategory ; 
+ rdfs:label "Holistic Animal Care is a category in Yelp used to describe a business" . 
+
+ category_uri:Passport & Visa Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Passport & Visa Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Ultrasound Imaging Centers a ontology_uri:datasetCategory ; 
+ rdfs:label "Ultrasound Imaging Centers is a category in Yelp used to describe a business" . 
+
+ category_uri:Dive Shops a ontology_uri:datasetCategory ; 
+ rdfs:label "Dive Shops is a category in Yelp used to describe a business" . 
+
+ category_uri:Egyptian a ontology_uri:datasetCategory ; 
+ rdfs:label "Egyptian is a category in Yelp used to describe a business" . 
+
+ category_uri:Hydrotherapy a ontology_uri:datasetCategory ; 
+ rdfs:label "Hydrotherapy is a category in Yelp used to describe a business" . 
+
+ category_uri:Architectural Tours a ontology_uri:datasetCategory ; 
+ rdfs:label "Architectural Tours is a category in Yelp used to describe a business" . 
+
+ category_uri:Izakaya a ontology_uri:datasetCategory ; 
+ rdfs:label "Izakaya is a category in Yelp used to describe a business" . 
+
+ category_uri:Crane Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Crane Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Emergency Medicine a ontology_uri:datasetCategory ; 
+ rdfs:label "Emergency Medicine is a category in Yelp used to describe a business" . 
+
+ category_uri:Armenian a ontology_uri:datasetCategory ; 
+ rdfs:label "Armenian is a category in Yelp used to describe a business" . 
+
+ category_uri:Holiday Decorating Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Holiday Decorating Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Pet Breeders a ontology_uri:datasetCategory ; 
+ rdfs:label "Pet Breeders is a category in Yelp used to describe a business" . 
+
+ category_uri:Parenting Classes a ontology_uri:datasetCategory ; 
+ rdfs:label "Parenting Classes is a category in Yelp used to describe a business" . 
+
+ category_uri:Religious Schools a ontology_uri:datasetCategory ; 
+ rdfs:label "Religious Schools is a category in Yelp used to describe a business" . 
+
+ category_uri:Bounce House Rentals a ontology_uri:datasetCategory ; 
+ rdfs:label "Bounce House Rentals is a category in Yelp used to describe a business" . 
+
+ category_uri:Installment Loans a ontology_uri:datasetCategory ; 
+ rdfs:label "Installment Loans is a category in Yelp used to describe a business" . 
+
+ category_uri:Home Energy Auditors a ontology_uri:datasetCategory ; 
+ rdfs:label "Home Energy Auditors is a category in Yelp used to describe a business" . 
+
+ category_uri:Pancakes a ontology_uri:datasetCategory ; 
+ rdfs:label "Pancakes is a category in Yelp used to describe a business" . 
+
+ category_uri:Bangladeshi a ontology_uri:datasetCategory ; 
+ rdfs:label "Bangladeshi is a category in Yelp used to describe a business" . 
+
+ category_uri:Snorkeling a ontology_uri:datasetCategory ; 
+ rdfs:label "Snorkeling is a category in Yelp used to describe a business" . 
+
+ category_uri:Private Investigation a ontology_uri:datasetCategory ; 
+ rdfs:label "Private Investigation is a category in Yelp used to describe a business" . 
+
+ category_uri:Editorial Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Editorial Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Baseball Fields a ontology_uri:datasetCategory ; 
+ rdfs:label "Baseball Fields is a category in Yelp used to describe a business" . 
+
+ category_uri:Debt Relief Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Debt Relief Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Dance Wear a ontology_uri:datasetCategory ; 
+ rdfs:label "Dance Wear is a category in Yelp used to describe a business" . 
+
+ category_uri:Car Brokers a ontology_uri:datasetCategory ; 
+ rdfs:label "Car Brokers is a category in Yelp used to describe a business" . 
+
+ category_uri:First Aid Classes a ontology_uri:datasetCategory ; 
+ rdfs:label "First Aid Classes is a category in Yelp used to describe a business" . 
+
+ category_uri:Solar Panel Cleaning a ontology_uri:datasetCategory ; 
+ rdfs:label "Solar Panel Cleaning is a category in Yelp used to describe a business" . 
+
+ category_uri:Vascular Medicine a ontology_uri:datasetCategory ; 
+ rdfs:label "Vascular Medicine is a category in Yelp used to describe a business" . 
+
+ category_uri:Software Development a ontology_uri:datasetCategory ; 
+ rdfs:label "Software Development is a category in Yelp used to describe a business" . 
+
+ category_uri:Golf Equipment Shops a ontology_uri:datasetCategory ; 
+ rdfs:label "Golf Equipment Shops is a category in Yelp used to describe a business" . 
+
+ category_uri:Rolfing a ontology_uri:datasetCategory ; 
+ rdfs:label "Rolfing is a category in Yelp used to describe a business" . 
+
+ category_uri:Preventive Medicine a ontology_uri:datasetCategory ; 
+ rdfs:label "Preventive Medicine is a category in Yelp used to describe a business" . 
+
+ category_uri:Australian a ontology_uri:datasetCategory ; 
+ rdfs:label "Australian is a category in Yelp used to describe a business" . 
+
+ category_uri:Tableware a ontology_uri:datasetCategory ; 
+ rdfs:label "Tableware is a category in Yelp used to describe a business" . 
+
+ category_uri:Ski Resorts a ontology_uri:datasetCategory ; 
+ rdfs:label "Ski Resorts is a category in Yelp used to describe a business" . 
+
+ category_uri:Taekwondo a ontology_uri:datasetCategory ; 
+ rdfs:label "Taekwondo is a category in Yelp used to describe a business" . 
+
+ category_uri:Scooter Rentals a ontology_uri:datasetCategory ; 
+ rdfs:label "Scooter Rentals is a category in Yelp used to describe a business" . 
+
+ category_uri:Commissioned Artists a ontology_uri:datasetCategory ; 
+ rdfs:label "Commissioned Artists is a category in Yelp used to describe a business" . 
+
+ category_uri:Reptile Shops a ontology_uri:datasetCategory ; 
+ rdfs:label "Reptile Shops is a category in Yelp used to describe a business" . 
+
+ category_uri:Montessori Schools a ontology_uri:datasetCategory ; 
+ rdfs:label "Montessori Schools is a category in Yelp used to describe a business" . 
+
+ category_uri:Japanese Curry a ontology_uri:datasetCategory ; 
+ rdfs:label "Japanese Curry is a category in Yelp used to describe a business" . 
+
+ category_uri:Matchmakers a ontology_uri:datasetCategory ; 
+ rdfs:label "Matchmakers is a category in Yelp used to describe a business" . 
+
+ category_uri:Motorcycle Parts & Supplies a ontology_uri:datasetCategory ; 
+ rdfs:label "Motorcycle Parts & Supplies is a category in Yelp used to describe a business" . 
+
+ category_uri:Business Financing a ontology_uri:datasetCategory ; 
+ rdfs:label "Business Financing is a category in Yelp used to describe a business" . 
+
+ category_uri:Rheumatologists a ontology_uri:datasetCategory ; 
+ rdfs:label "Rheumatologists is a category in Yelp used to describe a business" . 
+
+ category_uri:Private Schools a ontology_uri:datasetCategory ; 
+ rdfs:label "Private Schools is a category in Yelp used to describe a business" . 
+
+ category_uri:Audio/Visual Equipment Rental a ontology_uri:datasetCategory ; 
+ rdfs:label "Audio/Visual Equipment Rental is a category in Yelp used to describe a business" . 
+
+ category_uri:Beach Equipment Rentals a ontology_uri:datasetCategory ; 
+ rdfs:label "Beach Equipment Rentals is a category in Yelp used to describe a business" . 
+
+ category_uri:Social Security Law a ontology_uri:datasetCategory ; 
+ rdfs:label "Social Security Law is a category in Yelp used to describe a business" . 
+
+ category_uri:Qi Gong a ontology_uri:datasetCategory ; 
+ rdfs:label "Qi Gong is a category in Yelp used to describe a business" . 
+
+ category_uri:Water Stores a ontology_uri:datasetCategory ; 
+ rdfs:label "Water Stores is a category in Yelp used to describe a business" . 
+
+ category_uri:Safety Equipment a ontology_uri:datasetCategory ; 
+ rdfs:label "Safety Equipment is a category in Yelp used to describe a business" . 
+
+ category_uri:Tubing a ontology_uri:datasetCategory ; 
+ rdfs:label "Tubing is a category in Yelp used to describe a business" . 
+
+ category_uri:Piano Stores a ontology_uri:datasetCategory ; 
+ rdfs:label "Piano Stores is a category in Yelp used to describe a business" . 
+
+ category_uri:Hot Air Balloons a ontology_uri:datasetCategory ; 
+ rdfs:label "Hot Air Balloons is a category in Yelp used to describe a business" . 
+
+ category_uri:Synagogues a ontology_uri:datasetCategory ; 
+ rdfs:label "Synagogues is a category in Yelp used to describe a business" . 
+
+ category_uri:Homeowner Association a ontology_uri:datasetCategory ; 
+ rdfs:label "Homeowner Association is a category in Yelp used to describe a business" . 
+
+ category_uri:Aerial Tours a ontology_uri:datasetCategory ; 
+ rdfs:label "Aerial Tours is a category in Yelp used to describe a business" . 
+
+ category_uri:Motorsport Vehicle Dealers a ontology_uri:datasetCategory ; 
+ rdfs:label "Motorsport Vehicle Dealers is a category in Yelp used to describe a business" . 
+
+ category_uri:Atv Rentals/Tours a ontology_uri:datasetCategory ; 
+ rdfs:label "Atv Rentals/Tours is a category in Yelp used to describe a business" . 
+
+ category_uri:Ziplining a ontology_uri:datasetCategory ; 
+ rdfs:label "Ziplining is a category in Yelp used to describe a business" . 
+
+ category_uri:Food Banks a ontology_uri:datasetCategory ; 
+ rdfs:label "Food Banks is a category in Yelp used to describe a business" . 
+
+ category_uri:Anesthesiologists a ontology_uri:datasetCategory ; 
+ rdfs:label "Anesthesiologists is a category in Yelp used to describe a business" . 
+
+ category_uri:Mobile Home Parks a ontology_uri:datasetCategory ; 
+ rdfs:label "Mobile Home Parks is a category in Yelp used to describe a business" . 
+
+ category_uri:Photography Classes a ontology_uri:datasetCategory ; 
+ rdfs:label "Photography Classes is a category in Yelp used to describe a business" . 
+
+ category_uri:Hockey Equipment a ontology_uri:datasetCategory ; 
+ rdfs:label "Hockey Equipment is a category in Yelp used to describe a business" . 
+
+ category_uri:Car Auctions a ontology_uri:datasetCategory ; 
+ rdfs:label "Car Auctions is a category in Yelp used to describe a business" . 
+
+ category_uri:Public Relations a ontology_uri:datasetCategory ; 
+ rdfs:label "Public Relations is a category in Yelp used to describe a business" . 
+
+ category_uri:Home Developers a ontology_uri:datasetCategory ; 
+ rdfs:label "Home Developers is a category in Yelp used to describe a business" . 
+
+ category_uri:Trains a ontology_uri:datasetCategory ; 
+ rdfs:label "Trains is a category in Yelp used to describe a business" . 
+
+ category_uri:Prosthetics a ontology_uri:datasetCategory ; 
+ rdfs:label "Prosthetics is a category in Yelp used to describe a business" . 
+
+ category_uri:Scandinavian a ontology_uri:datasetCategory ; 
+ rdfs:label "Scandinavian is a category in Yelp used to describe a business" . 
+
+ category_uri:Diamond Buyers a ontology_uri:datasetCategory ; 
+ rdfs:label "Diamond Buyers is a category in Yelp used to describe a business" . 
+
+ category_uri:Tax Law a ontology_uri:datasetCategory ; 
+ rdfs:label "Tax Law is a category in Yelp used to describe a business" . 
+
+ category_uri:Country Dance Halls a ontology_uri:datasetCategory ; 
+ rdfs:label "Country Dance Halls is a category in Yelp used to describe a business" . 
+
+ category_uri:Traffic Ticketing Law a ontology_uri:datasetCategory ; 
+ rdfs:label "Traffic Ticketing Law is a category in Yelp used to describe a business" . 
+
+ category_uri:Military Surplus a ontology_uri:datasetCategory ; 
+ rdfs:label "Military Surplus is a category in Yelp used to describe a business" . 
+
+ category_uri:Rest Stops a ontology_uri:datasetCategory ; 
+ rdfs:label "Rest Stops is a category in Yelp used to describe a business" . 
+
+ category_uri:Grill Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Grill Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Iberian a ontology_uri:datasetCategory ; 
+ rdfs:label "Iberian is a category in Yelp used to describe a business" . 
+
+ category_uri:Art Restoration a ontology_uri:datasetCategory ; 
+ rdfs:label "Art Restoration is a category in Yelp used to describe a business" . 
+
+ category_uri:Opera & Ballet a ontology_uri:datasetCategory ; 
+ rdfs:label "Opera & Ballet is a category in Yelp used to describe a business" . 
+
+ category_uri:Bartending Schools a ontology_uri:datasetCategory ; 
+ rdfs:label "Bartending Schools is a category in Yelp used to describe a business" . 
+
+ category_uri:Machine Shops a ontology_uri:datasetCategory ; 
+ rdfs:label "Machine Shops is a category in Yelp used to describe a business" . 
+
+ category_uri:Junkyards a ontology_uri:datasetCategory ; 
+ rdfs:label "Junkyards is a category in Yelp used to describe a business" . 
+
+ category_uri:Clowns a ontology_uri:datasetCategory ; 
+ rdfs:label "Clowns is a category in Yelp used to describe a business" . 
+
+ category_uri:Glass Blowing a ontology_uri:datasetCategory ; 
+ rdfs:label "Glass Blowing is a category in Yelp used to describe a business" . 
+
+ category_uri:Horse Racing a ontology_uri:datasetCategory ; 
+ rdfs:label "Horse Racing is a category in Yelp used to describe a business" . 
+
+ category_uri:Bail Bondsmen a ontology_uri:datasetCategory ; 
+ rdfs:label "Bail Bondsmen is a category in Yelp used to describe a business" . 
+
+ category_uri:Language Schools a ontology_uri:datasetCategory ; 
+ rdfs:label "Language Schools is a category in Yelp used to describe a business" . 
+
+ category_uri:Art Space Rentals a ontology_uri:datasetCategory ; 
+ rdfs:label "Art Space Rentals is a category in Yelp used to describe a business" . 
+
+ category_uri:Hybrid Car Repair a ontology_uri:datasetCategory ; 
+ rdfs:label "Hybrid Car Repair is a category in Yelp used to describe a business" . 
+
+ category_uri:Boat Parts & Supplies a ontology_uri:datasetCategory ; 
+ rdfs:label "Boat Parts & Supplies is a category in Yelp used to describe a business" . 
+
+ category_uri:Drive-Thru Bars a ontology_uri:datasetCategory ; 
+ rdfs:label "Drive-Thru Bars is a category in Yelp used to describe a business" . 
+
+ category_uri:Pet Waste Removal a ontology_uri:datasetCategory ; 
+ rdfs:label "Pet Waste Removal is a category in Yelp used to describe a business" . 
+
+ category_uri:Hazardous Waste Disposal a ontology_uri:datasetCategory ; 
+ rdfs:label "Hazardous Waste Disposal is a category in Yelp used to describe a business" . 
+
+ category_uri:Syrian a ontology_uri:datasetCategory ; 
+ rdfs:label "Syrian is a category in Yelp used to describe a business" . 
+
+ category_uri:Translation Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Translation Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Hydroponics a ontology_uri:datasetCategory ; 
+ rdfs:label "Hydroponics is a category in Yelp used to describe a business" . 
+
+ category_uri:Scavenger Hunts a ontology_uri:datasetCategory ; 
+ rdfs:label "Scavenger Hunts is a category in Yelp used to describe a business" . 
+
+ category_uri:Public Adjusters a ontology_uri:datasetCategory ; 
+ rdfs:label "Public Adjusters is a category in Yelp used to describe a business" . 
+
+ category_uri:Teacher Supplies a ontology_uri:datasetCategory ; 
+ rdfs:label "Teacher Supplies is a category in Yelp used to describe a business" . 
+
+ category_uri:Astrologers a ontology_uri:datasetCategory ; 
+ rdfs:label "Astrologers is a category in Yelp used to describe a business" . 
+
+ category_uri:Ev Charging Stations a ontology_uri:datasetCategory ; 
+ rdfs:label "Ev Charging Stations is a category in Yelp used to describe a business" . 
+
+ category_uri:Digitizing Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Digitizing Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Parasailing a ontology_uri:datasetCategory ; 
+ rdfs:label "Parasailing is a category in Yelp used to describe a business" . 
+
+ category_uri:Fireworks a ontology_uri:datasetCategory ; 
+ rdfs:label "Fireworks is a category in Yelp used to describe a business" . 
+
+ category_uri:Visitor Centers a ontology_uri:datasetCategory ; 
+ rdfs:label "Visitor Centers is a category in Yelp used to describe a business" . 
+
+ category_uri:Mediators a ontology_uri:datasetCategory ; 
+ rdfs:label "Mediators is a category in Yelp used to describe a business" . 
+
+ category_uri:Pet Insurance a ontology_uri:datasetCategory ; 
+ rdfs:label "Pet Insurance is a category in Yelp used to describe a business" . 
+
+ category_uri:Party Characters a ontology_uri:datasetCategory ; 
+ rdfs:label "Party Characters is a category in Yelp used to describe a business" . 
+
+ category_uri:Singaporean a ontology_uri:datasetCategory ; 
+ rdfs:label "Singaporean is a category in Yelp used to describe a business" . 
+
+ category_uri:Caricatures a ontology_uri:datasetCategory ; 
+ rdfs:label "Caricatures is a category in Yelp used to describe a business" . 
+
+ category_uri:Scooter Tours a ontology_uri:datasetCategory ; 
+ rdfs:label "Scooter Tours is a category in Yelp used to describe a business" . 
+
+ category_uri:Furniture Rental a ontology_uri:datasetCategory ; 
+ rdfs:label "Furniture Rental is a category in Yelp used to describe a business" . 
+
+ category_uri:Bookbinding a ontology_uri:datasetCategory ; 
+ rdfs:label "Bookbinding is a category in Yelp used to describe a business" . 
+
+ category_uri:Mobile Home Dealers a ontology_uri:datasetCategory ; 
+ rdfs:label "Mobile Home Dealers is a category in Yelp used to describe a business" . 
+
+ category_uri:Uzbek a ontology_uri:datasetCategory ; 
+ rdfs:label "Uzbek is a category in Yelp used to describe a business" . 
+
+ category_uri:Petting Zoos a ontology_uri:datasetCategory ; 
+ rdfs:label "Petting Zoos is a category in Yelp used to describe a business" . 
+
+ category_uri:Golf Cart Rentals a ontology_uri:datasetCategory ; 
+ rdfs:label "Golf Cart Rentals is a category in Yelp used to describe a business" . 
+
+ category_uri:Buddhist Temples a ontology_uri:datasetCategory ; 
+ rdfs:label "Buddhist Temples is a category in Yelp used to describe a business" . 
+
+ category_uri:Animal Physical Therapy a ontology_uri:datasetCategory ; 
+ rdfs:label "Animal Physical Therapy is a category in Yelp used to describe a business" . 
+
+ category_uri:Drive-In Theater a ontology_uri:datasetCategory ; 
+ rdfs:label "Drive-In Theater is a category in Yelp used to describe a business" . 
+
+ category_uri:Retina Specialists a ontology_uri:datasetCategory ; 
+ rdfs:label "Retina Specialists is a category in Yelp used to describe a business" . 
+
+ category_uri:Flowers a ontology_uri:datasetCategory ; 
+ rdfs:label "Flowers is a category in Yelp used to describe a business" . 
+
+ category_uri:Coffeeshops a ontology_uri:datasetCategory ; 
+ rdfs:label "Coffeeshops is a category in Yelp used to describe a business" . 
+
+ category_uri:Horse Equipment Shops a ontology_uri:datasetCategory ; 
+ rdfs:label "Horse Equipment Shops is a category in Yelp used to describe a business" . 
+
+ category_uri:Surf Schools a ontology_uri:datasetCategory ; 
+ rdfs:label "Surf Schools is a category in Yelp used to describe a business" . 
+
+ category_uri:Airsoft a ontology_uri:datasetCategory ; 
+ rdfs:label "Airsoft is a category in Yelp used to describe a business" . 
+
+ category_uri:Cannabis Collective a ontology_uri:datasetCategory ; 
+ rdfs:label "Cannabis Collective is a category in Yelp used to describe a business" . 
+
+ category_uri:Traditional Clothing a ontology_uri:datasetCategory ; 
+ rdfs:label "Traditional Clothing is a category in Yelp used to describe a business" . 
+
+ category_uri:Golf Cart Dealers a ontology_uri:datasetCategory ; 
+ rdfs:label "Golf Cart Dealers is a category in Yelp used to describe a business" . 
+
+ category_uri:Free Diving a ontology_uri:datasetCategory ; 
+ rdfs:label "Free Diving is a category in Yelp used to describe a business" . 
+
+ category_uri:Elder Care Planning a ontology_uri:datasetCategory ; 
+ rdfs:label "Elder Care Planning is a category in Yelp used to describe a business" . 
+
+ category_uri:International a ontology_uri:datasetCategory ; 
+ rdfs:label "International is a category in Yelp used to describe a business" . 
+
+ category_uri:Lan Centers a ontology_uri:datasetCategory ; 
+ rdfs:label "Lan Centers is a category in Yelp used to describe a business" . 
+
+ category_uri:Backflow Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Backflow Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Contract Law a ontology_uri:datasetCategory ; 
+ rdfs:label "Contract Law is a category in Yelp used to describe a business" . 
+
+ category_uri:Tuscan a ontology_uri:datasetCategory ; 
+ rdfs:label "Tuscan is a category in Yelp used to describe a business" . 
+
+ category_uri:Planetarium a ontology_uri:datasetCategory ; 
+ rdfs:label "Planetarium is a category in Yelp used to describe a business" . 
+
+ category_uri:Oxygen Bars a ontology_uri:datasetCategory ; 
+ rdfs:label "Oxygen Bars is a category in Yelp used to describe a business" . 
+
+ category_uri:Sandblasting a ontology_uri:datasetCategory ; 
+ rdfs:label "Sandblasting is a category in Yelp used to describe a business" . 
+
+ category_uri:Mobile Home Repair a ontology_uri:datasetCategory ; 
+ rdfs:label "Mobile Home Repair is a category in Yelp used to describe a business" . 
+
+ category_uri:Process Servers a ontology_uri:datasetCategory ; 
+ rdfs:label "Process Servers is a category in Yelp used to describe a business" . 
+
+ category_uri:Ranches a ontology_uri:datasetCategory ; 
+ rdfs:label "Ranches is a category in Yelp used to describe a business" . 
+
+ category_uri:Observatories a ontology_uri:datasetCategory ; 
+ rdfs:label "Observatories is a category in Yelp used to describe a business" . 
+
+ category_uri:Behavior Analysts a ontology_uri:datasetCategory ; 
+ rdfs:label "Behavior Analysts is a category in Yelp used to describe a business" . 
+
+ category_uri:Whale Watching Tours a ontology_uri:datasetCategory ; 
+ rdfs:label "Whale Watching Tours is a category in Yelp used to describe a business" . 
+
+ category_uri:Hong Kong Style Cafe a ontology_uri:datasetCategory ; 
+ rdfs:label "Hong Kong Style Cafe is a category in Yelp used to describe a business" . 
+
+ category_uri:Hungarian a ontology_uri:datasetCategory ; 
+ rdfs:label "Hungarian is a category in Yelp used to describe a business" . 
+
+ category_uri:Bike Sharing a ontology_uri:datasetCategory ; 
+ rdfs:label "Bike Sharing is a category in Yelp used to describe a business" . 
+
+ category_uri:Senegalese a ontology_uri:datasetCategory ; 
+ rdfs:label "Senegalese is a category in Yelp used to describe a business" . 
+
+ category_uri:Striptease Dancers a ontology_uri:datasetCategory ; 
+ rdfs:label "Striptease Dancers is a category in Yelp used to describe a business" . 
+
+ category_uri:Carpet Dyeing a ontology_uri:datasetCategory ; 
+ rdfs:label "Carpet Dyeing is a category in Yelp used to describe a business" . 
+
+ category_uri:Indoor Landscaping a ontology_uri:datasetCategory ; 
+ rdfs:label "Indoor Landscaping is a category in Yelp used to describe a business" . 
+
+ category_uri:Senior Centers a ontology_uri:datasetCategory ; 
+ rdfs:label "Senior Centers is a category in Yelp used to describe a business" . 
+
+ category_uri:Czech a ontology_uri:datasetCategory ; 
+ rdfs:label "Czech is a category in Yelp used to describe a business" . 
+
+ category_uri:South African a ontology_uri:datasetCategory ; 
+ rdfs:label "South African is a category in Yelp used to describe a business" . 
+
+ category_uri:Nicaraguan a ontology_uri:datasetCategory ; 
+ rdfs:label "Nicaraguan is a category in Yelp used to describe a business" . 
+
+ category_uri:Bus Rental a ontology_uri:datasetCategory ; 
+ rdfs:label "Bus Rental is a category in Yelp used to describe a business" . 
+
+ category_uri:Placenta Encapsulations a ontology_uri:datasetCategory ; 
+ rdfs:label "Placenta Encapsulations is a category in Yelp used to describe a business" . 
+
+ category_uri:Undersea/Hyperbaric Medicine a ontology_uri:datasetCategory ; 
+ rdfs:label "Undersea/Hyperbaric Medicine is a category in Yelp used to describe a business" . 
+
+ category_uri:Private Jet Charter a ontology_uri:datasetCategory ; 
+ rdfs:label "Private Jet Charter is a category in Yelp used to describe a business" . 
+
+ category_uri:Neurotologists a ontology_uri:datasetCategory ; 
+ rdfs:label "Neurotologists is a category in Yelp used to describe a business" . 
+
+ category_uri:Drones a ontology_uri:datasetCategory ; 
+ rdfs:label "Drones is a category in Yelp used to describe a business" . 
+
+ category_uri:Billing Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Billing Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Land Surveying a ontology_uri:datasetCategory ; 
+ rdfs:label "Land Surveying is a category in Yelp used to describe a business" . 
+
+ category_uri:Meaderies a ontology_uri:datasetCategory ; 
+ rdfs:label "Meaderies is a category in Yelp used to describe a business" . 
+
+ category_uri:Spin Classes a ontology_uri:datasetCategory ; 
+ rdfs:label "Spin Classes is a category in Yelp used to describe a business" . 
+
+ category_uri:Austrian a ontology_uri:datasetCategory ; 
+ rdfs:label "Austrian is a category in Yelp used to describe a business" . 
+
+ category_uri:Traffic Schools a ontology_uri:datasetCategory ; 
+ rdfs:label "Traffic Schools is a category in Yelp used to describe a business" . 
+
+ category_uri:Luggage Storage a ontology_uri:datasetCategory ; 
+ rdfs:label "Luggage Storage is a category in Yelp used to describe a business" . 
+
+ category_uri:Bicycles a ontology_uri:datasetCategory ; 
+ rdfs:label "Bicycles is a category in Yelp used to describe a business" . 
+
+ category_uri:Club Crawl a ontology_uri:datasetCategory ; 
+ rdfs:label "Club Crawl is a category in Yelp used to describe a business" . 
+
+ category_uri:Coffee & Tea Supplies a ontology_uri:datasetCategory ; 
+ rdfs:label "Coffee & Tea Supplies is a category in Yelp used to describe a business" . 
+
+ category_uri:Mortuary Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Mortuary Services is a category in Yelp used to describe a business" . 
+
+ category_uri:3D Printing a ontology_uri:datasetCategory ; 
+ rdfs:label "3D Printing is a category in Yelp used to describe a business" . 
+
+ category_uri:Scottish a ontology_uri:datasetCategory ; 
+ rdfs:label "Scottish is a category in Yelp used to describe a business" . 
+
+ category_uri:Immunodermatologists a ontology_uri:datasetCategory ; 
+ rdfs:label "Immunodermatologists is a category in Yelp used to describe a business" . 
+
+ category_uri:Ethical Grocery a ontology_uri:datasetCategory ; 
+ rdfs:label "Ethical Grocery is a category in Yelp used to describe a business" . 
+
+ category_uri:Apartment Agents a ontology_uri:datasetCategory ; 
+ rdfs:label "Apartment Agents is a category in Yelp used to describe a business" . 
+
+ category_uri:Gerontologists a ontology_uri:datasetCategory ; 
+ rdfs:label "Gerontologists is a category in Yelp used to describe a business" . 
+
+ category_uri:Bus Stations a ontology_uri:datasetCategory ; 
+ rdfs:label "Bus Stations is a category in Yelp used to describe a business" . 
+
+ category_uri:Proctologists a ontology_uri:datasetCategory ; 
+ rdfs:label "Proctologists is a category in Yelp used to describe a business" . 
+
+ category_uri:Sardinian a ontology_uri:datasetCategory ; 
+ rdfs:label "Sardinian is a category in Yelp used to describe a business" . 
+
+ category_uri:Currency Exchange a ontology_uri:datasetCategory ; 
+ rdfs:label "Currency Exchange is a category in Yelp used to describe a business" . 
+
+ category_uri:Aircraft Repairs a ontology_uri:datasetCategory ; 
+ rdfs:label "Aircraft Repairs is a category in Yelp used to describe a business" . 
+
+ category_uri:Chinese Martial Arts a ontology_uri:datasetCategory ; 
+ rdfs:label "Chinese Martial Arts is a category in Yelp used to describe a business" . 
+
+ category_uri:Tenant And Eviction Law a ontology_uri:datasetCategory ; 
+ rdfs:label "Tenant And Eviction Law is a category in Yelp used to describe a business" . 
+
+ category_uri:Biohazard Cleanup a ontology_uri:datasetCategory ; 
+ rdfs:label "Biohazard Cleanup is a category in Yelp used to describe a business" . 
+
+ category_uri:Phlebologists a ontology_uri:datasetCategory ; 
+ rdfs:label "Phlebologists is a category in Yelp used to describe a business" . 
+
+ category_uri:Portable Toilet Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Portable Toilet Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Disability Law a ontology_uri:datasetCategory ; 
+ rdfs:label "Disability Law is a category in Yelp used to describe a business" . 
+
+ category_uri:Product Design a ontology_uri:datasetCategory ; 
+ rdfs:label "Product Design is a category in Yelp used to describe a business" . 
+
+ category_uri:Drama Schools a ontology_uri:datasetCategory ; 
+ rdfs:label "Drama Schools is a category in Yelp used to describe a business" . 
+
+ category_uri:Duplication Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Duplication Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Adoption Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Adoption Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Georgian a ontology_uri:datasetCategory ; 
+ rdfs:label "Georgian is a category in Yelp used to describe a business" . 
+
+ category_uri:Sex Therapists a ontology_uri:datasetCategory ; 
+ rdfs:label "Sex Therapists is a category in Yelp used to describe a business" . 
+
+ category_uri:Bingo Halls a ontology_uri:datasetCategory ; 
+ rdfs:label "Bingo Halls is a category in Yelp used to describe a business" . 
+
+ category_uri:Trivia Hosts a ontology_uri:datasetCategory ; 
+ rdfs:label "Trivia Hosts is a category in Yelp used to describe a business" . 
+
+ category_uri:Diy Auto Shop a ontology_uri:datasetCategory ; 
+ rdfs:label "Diy Auto Shop is a category in Yelp used to describe a business" . 
+
+ category_uri:Hang Gliding a ontology_uri:datasetCategory ; 
+ rdfs:label "Hang Gliding is a category in Yelp used to describe a business" . 
+
+ category_uri:Hindu Temples a ontology_uri:datasetCategory ; 
+ rdfs:label "Hindu Temples is a category in Yelp used to describe a business" . 
+
+ category_uri:Sports Betting a ontology_uri:datasetCategory ; 
+ rdfs:label "Sports Betting is a category in Yelp used to describe a business" . 
+
+ category_uri:Racing Experience a ontology_uri:datasetCategory ; 
+ rdfs:label "Racing Experience is a category in Yelp used to describe a business" . 
+
+ category_uri:Pedicabs a ontology_uri:datasetCategory ; 
+ rdfs:label "Pedicabs is a category in Yelp used to describe a business" . 
+
+ category_uri:Fur Clothing a ontology_uri:datasetCategory ; 
+ rdfs:label "Fur Clothing is a category in Yelp used to describe a business" . 
+
+ category_uri:Ferries a ontology_uri:datasetCategory ; 
+ rdfs:label "Ferries is a category in Yelp used to describe a business" . 
+
+ category_uri:Neuropathologists a ontology_uri:datasetCategory ; 
+ rdfs:label "Neuropathologists is a category in Yelp used to describe a business" . 
+
+ category_uri:College Counseling a ontology_uri:datasetCategory ; 
+ rdfs:label "College Counseling is a category in Yelp used to describe a business" . 
+
+ category_uri:Nudist a ontology_uri:datasetCategory ; 
+ rdfs:label "Nudist is a category in Yelp used to describe a business" . 
+
+ category_uri:Community Gardens a ontology_uri:datasetCategory ; 
+ rdfs:label "Community Gardens is a category in Yelp used to describe a business" . 
+
+ category_uri:Badminton a ontology_uri:datasetCategory ; 
+ rdfs:label "Badminton is a category in Yelp used to describe a business" . 
+
+ category_uri:Bike Repair a ontology_uri:datasetCategory ; 
+ rdfs:label "Bike Repair is a category in Yelp used to describe a business" . 
+
+ category_uri:Supper Clubs a ontology_uri:datasetCategory ; 
+ rdfs:label "Supper Clubs is a category in Yelp used to describe a business" . 
+
+ category_uri:Elevator Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Elevator Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Sri Lankan a ontology_uri:datasetCategory ; 
+ rdfs:label "Sri Lankan is a category in Yelp used to describe a business" . 
+
+ category_uri:Playsets a ontology_uri:datasetCategory ; 
+ rdfs:label "Playsets is a category in Yelp used to describe a business" . 
+
+ category_uri:Crisis Pregnancy Centers a ontology_uri:datasetCategory ; 
+ rdfs:label "Crisis Pregnancy Centers is a category in Yelp used to describe a business" . 
+
+ category_uri:Municipality a ontology_uri:datasetCategory ; 
+ rdfs:label "Municipality is a category in Yelp used to describe a business" . 
+
+ category_uri:Consumer Law a ontology_uri:datasetCategory ; 
+ rdfs:label "Consumer Law is a category in Yelp used to describe a business" . 
+
+ category_uri:Unofficial Yelp Events a ontology_uri:datasetCategory ; 
+ rdfs:label "Unofficial Yelp Events is a category in Yelp used to describe a business" . 
+
+ category_uri:Flyboarding a ontology_uri:datasetCategory ; 
+ rdfs:label "Flyboarding is a category in Yelp used to describe a business" . 
+
+ category_uri:Electricity Suppliers a ontology_uri:datasetCategory ; 
+ rdfs:label "Electricity Suppliers is a category in Yelp used to describe a business" . 
+
+ category_uri:Childproofing a ontology_uri:datasetCategory ; 
+ rdfs:label "Childproofing is a category in Yelp used to describe a business" . 
+
+ category_uri:Squash a ontology_uri:datasetCategory ; 
+ rdfs:label "Squash is a category in Yelp used to describe a business" . 
+
+ category_uri:Jails & Prisons a ontology_uri:datasetCategory ; 
+ rdfs:label "Jails & Prisons is a category in Yelp used to describe a business" . 
+
+ category_uri:Game Truck Rental a ontology_uri:datasetCategory ; 
+ rdfs:label "Game Truck Rental is a category in Yelp used to describe a business" . 
+
+ category_uri:Carousels a ontology_uri:datasetCategory ; 
+ rdfs:label "Carousels is a category in Yelp used to describe a business" . 
+
+ category_uri:Nursing Schools a ontology_uri:datasetCategory ; 
+ rdfs:label "Nursing Schools is a category in Yelp used to describe a business" . 
+
+ category_uri:Elder Law a ontology_uri:datasetCategory ; 
+ rdfs:label "Elder Law is a category in Yelp used to describe a business" . 
+
+ category_uri:Ip & Internet Law a ontology_uri:datasetCategory ; 
+ rdfs:label "Ip & Internet Law is a category in Yelp used to describe a business" . 
+
+ category_uri:Sheds & Outdoor Storage a ontology_uri:datasetCategory ; 
+ rdfs:label "Sheds & Outdoor Storage is a category in Yelp used to describe a business" . 
+
+ category_uri:Ice Delivery a ontology_uri:datasetCategory ; 
+ rdfs:label "Ice Delivery is a category in Yelp used to describe a business" . 
+
+ category_uri:Oriental a ontology_uri:datasetCategory ; 
+ rdfs:label "Oriental is a category in Yelp used to describe a business" . 
+
+ category_uri:Cannabis Tours a ontology_uri:datasetCategory ; 
+ rdfs:label "Cannabis Tours is a category in Yelp used to describe a business" . 
+
+ category_uri:Outdoor Movies a ontology_uri:datasetCategory ; 
+ rdfs:label "Outdoor Movies is a category in Yelp used to describe a business" . 
+
+ category_uri:Cheese Tasting Classes a ontology_uri:datasetCategory ; 
+ rdfs:label "Cheese Tasting Classes is a category in Yelp used to describe a business" . 
+
+ category_uri:Dumplings a ontology_uri:datasetCategory ; 
+ rdfs:label "Dumplings is a category in Yelp used to describe a business" . 
+
+ category_uri:Somali a ontology_uri:datasetCategory ; 
+ rdfs:label "Somali is a category in Yelp used to describe a business" . 
+
+ category_uri:Bocce Ball a ontology_uri:datasetCategory ; 
+ rdfs:label "Bocce Ball is a category in Yelp used to describe a business" . 
+
+ category_uri:Rodeo a ontology_uri:datasetCategory ; 
+ rdfs:label "Rodeo is a category in Yelp used to describe a business" . 
+
+ category_uri:Fire Departments a ontology_uri:datasetCategory ; 
+ rdfs:label "Fire Departments is a category in Yelp used to describe a business" . 
+
+ category_uri:Bike Shop a ontology_uri:datasetCategory ; 
+ rdfs:label "Bike Shop is a category in Yelp used to describe a business" . 
+
+ category_uri:Hotel Bar a ontology_uri:datasetCategory ; 
+ rdfs:label "Hotel Bar is a category in Yelp used to describe a business" . 
+
+ category_uri:Sports Psychologists a ontology_uri:datasetCategory ; 
+ rdfs:label "Sports Psychologists is a category in Yelp used to describe a business" . 
+
+ category_uri:Hakka a ontology_uri:datasetCategory ; 
+ rdfs:label "Hakka is a category in Yelp used to describe a business" . 
+
+ category_uri:Mosques a ontology_uri:datasetCategory ; 
+ rdfs:label "Mosques is a category in Yelp used to describe a business" . 
+
+ category_uri:Experiences a ontology_uri:datasetCategory ; 
+ rdfs:label "Experiences is a category in Yelp used to describe a business" . 
+
+ category_uri:Sauna Installation & Repair a ontology_uri:datasetCategory ; 
+ rdfs:label "Sauna Installation & Repair is a category in Yelp used to describe a business" . 
+
+ category_uri:Eastern European a ontology_uri:datasetCategory ; 
+ rdfs:label "Eastern European is a category in Yelp used to describe a business" . 
+
+ category_uri:Calligraphy a ontology_uri:datasetCategory ; 
+ rdfs:label "Calligraphy is a category in Yelp used to describe a business" . 
+
+ category_uri:Vocal Coach a ontology_uri:datasetCategory ; 
+ rdfs:label "Vocal Coach is a category in Yelp used to describe a business" . 
+
+ category_uri:Sledding a ontology_uri:datasetCategory ; 
+ rdfs:label "Sledding is a category in Yelp used to describe a business" . 
+
+ category_uri:Homeless Shelters a ontology_uri:datasetCategory ; 
+ rdfs:label "Homeless Shelters is a category in Yelp used to describe a business" . 
+
+ category_uri:Kiteboarding a ontology_uri:datasetCategory ; 
+ rdfs:label "Kiteboarding is a category in Yelp used to describe a business" . 
+
+ category_uri:Ski Schools a ontology_uri:datasetCategory ; 
+ rdfs:label "Ski Schools is a category in Yelp used to describe a business" . 
+
+ category_uri:Waldorf Schools a ontology_uri:datasetCategory ; 
+ rdfs:label "Waldorf Schools is a category in Yelp used to describe a business" . 
+
+ category_uri:Concept Shops a ontology_uri:datasetCategory ; 
+ rdfs:label "Concept Shops is a category in Yelp used to describe a business" . 
+
+ category_uri:Nephrologists a ontology_uri:datasetCategory ; 
+ rdfs:label "Nephrologists is a category in Yelp used to describe a business" . 
+
+ category_uri:General Festivals a ontology_uri:datasetCategory ; 
+ rdfs:label "General Festivals is a category in Yelp used to describe a business" . 
+
+ category_uri:Infectious Disease Specialists a ontology_uri:datasetCategory ; 
+ rdfs:label "Infectious Disease Specialists is a category in Yelp used to describe a business" . 
+
+ category_uri:Bicycle Paths a ontology_uri:datasetCategory ; 
+ rdfs:label "Bicycle Paths is a category in Yelp used to describe a business" . 
+
+ category_uri:Art Consultants a ontology_uri:datasetCategory ; 
+ rdfs:label "Art Consultants is a category in Yelp used to describe a business" . 
+
+ category_uri:Silent Disco a ontology_uri:datasetCategory ; 
+ rdfs:label "Silent Disco is a category in Yelp used to describe a business" . 
+
+ category_uri:Israeli a ontology_uri:datasetCategory ; 
+ rdfs:label "Israeli is a category in Yelp used to describe a business" . 
+
+ category_uri:Art Installation a ontology_uri:datasetCategory ; 
+ rdfs:label "Art Installation is a category in Yelp used to describe a business" . 
+
+ category_uri:Veterans Organizations a ontology_uri:datasetCategory ; 
+ rdfs:label "Veterans Organizations is a category in Yelp used to describe a business" . 
+
+ category_uri:Cheerleading a ontology_uri:datasetCategory ; 
+ rdfs:label "Cheerleading is a category in Yelp used to describe a business" . 
+
+ category_uri:Otologists a ontology_uri:datasetCategory ; 
+ rdfs:label "Otologists is a category in Yelp used to describe a business" . 
+
+ category_uri:Kitchen Incubators a ontology_uri:datasetCategory ; 
+ rdfs:label "Kitchen Incubators is a category in Yelp used to describe a business" . 
+
+ category_uri:Mohels a ontology_uri:datasetCategory ; 
+ rdfs:label "Mohels is a category in Yelp used to describe a business" . 
+
+ category_uri:Wildlife Hunting Ranges a ontology_uri:datasetCategory ; 
+ rdfs:label "Wildlife Hunting Ranges is a category in Yelp used to describe a business" . 
+
+ category_uri:Bubble Soccer a ontology_uri:datasetCategory ; 
+ rdfs:label "Bubble Soccer is a category in Yelp used to describe a business" . 
+
+ category_uri:Ceremonial Clothing a ontology_uri:datasetCategory ; 
+ rdfs:label "Ceremonial Clothing is a category in Yelp used to describe a business" . 
+
+ category_uri:Pita a ontology_uri:datasetCategory ; 
+ rdfs:label "Pita is a category in Yelp used to describe a business" . 
+
+ category_uri:Serbo Croatian a ontology_uri:datasetCategory ; 
+ rdfs:label "Serbo Croatian is a category in Yelp used to describe a business" . 
+
+ category_uri:Hospitalists a ontology_uri:datasetCategory ; 
+ rdfs:label "Hospitalists is a category in Yelp used to describe a business" . 
+
+ category_uri:Cucina Campana a ontology_uri:datasetCategory ; 
+ rdfs:label "Cucina Campana is a category in Yelp used to describe a business" . 
+
+ category_uri:Natural Gas Suppliers a ontology_uri:datasetCategory ; 
+ rdfs:label "Natural Gas Suppliers is a category in Yelp used to describe a business" . 
+
+ category_uri:Dart Arenas a ontology_uri:datasetCategory ; 
+ rdfs:label "Dart Arenas is a category in Yelp used to describe a business" . 
+
+ category_uri:Metal Detector Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Metal Detector Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Makerspaces a ontology_uri:datasetCategory ; 
+ rdfs:label "Makerspaces is a category in Yelp used to describe a business" . 
+
+ category_uri:Dialysis Clinics a ontology_uri:datasetCategory ; 
+ rdfs:label "Dialysis Clinics is a category in Yelp used to describe a business" . 
+
+ category_uri:Conveyor Belt Sushi a ontology_uri:datasetCategory ; 
+ rdfs:label "Conveyor Belt Sushi is a category in Yelp used to describe a business" . 
+
+ category_uri:Circus Schools a ontology_uri:datasetCategory ; 
+ rdfs:label "Circus Schools is a category in Yelp used to describe a business" . 
+
+ category_uri:Interlock Systems a ontology_uri:datasetCategory ; 
+ rdfs:label "Interlock Systems is a category in Yelp used to describe a business" . 
+
+ category_uri:Karaoke Rental a ontology_uri:datasetCategory ; 
+ rdfs:label "Karaoke Rental is a category in Yelp used to describe a business" . 
+
+ category_uri:Fencing Clubs a ontology_uri:datasetCategory ; 
+ rdfs:label "Fencing Clubs is a category in Yelp used to describe a business" . 
+
+ category_uri:Donburi a ontology_uri:datasetCategory ; 
+ rdfs:label "Donburi is a category in Yelp used to describe a business" . 
+
+ category_uri:Halfway Houses a ontology_uri:datasetCategory ; 
+ rdfs:label "Halfway Houses is a category in Yelp used to describe a business" . 
+
+ category_uri:Storefront Clinics a ontology_uri:datasetCategory ; 
+ rdfs:label "Storefront Clinics is a category in Yelp used to describe a business" . 
+
+ category_uri:Aviation Services a ontology_uri:datasetCategory ; 
+ rdfs:label "Aviation Services is a category in Yelp used to describe a business" . 
+
+ category_uri:Animal Assisted Therapy a ontology_uri:datasetCategory ; 
+ rdfs:label "Animal Assisted Therapy is a category in Yelp used to describe a business" . 
+
+ category_uri:Pickleball a ontology_uri:datasetCategory ; 
+ rdfs:label "Pickleball is a category in Yelp used to describe a business" . 
+
+ category_uri:Tonkatsu a ontology_uri:datasetCategory ; 
+ rdfs:label "Tonkatsu is a category in Yelp used to describe a business" . 
+
+ category_uri:Guamanian a ontology_uri:datasetCategory ; 
+ rdfs:label "Guamanian is a category in Yelp used to describe a business" . 
+
+ category_uri:Parent Cafes a ontology_uri:datasetCategory ; 
+ rdfs:label "Parent Cafes is a category in Yelp used to describe a business" . 
+
+ category_uri:Calabrian a ontology_uri:datasetCategory ; 
+ rdfs:label "Calabrian is a category in Yelp used to describe a business" . 
+
+ category_uri:Faith-Based Crisis Pregnancy Centers a ontology_uri:datasetCategory ; 
+ rdfs:label "Faith-Based Crisis Pregnancy Centers is a category in Yelp used to describe a business" . 
+
+ category_uri:Stonemasons a ontology_uri:datasetCategory ; 
+ rdfs:label "Stonemasons is a category in Yelp used to describe a business" . 
+
+ category_uri:Hainan a ontology_uri:datasetCategory ; 
+ rdfs:label "Hainan is a category in Yelp used to describe a business" . 
+
+ category_uri:Lahmacun a ontology_uri:datasetCategory ; 
+ rdfs:label "Lahmacun is a category in Yelp used to describe a business" . 
+
+ category_uri:Water Suppliers a ontology_uri:datasetCategory ; 
+ rdfs:label "Water Suppliers is a category in Yelp used to describe a business" . 
+
+ category_uri:Props a ontology_uri:datasetCategory ; 
+ rdfs:label "Props is a category in Yelp used to describe a business" . 
+
+ category_uri:Sperm Clinic a ontology_uri:datasetCategory ; 
+ rdfs:label "Sperm Clinic is a category in Yelp used to describe a business" . 
+
+ category_uri:Vermouth Bars a ontology_uri:datasetCategory ; 
+ rdfs:label "Vermouth Bars is a category in Yelp used to describe a business" . 
+
+ category_uri:Beer Hall a ontology_uri:datasetCategory ; 
+ rdfs:label "Beer Hall is a category in Yelp used to describe a business" . 
+
+ category_uri:Paragliding a ontology_uri:datasetCategory ; 
+ rdfs:label "Paragliding is a category in Yelp used to describe a business" . 
+
+ category_uri:Hepatologists a ontology_uri:datasetCategory ; 
+ rdfs:label "Hepatologists is a category in Yelp used to describe a business" . 
+
+ category_uri:Aircraft Dealers a ontology_uri:datasetCategory ; 
+ rdfs:label "Aircraft Dealers is a category in Yelp used to describe a business" . 
+
+ category_uri:Fuzhou a ontology_uri:datasetCategory ; 
+ rdfs:label "Fuzhou is a category in Yelp used to describe a business" . 
+
+ category_uri:Foot Care a ontology_uri:datasetCategory ; 
+ rdfs:label "Foot Care is a category in Yelp used to describe a business" . 
+
+ category_uri:Sport Equipment Hire a ontology_uri:datasetCategory ; 
+ rdfs:label "Sport Equipment Hire is a category in Yelp used to describe a business" . 
+
+ category_uri:Fuel Docks a ontology_uri:datasetCategory ; 
+ rdfs:label "Fuel Docks is a category in Yelp used to describe a business" . 
+
+ category_uri:Osteopaths a ontology_uri:datasetCategory ; 
+ rdfs:label "Osteopaths is a category in Yelp used to describe a business" . 
+
+ category_uri:Parklets a ontology_uri:datasetCategory ; 
+ rdfs:label "Parklets is a category in Yelp used to describe a business" . 
+
+ category_uri:Town Hall a ontology_uri:datasetCategory ; 
+ rdfs:label "Town Hall is a category in Yelp used to describe a business" . 
+
+ category_uri:Pathologists a ontology_uri:datasetCategory ; 
+ rdfs:label "Pathologists is a category in Yelp used to describe a business" . 
+
+ category_uri:Bike Parking a ontology_uri:datasetCategory ; 
+ rdfs:label "Bike Parking is a category in Yelp used to describe a business" . 
+
+ category_uri:Roman a ontology_uri:datasetCategory ; 
+ rdfs:label "Roman is a category in Yelp used to describe a business" . 
+
+ category_uri:Beach Bars a ontology_uri:datasetCategory ; 
+ rdfs:label "Beach Bars is a category in Yelp used to describe a business" . 
+
+ category_uri:Dui Schools a ontology_uri:datasetCategory ; 
+ rdfs:label "Dui Schools is a category in Yelp used to describe a business" . 
+
+ category_uri:Patent Law a ontology_uri:datasetCategory ; 
+ rdfs:label "Patent Law is a category in Yelp used to describe a business" . 
+
+ category_uri:Housing Cooperatives a ontology_uri:datasetCategory ; 
+ rdfs:label "Housing Cooperatives is a category in Yelp used to describe a business" . 
+
+ category_uri:Trade Fairs a ontology_uri:datasetCategory ; 
+ rdfs:label "Trade Fairs is a category in Yelp used to describe a business" . 
