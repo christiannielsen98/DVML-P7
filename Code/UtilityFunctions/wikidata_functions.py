@@ -5,7 +5,7 @@ import pandas as pd
 import requests
 from SPARQLWrapper import SPARQLWrapper, JSON
 from Code.UtilityFunctions.get_data_path import get_path
-from Code.UtilityFunctions.string_functions import split_words_inc_slash, split_words, turn_words_singular
+from Code.UtilityFunctions.string_functions import split_words_inc_slash, split_words, turn_words_singular, space_words_lower
 
 def wikidata_query(sparql_query: str):
     """
@@ -65,7 +65,7 @@ def category_query(category: str):
     :type category: str
     :return: The query returns the item, itemLabel, and itemDescription of the category.
     """
-    category = category.lower()
+    category = space_words_lower(category)
     return f"""SELECT distinct ?item ?itemLabel ?itemDescription WHERE{{
     ?item ?label "{category}"@en.
     ?article schema:about ?item .
@@ -160,7 +160,7 @@ def get_qid_label(qid):
 def get_name_of_location_with_long_lat(longitude_and_latitude: str) -> tuple[str, str]:
     try:
         query =f""" 
-        SELECT DISTINCT ?distance ?city ?cityLabel ?population ?county ?countyLabel ?state ?stateLabel ?country ?countryLabel WHERE {{
+        SELECT DISTINCT ?distance ?city ?cityLabel WHERE {{
 
         # Use the around service
         SERVICE wikibase:around {{ 
@@ -183,17 +183,6 @@ def get_name_of_location_with_long_lat(longitude_and_latitude: str) -> tuple[str
         {{?city wdt:P31/wdt:P279* wd:Q15127012.}} # Q15127012 = town in the United States
         UNION
         {{?city wdt:P31/wdt:P279* wd:Q498162.}} # Q498162 = census-designated place in the United States
-        
-        OPTIONAL {{ ?city wdt:P131 ?county . }}
-        OPTIONAL {{ ?county wdt:P131 ?state . }}
-        OPTIONAL {{ ?state wdt:P131 ?country . }}
-        ?city p:P1082 ?statement .
-        ?statement ps:P1082 ?population .
-        ?statement pq:P585 ?date .
-        FILTER NOT EXISTS {{
-            ?city p:P1082/pq:P585 ?date2 .
-            FILTER(?date2 > ?date)
-        }}
         # Use the label service to get the English label
         SERVICE wikibase:label {{
         bd:serviceParam wikibase:language "en" . 
@@ -203,6 +192,6 @@ def get_name_of_location_with_long_lat(longitude_and_latitude: str) -> tuple[str
         LIMIT 1"""
         
         a = wikidata_query(query)
-        return a['city.value'][0][31:], a['cityLabel.value'][0], a['population.value'][0], a['county.value'][0][31:], a['countyLabel.value'][0], a['state.value'][0][31:], a['stateLabel.value'][0], a['country.value'][0][31:], a['countryLabel.value'][0]
+        return a['city.value'][0][31:], a['cityLabel.value'][0]
     except:
-        return (None, None, None, None, None, None, None, None, None)
+        return (None, None)

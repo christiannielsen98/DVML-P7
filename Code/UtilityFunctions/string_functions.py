@@ -101,6 +101,8 @@ def turn_words_singular(categories_dict):
         categories_dict_singular[key] = new_value
     return categories_dict_singular
 
+def space_words_lower(string):
+    return re.sub('(?<!^)([A-Z])([^A-Z])', r' \1\2', string).lower()
 
 if __name__ == '__main__':
     pass

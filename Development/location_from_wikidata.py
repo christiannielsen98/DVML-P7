@@ -11,8 +11,12 @@ biz = pd.read_json(get_path("yelp_academic_dataset_business.json"), lines=True)
 
 coordinates = (biz["longitude"].apply(round, args=(2,)).astype(str) + "," + biz["latitude"].apply(round, args=(2,)).astype(str)).unique()
 coordinates_df = pd.DataFrame(coordinates, columns=['coordinates'])
-location_mappings_df = pd.DataFrame(coordinates_df['coordinates'].apply(lambda x: [x] + list(get_name_of_location_with_long_lat(x))).tolist(), columns=['coordinates','city', 'cityLabel', 'cityPopulation', 'county', 'countyLabel', 'state', 'stateLabel', 'country', 'countryLabel'])
-# ["1,2", Q123, "New York", Q456, "New York county", Q789, "New York State", Q101, "United States"]
+# location_mappings_df = pd.DataFrame(coordinates_df['coordinates'].apply(lambda x: [x] + list(get_name_of_location_with_long_lat(x))).tolist(), columns=['coordinates','city', 'cityLabel', 'cityPopulation', 'county', 'countyLabel', 'state', 'stateLabel', 'country', 'countryLabel'])
+
+location_mappings_df = pd.DataFrame(columns=['coordinates','city', 'cityLabel'])
+for i in coordinates_df.itertuples():
+    location_mappings_df = pd.concat([location_mappings_df,pd.DataFrame([i.coordinates] + list(get_name_of_location_with_long_lat(i.coordinates)), index=location_mappings_df.columns).T], ignore_index=True)
+    print(i.coordinates, i.Index, len(coordinates_df))
 
 if __name__ == "__main__":    
     location_mappings_df.to_csv(path_or_buf='/home/ubuntu/OneDrive/DVML-P7/Data/location_mappings.csv',index=False)
