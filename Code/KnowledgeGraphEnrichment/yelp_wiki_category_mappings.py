@@ -75,13 +75,14 @@ ddiff = DeepDiff(category_qid_only_qid,
 
 update_qid_dict = {}
 for key, value in ddiff['values_changed'].items():
+    key = key[6:-2]
     # check if the new qid is an instance of old qid, then update with old qid if true
     if wikidata_query(
             compare_qids(new_value=value['new_value'],old_value=value['old_value'])).empty is False:
         print(
             f"Updating {key} from {value['new_value']} to {value['old_value']}"
         )
-        update_qid_dict[key[6:-5]] = category_qid[key[6:-5]]
+        update_qid_dict[key] = category_qid[key]
 # update the qid dict with the new qids, 
 # updated values: {'airline': 'Q46970', 'boat tour': 'Q25040412', 'magazine': 'Q41298'}
 category_qid2.update(update_qid_dict)
