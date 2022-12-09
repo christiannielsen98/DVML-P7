@@ -1,7 +1,14 @@
+# EKG Competency Question Example Queries
+SPARQL Endpoints for the different EKGs are available at the following locations:
+| **EKG** | **SPARQL Endpoint**               |
+|---------|-----------------------------------|
+|Wikidata | https://query.wikidata.org/       |
+|DBPedia  | https://dbpedia.org/sparql        |
+|YAGO     | https://yago-knowledge.org/sparql |
 
-# CQ 1: What is the population of New York City?
+## CQ 1: What is the population of New York City?
 
-## Wikidata
+### Wikidata
 Explanation of Q and P codes:
 - P1082: population
 - P585: point in time
@@ -21,7 +28,7 @@ WHERE {
 }
 ```
 
-## DBpedia
+### DBpedia
 ```sparql
 SELECT DISTINCT ?city ?population ?cityname
 WHERE {
@@ -36,12 +43,12 @@ WHERE {
 | dbo:Santa_Barbara,_California | "88665"^^xsd:nonNegativeInteger | "Santa Barbara, California"@en|
 	
 
-## Yago
+### Yago
 **Yago does not contain population data.**
 
-# CQ 2: How many cities are in state of California?
+## CQ 2: How many cities are in state of California?
 
-## Wikidata
+### Wikidata
 Explanation of Q and P codes:
 - P31: instance of  
 - P279: subclass of
@@ -70,7 +77,8 @@ Result:
 | **?count** |
 |------------|
 | 484        |
-## DBpedia
+
+### DBpedia
 ```sparql
 SELECT (COUNT(DISTINCT ?city) AS ?count)
 WHERE {
@@ -84,9 +92,9 @@ WHERE {
 |------------|
 | 474        |
 
-# CQ 3: What drinks exist that are beverages?
+## CQ 3: What drinks exist that are beverages?
 
-## Wikidata
+### Wikidata
 Explanation of Q and P codes:
 - P279: subclass of
 - Q40050: Drink
@@ -101,7 +109,7 @@ WHERE {
 |------------|
 | 6140       |
 
-## DBpedia
+### DBpedia
 ```sparql
 SELECT (COUNT (DISTINCT ?beverage) AS ?count)
 WHERE {
