@@ -19,7 +19,7 @@ def create_location_mappings_csv():
         location_mappings_df = pd.concat([location_mappings_df,pd.DataFrame([i.coordinates] + list(get_name_of_location_with_long_lat(i.coordinates)), index=location_mappings_df.columns).T], ignore_index=True)
         print(i.coordinates, i.Index, len(coordinates_df))
     
-    location_mappings_df.to_csv(path_or_buf='/home/ubuntu/OneDrive/DVML-P7/Data/location_mappings.csv',index=False)
+    location_mappings_df.to_csv(path_or_buf=get_path('location_mappings.csv'),index=False)
 
 def county_query(city_qid: str):
     try:
@@ -64,8 +64,14 @@ def expand_location_mappings(location_mappings: pd.DataFrame):
     return location_mappings
 
 if __name__ == "__main__":    
-    create_location_mappings_csv()
-    # location_mappings = pd.read_csv(get_path('location_mappings.csv'))
-    # expand_location_mappings(location_mappings).to_csv(path_or_buf=get_path('location_mappings_expanded.csv'), index=False)
-    
-    webhook = DiscordWebhook(url='https://discord.com/api/webhooks/918876596763525150/d1aGYekdsL64QP0Dbx4zuaOrs_opUpFuTYkj1sHjYBJ8oUXOrruXhshP_cIFSq5phW-e', content=f'Location_from_wikidata done in hh:mm:ss {datetime.datetime.now() - begin_time}').execute()
+    try:
+        create_location_mappings_csv()
+        location_mappings = pd.read_csv(get_path('location_mappings.csv'))
+        expand_location_mappings(location_mappings).to_csv(path_or_buf=get_path('location_mappings_expanded.csv'), index=False)
+        
+        message = f"Location_from_wikidata execution is done - Time in hh:mm:ss - {datetime.datetime.now() - begin_time} \nbegan {begin_time} \nended {datetime.datetime.now()}"
+    except Exception as e:
+        message = "Neural Network broke with this error: " + str(e)
+    webhook = DiscordWebhook(url='https://discord.com/api/webhooks/918876596763525150/d1aGYekdsL64QP0Dbx4zuaOrs_opUpFuTYkj1sHjYBJ8oUXOrruXhshP_cIFSq5phW-e', content=message)
+    response = webhook.execute()
+    print(message)
