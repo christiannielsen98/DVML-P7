@@ -14,7 +14,7 @@ Explanation of Q and P codes:
 - P585: point in time
 - Q159288: Santa Barbara
 ```sparql
-SELECT ?city ?cityLabel ?population
+SELECT ?city ?population ?cityLabel 
 WHERE {
   ?city p:P1082 ?statement .
   ?statement ps:P1082 ?population .
@@ -27,6 +27,9 @@ WHERE {
   SERVICE wikibase:label { bd:serviceParam wikibase:language "en" . }
 }
 ```
+| **?city** | **?population** | **?cityname** |
+|-----------|-----------------|---------------|
+| wd:Q159288 | 88665 | Santa Barbara |
 
 ### DBpedia
 ```sparql
@@ -38,8 +41,8 @@ WHERE {
     VALUES ?cityname{"Santa Barbara, California"@en}
 }
 ```
-| **city** | **population** | **cityname** |
-|----------|----------------|--------------|
+| **?city** | **?population** | **?cityname** |
+|-----------|-----------------|---------------|
 | dbo:Santa_Barbara,_California | "88665"^^xsd:nonNegativeInteger | "Santa Barbara, California"@en|
 	
 
