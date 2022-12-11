@@ -1,6 +1,7 @@
 from operator import index
 import sys
 sys.path.append(sys.path[0][:sys.path[0].find('DVML-P7') + len('DVML-P7')])
+import os
 import pandas as pd
 from Code.UtilityFunctions.wikidata_functions import get_name_of_location_with_long_lat, wikidata_query
 from Code.UtilityFunctions.get_data_path import get_path
@@ -93,6 +94,7 @@ if __name__ == "__main__":
         location_mappings = pd.read_csv(get_path('location_mappings.csv'))
         # location_mappings.rename(columns={'city': 'city_qid'}, inplace=True) #TEMPORARY DELETE WHEN
         expand_location_mappings(location_mappings).to_csv(path_or_buf=get_path('location_mappings_expanded.csv'), index=False)
+        os.system("onedrive --synchronize --single-directory DVML-P7") if "Linux" in os.uname() else None
         
         message = f"Location_from_wikidata execution is done - Time in hh:mm:ss - {datetime.datetime.now() - begin_time} \nbegan {begin_time} \nended {datetime.datetime.now()}"
     except Exception as e:
