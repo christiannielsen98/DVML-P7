@@ -27,9 +27,9 @@ WHERE {
   SERVICE wikibase:label { bd:serviceParam wikibase:language "en" . }
 }
 ```
-| **?city** | **?population** | **?cityname** |
-|-----------|-----------------|---------------|
-| wd:Q159288 | 88665 | Santa Barbara |
+| **?city**  | **?population** | **?cityname** |
+|------------|-----------------|---------------|
+| wd:Q159288 |      88665      | Santa Barbara |
 
 ### DBpedia
 ```sparql

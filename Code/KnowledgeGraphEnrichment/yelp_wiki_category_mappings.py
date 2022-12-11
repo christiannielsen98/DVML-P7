@@ -7,7 +7,7 @@ import numpy as np
 import pandas as pd
 from discord_webhook import DiscordWebhook
 from collections import Counter
-from rdflib import Namespace, Graph, URIRef, Literal
+from rdflib import Namespace, Graph, URIRef, Literal, XSD
 from rdflib.namespace import RDFS
 from pprint import pprint
 from deepdiff import DeepDiff
@@ -124,13 +124,13 @@ def create_wiki_category_nt_files(yelp_wiki_schema_triples_df: pd.DataFrame):
     for i in yelp_wiki_schema_triples_df.itertuples():
         if i.subclassOf is not np.nan:
             G.add((URIRef(wiki[i.qid]), URIRef(wiki["P279"]), URIRef(wiki[i.subclassOf])))
-            G.add((URIRef(wiki[i.subclassOf]), URIRef(schema["label"]), Literal(i.subclassOf_label)))
+            G.add((URIRef(wiki[i.subclassOf]), URIRef(schema["label"]), Literal(i.subclassOf_label, datatype=XSD.string)))
         if i.qid is not np.nan:
             if i.SchemaType is not np.nan:
                 G.add((URIRef(schema[i.SchemaType]), URIRef(schema["sameAs"]), URIRef(wiki[i.qid])))
             else:
                 G.add((URIRef(example[i.split_category]), URIRef(schema["sameAs"]), URIRef(wiki[i.qid])))
-            G.add((URIRef(wiki[i.qid]), URIRef(RDFS["label"]), Literal(i.qid_label)))
+            G.add((URIRef(wiki[i.qid]), URIRef(RDFS["label"]), Literal(i.qid_label, datatype=XSD.string)))
             G.add((URIRef(wiki[i.qid]), URIRef(RDFS["Class"]), URIRef(example['WikiCategory'])))
 
     triple_file.write(G.serialize(format="nt"))
