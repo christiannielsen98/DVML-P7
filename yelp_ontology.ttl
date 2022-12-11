@@ -61,7 +61,7 @@
   
 <http://ontology.bonsai.uno/core#WikidataCategory>
   a owl:Class ;
-  rdfs:comment "A Wikidata Category is a class assigned to the ..."@en ;
+  rdfs:comment "A Wikidata Category is a class assigned to the objects which origniates from the Wikidata ontology."@en ;
   rdfs:label "Wikidata Category"@en ;
   
 ##############################################
@@ -85,35 +85,35 @@
  rdfs:range yelpont:X . 
 
  <https://purl.archive.org/purl/yelp/ontology#AcceptsInsurance> 
- a owl:ToDO ; 
+ a owl:DataTypeProperty, owl:FunctionalProperty ; 
  rdfs:comment "Specifies if a <Business> accepts insurance."@en ; 
  rdfs:domain schema:LocalBusiness ; 
  rdfs:label "Accepts Insurance"@en ;
  rdfs:range XSD. .
 
  <https://purl.archive.org/purl/yelp/ontology#AgesAllowed> 
- a owl:ToDO ; 
+ a owl:DataTypeProperty ; 
  rdfs:comment "Specifies age restrictions of a <Business>."@en ; 
  rdfs:domain schema:LocalBusiness ; 
  rdfs:label "Ages Allowed"@en ; 
  rdfs:range X . 
 
  <https://purl.archive.org/purl/yelp/ontology#Alcohol> 
- a owl:ToDO ; 
+ a owl:DataTypeProperty ; 
  rdfs:comment "Specifies if a <Business> servers alcohol."@en ; 
  rdfs:domain schema:LocalBusiness ; 
  rdfs:label "Alcohol"@en ; 
  rdfs:range yelpont:X . 
 
  <https://purl.archive.org/purl/yelp/ontology#BYOB> 
- a owl:ToDO ; 
+ a owl:DataTypeProperty ; 
  rdfs:comment "Specifies if a <Business> has bring your own bottle (BYOB)."@en ; 
  rdfs:domain schema:LocalBusiness; 
  rdfs:label "BYOB"@en ; 
  rdfs:range yelpont:X . 
 
  <https://purl.archive.org/purl/yelp/ontology#BYOBCorkage> 
- a owl:ToDO ; 
+ a owl:DataTypeProperty ; 
  rdfs:comment "Specifies if a <Business> does corkage on BYOB."@en ; 
  rdfs:domain schema:LocalBusiness ; 
  rdfs:label "BYOBCorkage"@en ; 
@@ -616,7 +616,7 @@
  rdfs:label "haslunch"@en ; 
  rdfs:range yelpont:X . 
 
- <https://purl.archive.org/purl/yelp/ontology#hasmonday> 
+ <https://purl.archive.org/purl/yelp/ontology#hasmonday> #TODO
  a owl:ToDO ; 
  rdfs:comment "Specifies something ..."@en ; 
  rdfs:domain yelpont:X ; 
@@ -639,12 +639,12 @@
 
  <https://purl.archive.org/purl/yelp/ontology#hasromantic> 
  a owl:ToDO ; 
- rdfs:comment "Specifies something ..."@en ; 
- rdfs:domain yelpont:X ; 
- rdfs:label "https://purl.archive.org/purl/yelp/ontology#hasromantic"@en ; 
+ rdfs:comment "Specifies if a <Business> is romantic."@en ; 
+ rdfs:domain schema:LocalBusiness ; 
+ rdfs:label "hasromantic"@en ; 
  rdfs:range yelpont:X . 
 
- <https://purl.archive.org/purl/yelp/ontology#hassaturday> 
+ <https://purl.archive.org/purl/yelp/ontology#hassaturday> #TODO
  a owl:ToDO ; 
  rdfs:comment "Specifies something ..."@en ; 
  rdfs:domain yelpont:X ; 
@@ -653,61 +653,61 @@
 
  <https://purl.archive.org/purl/yelp/ontology#hassoy-free> 
  a owl:ToDO ; 
- rdfs:comment "Specifies something ..."@en ; 
- rdfs:domain yelpont:X ; 
- rdfs:label "https://purl.archive.org/purl/yelp/ontology#hassoy-free"@en ; 
+ rdfs:comment "Specifies if a <Business> has soy-free products."@en ; 
+ rdfs:domain schema:LocalBusiness ; 
+ rdfs:label "hassoy-free"@en ; 
  rdfs:range yelpont:X . 
 
  <https://purl.archive.org/purl/yelp/ontology#hasstraightperms> 
  a owl:ToDO ; 
- rdfs:comment "Specifies something ..."@en ; 
- rdfs:domain yelpont:X ; 
- rdfs:label "https://purl.archive.org/purl/yelp/ontology#hasstraightperms"@en ; 
+ rdfs:comment "Specifies if a <Business> has straight perms."@en ; 
+ rdfs:domain schema:LocalBusiness ; 
+ rdfs:label "hasstraightperms"@en ; 
  rdfs:range yelpont:X . 
 
  <https://purl.archive.org/purl/yelp/ontology#hasstreet> 
  a owl:ToDO ; 
- rdfs:comment "Specifies something ..."@en ; 
- rdfs:domain yelpont:X ; 
- rdfs:label "https://purl.archive.org/purl/yelp/ontology#hasstreet"@en ; 
+ rdfs:comment "Specifies if a <Business> has street parking."@en ; 
+ rdfs:domain schema:LocalBusiness ; 
+ rdfs:label "hasstreet"@en ; 
  rdfs:range yelpont:X . 
 
- <https://purl.archive.org/purl/yelp/ontology#hassunday> 
+ <https://purl.archive.org/purl/yelp/ontology#hassunday> #TODO
  a owl:ToDO ; 
  rdfs:comment "Specifies something ..."@en ; 
  rdfs:domain yelpont:X ; 
  rdfs:label "https://purl.archive.org/purl/yelp/ontology#hassunday"@en ; 
  rdfs:range yelpont:X . 
 
- <https://purl.archive.org/purl/yelp/ontology#hasthursday> 
+ <https://purl.archive.org/purl/yelp/ontology#hasthursday> #TODO
  a owl:ToDO ; 
  rdfs:comment "Specifies something ..."@en ; 
  rdfs:domain yelpont:X ; 
  rdfs:label "https://purl.archive.org/purl/yelp/ontology#hasthursday"@en ; 
  rdfs:range yelpont:X . 
 
- <https://purl.archive.org/purl/yelp/ontology#hastouristy> 
+ <https://purl.archive.org/purl/yelp/ontology#hastouristy>
  a owl:ToDO ; 
- rdfs:comment "Specifies something ..."@en ; 
- rdfs:domain yelpont:X ; 
- rdfs:label "https://purl.archive.org/purl/yelp/ontology#hastouristy"@en ; 
+ rdfs:comment "Specifies if a <Business> is touristy."@en ; 
+ rdfs:domain schema:LocalBusiness ; 
+ rdfs:label "hastouristy"@en ; 
  rdfs:range yelpont:X . 
 
- <https://purl.archive.org/purl/yelp/ontology#hastrendy> 
+ <https://purl.archive.org/purl/yelp/ontology#hastrendy> #TODO
  a owl:ToDO ; 
  rdfs:comment "Specifies something ..."@en ; 
  rdfs:domain yelpont:X ; 
  rdfs:label "https://purl.archive.org/purl/yelp/ontology#hastrendy"@en ; 
  rdfs:range yelpont:X . 
 
- <https://purl.archive.org/purl/yelp/ontology#hastuesday> 
+ <https://purl.archive.org/purl/yelp/ontology#hastuesday> #TODO
  a owl:ToDO ; 
  rdfs:comment "Specifies something ..."@en ; 
  rdfs:domain yelpont:X ; 
  rdfs:label "https://purl.archive.org/purl/yelp/ontology#hastuesday"@en ; 
  rdfs:range yelpont:X . 
 
- <https://purl.archive.org/purl/yelp/ontology#hasupscale> 
+ <https://purl.archive.org/purl/yelp/ontology#hasupscale> #TODO
  a owl:ToDO ; 
  rdfs:comment "Specifies something ..."@en ; 
  rdfs:domain yelpont:X ; 
@@ -716,47 +716,47 @@
 
  <https://purl.archive.org/purl/yelp/ontology#hasvalet> 
  a owl:ToDO ; 
- rdfs:comment "Specifies something ..."@en ; 
- rdfs:domain yelpont:X ; 
- rdfs:label "https://purl.archive.org/purl/yelp/ontology#hasvalet"@en ; 
+ rdfs:comment "Specifies if a <Business> has valet."@en ; 
+ rdfs:domain schema:LocalBusiness ; 
+ rdfs:label "hasvalet"@en ; 
  rdfs:range yelpont:X . 
 
- <https://purl.archive.org/purl/yelp/ontology#hasvalidated> 
+ <https://purl.archive.org/purl/yelp/ontology#hasvalidated> #TODO
  a owl:ToDO ; 
- rdfs:comment "Specifies something ..."@en ; 
+ rdfs:comment "Specifies if a <Business>  ..."@en ; 
  rdfs:domain yelpont:X ; 
  rdfs:label "https://purl.archive.org/purl/yelp/ontology#hasvalidated"@en ; 
  rdfs:range yelpont:X . 
 
  <https://purl.archive.org/purl/yelp/ontology#hasvegan> 
  a owl:ToDO ; 
- rdfs:comment "Specifies something ..."@en ; 
- rdfs:domain yelpont:X ; 
- rdfs:label "https://purl.archive.org/purl/yelp/ontology#hasvegan"@en ; 
+ rdfs:comment "Specifies if a <Business> has vegan products."@en ; 
+ rdfs:domain schema:LocalBusiness ; 
+ rdfs:label "hasvegan"@en ; 
  rdfs:range yelpont:X . 
 
  <https://purl.archive.org/purl/yelp/ontology#hasvegetarian> 
  a owl:ToDO ; 
- rdfs:comment "Specifies something ..."@en ; 
- rdfs:domain yelpont:X ; 
- rdfs:label "https://purl.archive.org/purl/yelp/ontology#hasvegetarian"@en ; 
+ rdfs:comment "Specifies if a <Business> has vegetarian products."@en ; 
+ rdfs:domain schema:LocalBusiness ; 
+ rdfs:label "hasvegetarian"@en ; 
  rdfs:range yelpont:X . 
 
  <https://purl.archive.org/purl/yelp/ontology#hasvideo> 
  a owl:ToDO ; 
- rdfs:comment "Specifies something ..."@en ; 
- rdfs:domain yelpont:X ; 
- rdfs:label "https://purl.archive.org/purl/yelp/ontology#hasvideo"@en ; 
+ rdfs:comment "Specifies if a <Buisness> has video."@en ; 
+ rdfs:domain schema:LocalBusiness ; 
+ rdfs:label "hasvideo"@en ; 
  rdfs:range yelpont:X . 
 
- <https://purl.archive.org/purl/yelp/ontology#cool> 
+ <https://purl.archive.org/purl/yelp/ontology#cool> #TODO
  a owl:ToDO ; 
  rdfs:comment "Specifies something ..."@en ; 
  rdfs:domain yelpont:X ; 
  rdfs:label "https://purl.archive.org/purl/yelp/ontology#cool"@en ; 
  rdfs:range yelpont:X . 
 
- <https://purl.archive.org/purl/yelp/ontology#funny> 
+ <https://purl.archive.org/purl/yelp/ontology#funny> #TODO
  a owl:ToDO ; 
  rdfs:comment "Specifies something ..."@en ; 
  rdfs:domain yelpont:X ; 
