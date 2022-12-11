@@ -24,9 +24,9 @@ print(len(unique_categories))
 ## CQ 2: How many businesses of type "Restaurants" exist?
 **SPARQL Query**:
 ```sparql
-SELECT COUNT(?business) AS ?numRestaurants
+SELECT COUNT(DISTINCT(?business)) AS ?numberRestaurants
 WHERE {
-    ?business schema:category yelp_category:Restaurants .
+    ?business schema:category <https://purl.archive.org/purl/yelp/business_categories#Restaurants> .
 }
 ```
 |  **?numRestaurants**  |
