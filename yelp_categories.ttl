@@ -1,8 +1,8 @@
 @prefix ontology_uri: <https://purl.archive.org/purl/yelp/ontology#> 
- @prefix category_uri: <https://purl.archive.org/purl/yelp/business_categories#> 
- @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+@prefix category_uri: <https://purl.archive.org/purl/yelp/business_categories#>
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
- category_uri:Restaurants a ontology_uri:datasetCategory ; 
+category_uri:Restaurants a ontology_uri:datasetCategory ;
  rdfs:label "Restaurants is a category in Yelp used to describe a business" . 
 
  category_uri:Food a ontology_uri:datasetCategory ; 
