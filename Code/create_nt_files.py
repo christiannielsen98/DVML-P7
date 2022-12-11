@@ -35,7 +35,7 @@ def create_nt_file(file_name: str):
 
     if file_name == "yelp_academic_dataset_business.json":
 
-        schema_category_mappings_df = pd.read_csv(get_path("class_mappings.csv"))
+        schema_category_mappings_df = pd.read_csv(get_path("class_mappings_manual.csv"))
         schema_category_mappings_dict = dict([(i, eval(x)) for i, x in zip(schema_category_mappings_df['YelpCategory'],
                                                                            schema_category_mappings_df['SchemaType'])])
 
