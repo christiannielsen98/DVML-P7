@@ -11,13 +11,12 @@ from UtilityFunctions.schema_functions import get_schema_predicate, get_schema_t
 from UtilityFunctions.get_uri import get_uri
 
 schema = Namespace("https://schema.org/")
-example = Namespace("https://example.org/")  # TODO: Find a better Namespace than example
 skos = Namespace("https://www.w3.org/2004/02/skos/core#")
-
 business_uri = Namespace("https://www.yelp.com/biz/")
 user_uri = Namespace("https://www.yelp.com/user_details?userid=")
 yelpcat = Namespace("https://purl.archive.org/purl/yelp/business_categories#")
 yelpont = Namespace("https://purl.archive.org/purl/yelp/ontology#")
+yelpent = Namespace("https://purl.archive.org/purl/yelp/yelp_entities#")
 
 def create_nt_file(file_name: str):
     """
@@ -90,7 +89,7 @@ def create_nt_file(file_name: str):
                 if file_name == "yelp_academic_dataset_review.json":
                     G.add(triple=(URIRef(get_uri(file_name) + subject),
                                   URIRef(schema + "author"),
-                                  URIRef(example + 'user_id/' + line["user_id"])))
+                                  URIRef(yelpent + 'user_id/' + line["user_id"])))
                     del line["user_id"]  # No longer need the this key/value pair.
 
                 line = flatten_dictionary(line)  # Some values are dictionaries themselves, so we flatten them before proceeding
