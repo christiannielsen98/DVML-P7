@@ -178,8 +178,14 @@ def create_nt_file(file_name: str):
                         b_node = BNode()
 
                         G.add(triple=(URIRef(subject),
-                                      URIRef(predicate),  # E.g., hasBusinessParking, hasHours
+                                      URIRef(predicate),  # E.g., hasBusinessParking, hashours
                                       URIRef(b_node)))  # Blank Node
+
+                        blanknode_class = get_schema_type(_predicate)
+
+                        G.add(triple=(URIRef(b_node),
+                                      URIRef(RDFS.Class),
+                                      URIRef(blanknode_class)))
 
                         for sub_predicate, sub_object in _object.items():
                             G.add(triple=(URIRef(b_node),

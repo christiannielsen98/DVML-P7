@@ -59,8 +59,8 @@ def get_schema_predicate(predicate, obj=None, file=None):
         case "text":
             return schema + "description", XSD.string
         case "BusinessParking" | "GoodForMeal" | "Ambience" | "Music" | "BestNights" | "HairSpecializesIn" | "DietaryRestrictions" | "hours":
-            return yelpont + "has" + predicate.capitalize() if predicate == "hours" else predicate, XSD.string  # TODO: Find something instead of example
-        case _:  # If no schema.org predicate can be found, create predicate using example.org
+            return yelpont + "has" + predicate.capitalize() if predicate == "hours" else yelpont + "has" + predicate, XSD.string
+        case _:  # If no schema.org predicate can be found, create predicate using Yelp ontology.
             if isinstance(obj, str):
                 object_type = XSD.string
             elif isinstance(obj, int):
@@ -90,6 +90,14 @@ def get_schema_type(entity: str):
             return schema + 'UserReview'
         case 'tip':
             return yelpont + 'Tip'
+        case "BusinessParking":
+            return schema + "ParkingFacility"
+        case "GoodForMeal":
+            return schema + "FoodService"
+        case "Ambience" | "Music" | "BestNights" | "HairSpecializesIn" | "DietaryRestrictions":
+            return schema + 'LocationFeatureSpecification'
+        case "hours":
+            return schema + 'OpeningHoursSpecification'
         case _:  #
             print(f"Unknown schema type for entity: {entity}")
 
