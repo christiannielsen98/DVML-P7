@@ -29,9 +29,9 @@ WHERE {
     ?business schema:category <https://purl.archive.org/purl/yelp/business_categories#Restaurants> .
 }
 ```
-|  **?numRestaurants**  |
-|-----------------------|
-|         52,268        |
+|  **?numberRestaurants** |
+|-------------------------|
+|          52,268         |
 
 ** Correct Answer**:
 ```python
@@ -46,14 +46,64 @@ print(counter)
 
 ## CQ 3: How many businesses of type "Restaurants" have been reviwed?
 
+```sparql
+TODO
+}
+```
+
+```python
+review_unique_business = reviews.drop_duplicates(subset=['business_id'])
+mask = review_unique_business['categories'].apply(lambda x: x is not None and "Restaurants" in x)
+len(review_unique_business[mask])
+
+>> 52268
+```
 
 
 ## CQ 4: How many businesses have been reviewed?
 
+```sparql
+TODO
+```
+
+```python
+review_unique_business = reviews.drop_duplicates(subset=['business_id'])
+len(review_unique_business)
+
+>> 150346
+```
 
 
 ## CQ 5: How many businesses have, on average, a rating of 4.5?
 
+```sparql
+SELECT COUNT(DISTINCT(?business)) AS ?count
+WHERE {
+    ?business schema:aggregateRating ?rating .
+    FILTER (?rating = 4.5) .
+}
+```
+
+|        **?count**       |
+|-------------------------|
+|           27181         |
+
+```python
+business.groupby('stars')['stars'].count()
+
+>>
+stars
+1.0     1986
+1.5     4932
+2.0     9527
+2.5    14316
+3.0    18453
+3.5    26519
+4.0    31125
+4.5    27181
+5.0    16307
+Name: stars, dtype: int64
+```
 
 
 ## CQ 6: What is the average rating across businesses?
