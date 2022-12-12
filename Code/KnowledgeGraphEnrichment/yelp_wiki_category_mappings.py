@@ -131,7 +131,7 @@ def create_wiki_category_nt_files(yelp_wiki_schema_triples_df: pd.DataFrame):
             else:
                 G.add((URIRef(example[i.split_category]), URIRef(schema["sameAs"]), URIRef(wiki[i.qid])))
             G.add((URIRef(wiki[i.qid]), URIRef(RDFS["label"]), Literal(i.qid_label, datatype=XSD.string)))
-            G.add((URIRef(wiki[i.qid]), URIRef(RDFS["Class"]), URIRef(example['WikiCategory'])))
+            G.add((URIRef(wiki[i.qid]), URIRef(RDFS["Class"]), URIRef(example['wikidataCategory'])))
 
     triple_file.write(G.serialize(format="nt"))
     triple_file.close()
