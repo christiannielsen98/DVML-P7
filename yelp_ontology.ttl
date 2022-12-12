@@ -2,13 +2,11 @@
 @prefix dc: <http://purl.org/dc/terms/> .
 @prefix ns0: <http://purl.org/vocab/vann/> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix cc: <http://creativecommons.org/ns#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix schema: <http://schema.org/> .
-@prefix bont: <http://ontology.bonsai.uno/core#> .
-@prefix time: <http://www.w3.org/2006/time#> .
+@prefix yelpont: <https://purl.archive.org/purl/yelp/ontology#> .
 
 ##############################################
 
@@ -16,18 +14,14 @@
 
 ##############################################
 
-<>
+<https://raw.githubusercontent.com/christiannielsen98/DVML-P7/main/yelp_ontology.ttl>
   a owl:Ontology ;
   dc:title "The Yelp ontology"@en ;
   dc:description "The Yelp ontology provides context to concepts and entities found in the Yelp Open Dataset"@en ;
-  foaf:homepage <> ;
-  ns0:preferredNamespacePrefix "" ;
-  ns0:preferredNamespaceUri "" ;
-  rdfs:isDefinedBy <> ;
+  ns0:preferredNamespacePrefix "yelpont" ;
+  ns0:preferredNamespaceUri "https://purl.archive.org/purl/yelp/ontology#" ;
   owl:versionInfo "Version 0.1 - 2022-11-28"@en ;
   dc:modified "2022-11-28"^^xsd:date ;
-  dc:publisher "" ;
-  dc:creator <> ;
   dc:contributor "Mads Corfixen", "Thomas Heede", "Christian Filerup Pind Nielsen", "Magnus Olesen"  ;
   cc:license <https://mit-license.org> .
   
@@ -39,27 +33,27 @@
 ##############################################
 
 
-<http://ontology.bonsai.uno/core#Tip>
+<https://raw.githubusercontent.com/christiannielsen98/DVML-P7/main/yelp_ontology.ttl#Tip>
   a owl:Class ;
   rdfs:comment "A tip is a short description of a visit by a Yelp <User> pertaining to a Yelp <Business>. Is a shorter version of a Yelp <Review>."@en ;
   rdfs:label "Tip"@en ;
   
-<http://ontology.bonsai.uno/core#YelpCategory>
+<https://raw.githubusercontent.com/christiannielsen98/DVML-P7/main/yelp_ontology.ttl#datasetCategory>
   a owl:Class ;
-  rdfs:comment "A Yelp Category is a class assigned to objects which originates in the Yelp Open Dataset. These objects describe the type of a Yelp <Business>."@en ;
-  rdfs:label "Yelp Category"@en ;
+  rdfs:comment "A Dataset Category is a class assigned to objects which originates in the Yelp Open Dataset. These objects describe the type of a Yelp <Business>."@en ;
+  rdfs:label "Dataset Category"@en ;
   
-<http://ontology.bonsai.uno/core#SchemaCategory>
+<https://raw.githubusercontent.com/christiannielsen98/DVML-P7/main/yelp_ontology.ttl#schemaCategory>
   a owl:Class ;
   rdfs:comment "A Schema Category is a class assigned to objects which originates from the schema.org ontology."@en ;
   rdfs:label "Schema Category"@en ;
   
-<http://ontology.bonsai.uno/core#PurlCategory>
+<https://raw.githubusercontent.com/christiannielsen98/DVML-P7/main/yelp_ontology.ttl#yelpCategory>
   a owl:Class ;
-  rdfs:comment "A Purl Category is a class assigned to the objects in the Yelp ontology."@en ;
-  rdfs:label "Purl category"@en ;
+  rdfs:comment "A Yelp Category is a class assigned to the objects in the Yelp ontology."@en ;
+  rdfs:label "Yelp Category"@en ;
   
-<http://ontology.bonsai.uno/core#WikidataCategory>
+<https://raw.githubusercontent.com/christiannielsen98/DVML-P7/main/yelp_ontology.ttl#wikidataCategory>
   a owl:Class ;
   rdfs:comment "A Wikidata Category is a class assigned to the objects which origniates from the Wikidata ontology."@en ;
   rdfs:label "Wikidata Category"@en ;
@@ -78,286 +72,286 @@
   rdfs:range yelpont:X . 
 
  <https://purl.archive.org/purl/yelp/ontology#haswednesday> # TODO
- a owl:DataTypeProperty ; 
- rdfs:comment "Specifies something ..."@en ; 
- rdfs:domain yelpont:X ; 
+ a owl:DataTypeProperty, owl:FunctionalProperty ; 
+ rdfs:comment "Specifies if one <BestNight> is a Wednesday."@en ; 
+ rdfs:domain  ; 
  rdfs:label "https://purl.archive.org/purl/yelp/ontology#haswednesday"@en ; 
- rdfs:range yelpont:X . 
+ rdfs:range xsd:Boolean . 
 
  <https://purl.archive.org/purl/yelp/ontology#AcceptsInsurance> 
  a owl:DataTypeProperty, owl:FunctionalProperty ; 
  rdfs:comment "Specifies if a <Business> accepts insurance."@en ; 
  rdfs:domain schema:LocalBusiness ; 
  rdfs:label "Accepts Insurance"@en ;
- rdfs:range XSD. .
+ rdfs:range xsd:Boolean .
 
  <https://purl.archive.org/purl/yelp/ontology#AgesAllowed> 
- a owl:DataTypeProperty ; 
+ a owl:DataTypeProperty, owl:FunctionalProperty ; 
  rdfs:comment "Specifies age restrictions of a <Business>."@en ; 
  rdfs:domain schema:LocalBusiness ; 
  rdfs:label "Ages Allowed"@en ; 
- rdfs:range X . 
+ rdfs:range xsd:String . 
 
  <https://purl.archive.org/purl/yelp/ontology#Alcohol> 
- a owl:DataTypeProperty, owl:FunctionalProperty ; 
- rdfs:comment "Specifies if a <Business> servers alcohol."@en ; 
+ a owl:DataTypeProperty, owl:InverseFunctionalProperty ; 
+ rdfs:comment "Specifies if a <Business> servers alcohol and what kind of serving."@en ; 
  rdfs:domain schema:LocalBusiness ; 
  rdfs:label "Alcohol"@en ; 
- rdfs:range yelpont:X . 
+ rdfs:range xsd:String . 
 
  <https://purl.archive.org/purl/yelp/ontology#BYOB> 
  a owl:DataTypeProperty, owl:FunctionalProperty ; 
  rdfs:comment "Specifies if a <Business> has bring your own bottle (BYOB)."@en ; 
  rdfs:domain schema:LocalBusiness; 
  rdfs:label "BYOB"@en ; 
- rdfs:range yelpont:X . 
+ rdfs:range xsd:Boolean . 
 
  <https://purl.archive.org/purl/yelp/ontology#BYOBCorkage> 
- a owl:DataTypeProperty, owl:FunctionalProperty ; 
+ a owl:DataTypeProperty, owl:InverseFunctionalProperty ; 
  rdfs:comment "Specifies if a <Business> does corkage on BYOB."@en ; 
  rdfs:domain schema:LocalBusiness ; 
  rdfs:label "BYOBCorkage"@en ; 
- rdfs:range yelpont:X . 
+ rdfs:range xsd:String . 
 
  <https://purl.archive.org/purl/yelp/ontology#BikeParking> 
  a owl:DataTypeProperty, owl:FunctionalProperty ; 
  rdfs:comment "Specifies if a <Business> has bike parking."@en ; 
  rdfs:domain schema:LocalBusiness ; 
  rdfs:label "BikeParking"@en ; 
- rdfs:range yelpont:X . 
+ rdfs:range xsd:Boolean . 
 
  <https://purl.archive.org/purl/yelp/ontology#BusinessAcceptsBitcoin> 
  a owl:DataTypeProperty, owl:FunctionalProperty ; 
  rdfs:comment "Specifies if a <Business> accepts bitcoin as a payment method."@en ; 
  rdfs:domain schema:LocalBusiness ; 
  rdfs:label "BusinessAcceptsBitcoin"@en ; 
- rdfs:range yelpont:X . 
+ rdfs:range xsd:Boolean . 
 
  <https://purl.archive.org/purl/yelp/ontology#BusinessAcceptsCreditCards> 
  a owl:DataTypeProperty, owl:FunctionalProperty ; 
  rdfs:comment "Specifies if a <Business> accepts credit cards as a payment method."@en ; 
  rdfs:domain schema:LocalBusiness ; 
  rdfs:label "BusinessAcceptsCreditCards"@en ; 
- rdfs:range yelpont:X . 
+ rdfs:range xsd:Boolean . 
 
  <https://purl.archive.org/purl/yelp/ontology#ByAppointmentOnly> 
  a owl:DataTypeProperty, owl:FunctionalProperty ; 
  rdfs:comment "Specifies if a <Business> requires an appointment."@en ; 
  rdfs:domain schema:LocalBusiness; 
  rdfs:label "ByAppointmentOnly"@en ; 
- rdfs:range yelpont:X . 
+ rdfs:range xsd:Boolean . 
 
  <https://purl.archive.org/purl/yelp/ontology#Caters> 
  a owl:DataTypeProperty, owl:FunctionalProperty ; 
  rdfs:comment "Specifies if a <Business> caters."@en ; 
  rdfs:domain schema:LocalBusiness ; 
  rdfs:label "Caters"@en ; 
- rdfs:range yelpont:X . 
+ rdfs:range xsd:Boolean . 
 
- <https://purl.archive.org/purl/yelp/ontology#CoatCheck>  #TODO
+ <https://purl.archive.org/purl/yelp/ontology#CoatCheck>  
  a owl:DataTypeProperty, owl:FunctionalProperty ; 
- rdfs:comment "TODO"@en ; 
- rdfs:domain TODO ; 
+ rdfs:comment "Specifies if a <Business> has coat check."@en ; 
+ rdfs:domain schema:LocalBusiness ; 
  rdfs:label "CoatCheck"@en ; 
- rdfs:range yelpont:X . 
+ rdfs:range xsd:Boolean . 
 
  <https://purl.archive.org/purl/yelp/ontology#Corkage> 
  a owl:DataTypeProperty, owl:FunctionalProperty ; 
- rdfs:comment "Specifies if a <Business> offers corkage."@en ; 
- rdfs:domain yelpont:X ; 
+ rdfs:comment "Specifies if a <Business> has corkage."@en ; 
+ rdfs:domain schema:LocalBusiness ; 
  rdfs:label "Corkage"@en ; 
- rdfs:range yelpont:X . 
+ rdfs:range xsd:Boolean . 
 
  <https://purl.archive.org/purl/yelp/ontology#DogsAllowed> 
  a owl:DataTypeProperty, owl:FunctionalProperty ; 
  rdfs:comment "Specifies if dogs are allowed at a <Business>."@en ; 
  rdfs:domain schema:LocalBusiness; 
  rdfs:label "DogsAllowed"@en ; 
- rdfs:range yelpont:X . 
+ rdfs:range xsd:Boolean . 
 
  <https://purl.archive.org/purl/yelp/ontology#DriveThru> 
  a owl:DataTypeProperty, owl:FunctionalProperty ; 
  rdfs:comment "Specifies if a <Business> has a drive-thru."@en ; 
  rdfs:domain schema:LocalBusiness ; 
  rdfs:label "DriveThru"@en ; 
- rdfs:range yelpont:X . 
+ rdfs:range xsd:Boolean . 
 
  <https://purl.archive.org/purl/yelp/ontology#GoodForDancing> 
  a owl:DataTypeProperty, owl:FunctionalProperty ; 
  rdfs:comment "Specifies if a <Business> is good for dancing."@en ; 
  rdfs:domain schema:LocalBusiness ; 
  rdfs:label "GoodForDancing"@en ; 
- rdfs:range yelpont:X . 
+ rdfs:range xsd:Boolean . 
 
  <https://purl.archive.org/purl/yelp/ontology#GoodForKids> 
  a owl:DataTypeProperty, owl:FunctionalProperty ; 
  rdfs:comment "Specifies if a <Business> is good for kids."@en ; 
  rdfs:domain schema:LocalBusiness; 
  rdfs:label "GoodForKids"@en ; 
- rdfs:range yelpont:X . 
+ rdfs:range xsd:Boolean . 
 
  <https://purl.archive.org/purl/yelp/ontology#HappyHour> 
- a owl:DataTypeProperty ; 
- rdfs:comment "Specifies if a <Business> offers happy hours."@en ; 
+ a owl:DataTypeProperty, owl:FunctionalProperty ; 
+ rdfs:comment "Specifies if a <Business> offers happy hour."@en ; 
  rdfs:domain schema:LocalBusiness ; 
  rdfs:label "HappyHour"@en ; 
- rdfs:range yelpont:X . 
+ rdfs:range xsd:Boolean . 
 
  <https://purl.archive.org/purl/yelp/ontology#HasTV> 
  a owl:DataTypeProperty, owl:FunctionalProperty ; 
  rdfs:comment "Specifies if a <Business> has TV."@en ; 
  rdfs:domain schema:LocalBusiness; 
  rdfs:label "HasTV"@en ; 
- rdfs:range yelpont:X . 
+ rdfs:range xsd:Boolean . 
 
  <https://purl.archive.org/purl/yelp/ontology#NoiseLevel> 
- a owl:DataTypeProperty, owl:FunctionalProperty ; 
+ a owl:DataTypeProperty, owl:InverseFunctionalProperty ; 
  rdfs:comment "Specifies the noise level of a <Business>."@en ; 
  rdfs:domain schema:LocalBusiness ; 
  rdfs:label "NoiseLevel"@en ; 
- rdfs:range yelpont:X . 
+ rdfs:range xsd:String . 
 
  <https://purl.archive.org/purl/yelp/ontology#Open24Hours> 
  a owl:DataTypeProperty, owl:FunctionalProperty ; 
  rdfs:comment "Specifies if a <Business> has open 24/7."@en ; 
  rdfs:domain schema:LocalBusiness ; 
  rdfs:label "Open24Hours"@en ; 
- rdfs:range yelpont:X . 
+ rdfs:range xsd:Boolean . 
 
  <https://purl.archive.org/purl/yelp/ontology#OutdoorSeating> 
  a owl:DataTypeProperty, owl:FunctionalProperty ; 
- rdfs:comment "Specifies if a <Business> has seating outdorrs."@en ; 
+ rdfs:comment "Specifies if a <Business> has seating outdoors."@en ; 
  rdfs:domain schema:LocalBusiness; 
  rdfs:label "OutdoorSeating"@en ; 
- rdfs:range yelpont:X . 
+ rdfs:range xds:Boolean . 
 
- <https://purl.archive.org/purl/yelp/ontology#RestaurantsAttire> # TODO
- a owl:DataTypeProperty ; 
- rdfs:comment "Specifies something ..."@en ; 
- rdfs:domain yelpont:X ; 
+ <https://purl.archive.org/purl/yelp/ontology#RestaurantsAttire>
+ a owl:DataTypeProperty, owl:InverseFunctionalProperty ; 
+ rdfs:comment "Specifies the attire of a <Business>."@en ; 
+ rdfs:domain schema:LocalBusiness ; 
  rdfs:label "https://purl.archive.org/purl/yelp/ontology#RestaurantsAttire"@en ; 
- rdfs:range yelpont:X . 
+ rdfs:range xsd:String . 
 
  <https://purl.archive.org/purl/yelp/ontology#RestaurantsCounterService> 
  a owl:DataTypeProperty, owl:FunctionalProperty ; 
  rdfs:comment "Specifies if a <Business> has counter service."@en ; 
  rdfs:domain schema:LocalBusiness; 
  rdfs:label "RestaurantsCounterService"@en ; 
- rdfs:range yelpont:X . 
+ rdfs:range xsd:Boolean . 
 
  <https://purl.archive.org/purl/yelp/ontology#RestaurantsDelivery> 
  a owl:DataTypeProperty, owl:FunctionalProperty ; 
  rdfs:comment "Specifies if a <Business> delivers."@en ; 
  rdfs:domain schema:LocalBusiness ; 
  rdfs:label "RestaurantsDelivery"@en ; 
- rdfs:range yelpont:X . 
+ rdfs:range xsd:Boolean . 
 
  <https://purl.archive.org/purl/yelp/ontology#RestaurantsGoodForGroups> 
  a owl:DataTypeProperty, owl:FunctionalProperty ; 
  rdfs:comment "Specifies if a <Business> is good for groups."@en ; 
  rdfs:domain schema:LocalBusiness ; 
  rdfs:label "RestaurantsGoodForGroups"@en ; 
- rdfs:range yelpont:X . 
+ rdfs:range xsd:Boolean . 
 
- <https://purl.archive.org/purl/yelp/ontology#RestaurantsPriceRange2> # TODO
- a owl:DataTypeProperty ; 
- rdfs:comment "Specifies something ..."@en ; 
- rdfs:domain yelpont:X ; 
- rdfs:label "https://purl.archive.org/purl/yelp/ontology#RestaurantsPriceRange2"@en ; 
- rdfs:range yelpont:X . 
+ <https://purl.archive.org/purl/yelp/ontology#RestaurantsPriceRange2>
+ a owl:DataTypeProperty, owl:FunctionalProperty ; 
+ rdfs:comment "Specifies the price range of a <Business> ..."@en ; 
+ rdfs:domain schema:LocalBusiness ; 
+ rdfs:label "RestaurantsPriceRange2"@en ; 
+ rdfs:range xsd:Integer . 
 
- <https://purl.archive.org/purl/yelp/ontology#RestaurantsReservations> #TODO
- a owl:DataTypeProperty ; 
- rdfs:comment "Specifies something ..."@en ; 
- rdfs:domain yelpont:X ; 
- rdfs:label "https://purl.archive.org/purl/yelp/ontology#RestaurantsReservations"@en ; 
- rdfs:range yelpont:X . 
+ <https://purl.archive.org/purl/yelp/ontology#RestaurantsReservations> 
+ a owl:DataTypeProperty, owl:FunctionalProperty ; 
+ rdfs:comment "Specifies if a <Business> allows reservations."@en ; 
+ rdfs:domain schema:LocalBusiness ; 
+ rdfs:label "RestaurantsReservations"@en ; 
+ rdfs:range xsd:Boolean . 
 
  <https://purl.archive.org/purl/yelp/ontology#RestaurantsTableService> 
  a owl:DataTypeProperty, owl:FunctionalProperty ; 
  rdfs:comment "Specifies if a <Business> has table service."@en ; 
  rdfs:domain schema:LocalBusiness; 
  rdfs:label "RestaurantsTableService"@en ; 
- rdfs:range yelpont:X . 
+ rdfs:range xsd:Boolean . 
 
  <https://purl.archive.org/purl/yelp/ontology#RestaurantsTakeOut> 
  a owl:DataTypeProperty, owl:FunctionalProperty ; 
  rdfs:comment "Specifies if a <Business> offers takeout."@en ; 
  rdfs:domain schema:LocalBusiness ; 
  rdfs:label "RestaurantsTakeOut"@en ; 
- rdfs:range yelpont:X . 
+ rdfs:range xsd:Boolean . 
 
  <https://purl.archive.org/purl/yelp/ontology#Smoking> 
- a owl:DataTypeProperty, owl:FunctionalProperty ; 
+ a owl:DataTypeProperty, owl:InverseFunctionalProperty ; 
  rdfs:comment "Specifies if a <Business> allows smoking."@en ; 
  rdfs:domain schema:LocalBusiness ; 
- rdfs:label "Smoking"@en ; 
- rdfs:range yelpont:X . 
+ rdfs:label "Smoking"@en ;  
+ rdfs:range xsd:String . 
 
  <https://purl.archive.org/purl/yelp/ontology#WheelchairAccessible> 
  a owl:DataTypeProperty, owl:FunctionalProperty ; 
  rdfs:comment "Specifies if a <Business> is weelchair accessible."@en ; 
  rdfs:domain schema:LocalBusiness ; 
  rdfs:label "WheelchairAccessible"@en ; 
- rdfs:range yelpont:X . 
+ rdfs:range xsd:Boolean . 
 
  <https://purl.archive.org/purl/yelp/ontology#WiFi> 
- a owl:DataTypeProperty, owl:FunctionalProperty ; 
+ a owl:DataTypeProperty, owl:InverseFunctionalProperty ; 
  rdfs:comment "Specifies if a <Business> has WiFi."@en ; 
  rdfs:domain schema:LocalBusiness ; 
  rdfs:label "https://purl.archive.org/purl/yelp/ontology#WiFi"@en ; 
- rdfs:range yelpont:X . 
+ rdfs:range xsd:String . 
 
- <https://purl.archive.org/purl/yelp/ontology#hasAmbience> 
+ <https://purl.archive.org/purl/yelp/ontology#hasAmbience> #BLANKNODE
  a owl:DataTypeProperty, owl:FunctionalProperty ; 
- rdfs:comment "Specifies if a <Business> has ambience."@en ; 
+ rdfs:comment "Specifies the ambience type of a <Business>."@en ; 
  rdfs:domain schema:LocalBusiness; 
  rdfs:label "hasAmbience"@en ; 
- rdfs:range yelpont:X . 
+ rdfs:range X . 
 
- <https://purl.archive.org/purl/yelp/ontology#hasBestnights> 
+ <https://purl.archive.org/purl/yelp/ontology#hasBestnights> #BLANKNODE
  a owl:DataTypeProperty ; 
- rdfs:comment "Specifies if a <Business> have some nights which are better than others."@en ; 
+ rdfs:comment "Specifies if a <Business> has some nights which are better than others."@en ; 
  rdfs:domain schema:LocalBusiness; 
  rdfs:label "hasBestnights"@en ; 
  rdfs:range yelpont:X . 
 
- <https://purl.archive.org/purl/yelp/ontology#hasBusinessparking> 
+ <https://purl.archive.org/purl/yelp/ontology#hasBusinessparking> #BLANKNODE
  a owl:DataTypeProperty, owl:FunctionalProperty ; 
- rdfs:comment "Specifies if a <Business> has parking options."@en ; 
+ rdfs:comment "Specifies what parking options a <Business> offers."@en ; 
  rdfs:domain schema:LocalBusiness ; 
  rdfs:label "hasBusinessparking"@en ; 
  rdfs:range yelpont:X . 
 
- <https://purl.archive.org/purl/yelp/ontology#hasDietaryrestrictions> 
+ <https://purl.archive.org/purl/yelp/ontology#hasDietaryrestrictions> #BLANKNODE
  a owl:DataTypeProperty, owl:FunctionalProperty; 
- rdfs:comment "Specifies if a <Business> has dietary restrictions."@en ; 
+ rdfs:comment "Specifies what dietary restrictions a <Business> accomodates."@en ; 
  rdfs:domain schema:LocalBusiness; 
  rdfs:label "hasDietaryrestrictions"@en ; 
  rdfs:range yelpont:X . 
 
  <https://purl.archive.org/purl/yelp/ontology#hasFriday> # TODO
- a owl:DataTypeProperty ; 
- rdfs:comment "Specifies if a <Business> is open on fridays."@en ; 
+ a owl:DataTypeProperty, owl:InverseFunctionalProperty ; 
+ rdfs:comment "Specifies when a <Business> is open on Fridays."@en ; 
  rdfs:domain X; 
  rdfs:label "hasFriday"@en ; 
- rdfs:range yelpont:X . 
+ rdfs:range xsd:String . 
 
- <https://purl.archive.org/purl/yelp/ontology#hasGoodformeal> #TODO
+ <https://purl.archive.org/purl/yelp/ontology#hasGoodformeal> #BLANKNODE
  a owl:DataTypeProperty ; 
  rdfs:comment "Specifies something ..."@en ; 
  rdfs:domain yelpont:X ; 
  rdfs:label "hasGoodformeal"@en ; 
  rdfs:range yelpont:X . 
 
- <https://purl.archive.org/purl/yelp/ontology#hasHairspecializesin> #TODO
+ <https://purl.archive.org/purl/yelp/ontology#hasHairspecializesin> #BLANKNODE
  a owl:DataTypeProperty ; 
  rdfs:comment "Specifies something ..."@en ; 
  rdfs:domain yelpont:X ; 
  rdfs:label "hasHairspecializesin"@en ; 
  rdfs:range yelpont:X . 
 
- <https://purl.archive.org/purl/yelp/ontology#hasHours> # TODO
+ <https://purl.archive.org/purl/yelp/ontology#hasHours> #BLANKNODE
  a owl:DataTypeProperty ; 
  rdfs:comment "Specifies  ..."@en ; 
  rdfs:domain yelpont:X ; 
@@ -371,7 +365,7 @@
  rdfs:label "hasMonday"@en ; 
  rdfs:range yelpont:X . 
 
- <https://purl.archive.org/purl/yelp/ontology#hasMusic> 
+ <https://purl.archive.org/purl/yelp/ontology#hasMusic> #BLANKNODE
  a owl:DataTypeProperty, owl:FunctionalProperty ; 
  rdfs:comment "Specifies if a <Business> has music."@en ; 
  rdfs:domain schema:LocalBusiness; 
