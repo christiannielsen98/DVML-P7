@@ -59,7 +59,7 @@ def get_schema_predicate(predicate, obj=None, file=None):
         case "text":
             return schema + "description", XSD.string
         case "BusinessParking" | "GoodForMeal" | "Ambience" | "Music" | "BestNights" | "HairSpecializesIn" | "DietaryRestrictions" | "hours":
-            return yelpont + "has" + predicate.capitalize(), XSD.string  # TODO: Find something instead of example
+            return yelpont + "has" + predicate.capitalize() if predicate == "hours" else predicate, XSD.string  # TODO: Find something instead of example
         case _:  # If no schema.org predicate can be found, create predicate using example.org
             if isinstance(obj, str):
                 object_type = XSD.string
