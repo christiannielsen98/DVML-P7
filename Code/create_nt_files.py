@@ -83,7 +83,6 @@ def create_nt_file(file_name: str):
                               URIRef(url + line[json_key])))  # Object
                 
                 del line[json_key]  # After assigning the URI to the subject variable, we no longer need the first key/value pair
-                del [line['city'], line['state']]  # City and state data are handled in another file
 
                 # For reviews create a special triple making a connection between user and the review.
                 if file_name == "yelp_academic_dataset_review.json":
@@ -98,8 +97,10 @@ def create_nt_file(file_name: str):
                 if file_name == 'yelp_academic_dataset_business.json':
                     G.add(triple=(URIRef(subject),
                                     RDFS.Class,
-                                    URIRef(schema + "LocalBusiness")))  
-                    
+                                    URIRef(schema + "LocalBusiness")))
+
+                    del [line['city'], line['state']]  # City and state data are handled in another file
+
                     if line['categories']:
                         # Categories are initially one long comma-separated string.
                         categories = line['categories'].split(", ")
