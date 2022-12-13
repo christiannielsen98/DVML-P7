@@ -319,15 +319,18 @@ if __name__ == "__main__":
         'yelp_academic_dataset_review.json',
         'yelp_academic_dataset_checkin.json'
     ]
-    
-    start = time.time()
-    for i in files:
-        _start = time.time()
-        create_nt_file(file_name=i)
-        print(f'For {i} It took', time.time()-_start, 'seconds.')
-    start_tip = time.time()
-    create_tip_nt_file()
-    print(f'For tip It took', time.time()-start_tip, 'seconds.')
-    print(f'In total it took', time.time()-start, 'seconds.')
-
-    webhook = DiscordWebhook(url='https://discord.com/api/webhooks/918876596763525150/d1aGYekdsL64QP0Dbx4zuaOrs_opUpFuTYkj1sHjYBJ8oUXOrruXhshP_cIFSq5phW-e', content=f'create_nt_files done in hh:mm:ss {datetime.datetime.now() - begin_time}').execute()
+    try:
+        start = time.time()
+        for i in files:
+            _start = time.time()
+            create_nt_file(file_name=i)
+            print(f'For {i} It took', time.time()-_start, 'seconds.')
+        start_tip = time.time()
+        create_tip_nt_file()
+        print(f'For tip It took', time.time()-start_tip, 'seconds.')
+        print(f'In total it took', time.time()-start, 'seconds.')
+        message = f'create_nt_files done in hh:mm:ss {datetime.datetime.now() - begin_time}'
+    except Exception as e:
+        message = f'create_nt_files failed in hh:mm:ss {datetime.datetime.now() - begin_time}\n{e}'
+        print(e)
+    webhook = DiscordWebhook(url='https://discord.com/api/webhooks/1051908340772515860/2jd9XbteomjiPwZCuoiZ7WN4LGe-xJzUPC8P1xPBBpbyECu00PSIIfs8tARmkI78t88v', content=message).execute()
