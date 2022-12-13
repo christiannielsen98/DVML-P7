@@ -64,12 +64,12 @@
 
 ##############################################
 
-<https://purl.archive.org/purl/yelp/ontology#compliment_count> # TODO IN TIP
+<https://purl.archive.org/purl/yelp/ontology#compliment_count>
   a owl:DataTypeProperty ; 
-  rdfs:comment "Specifies how many compliments ? ..."@en ; 
-  rdfs:domain yelpont:X ; 
+  rdfs:comment "Specifies compliment counts associated with a <Tip>."@en ; 
+  rdfs:domain yelpont:Tip ; 
   rdfs:label "compliment_count"@en ; 
-  rdfs:range yelpont:X . 
+  rdfs:range xsd:Integer . 
 
 <https://purl.archive.org/purl/yelp/ontology#haswednesday> # 
    a owl:DataTypeProperty, owl:FunctionalProperty ; 
