@@ -50,8 +50,6 @@ def get_schema_predicate(predicate, obj=None, file=None):
                 return schema + "dateCreated", XSD.dateTime
         case "friends":
             return schema + "knows", XSD.string
-        case "review_count":
-            return schema + "reviewCount", XSD.string
         case "yelping_since":
             return schema + "dateCreated", XSD.dateTime
         case "business_id":
@@ -106,47 +104,6 @@ def get_schema_type(entity: str):
             print(f"Unknown schema type for entity: {entity}")
 
 
-def get_class_mappings(substring_threshold=0.90, ratio_threshold=0.65):
-    """
-    This function is used to extract all business categories, and find their best schema.org type if it exists.
-    :param substring_threshold: The threshold for how long the longest common substring should be
-    :param ratio_threshold: The threshold for the ratio between the category and its mapping word lengths.
-    :return: Returns a dictionary with category as key and mapped schema type as value.
-    """
-
-    biz = pd.read_json(get_path("yelp_academic_dataset_business.json"), lines=True)
-    schema = pd.read_csv(get_path("schemaorg-current-https-types.csv"))[["label", "subTypeOf"]]
-    biz["categories"] = biz["categories"].apply(str_split)
-
-    # Iterate over categories in sublists ('If sublist' checks if the sublist is None) and insert them into a large set.
-    yelp_categories = list({category for sublist in biz["categories"].tolist() if sublist for category in sublist})
-
-    categories = split_words(yelp_categories, split_words_inc_slash)  # Split categories with & and /
-    categories = turn_words_singular(categories)  # Turn the categories singular
-
-    # Unpack the nested lists in dict values and turn them CamelCase to match schema.org structure.
-    categories = [category.title().replace(" ", "") for sublist in categories.values() for category in sublist]
-
-    category_mapping = dict()
-
-    for category in categories:
-        category_length = len(category)
-        possible_classes = dict()
-
-        for schema_type in schema["label"]:
-            # Only adds a schema type as a match if the longest common substring is at least parameter % of the category,
-            # and if the ratio between the category and schema type is parameter % or larger.
-            if long_com_substring(category, schema_type) >= category_length * substring_threshold:
-                ratio = min(category_length, len(schema_type)) / max(category_length, len(schema_type))
-                if ratio >= ratio_threshold:
-                    possible_classes[schema_type] = ratio
-        if possible_classes:  # An empty dict will return False
-            best_pos_class = max(possible_classes, key=possible_classes.get)
-            category_mapping[category] = best_pos_class
-
-    return category_mapping
-
-
 def class_hierarchy(dictionary):
     """
     This function is used to create the hierarchy only for the relevant schema.org types for this ontology.
@@ -188,7 +145,6 @@ if __name__ == "__main__":
            'Education': 'EducationEvent', 'Vegan': 'VeganDiet', 'Automotive': 'AutomotiveBusiness',
            'Tattoo': 'TattooParlor'}
 
-    class_mapping_dict = get_class_mappings(substring_threshold=0.75, ratio_threshold=0.5)
     class_mapping_df = pd.DataFrame(list(class_mapping_dict.items()), columns=['YelpCategory', 'SchemaType'])
     print(class_mapping_dict, len(class_mapping_dict))
     #class_mapping_df.to_csv(path_or_buf=get_path("class_mappings.csv"), index=False)
