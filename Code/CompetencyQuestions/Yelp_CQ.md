@@ -201,6 +201,7 @@ ytynqOUb3hjKeJfRj5Tshw    18615
 dtype: int64
 ```
 
+NOTE: The difference is caused by the fact that identical triples are not possible in RDF.
 
 ## CQ 10: How many of the Yelp categories are also mapped to schema.org?
 ```sparql
