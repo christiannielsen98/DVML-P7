@@ -64,7 +64,7 @@
 
 ##############################################
 
-<https://purl.archive.org/purl/yelp/ontology#compliment_count> # TODO
+<https://purl.archive.org/purl/yelp/ontology#compliment_count> # TODO IN TIP
   a owl:DataTypeProperty ; 
   rdfs:comment "Specifies how many compliments ? ..."@en ; 
   rdfs:domain yelpont:X ; 
@@ -743,14 +743,14 @@
    rdfs:label "hasvideo"@en ; 
    rdfs:range xsd:Boolean .
 
-<https://purl.archive.org/purl/yelp/ontology#cool> #TODO
+<https://purl.archive.org/purl/yelp/ontology#cool> #TODO REVIEW
    a owl:DataTypeProperty ; 
    rdfs:comment "Specifies if a ..."@en ; 
    rdfs:domain yelpont:X ; 
    rdfs:label "https://purl.archive.org/purl/yelp/ontology#cool"@en ; 
    rdfs:range yelpont:X . 
 
-<https://purl.archive.org/purl/yelp/ontology#funny> #TODO
+<https://purl.archive.org/purl/yelp/ontology#funny> #TODO REVIEW
    a owl:DataTypeProperty ; 
    rdfs:comment "Specifies something ..."@en ; 
    rdfs:domain yelpont:X ; 

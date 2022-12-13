@@ -12,6 +12,9 @@ import datetime
 
 
 def create_location_mappings_csv():
+    """
+    This function creates a csv file with the location mappings from yelp to wikidata
+    """
     # Load the business data from yelp
     biz = pd.read_json(get_path("yelp_academic_dataset_business.json"), lines=True)
 
@@ -28,7 +31,13 @@ def create_location_mappings_csv():
     # Save the dataframe to a csv
     location_mappings_df.to_csv(path_or_buf=get_path('location_mappings.csv'),index=False)
 
+
 def expand_location_mappings(location_mappings: pd.DataFrame):
+    """
+    This function expands the location mappings dataframe with the county, state, and country of each city
+    :param location_mappings:
+    :return:
+    """
     # Create a list of all the US states and Canada provinces
     list_of_us_states = list(wikidata_query(sparql_query="SELECT ?state WHERE{?state wdt:P31 wd:Q35657.}")['state.value'].apply(lambda x: x[31:]))
     list_of_canada_provinces = list(wikidata_query(sparql_query="SELECT ?province WHERE{?province wdt:P31 wd:Q11828004.}")['province.value'].apply(lambda x: x[31:]))
@@ -47,7 +56,12 @@ def expand_location_mappings(location_mappings: pd.DataFrame):
     location_mappings[['country_qid', 'countryLabel']] = location_mappings.apply(lambda x: pd.Series(country_query(x.state_qid)), axis=1)
     return location_mappings
 
+
 def yelp_wiki_location_mappings():
+    """
+    This function merge the mappings to the original Yelp businesses.
+    :return:
+    """
     # load the wikidata location mappings
     location_mappings = pd.read_csv(get_path('location_mappings_expanded.csv'))
     # Load the business data from yelp
@@ -62,8 +76,11 @@ def yelp_wiki_location_mappings():
     return biz_location_mapping_merge
 
 
-# Create the triples from the merged dataframe
 def create_wikidata_location_triples():
+    """
+    This function creates the triples for the location of the businesses in wikidata
+    :return:
+    """
     biz_location_mapping_merge = yelp_wiki_location_mappings()
     ## If file exists, delete it ##
     remove_files="/home/ubuntu/vol1/virtuoso/import/wikidata_location_mappings.nt.gz"
@@ -71,19 +88,18 @@ def create_wikidata_location_triples():
         os.remove(remove_files)
     else:    ## Show an error ##
         print("Error: %s file not found" % remove_files)
-    
-    #TODO: replace the example namespace with the PURL namespace
+
     schema = Namespace("https://schema.org/")
     wiki = Namespace("https://www.wikidata.org/entity/")
     yelpont = Namespace("https://purl.archive.org/purl/yelp/ontology#")
-    location_predicate = wiki + "P131" # P131 = located in the administrative territorial entity
-    population_predicate = wiki + "P1082" # P1082 = population
-    instance_of_predicate = wiki + "P31" # P31 = instance of
-    city_object = wiki + "Q515" # Q515 = city
-    county_object = wiki + "Q28575" # Q28575 = county
-    state_object = wiki + "Q35657" # Q35657 = U.S. state
-    province_object = wiki + "Q11828004" # Q11828004 = province of Canada
-    country_object = wiki + "Q6256" # Q6256 = country
+    location_predicate = wiki + "P131"  # P131 = located in the administrative territorial entity
+    population_predicate = wiki + "P1082"  # P1082 = population
+    instance_of_predicate = wiki + "P31"  # P31 = instance of
+    city_object = wiki + "Q515"  # Q515 = city
+    county_object = wiki + "Q28575"  # Q28575 = county
+    state_object = wiki + "Q35657"  # Q35657 = U.S. state
+    province_object = wiki + "Q11828004"  # Q11828004 = province of Canada
+    country_object = wiki + "Q6256"  # Q6256 = country
 
     list_of_us_states = list(wikidata_query(sparql_query="SELECT ?state WHERE{?state wdt:P31 wd:Q35657.}")['state.value'].apply(lambda x: x[31:]))
     list_of_canada_provinces = list(wikidata_query(sparql_query="SELECT ?province WHERE{?province wdt:P31 wd:Q11828004.}")['province.value'].apply(lambda x: x[31:]))
@@ -116,7 +132,6 @@ def create_wikidata_location_triples():
         
     triple_file.write(G.serialize(format="nt"))
     triple_file.close()
-
 
 
 if __name__ == "__main__":

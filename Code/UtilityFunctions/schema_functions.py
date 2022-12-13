@@ -58,6 +58,10 @@ def get_schema_predicate(predicate, obj=None, file=None):
             return schema + "about", XSD.anyURI
         case "text":
             return schema + "description", XSD.string
+        case "city":
+            return yelpont + "locatedInCity", XSD.string
+        case "state":
+            return yelpont + "locatedInState", XSD.string
         case "BusinessParking" | "GoodForMeal" | "Ambience" | "Music" | "BestNights" | "HairSpecializesIn" | "DietaryRestrictions" | "hours":
             return yelpont + "has" + predicate.capitalize() if predicate == "hours" else yelpont + "has" + predicate, XSD.string
         case _:  # If no schema.org predicate can be found, create predicate using Yelp ontology.

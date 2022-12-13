@@ -1,5 +1,6 @@
 import gzip
 import json
+import inflect
 
 import pandas as pd
 from rdflib import Namespace, Graph, URIRef, Literal, BNode
@@ -99,8 +100,6 @@ def create_nt_file(file_name: str):
                                     RDFS.Class,
                                     URIRef(schema + "LocalBusiness")))
 
-                    del [line['city'], line['state']]  # City and state data are handled in another file
-
                     if line['categories']:
                         # Categories are initially one long comma-separated string.
                         categories = line['categories'].split(", ")
@@ -132,6 +131,7 @@ def create_nt_file(file_name: str):
                                                       URIRef(skos + "narrowMatch") if "&" in category or "/" in category 
                                                                                    else URIRef(skos + "exactMatch"),
                                                       URIRef(schema + subcategory)))
+
                                         if subcategory not in category_mappings_cache:
                                             G.add(triple=(URIRef(schema + subcategory),
                                                           RDFS.Class,
@@ -140,7 +140,7 @@ def create_nt_file(file_name: str):
 
                                 # If the category is not in the mapping, we check if it is a split category,
                                 # and if true, add each of the split categories (example) as narrowMatch
-                                elif category in split_categories_dict.keys():
+                                if category in split_categories_dict.keys():
                                     for subcategory in split_categories_dict[category]:
                                         G.add(triple=(URIRef(yelpcat + category),
                                                         URIRef(skos + "narrowMatch"),
@@ -151,6 +151,22 @@ def create_nt_file(file_name: str):
                                                           RDFS.Class,
                                                           URIRef(yelpont + "yelpCategory")))
                                             category_mappings_cache.add(subcategory)
+
+                                else:
+                                    p = inflect.engine()
+                                    lower_cat = category.lower()
+                                    preprocessed_category = p.singular_noun(lower_cat)
+                                    preprocessed_category = preprocessed_category if preprocessed_category else lower_cat
+
+                                    G.add(triple=(URIRef(yelpcat + category),
+                                                    URIRef(skos + "exactMatch"),
+                                                    URIRef(yelpcat + preprocessed_category)))
+
+                                    if preprocessed_category not in category_mappings_cache:
+                                        G.add(triple=(URIRef(yelpcat + preprocessed_category),
+                                                      RDFS.Class,
+                                                      URIRef(yelpont + "yelpCategory")))
+                                        category_mappings_cache.add(preprocessed_category)
 
                             category_cache.add(category)
 
