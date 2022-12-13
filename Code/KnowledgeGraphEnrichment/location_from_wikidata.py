@@ -12,29 +12,38 @@ import datetime
 
 
 def create_location_mappings_csv():
+    # Load the business data from yelp
     biz = pd.read_json(get_path("yelp_academic_dataset_business.json"), lines=True)
 
+    # Create a dataframe of all the unique, rounded to 2nd decimal, coordinates
     coordinates = (biz["longitude"].apply(round, args=(2,)).astype(str) + "," + biz["latitude"].apply(round, args=(2,)).astype(str)).unique()
     coordinates_df = pd.DataFrame(coordinates, columns=['coordinates'])
 
+    # Query the nearest city for each coordinate and add it to a dataframe
     location_mappings_df = pd.DataFrame(columns=['coordinates', 'city_qid', 'cityLabel'])
     for i in coordinates_df.itertuples():
         location_mappings_df = pd.concat([location_mappings_df,pd.DataFrame([i.coordinates] + list(get_city_of_location_with_long_lat(i.coordinates)), index=location_mappings_df.columns).T], ignore_index=True)
         print(i.coordinates, i.Index, len(coordinates_df))
     
+    # Save the dataframe to a csv
     location_mappings_df.to_csv(path_or_buf=get_path('location_mappings.csv'),index=False)
 
 def expand_location_mappings(location_mappings: pd.DataFrame):
+    # Create a list of all the US states and Canada provinces
     list_of_us_states = list(wikidata_query(sparql_query="SELECT ?state WHERE{?state wdt:P31 wd:Q35657.}")['state.value'].apply(lambda x: x[31:]))
     list_of_canada_provinces = list(wikidata_query(sparql_query="SELECT ?province WHERE{?province wdt:P31 wd:Q11828004.}")['province.value'].apply(lambda x: x[31:]))
     list_canada_provinces_us_states = list_of_us_states + list_of_canada_provinces
     
+    # Add the population of the city
     location_mappings['population'] = location_mappings.apply(lambda x: city_population_query(x.city_qid), axis=1)
     
+    # Add the county of the city if it exists, otherwise query the county of the location with the long lat (because the city might not have a county in wikidata)
     location_mappings[['county_qid', 'countyLabel']] = location_mappings.apply(lambda x: pd.Series(county_query(x.city_qid)) if pd.Series(county_query(x.city_qid))[0] not in list_canada_provinces_us_states else pd.Series(get_county_of_location_with_long_lat(x.coordinates)), axis=1)
     
+    # Add the state of the county if it exists, otherwise query the state of the city (because the city might not have a county)
     location_mappings[['state_qid', 'stateLabel']] = location_mappings.apply(lambda x: pd.Series(state_query(x.county_qid)) if x.county_qid is not None else pd.Series(state_query(x.city_qid)), axis=1)
     
+    # Add the country of the state or province
     location_mappings[['country_qid', 'countryLabel']] = location_mappings.apply(lambda x: pd.Series(country_query(x.state_qid)), axis=1)
     return location_mappings
 
