@@ -192,7 +192,7 @@ def get_city_of_location_with_long_lat(longitude_and_latitude: str) -> tuple[str
     except:
         return (None, None)
 
-def get_state_of_location_with_long_lat(longitude_and_latitude: str) -> tuple[str, str]:
+def get_county_of_location_with_long_lat(longitude_and_latitude: str) -> tuple[str, str]:
     try:
         query =f"""
         SELECT DISTINCT ?distance ?county ?countyLabel WHERE {{

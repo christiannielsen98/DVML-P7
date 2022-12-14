@@ -1,5 +1,6 @@
 import gzip
 import json
+import inflect
 
 import pandas as pd
 from rdflib import Namespace, Graph, URIRef, Literal, BNode
@@ -83,7 +84,6 @@ def create_nt_file(file_name: str):
                               URIRef(url + line[json_key])))  # Object
                 
                 del line[json_key]  # After assigning the URI to the subject variable, we no longer need the first key/value pair
-                del [line['city'], line['state']]  # City and state data are handled in another file
 
                 # For reviews create a special triple making a connection between user and the review.
                 if file_name == "yelp_academic_dataset_review.json":
@@ -98,8 +98,8 @@ def create_nt_file(file_name: str):
                 if file_name == 'yelp_academic_dataset_business.json':
                     G.add(triple=(URIRef(subject),
                                     RDFS.Class,
-                                    URIRef(schema + "LocalBusiness")))  
-                    
+                                    URIRef(schema + "LocalBusiness")))
+
                     if line['categories']:
                         # Categories are initially one long comma-separated string.
                         categories = line['categories'].split(", ")
@@ -131,6 +131,7 @@ def create_nt_file(file_name: str):
                                                       URIRef(skos + "narrowMatch") if "&" in category or "/" in category 
                                                                                    else URIRef(skos + "exactMatch"),
                                                       URIRef(schema + subcategory)))
+
                                         if subcategory not in category_mappings_cache:
                                             G.add(triple=(URIRef(schema + subcategory),
                                                           RDFS.Class,
@@ -139,7 +140,7 @@ def create_nt_file(file_name: str):
 
                                 # If the category is not in the mapping, we check if it is a split category,
                                 # and if true, add each of the split categories (example) as narrowMatch
-                                elif category in split_categories_dict.keys():
+                                if category in split_categories_dict.keys():
                                     for subcategory in split_categories_dict[category]:
                                         G.add(triple=(URIRef(yelpcat + category),
                                                         URIRef(skos + "narrowMatch"),
@@ -150,6 +151,22 @@ def create_nt_file(file_name: str):
                                                           RDFS.Class,
                                                           URIRef(yelpont + "yelpCategory")))
                                             category_mappings_cache.add(subcategory)
+
+                                else:
+                                    p = inflect.engine()
+                                    lower_cat = category.lower()
+                                    preprocessed_category = p.singular_noun(lower_cat)
+                                    preprocessed_category = preprocessed_category if preprocessed_category else lower_cat
+
+                                    G.add(triple=(URIRef(yelpcat + category),
+                                                    URIRef(skos + "exactMatch"),
+                                                    URIRef(yelpcat + preprocessed_category)))
+
+                                    if preprocessed_category not in category_mappings_cache:
+                                        G.add(triple=(URIRef(yelpcat + preprocessed_category),
+                                                      RDFS.Class,
+                                                      URIRef(yelpont + "yelpCategory")))
+                                        category_mappings_cache.add(preprocessed_category)
 
                             category_cache.add(category)
 
@@ -178,8 +195,14 @@ def create_nt_file(file_name: str):
                         b_node = BNode()
 
                         G.add(triple=(URIRef(subject),
-                                      URIRef(predicate),  # E.g., hasBusinessParking, hasHours
+                                      URIRef(predicate),  # E.g., hasBusinessParking, hashours
                                       URIRef(b_node)))  # Blank Node
+
+                        blanknode_class = get_schema_type(_predicate)
+
+                        G.add(triple=(URIRef(b_node),
+                                      URIRef(RDFS.Class),
+                                      URIRef(blanknode_class)))
 
                         for sub_predicate, sub_object in _object.items():
                             G.add(triple=(URIRef(b_node),
@@ -312,15 +335,18 @@ if __name__ == "__main__":
         'yelp_academic_dataset_review.json',
         'yelp_academic_dataset_checkin.json'
     ]
-    
-    start = time.time()
-    for i in files:
-        _start = time.time()
-        create_nt_file(file_name=i)
-        print(f'For {i} It took', time.time()-_start, 'seconds.')
-    start_tip = time.time()
-    create_tip_nt_file()
-    print(f'For tip It took', time.time()-start_tip, 'seconds.')
-    print(f'In total it took', time.time()-start, 'seconds.')
-
-    webhook = DiscordWebhook(url='https://discord.com/api/webhooks/918876596763525150/d1aGYekdsL64QP0Dbx4zuaOrs_opUpFuTYkj1sHjYBJ8oUXOrruXhshP_cIFSq5phW-e', content=f'create_nt_files done in hh:mm:ss {datetime.datetime.now() - begin_time}').execute()
+    try:
+        start = time.time()
+        for i in files:
+            _start = time.time()
+            create_nt_file(file_name=i)
+            print(f'For {i} It took', time.time()-_start, 'seconds.')
+        start_tip = time.time()
+        create_tip_nt_file()
+        print(f'For tip It took', time.time()-start_tip, 'seconds.')
+        print(f'In total it took', time.time()-start, 'seconds.')
+        message = f'create_nt_files done in hh:mm:ss {datetime.datetime.now() - begin_time}'
+    except Exception as e:
+        message = f'create_nt_files failed in hh:mm:ss {datetime.datetime.now() - begin_time}\n{e}'
+        print(e)
+    webhook = DiscordWebhook(url='https://discord.com/api/webhooks/1051908340772515860/2jd9XbteomjiPwZCuoiZ7WN4LGe-xJzUPC8P1xPBBpbyECu00PSIIfs8tARmkI78t88v', content=message).execute()

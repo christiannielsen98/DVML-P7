@@ -93,7 +93,7 @@ def turn_words_singular(categories_dict):
         new_value = []
         for word in value:
             word = word.lower()
-            if p.singular_noun(word) is False:
+            if p.singular_noun(word) is False:  # If the word is already singular p.singular_noun  returns False
                 word = word
             else:
                 word = p.singular_noun(word)
@@ -105,4 +105,8 @@ def space_words_lower(string):
     return re.sub('(?<!^)([A-Z])([^A-Z])', r' \1\2', string).lower()
 
 if __name__ == '__main__':
-    pass
+    p = inflect.engine()
+    print(p.singular_noun('bakery'))
+    print(p.singular_noun('bakeries'))
+
+

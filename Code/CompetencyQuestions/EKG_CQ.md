@@ -6,7 +6,7 @@ SPARQL Endpoints for the different EKGs are available at the following locations
 |DBPedia  | https://dbpedia.org/sparql        |
 |YAGO     | https://yago-knowledge.org/sparql |
 
-## CQ 1: What is the population of New York City?
+## CQ 1: What is the population of Santa Barbara?
 
 ### Wikidata
 Explanation of Q and P codes:

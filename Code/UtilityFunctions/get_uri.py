@@ -1,18 +1,16 @@
 from rdflib import Namespace
 
-
-example = Namespace("https://example.org/")
-
+yelpent = Namespace("https://purl.archive.org/purl/yelp/yelp_entities#")
 
 def get_uri(filename):
     match filename:
         case 'yelp_academic_dataset_business.json':
-            return example + 'business_id/'
+            return yelpent + 'business_id/'
         case 'yelp_academic_dataset_user.json':
-            return example + 'user_id/'
+            return yelpent + 'user_id/'
         case 'yelp_academic_dataset_review.json':
-            return example + 'review_id/'
+            return yelpent + 'review_id/'
         case 'yelp_academic_dataset_tip.json':
-            return example + 'tip_id/'
+            return yelpent + 'tip_id/'
         case 'yelp_academic_dataset_checkin.json':
-            return example + 'business_id/'
+            return yelpent + 'business_id/'
