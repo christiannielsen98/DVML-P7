@@ -29,7 +29,7 @@ def create_location_mappings_csv():
         print(i.coordinates, i.Index, len(coordinates_df))
     
     # Save the dataframe to a csv
-    location_mappings_df.to_csv(path_or_buf=get_path('location_mappings.csv'),index=False)
+    location_mappings_df.to_csv(path_or_buf=get_path('location_mappings_with_boroughrAndCencus.csv'),index=False)
 
 
 def expand_location_mappings(location_mappings: pd.DataFrame):
@@ -57,13 +57,12 @@ def expand_location_mappings(location_mappings: pd.DataFrame):
     return location_mappings
 
 
-def yelp_wiki_location_mappings():
+def yelp_wiki_location_mappings(location_mappings):
     """
     This function merge the mappings to the original Yelp businesses.
     :return:
     """
-    # load the wikidata location mappings
-    location_mappings = pd.read_csv(get_path('location_mappings_expanded.csv'))
+    
     # Load the business data from yelp
     biz = pd.read_json(get_path("yelp_academic_dataset_business.json"), lines=True)
 
@@ -137,11 +136,12 @@ def create_wikidata_location_triples():
 if __name__ == "__main__":
     begin_time = datetime.datetime.now()
     try:
-        # create_location_mappings_csv()
-        # location_mappings = pd.read_csv(get_path('location_mappings.csv'))
-        # expand_location_mappings(location_mappings).to_csv(path_or_buf=get_path('location_mappings_expanded.csv'), index=False)
-        # os.system("onedrive --synchronize --single-directory DVML-P7") if "Linux" in os.uname() else None
-        create_wikidata_location_triples()
+        create_location_mappings_csv()
+        location_mappings = pd.read_csv(get_path('location_mappings_with_boroughrAndCencus.csv'))
+        expand_location_mappings(location_mappings).to_csv(path_or_buf=get_path('location_mappings_with_boroughrAndCencus_expanded.csv'), index=False)
+        os.system("onedrive --synchronize --single-directory DVML-P7") if "Linux" in os.uname() else None
+        # location_mappings = pd.read_csv(get_path('location_mappings_expanded.csv'))
+        # create_wikidata_location_triples(location_mappings)
         
         message = f"Location_from_wikidata execution is done - Time in hh:mm:ss - {datetime.datetime.now() - begin_time} \nbegan {begin_time} \nended {datetime.datetime.now()}"
     except Exception as e:

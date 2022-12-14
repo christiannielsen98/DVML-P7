@@ -26,14 +26,14 @@ print(len(unique_categories))
 ```sparql
 SELECT COUNT(DISTINCT(?business)) AS ?numberRestaurants
 WHERE {
-    ?business schema:category <https://purl.archive.org/purl/yelp/business_categories#Restaurants> .
+    ?business schema:category yelpcat:Restaurants .
 }
 ```
 |  **?numberRestaurants** |
 |-------------------------|
 |          52,268         |
 
-** Correct Answer**:
+**Correct Answer**:
 ```python
 counter = 0
 for row in business['categories']:
@@ -45,12 +45,19 @@ print(counter)
 ```
 
 ## CQ 3: How many businesses of type "Restaurants" have been reviwed?
-
+**SPARQL Query**:
 ```sparql
-TODO
+SELECT DISTINCT (COUNT(?business) as ?businessCount)
+WHERE {
+    ?business schema:category yelpcat:Restaurants .
+    ?review schema:about ?business .
 }
 ```
+|  **?businessCount**     |
+|-------------------------|
+|          52,268         |
 
+**Correct Answer**
 ```python
 review_unique_business = reviews.drop_duplicates(subset=['business_id'])
 mask = review_unique_business['categories'].apply(lambda x: x is not None and "Restaurants" in x)

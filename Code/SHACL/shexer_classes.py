@@ -1,14 +1,15 @@
 from rdflib.namespace import RDFS
 from shexer.shaper import Shaper
-from shexer.consts import NT, SHEXC, SHACL_TURTLE
+from shexer.consts import NT, SHEXC, SHACL_TURTLE, GZ
 import time
+
 start = time.time()
 
 target_classes = [
-    ["https://schema.org/LocalBusiness"],
-    ["https://schema.org/Person"],
-    ["https://schema.org/UserReview"],
-    ["https://purl.archive.org/purl/yelp/ontology#Tip"]
+    "https://schema.org/LocalBusiness",
+    "https://schema.org/Person",
+    "https://schema.org/UserReview",
+    "https://purl.archive.org/purl/yelp/ontology#Tip"
 ]
 
 namespaces_dict = {"https://schema.org/": "schema",
@@ -19,30 +20,25 @@ namespaces_dict = {"https://schema.org/": "schema",
                    "https://www.yelp.com/user_details?userid=": "user_uri",
                    "https://www.yelp.com/category/": "category_uri",
                    "http://www.w3.org/1999/02/22-rdf-syntax-ns#": "rdf",
-                   "http://www.w3.org/2000/01/rdf-schema#": "rdfs"
+                   "http://www.w3.org/2000/01/rdf-schema#": "rdfs",
+                   "https://purl.archive.org/purl/yelp/ontology#": "yont"
                    }
 
-input_nt_file = "/home/ubuntu/vol1/virtuoso/import/yelp_business.nt"
-# input_nt_file = "/home/ubuntu/DVML-P7/Code/Development/target_graph.nt"
+input_nt_file = "/home/ubuntu/vol1/virtuoso/import/yelp_business.nt.gz"
+threshold = 0.01
 
-idx_threshold = 0
-idx_input = 3
-input_files = ["/home/ubuntu/vol1/virtuoso/import/yelp_business.nt",
-               "/home/ubuntu/vol1/virtuoso/import/yelp_user.nt",
-               "/home/ubuntu/vol1/virtuoso/import/yelp_review.nt",
-               "/home/ubuntu/vol1/virtuoso/import/yelp_tip.nt"]
-classes = ["business", "user", "review", "tip"]
-thresholds = [0.25, 0.2, 0.1, 0.05, 0.01]
-
-shaper = Shaper(target_classes=target_classes[idx_input], graph_file_input=input_files[idx_input], namespaces_dict=namespaces_dict, input_format=NT,
+shaper = Shaper(target_classes=target_classes,
+                graph_file_input=input_nt_file,
+                namespaces_dict=namespaces_dict,
+                input_format=NT,
+                compression_mode=GZ,
                 instantiation_property="http://www.w3.org/2000/01/rdf-schema#Class")  # The predicate which is used to assign the target_classes to the subjects
 
-output_file_shex = f"/home/ubuntu/DVML-P7/Code/SHACL/shaper_{classes[idx_input]}_{thresholds[idx_threshold]}.shex"
+output_file_ttl = "/home/ubuntu/DVML-P7/Code/SHACL/shacl_shapes.ttl"
 
-shaper.shex_graph(output_file=output_file_shex, acceptance_threshold=thresholds[idx_threshold])
-
-# output_file_ttl = "/home/ubuntu/DVML-P7/Code/Development/shaper_yelp_business.ttl"
-# shaper.shex_graph(output_file=output_file_ttl, acceptance_threshold=0.9, output_format=SHACL_TURTLE)
+shaper.shex_graph(output_file=output_file_ttl,
+                  acceptance_threshold=threshold,
+                  output_format=SHACL_TURTLE)
 
 print("Done!")
 print(f'In total it took', time.time()-start, 'seconds.')

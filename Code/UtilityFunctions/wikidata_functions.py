@@ -179,6 +179,11 @@ def get_city_of_location_with_long_lat(longitude_and_latitude: str) -> tuple[str
         {{?city wdt:P31/wdt:P279* wd:Q515.}} # Q515 = city
         UNION
         {{?city wdt:P31/wdt:P279* wd:Q15127012.}} # Q15127012 = town in the United States
+        UNION
+        {{?city wdt:P31/wdt:P279* wd:Q498162.}} # Q498162 = census-designated place in the United States
+        UNION
+        {{?city wdt:P31/wdt:P279* wd:Q5195043.}} # Q5195043 = borough
+        
         # Use the label service to get the English label
         SERVICE wikibase:label {{
         bd:serviceParam wikibase:language "en" . 
