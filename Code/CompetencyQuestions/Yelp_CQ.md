@@ -18,7 +18,7 @@ WHERE {
 unique_categories = {category for sublist in business['categories'] if sublist for category in sublist}
 print(len(unique_categories))
 
->> 1,311
+>> 1.311
 ```
 
 ## CQ 2: How many businesses of type "Restaurants" exist?
@@ -41,7 +41,7 @@ for row in business['categories']:
         counter += 1
 print(counter)
 
->> 52,268
+>> 52.268
 ```
 
 ## CQ 3: How many businesses of type "Restaurants" have been reviwed?
