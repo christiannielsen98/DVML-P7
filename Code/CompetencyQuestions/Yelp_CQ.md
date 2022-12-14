@@ -26,14 +26,14 @@ print(len(unique_categories))
 ```sparql
 SELECT COUNT(DISTINCT(?business)) AS ?numberRestaurants
 WHERE {
-    ?business schema:category <https://purl.archive.org/purl/yelp/business_categories#Restaurants> .
+    ?business schema:category yelpcat:Restaurants .
 }
 ```
 |  **?numberRestaurants** |
 |-------------------------|
 |          52,268         |
 
-** Correct Answer**:
+**Correct Answer**:
 ```python
 counter = 0
 for row in business['categories']:
@@ -45,12 +45,19 @@ print(counter)
 ```
 
 ## CQ 3: How many businesses of type "Restaurants" have been reviwed?
-
+**SPARQL Query**:
 ```sparql
-TODO
+SELECT DISTINCT (COUNT(?business) as ?businessCount)
+WHERE {
+    ?business schema:category yelpcat:Restaurants .
+    ?review schema:about ?business .
 }
 ```
+|  **?businessCount**     |
+|-------------------------|
+|          52,268         |
 
+**Correct Answer**
 ```python
 review_unique_business = reviews.drop_duplicates(subset=['business_id'])
 mask = review_unique_business['categories'].apply(lambda x: x is not None and "Restaurants" in x)
@@ -61,11 +68,20 @@ len(review_unique_business[mask])
 
 
 ## CQ 4: How many businesses have been reviewed?
-
+**SPARQL Query**
 ```sparql
-TODO
-```
+SELECT COUNT(DISTINCT(?business))
+WHERE {
+    ?review schema:about ?business .
+    ?review rdfs:Class schema:UserReview .
+}
 
+```
+|  **?businessCount**     |
+|-------------------------|
+|          150346         |
+
+**Correct Answer**
 ```python
 review_unique_business = reviews.drop_duplicates(subset=['business_id'])
 len(review_unique_business)
@@ -75,7 +91,7 @@ len(review_unique_business)
 
 
 ## CQ 5: How many businesses have, on average, a rating of 4.5?
-
+**SPARQL Query**
 ```sparql
 SELECT COUNT(DISTINCT(?business)) AS ?count
 WHERE {
@@ -88,6 +104,7 @@ WHERE {
 |-------------------------|
 |           27181         |
 
+**Correct Answer**
 ```python
 business.groupby('stars')['stars'].count()
 
@@ -107,6 +124,7 @@ Name: stars, dtype: int64
 
 
 ## CQ 6: What is the average rating across businesses?
+**SPARQL Query**
 ```sparql
 SELECT AVG(?rating) as ?averagerating
 WHERE {
@@ -117,6 +135,7 @@ WHERE {
 |-----------------------|
 |         3.5967        |
 
+**Correct Answer**
 ```python
 business['stars'].mean()
 
@@ -125,10 +144,25 @@ business['stars'].mean()
 
 
 ## CQ 7: How many businesses have been reviewed in Santa Barbara, CA?
+**SPARQL Query**
 ```sparql
-
+SELECT ?state ?city COUNT(?business) AS ?count_business
+WHERE {
+    ?business schema:category ?category .
+    ?business schema:locatedInState ?state .
+    ?business schema:locatedInCity ?city .
+    FILTER(?city = "Santa Barbara")
+}
+GROUP BY ?state ?city
+ORDER BY DESC(?count_business)
+LIMIT 10
 ```
+|  **Something**        |
+|-----------------------|
+|         Something     |
 
+
+**Correct Answer**
 ```python
 business_santa_barbara = business[business['city'] == "Santa Barbara"]
 len(business_santa_barbara)
@@ -136,11 +170,16 @@ len(business_santa_barbara)
 >> 3829
 ```
 
-## CQ 8: Which business is the most visited on day X?
+## CQ 8: What are the five most busy days, and for what business??
+**SPARQL Query**
 ```sparql
 
 ```
+|  **Something**        |
+|-----------------------|
+|         Something     |
 
+**Correct Answer**
 ```python
 checkins["Day"] = checkins["date"].apply(lambda x: x.split("-")[2][:2])
 checkins["Month"] = checkins["date"].apply(lambda x: x.split("-")[1])
@@ -160,6 +199,7 @@ dtype: int64
 
 
 ## CQ 9: Which are the top 10 most visisted businesses?
+**SPARQL Query**
 ```sparql
 SELECT ?business COUNT(?visit) AS ?countVisits
 WHERE {
@@ -183,6 +223,7 @@ LIMIT 10
 | https://example.org/business_id/QTbahs-GVuWYL5yfdjH34A |	  21,478    |
 | https://example.org/business_id/ytynqOUb3hjKeJfRj5Tshw |	  18,604    |
 
+**Correct Answer**
 ```python
 checkins.value_counts(subset=["business_id"], sort=True, ascending=False).head(10)
 
@@ -203,35 +244,27 @@ dtype: int64
 
 NOTE: The difference is caused by the fact that identical triples are not possible in RDF.
 
-## CQ 10: How many of the Yelp categories are also mapped to schema.org?
+## CQ 10: How many people have written a review on Yelp?
+**SPARQL Query**
 ```sparql
 
 ```
 
-```python
-
-```
-
-
-
-## CQ 11: How many people have written a review or tip on Yelp?
-```sparql
-
-```
-
+**Correct Answer**
 ```python
 reviews.drop_duplicates(subset=['user_id']).shape[0]
 
 >> 1987929
 ```
 
-
-
-## CQ 12: How many users have 10 friends?
+## CQ 11: How many users have 10 friends?
+**SPARQL Query**
 ```sparql
 
 ```
 
+
+**Correct Answer**
 ```python
 users["amountFriends"] = users["friends"].apply(lambda x: len(x.split(",")))
 users[users["amountFriends"] == 10].shape[0]
@@ -239,13 +272,13 @@ users[users["amountFriends"] == 10].shape[0]
 >> 13579
 ```
 
-
-
-## CQ 13: How many friends does a user have on average?
+## CQ 12: How many friends does a user have on average?
+**SPARQL Query**
 ```sparql
 
 ```
 
+**Correct Answer**
 ```python
 users["amountFriends"].mean()
 
@@ -254,11 +287,13 @@ users["amountFriends"].mean()
 
 
 
-## CQ 14: How many users have authored 10 reviews or tips?
+## CQ 13: How many users have authored 10 reviews or tips?
+**SPARL Query**
 ```sparql
 
 ```
 
+**Correct Answer**
 ```python
 reviews.groupby("user_id").size().reset_index(name="count").query("count == 10").shape[0]
 
@@ -267,11 +302,13 @@ reviews.groupby("user_id").size().reset_index(name="count").query("count == 10")
 
 
 
-## CQ 15: How many reviews or tips does a user make on average every month?
+## CQ 14: How many reviews or tips does a user make on average every month?
+**SPARL Query**
 ```sparql
 
 ```
 
+**Correct Answer**
 ```python
 
 ```
