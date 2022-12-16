@@ -1,7 +1,7 @@
 import gzip
 import json
-import inflect
 
+import inflect
 import pandas as pd
 from rdflib import Namespace, Graph, URIRef, Literal, BNode
 from rdflib.namespace import RDFS
@@ -226,7 +226,7 @@ def create_nt_file(file_name: str):
 
                     elif _predicate == "business_id":  # If we are dealing with a reivew, we add a link to the business
                         predicate, object_type = get_schema_predicate(_predicate, _object, file_name)
-                        obj = business_uri + _object
+                        obj = yelpent + _object
                         
                         G.add(triple=(URIRef(subject),
                                       URIRef(predicate),

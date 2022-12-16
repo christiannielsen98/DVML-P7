@@ -53,9 +53,9 @@ WHERE {
     ?review schema:about ?business .
 }
 ```
-|  **?businessCount**     |
-|-------------------------|
-|          52,268         |
+
+TO DO: Insert Answer. create_nt_files have to be run again.
+
 
 **Correct Answer**
 ```python
@@ -63,10 +63,8 @@ review_unique_business = reviews.drop_duplicates(subset=['business_id'])
 mask = review_unique_business['categories'].apply(lambda x: x is not None and "Restaurants" in x)
 len(review_unique_business[mask])
 
->> 52268
+>> TO DO: INSERT RESULT
 ```
-
-
 ## CQ 4: How many businesses have been reviewed?
 **SPARQL Query**
 ```sparql
@@ -88,8 +86,6 @@ len(review_unique_business)
 
 >> 150346
 ```
-
-
 ## CQ 5: How many businesses have, on average, a rating of 4.5?
 **SPARQL Query**
 ```sparql
@@ -106,19 +102,11 @@ WHERE {
 
 **Correct Answer**
 ```python
-business.groupby('stars')['stars'].count()
+business[business['stars'] == 4.5].groupby('stars')['stars'].count()
 
 >>
 stars
-1.0     1986
-1.5     4932
-2.0     9527
-2.5    14316
-3.0    18453
-3.5    26519
-4.0    31125
 4.5    27181
-5.0    16307
 Name: stars, dtype: int64
 ```
 
@@ -146,20 +134,17 @@ business['stars'].mean()
 ## CQ 7: How many businesses have been reviewed in Santa Barbara, CA?
 **SPARQL Query**
 ```sparql
-SELECT ?state ?city COUNT(?business) AS ?count_business
+SELECT ?state ?city COUNT(DISTINCT(?business)) AS ?count_business
 WHERE {
-    ?business schema:category ?category .
     ?business schema:locatedInState ?state .
     ?business schema:locatedInCity ?city .
-    FILTER(?city = "Santa Barbara")
 }
 GROUP BY ?state ?city
 ORDER BY DESC(?count_business)
 LIMIT 10
 ```
-|  **Something**        |
-|-----------------------|
-|         Something     |
+
+TO DO: INSERT TABLE
 
 
 **Correct Answer**
@@ -173,11 +158,20 @@ len(business_santa_barbara)
 ## CQ 8: What are the five most busy days, and for what business??
 **SPARQL Query**
 ```sparql
+SELECT ?business ?year ?month ?day COUNT(?visit)
+WHERE {
+    ?business schema:checkinTime ?visit .
+    BIND (day(?visit)  as ?day)
+    BIND (month(?visit) as ?month)
+    BIND (year(?visit) as ?year)
+}
+GROUP BY ?business ?year ?month ?day
+ORDER BY DESC(COUNT(?visit))
+LIMIT 5
 
 ```
-|  **Something**        |
-|-----------------------|
-|         Something     |
+
+TO DO: INSERT TABLE
 
 **Correct Answer**
 ```python
@@ -196,7 +190,7 @@ g50ImmCX3WY3koEDIzoKxg  28   08     2016    264
 FBBeJO50xZiNIo3oFhAFRA  29   07     2017    254
 dtype: int64
 ```
-
+NOTE: The difference in the counts here are because identical triples are not allowed in RDF. That means if a business has two check-in times at identical times only one triple will be included in the graph.
 
 ## CQ 9: Which are the top 10 most visisted businesses?
 **SPARQL Query**
@@ -210,18 +204,7 @@ ORDER BY DESC(COUNT(?visit))
 LIMIT 10
 ```
 
-|                     **?business**                      | ?countVisits |
-|--------------------------------------------------------| ------------ |
-| https://example.org/business_id/-QI8Qi8XWH3D8y8ethnajA |	  52,129    |
-| https://example.org/business_id/FEXhWNCMkv22qG04E83Qjg |	  40,092    |
-| https://example.org/business_id/Eb1XmmLWyt_way5NNZ7-Pw |	  37,553    |
-| https://example.org/business_id/c_4c5rJECZSfNgFj7frwHQ |	  37,511    |
-| https://example.org/business_id/4i4kmYm9wgSNyF1b6gKphg |	  31,163    |
-| https://example.org/business_id/8O35ji_yOMVJmZ6bl96yhQ |	  29,599    |
-| https://example.org/business_id/VQcCL9PiNL_wkGf-uF3fjg |	  28,917    |
-| https://example.org/business_id/ac1AeYqs8Z4_e2X5M3if2A |	  21,527    |
-| https://example.org/business_id/QTbahs-GVuWYL5yfdjH34A |	  21,478    |
-| https://example.org/business_id/ytynqOUb3hjKeJfRj5Tshw |	  18,604    |
+TO DO: INSERT TABLE
 
 **Correct Answer**
 ```python
@@ -242,13 +225,20 @@ ytynqOUb3hjKeJfRj5Tshw    18615
 dtype: int64
 ```
 
-NOTE: The difference is caused by the fact that identical triples are not possible in RDF.
+NOTE: The same applies here as for the previous CQ.
 
 ## CQ 10: How many people have written a review on Yelp?
 **SPARQL Query**
 ```sparql
-
+SELECT COUNT(DISTINCT(?user)) AS ?countUsers
+WHERE {
+    ?user rdfs:Class schema:Person .
+    ?review schema:author ?user .
+}
 ```
+|  **?countUsers**   |
+|--------------------|
+|      1987897       |
 
 **Correct Answer**
 ```python
@@ -260,9 +250,19 @@ reviews.drop_duplicates(subset=['user_id']).shape[0]
 ## CQ 11: How many users have 10 friends?
 **SPARQL Query**
 ```sparql
-
+SELECT COUNT(DISTINCT(?user)) AS ?countUsers
+WHERE {
+    ?user rdfs:Class schema:Person .
+    ?user schema:knows ?friend .
+}
+GROUP BY ?user 
+HAVING (COUNT(?friend) = 10)
+"""
+"""
 ```
-
+|  **?countUsers**   |
+|--------------------|
+|      13579         |
 
 **Correct Answer**
 ```python
@@ -275,8 +275,17 @@ users[users["amountFriends"] == 10].shape[0]
 ## CQ 12: How many friends does a user have on average?
 **SPARQL Query**
 ```sparql
-
+SELECT AVG(?numberOfFriends) as ?averageFriends
+WHERE { SELECT COUNT(?friend) as ?numberOfFriends
+WHERE {
+    ?user rdfs:Class schema:Person .
+    ?user schema:knows ?friend .
+}
+GROUP BY ?user
+}
 ```
+
+TO DO: Insert result
 
 **Correct Answer**
 ```python
@@ -285,13 +294,24 @@ users["amountFriends"].mean()
 >> 53.375
 ```
 
-
-
-## CQ 13: How many users have authored 10 reviews or tips?
+## CQ 13: How many users have authored 10 reviews?
 **SPARL Query**
 ```sparql
-
+SELECT COUNT(DISTINCT(?user)) AS ?countUsers
+WHERE {
+SELECT ?user COUNT(?review) as ?numberOfReviews
+WHERE {
+    ?user rdfs:Class schema:Person .
+    ?review schema:author ?user .
+}
+GROUP BY ?user
+HAVING (COUNT(?review) = 10)
+}
 ```
+
+|  **?countUsers**   |
+|--------------------|
+|      14119         |
 
 **Correct Answer**
 ```python
@@ -300,17 +320,24 @@ reviews.groupby("user_id").size().reset_index(name="count").query("count == 10")
 >> 14119
 ```
 
-
-
-## CQ 14: How many reviews or tips does a user make on average every month?
+## CQ 14: How many reviews did users make in May 2018?
 **SPARL Query**
 ```sparql
-
+SELECT ?year ?month COUNT(?review) as ?countReviews
+WHERE {
+    ?review rdfs:Class schema:UserReview .
+    ?review schema:dateCreated ?date .
+    BIND (month(?date) as ?month) .
+    BIND (year(?date) as ?year) .
+    VALUES ?year {2018}
+    VALUES ?month {5}
+}
+GROUP BY ?year ?month
 ```
+
+TO DO: INSERT Table
 
 **Correct Answer**
 ```python
-
+TO DO
 ```
-
-

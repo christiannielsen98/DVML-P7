@@ -28,7 +28,7 @@ input_nt_files = ["/home/ubuntu/vol1/virtuoso/import/yelp_business.nt.gz",
                   "/home/ubuntu/vol1/virtuoso/import/yelp_user.nt.gz",
                   "/home/ubuntu/vol1/virtuoso/import/yelp_review.nt.gz",
                   "/home/ubuntu/vol1/virtuoso/import/yelp_tip.nt.gz"]
-                  
+
 threshold = 0.01
 
 shaper = Shaper(target_classes=target_classes,
