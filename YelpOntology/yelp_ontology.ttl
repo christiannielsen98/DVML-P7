@@ -745,28 +745,42 @@
 
 <https://purl.archive.org/purl/yelp/ontology#cool> 
    a owl:DataTypeProperty ; 
-   rdfs:comment "Specifies if a <Review> or a <User> is cool."@en ; 
+   rdfs:comment "Specifies how cool a <Review> or <User> is."@en ; 
    rdfs:domain schema:UserReview ; 
    rdfs:label "cool"@en ; 
-   rdfs:range xsd:Boolean . 
+   rdfs:range xsd:Integer . 
 
 <https://purl.archive.org/purl/yelp/ontology#funny> 
    a owl:DataTypeProperty ; 
-   rdfs:comment "Specifies if a <Review> or a <User> is funny."@en ; 
+   rdfs:comment "Specifies how funny a <Review> or <User> is."@en ; 
    rdfs:domain schema:UserReview ; 
    rdfs:label "funny"@en ; 
-   rdfs:range xsd:Boolean . 
+   rdfs:range xsd:Integer . 
 
 <https://purl.archive.org/purl/yelp/ontology#useful> 
    a owl:DataTypeProperty ; 
-   rdfs:comment "Specifies if a <Review> or a >User> is useful."@en ; 
+   rdfs:comment "Specifies how useful a <Review> or <User> is."@en ; 
    rdfs:domain schema:UserReview ; 
    rdfs:label "useful"@en ; 
-   rdfs:range xsd:Boolean . 
+   rdfs:range xsd:Integer . 
 
 <https://purl.archive.org/purl/yelp/ontology#average_stars> 
    a owl:DataTypeProperty ; 
-   rdfs:comment "Specifies if the average stars a <User> recieves."@en ; 
+   rdfs:comment "Specifies the average stars a <User> recieves."@en ; 
    rdfs:domain schema:Person ; 
    rdfs:label "average_stars"@en ; 
+   rdfs:range xsd:Decimal . 
+
+<https://purl.archive.org/purl/yelp/ontology#elite> 
+   a owl:DataTypeProperty ; 
+   rdfs:comment "Specifies when a <User> became elite."@en ; 
+   rdfs:domain schema:Person ; 
+   rdfs:label "elite"@en ; 
+   rdfs:range xsd:String . 
+
+<https://purl.archive.org/purl/yelp/ontology#fans> 
+   a owl:DataTypeProperty, owl:FunctionalProperty ; 
+   rdfs:comment "Specifies how many fans a <User> has."@en ; 
+   rdfs:domain schema:Person ; 
+   rdfs:label "fans"@en ; 
    rdfs:range xsd:Integer . 
