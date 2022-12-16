@@ -743,16 +743,30 @@
    rdfs:label "hasvideo"@en ; 
    rdfs:range xsd:Boolean .
 
-<https://purl.archive.org/purl/yelp/ontology#cool> #TODO REVIEW
+<https://purl.archive.org/purl/yelp/ontology#cool> 
    a owl:DataTypeProperty ; 
-   rdfs:comment "Specifies if a ..."@en ; 
-   rdfs:domain yelpont:X ; 
-   rdfs:label "https://purl.archive.org/purl/yelp/ontology#cool"@en ; 
-   rdfs:range yelpont:X . 
+   rdfs:comment "Specifies if a <Review> or a <User> is cool."@en ; 
+   rdfs:domain schema:UserReview ; 
+   rdfs:label "cool"@en ; 
+   rdfs:range xsd:Boolean . 
 
-<https://purl.archive.org/purl/yelp/ontology#funny> #TODO REVIEW
+<https://purl.archive.org/purl/yelp/ontology#funny> 
    a owl:DataTypeProperty ; 
-   rdfs:comment "Specifies something ..."@en ; 
-   rdfs:domain yelpont:X ; 
-   rdfs:label "https://purl.archive.org/purl/yelp/ontology#funny"@en ; 
-   rdfs:range yelpont:X . 
+   rdfs:comment "Specifies if a <Review> or a <User> is funny."@en ; 
+   rdfs:domain schema:UserReview ; 
+   rdfs:label "funny"@en ; 
+   rdfs:range xsd:Boolean . 
+
+<https://purl.archive.org/purl/yelp/ontology#useful> 
+   a owl:DataTypeProperty ; 
+   rdfs:comment "Specifies if a <Review> or a >User> is useful."@en ; 
+   rdfs:domain schema:UserReview ; 
+   rdfs:label "useful"@en ; 
+   rdfs:range xsd:Boolean . 
+
+<https://purl.archive.org/purl/yelp/ontology#average_stars> 
+   a owl:DataTypeProperty ; 
+   rdfs:comment "Specifies if the average stars a <User> recieves."@en ; 
+   rdfs:domain schema:Person ; 
+   rdfs:label "average_stars"@en ; 
+   rdfs:range xsd:Integer . 
