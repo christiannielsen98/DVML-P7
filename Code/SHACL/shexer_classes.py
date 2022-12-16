@@ -24,11 +24,15 @@ namespaces_dict = {"https://schema.org/": "schema",
                    "https://purl.archive.org/purl/yelp/ontology#": "yont"
                    }
 
-input_nt_file = "/home/ubuntu/vol1/virtuoso/import/yelp_business.nt.gz"
+input_nt_files = ["/home/ubuntu/vol1/virtuoso/import/yelp_business.nt.gz",
+                  "/home/ubuntu/vol1/virtuoso/import/yelp_user.nt.gz",
+                  "/home/ubuntu/vol1/virtuoso/import/yelp_review.nt.gz",
+                  "/home/ubuntu/vol1/virtuoso/import/yelp_tip.nt.gz"]
+
 threshold = 0.01
 
 shaper = Shaper(target_classes=target_classes,
-                graph_file_input=input_nt_file,
+                graph_list_of_files_input=input_nt_files,
                 namespaces_dict=namespaces_dict,
                 input_format=NT,
                 compression_mode=GZ,
