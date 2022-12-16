@@ -87,7 +87,7 @@ def create_nt_file(file_name: str):
 
                 # For reviews create a special triple making a connection between user and the review.
                 if file_name == "yelp_academic_dataset_review.json":
-                    G.add(triple=(URIRef(get_uri(file_name) + subject),
+                    G.add(triple=(URIRef(subject),
                                   URIRef(schema + "author"),
                                   URIRef(yelpent + 'user_id/' + line["user_id"])))
                     del line["user_id"]  # No longer need the this key/value pair.
