@@ -90,7 +90,7 @@ def create_wikidata_location_triples():
 
     schema = Namespace("https://schema.org/")
     wiki = Namespace("https://www.wikidata.org/entity/")
-    yelpont = Namespace("https://purl.archive.org/purl/yelp/ontology#")
+    yelpent = Namespace("https://purl.archive.org/purl/yelp/yelp_entities#")
     location_predicate = wiki + "P131"  # P131 = located in the administrative territorial entity
     population_predicate = wiki + "P1082"  # P1082 = population
     instance_of_predicate = wiki + "P31"  # P31 = instance of
@@ -108,7 +108,7 @@ def create_wikidata_location_triples():
     G = Graph()
     for i in biz_location_mapping_merge.itertuples():
         if not pd.isna(i.city_qid):
-            G.add((URIRef(yelpont[i.business_id]), URIRef(schema['location']), URIRef(wiki[i.city_qid])))
+            G.add((URIRef(yelpent[i.business_id]), URIRef(schema['location']), URIRef(wiki[i.city_qid])))
             G.add((URIRef(wiki[i.city_qid]), URIRef(RDFS.label), Literal(i.cityLabel, datatype=XSD.string)))
             G.add((URIRef(wiki[i.city_qid]), URIRef(instance_of_predicate), URIRef(city_object)))
             if not pd.isna(i.population):
