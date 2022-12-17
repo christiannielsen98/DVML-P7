@@ -743,6 +743,83 @@
    rdfs:label "hasvideo"@en ; 
    rdfs:range xsd:Boolean .
 
+<https://purl.archive.org/purl/yelp/ontology#compliment_cool> 
+   a owl:DataTypeProperty ; 
+   rdfs:comment "A type of compliment a <User> can recieve from other Users."@en ; 
+   rdfs:domain schema:Person ; 
+   rdfs:label "compliment_cool"@en ; 
+   rdfs:range xsd:Integer . 
+
+<https://purl.archive.org/purl/yelp/ontology#compliment_cute> 
+   a owl:DataTypeProperty ; 
+   rdfs:comment "A type of compliment a <User> can recieve from other Users."@en ; 
+   rdfs:domain schema:Person ; 
+   rdfs:label "compliment_cute"@en ; 
+   rdfs:range xsd:Integer . 
+
+<https://purl.archive.org/purl/yelp/ontology#compliment_funny> 
+   a owl:DataTypeProperty ; 
+   rdfs:comment "A type of compliment a <User> can recieve from other Users."@en ; 
+   rdfs:domain schema:Person ; 
+   rdfs:label "compliment_funny"@en ; 
+   rdfs:range xsd:Integer . 
+
+<https://purl.archive.org/purl/yelp/ontology#compliment_hot> 
+   a owl:DataTypeProperty ; 
+   rdfs:comment "A type of compliment a <User> can recieve from other Users."@en ; 
+   rdfs:domain schema:Person ; 
+   rdfs:label "compliment_hot"@en ; 
+   rdfs:range xsd:Integer . 
+
+<https://purl.archive.org/purl/yelp/ontology#compliment_list> 
+   a owl:DataTypeProperty ; 
+   rdfs:comment "A type of compliment a <User> can recieve from other Users."@en ; 
+   rdfs:domain schema:Person ; 
+   rdfs:label "compliment_list"@en ; 
+   rdfs:range xsd:Integer . 
+
+<https://purl.archive.org/purl/yelp/ontology#compliment_more> 
+   a owl:DataTypeProperty ; 
+   rdfs:comment "A type of compliment a <User> can recieve from other Users."@en ; 
+   rdfs:domain schema:Person ; 
+   rdfs:label "compliment_more"@en ; 
+   rdfs:range xsd:Integer . 
+
+<https://purl.archive.org/purl/yelp/ontology#compliment_note> 
+   a owl:DataTypeProperty ; 
+   rdfs:comment "A type of compliment a <User> can recieve from other Users."@en ; 
+   rdfs:domain schema:Person ; 
+   rdfs:label "compliment_note"@en ; 
+   rdfs:range xsd:Integer . 
+
+<https://purl.archive.org/purl/yelp/ontology#compliment_photos> 
+   a owl:DataTypeProperty ; 
+   rdfs:comment "A type of compliment a <User> can recieve from other Users."@en ; 
+   rdfs:domain schema:Person ; 
+   rdfs:label "compliment_photos"@en ; 
+   rdfs:range xsd:Integer . 
+
+<https://purl.archive.org/purl/yelp/ontology#compliment_plain> 
+   a owl:DataTypeProperty ; 
+   rdfs:comment "A type of compliment a <User> can recieve from other Users."@en ; 
+   rdfs:domain schema:Person ; 
+   rdfs:label "compliment_plain"@en ; 
+   rdfs:range xsd:Integer . 
+
+<https://purl.archive.org/purl/yelp/ontology#compliment_profile> 
+   a owl:DataTypeProperty ; 
+   rdfs:comment "A type of compliment a <User> can recieve from other Users."@en ; 
+   rdfs:domain schema:Person ; 
+   rdfs:label "compliment_profile"@en ; 
+   rdfs:range xsd:Integer . 
+
+<https://purl.archive.org/purl/yelp/ontology#compliment_writer> 
+   a owl:DataTypeProperty ; 
+   rdfs:comment "A type of compliment a <User> can recieve from other Users."@en ; 
+   rdfs:domain schema:Person ; 
+   rdfs:label "compliment_writer"@en ; 
+   rdfs:range xsd:Integer . 
+
 <https://purl.archive.org/purl/yelp/ontology#cool> 
    a owl:DataTypeProperty ; 
    rdfs:comment "Specifies how cool a <Review> or <User> is."@en ; 
