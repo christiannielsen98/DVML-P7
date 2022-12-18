@@ -13,6 +13,11 @@
             sh:minCount 1 ;
             sh:path schema:longitude ],
         [ a sh:PropertyShape ;
+            sh:dataType xsd:decimal ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:path schema:latitude ],
+        [ a sh:PropertyShape ;
             sh:nodeKind sh:IRI ;
             sh:path schema:category ],
         [ a sh:PropertyShape ;
@@ -131,11 +136,6 @@
             sh:dataType xsd:integer ;
             sh:maxCount 1 ;
             sh:path yont:RestaurantsDelivery ],
-        [ a sh:PropertyShape ;
-            sh:dataType xsd:decimal ;
-            sh:maxCount 1 ;
-            sh:minCount 1 ;
-            sh:path schema:latitude ],
         [ a sh:PropertyShape ;
             sh:dataType xsd:string ;
             sh:maxCount 1 ;
