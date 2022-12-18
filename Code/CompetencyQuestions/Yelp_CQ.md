@@ -63,7 +63,7 @@ review_unique_business = reviews.drop_duplicates(subset=['business_id'])
 mask = review_unique_business['categories'].apply(lambda x: x is not None and "Restaurants" in x)
 len(review_unique_business[mask])
 
->> TO DO: INSERT RESULT
+>> 52,268
 ```
 ## CQ 4: How many businesses have been reviewed?
 **SPARQL Query**
@@ -75,9 +75,9 @@ WHERE {
 }
 
 ```
-|  **?businessCount**     |
-|-------------------------|
-|          150346         |
+|  **?businessCount**  |
+|----------------------|
+|        150,346       |
 
 **Correct Answer**
 ```python
@@ -96,9 +96,9 @@ WHERE {
 }
 ```
 
-|        **?count**       |
-|-------------------------|
-|           27181         |
+|  **?count**  |
+|--------------|
+|    27,181    |
 
 **Correct Answer**
 ```python
@@ -109,7 +109,6 @@ stars
 4.5    27181
 Name: stars, dtype: int64
 ```
-
 
 ## CQ 6: What is the average rating across businesses?
 **SPARQL Query**
@@ -130,21 +129,15 @@ business['stars'].mean()
 >> 3.5967
 ```
 
-
 ## CQ 7: How many businesses have been reviewed in Santa Barbara, CA?
 **SPARQL Query**
 ```sparql
-SELECT ?state ?city COUNT(DISTINCT(?business)) AS ?count_business
-WHERE {
-    ?business schema:locatedInState ?state .
-    ?business schema:locatedInCity ?city .
-}
-GROUP BY ?state ?city
-ORDER BY DESC(?count_business)
-LIMIT 10
+
 ```
 
-TO DO: INSERT TABLE
+|  **?count_business**  |
+|-----------------------|
+|         3,829         |
 
 
 **Correct Answer**
@@ -158,7 +151,7 @@ len(business_santa_barbara)
 ## CQ 8: What are the five most busy days, and for what business??
 **SPARQL Query**
 ```sparql
-SELECT ?business ?year ?month ?day COUNT(?visit)
+SELECT ?business ?year ?month ?day COUNT(?visit) as ?numberOfVisits
 WHERE {
     ?business schema:checkinTime ?visit .
     BIND (day(?visit)  as ?day)
@@ -168,10 +161,15 @@ WHERE {
 GROUP BY ?business ?year ?month ?day
 ORDER BY DESC(COUNT(?visit))
 LIMIT 5
-
 ```
 
-TO DO: INSERT TABLE
+| business.value                                    | year.value | month.value | day.value | numberOfVisits.value |
+|---------------------------------------------------|-----------:|------------:|----------:|---------------------:|
+| https://purl.archive.org/purl/yelp/yelp_entiti... |       2016 |           6 |        25 |                  457 |
+| https://purl.archive.org/purl/yelp/yelp_entiti... |       2015 |           8 |        30 |                  285 |
+| https://purl.archive.org/purl/yelp/yelp_entiti... |       2016 |           8 |        28 |                  268 |
+| https://purl.archive.org/purl/yelp/yelp_entiti... |       2016 |           8 |        28 |                  263 |
+| https://purl.archive.org/purl/yelp/yelp_entiti... |       2017 |           7 |        29 |                  251 |
 
 **Correct Answer**
 ```python
@@ -195,7 +193,7 @@ NOTE: The difference in the counts here are because identical triples are not al
 ## CQ 9: Which are the top 10 most visisted businesses?
 **SPARQL Query**
 ```sparql
-SELECT ?business COUNT(?visit) AS ?countVisits
+SELECT ?business COUNT(?visit) AS ?count_visits
 WHERE {
     ?business schema:checkinTime ?visit .
 }
@@ -204,7 +202,18 @@ ORDER BY DESC(COUNT(?visit))
 LIMIT 10
 ```
 
-TO DO: INSERT TABLE
+|                                    business.value | count_visits.value |
+|--------------------------------------------------:|-------------------:|
+| https://purl.archive.org/purl/yelp/yelp_entiti... |              52129 |
+| https://purl.archive.org/purl/yelp/yelp_entiti... |              40092 |
+| https://purl.archive.org/purl/yelp/yelp_entiti... |              37553 |
+| https://purl.archive.org/purl/yelp/yelp_entiti... |              37511 |
+| https://purl.archive.org/purl/yelp/yelp_entiti... |              31163 |
+| https://purl.archive.org/purl/yelp/yelp_entiti... |              29599 |
+| https://purl.archive.org/purl/yelp/yelp_entiti... |              28917 |
+| https://purl.archive.org/purl/yelp/yelp_entiti... |              21527 |
+| https://purl.archive.org/purl/yelp/yelp_entiti... |              21478 |
+| https://purl.archive.org/purl/yelp/yelp_entiti... |              18604 |
 
 **Correct Answer**
 ```python
@@ -236,9 +245,9 @@ WHERE {
     ?review schema:author ?user .
 }
 ```
-|  **?countUsers**   |
-|--------------------|
-|      1987897       |
+|  **?countUsers**  |
+|-------------------|
+|     1,987,897     |
 
 **Correct Answer**
 ```python
@@ -250,19 +259,20 @@ reviews.drop_duplicates(subset=['user_id']).shape[0]
 ## CQ 11: How many users have 10 friends?
 **SPARQL Query**
 ```sparql
-SELECT COUNT(DISTINCT(?user)) AS ?countUsers
+SELECT COUNT(*) as ?usersWith10Friends
 WHERE {
-    ?user rdfs:Class schema:Person .
-    ?user schema:knows ?friend .
+    SELECT ?user COUNT(?friend) AS ?countUsers
+    WHERE {
+        ?user rdfs:Class schema:Person .
+        ?user schema:knows ?friend .
+    }
+    GROUP BY ?user
+    HAVING (COUNT(?friend) = 10)
 }
-GROUP BY ?user 
-HAVING (COUNT(?friend) = 10)
-"""
-"""
 ```
-|  **?countUsers**   |
-|--------------------|
-|      13579         |
+|  **?usersWith10Friends**  |
+|---------------------------|
+|           13,579          |
 
 **Correct Answer**
 ```python
@@ -295,23 +305,23 @@ users["amountFriends"].mean()
 ```
 
 ## CQ 13: How many users have authored 10 reviews?
-**SPARL Query**
+**SPARQL Query**
 ```sparql
 SELECT COUNT(DISTINCT(?user)) AS ?countUsers
 WHERE {
-SELECT ?user COUNT(?review) as ?numberOfReviews
-WHERE {
-    ?user rdfs:Class schema:Person .
-    ?review schema:author ?user .
-}
-GROUP BY ?user
-HAVING (COUNT(?review) = 10)
+    SELECT ?user COUNT(?review) as ?numberOfReviews
+    WHERE {
+        ?user rdfs:Class schema:Person .
+        ?review schema:author ?user .
+    }
+    GROUP BY ?user
+    HAVING (COUNT(?review) = 10)
 }
 ```
 
 |  **?countUsers**   |
 |--------------------|
-|      14119         |
+|       14,119       |
 
 **Correct Answer**
 ```python
@@ -321,7 +331,7 @@ reviews.groupby("user_id").size().reset_index(name="count").query("count == 10")
 ```
 
 ## CQ 14: How many reviews did users make in May 2018?
-**SPARL Query**
+**SPARQL Query**
 ```sparql
 SELECT ?year ?month COUNT(?review) as ?countReviews
 WHERE {
@@ -335,9 +345,15 @@ WHERE {
 GROUP BY ?year ?month
 ```
 
-TO DO: INSERT Table
+| year.value | month.value | countReviews.value |
+|-----------:|------------:|-------------------:|
+|       2018 |           5 |              79434 |
 
 **Correct Answer**
 ```python
-TO DO
+reviews['YEAR'] = reviews.date.dt.year
+reviews['MONTH'] = reviews.date.dt.month
+reviews.query("YEAR == 2018 & MONTH == 5").shape[0]
+
+>> 79,434
 ```

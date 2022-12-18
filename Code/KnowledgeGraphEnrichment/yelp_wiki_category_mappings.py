@@ -5,7 +5,6 @@ import gzip
 import datetime
 import numpy as np
 import pandas as pd
-from discord_webhook import DiscordWebhook
 from collections import Counter
 from rdflib import Namespace, Graph, URIRef, Literal, XSD
 from rdflib.namespace import RDFS
@@ -108,8 +107,9 @@ def create_yelp_wiki_schema_triples_csv():
 
 def create_wiki_category_nt_files(yelp_wiki_schema_triples_df: pd.DataFrame):
     schema = Namespace("https://schema.org/")
-    example = Namespace("https://example.org/")
     wiki = Namespace("https://www.wikidata.org/entity/")
+    yelpcat = Namespace("https://purl.archive.org/purl/yelp/business_categories#")
+    yelpont = Namespace("https://purl.archive.org/purl/yelp/ontology#")
 
     ## If file exists, delete it ##
     remove_files="/home/ubuntu/vol1/virtuoso/import/wikidata_category_triples.nt.gz"
@@ -129,9 +129,9 @@ def create_wiki_category_nt_files(yelp_wiki_schema_triples_df: pd.DataFrame):
             if i.SchemaType is not np.nan:
                 G.add((URIRef(schema[i.SchemaType]), URIRef(schema["sameAs"]), URIRef(wiki[i.qid])))
             else:
-                G.add((URIRef(example[i.split_category]), URIRef(schema["sameAs"]), URIRef(wiki[i.qid])))
+                G.add((URIRef(yelpcat[i.split_category]), URIRef(schema["sameAs"]), URIRef(wiki[i.qid])))
             G.add((URIRef(wiki[i.qid]), URIRef(RDFS["label"]), Literal(i.qid_label, datatype=XSD.string)))
-            G.add((URIRef(wiki[i.qid]), URIRef(RDFS["Class"]), URIRef(example['wikidataCategory'])))
+            G.add((URIRef(wiki[i.qid]), URIRef(RDFS["Class"]), URIRef(yelpont['wikidataCategory'])))
 
     triple_file.write(G.serialize(format="nt"))
     triple_file.close()
@@ -146,6 +146,4 @@ if __name__ == "__main__":
         message = f"yelp_wiki_category_mappings execution is done - Time in hh:mm:ss - {datetime.datetime.now() - begin_time} \nbegan {begin_time} \nended {datetime.datetime.now()}"
     except Exception as e:
         message = "yelp_wiki_category_mappings broke with this error: " + str(e)
-    webhook = DiscordWebhook(url='https://discord.com/api/webhooks/918876596763525150/d1aGYekdsL64QP0Dbx4zuaOrs_opUpFuTYkj1sHjYBJ8oUXOrruXhshP_cIFSq5phW-e', content=message)
-    response = webhook.execute()
     print(message)
