@@ -25,12 +25,14 @@ thresholds = [0.01, 0.1, 0.2, 0.5, 0.75]
 
 for threshold in thresholds:
     start = time.time()
-    shaper = Shaper(target_classes=target_classes,
+    shaper = Shaper(
+                target_classes=target_classes,
                 graph_list_of_files_input=input_nt_files,
                 namespaces_dict=namespaces_dict,
                 input_format=NT,
                 compression_mode=GZ,
-                instantiation_property="http://www.w3.org/2000/01/rdf-schema#Class")  # The predicate which is used to assign the target_classes to the subjects
+                instantiation_property="http://www.w3.org/2000/01/rdf-schema#Class"  # The predicate which is used to assign the target_classes to the subjects
+            )
     
     output_file_ttl = f"/home/ubuntu/DVML-P7/Code/SHACL/business_shapes_{threshold}.ttl"
     shaper.shex_graph(output_file=output_file_ttl,

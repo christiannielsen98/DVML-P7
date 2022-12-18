@@ -7,3 +7,25 @@
 @prefix yont: <https://purl.archive.org/purl/yelp/ontology#> .
 
 :UserReview a sh:NodeShape ;
+    sh:property
+        [ a sh:PropertyShape ;
+            sh:dataType xsd:URIref ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:path schema:about ],
+        [ a sh:PropertyShape ;
+            sh:dataType xsd:URIref ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:path schema:author ],
+        [ a sh:PropertyShape ;
+            sh:dataType xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:path schema:description ],
+        [ a sh:PropertyShape ;
+            sh:dataType xsd:decimal ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:path schema:aggregateRating ] ;
+    sh:targetClass schema:UserReview .
