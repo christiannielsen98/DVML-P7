@@ -7,3 +7,15 @@
 @prefix yont: <https://purl.archive.org/purl/yelp/ontology#> .
 
 :Person a sh:NodeShape ;
+    sh:property
+        [ a sh:PropertyShape ;
+            sh:dataType xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:path schema:legalName ],
+        [ a sh:PropertyShape ;
+            sh:dataType xsd:integer;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:path schema:reviewCount ];
+    sh:targetClass schema:Person .
