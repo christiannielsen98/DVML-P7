@@ -24,12 +24,9 @@ namespaces_dict = {"https://schema.org/": "schema",
                    "https://purl.archive.org/purl/yelp/ontology#": "yont"
                    }
 
-input_nt_files = ["/home/ubuntu/vol1/virtuoso/import/yelp_business.nt.gz",
-                  "/home/ubuntu/vol1/virtuoso/import/yelp_user.nt.gz",
-                  "/home/ubuntu/vol1/virtuoso/import/yelp_review.nt.gz",
-                  "/home/ubuntu/vol1/virtuoso/import/yelp_tip.nt.gz"]
+input_nt_files = ["/home/ubuntu/vol1/virtuoso/import/yelp_business.nt.gz"]
 
-threshold = 0.01
+threshold = 0.1
 
 shaper = Shaper(target_classes=target_classes,
                 graph_list_of_files_input=input_nt_files,
@@ -38,7 +35,7 @@ shaper = Shaper(target_classes=target_classes,
                 compression_mode=GZ,
                 instantiation_property="http://www.w3.org/2000/01/rdf-schema#Class")  # The predicate which is used to assign the target_classes to the subjects
 
-output_file_ttl = "/home/ubuntu/DVML-P7/Code/SHACL/shacl_shapes.ttl"
+output_file_ttl = "/home/ubuntu/DVML-P7/Code/SHACL/business_shapes.ttl"
 
 shaper.shex_graph(output_file=output_file_ttl,
                   acceptance_threshold=threshold,
