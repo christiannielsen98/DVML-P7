@@ -104,17 +104,13 @@ for key, value in sample_dict_updated.items():
     sparql_query = f"""
     SELECT DISTINCT ?val ?val2 ?city ?cityLabel ?state ?stateLabel
     WHERE{{
-    VALUES ?val {{"{key}"@en}}
-    VALUES ?val2 {{"{value}"@en}}
-    ?city ?label ?val.
+    VALUES ?cityLabel {{"{key}"@en}}
+    VALUES ?stateLabel {{"{value}"@en}}
     ?city rdfs:label ?cityLabel.
     ?city wdt:P131/wdt:P131 | wdt:P131 ?state .
-    ?city wdt:P31/wdt:P279* ?instanceOf .
+    ?city wdt:P31/wdt:P279* wd:Q486972 .
     ?state rdfs:label ?stateLabel .
     SERVICE wikibase:label {{ bd:serviceParam wikibase:language "en". }} 
-    FILTER(STRSTARTS(?cityLabel, ?val)).
-    FILTER(STRSTARTS(?stateLabel, ?val2)).
-    FILTER(?instanceOf = wd:Q486972).
     }}
     LIMIT 1
     """
@@ -156,7 +152,7 @@ WHERE {{
 wikidata_query(sparql_query=sparql_query)[['city.value','cityLabel.value', 'population.value']]
 ```
 | city.value  | cityLabel.value      | population.value |
-| :---------- | :------------------- | :--------------: |
+| :---------- | :------------------- | --------------: |
 | wd:Q952992  | Safety Harbor        |      17072       |
 | wd:Q986631  | Plainfield           |      34625       |
 | wd:Q1072657 | Mount Laurel         |      44633       |
@@ -226,7 +222,7 @@ WHERE
     {{?city wdt:P31/wdt:P279* wd:Q515.}}
     UNION
     {{?city wdt:P31/wdt:P279* wd:Q15127012.}}
-    ?city wdt:P131/wdt:P131 ?state .
+    ?city wdt:P131/wdt:P131 | wdt:P131 ?state .
 }}
 GROUP BY ?state
 }}
@@ -237,18 +233,18 @@ SERVICE wikibase:label {{ bd:serviceParam wikibase:language "en". }}
 wikidata_query(sparql_query=sparql_query)[['stateLabel.value', 'numCities.value']]
 ```
 Result:
-|     | stateLabel.value | numCities.value |
-| :-- | :--------------- | :-------------- |
-| 0   | Alberta          | 4               |
-| 1   | Florida          | 387             |
-| 2   | Nevada           | 20              |
-| 3   | Tennessee        | 324             |
-| 4   | Missouri         | 645             |
-| 5   | Indiana          | 491             |
-| 6   | Arizona          | 88              |
-| 7   | Louisiana        | 111             |
-| 8   | New Jersey       | 92              |
-| 9   | Pennsylvania     | 58              |
+| stateLabel.value | numCities.value |
+| :--------------- | --------------: |
+| Alberta          |              20 |
+| Florida          |             391 |
+| Nevada           |              22 |
+| Tennessee        |             342 |
+| Missouri         |             682 |
+| Indiana          |             511 |
+| Arizona          |              91 |
+| Louisiana        |             192 |
+| New Jersey       |              92 |
+| Pennsylvania     |              60 |
 
 ### DBpedia
 ```python
@@ -260,43 +256,46 @@ WHERE {
     ?city dct:subject ?location .
     ?location rdfs:label ?var
     VALUES ?var {
-"Cities in Florida"@en  
-"Cities in Nevada"@en
-"Cities in Tennessee"@en
-"Cities in Missouri"@en
-"Cities in Indiana"@en
-"Cities in Arizona"@en
-"Cities in Louisiana"@en
-"Cities in New Jersey"@en
-"Cities in Pennsylvania"@en
-"Cities in Alberta"@en
-}
+      "Cities in Florida"@en  
+      "Cities in Nevada"@en
+      "Cities in Tennessee"@en
+      "Cities in Missouri"@en
+      "Cities in Indiana"@en
+      "Cities in Arizona"@en
+      "Cities in Louisiana"@en
+      "Cities in New Jersey"@en
+      "Cities in Pennsylvania"@en
+      "Cities in Alberta"@en
+    }
 }
 """
 dbpedia_query(sparql_query=sparql_query)
 ```
 Result:
-|     | count.value | var.value              |
-| :-- | :---------- | :--------------------- |
-| 0   | 57          | Cities in Pennsylvania |
-| 1   | 267         | Cities in Florida      |
-| 2   | 19          | Cities in Alberta      |
-| 3   | 118         | Cities in Indiana      |
-| 4   | 20          | Cities in Nevada       |
-| 5   | 181         | Cities in Tennessee    |
-| 6   | 671         | Cities in Missouri     |
-| 7   | 70          | Cities in Louisiana    |
-| 8   | 47          | Cities in Arizona      |
+| var.value              | count.value |
+| :--------------------- | ----------: |
+| Cities in Pennsylvania | 57          |
+| Cities in Florida      | 267         |
+| Cities in Alberta      | 19          |
+| Cities in Indiana      | 118         |
+| Cities in Nevada       | 20          |
+| Cities in Tennessee    | 181         |
+| Cities in Missouri     | 671         |
+| Cities in Louisiana    | 70          |
+| Cities in Arizona      | 47          |
 
 The number of cities of New Jersey is missing.
 
-## CQ 3: What drinks exist that are beverages?
+## CQ 4: What drinks exist that are beverages?
 
 ### Wikidata
 Explanation of Q and P codes:
 - P279: subclass of
-- Q40050: Drink
-- Q2095: Food
+- : Drink
+- : Pizza
+- : Restaurant
+- : LocalBusiness
+- : Autoshop
 
 ```sparql
 SELECT ?value ?valueLabel (COUNT (DISTINCT ?beverage) AS ?count)
