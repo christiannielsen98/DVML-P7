@@ -38,22 +38,17 @@
   rdfs:comment "A tip is a short description of a visit by a Yelp <User> pertaining to a Yelp <Business>. Is a shorter version of a Yelp <Review>."@en ;
   rdfs:label "Tip"@en ;
   
-<https://raw.githubusercontent.com/christiannielsen98/DVML-P7/main/yelp_ontology.ttl#datasetCategory>
-  a owl:Class ;
-  rdfs:comment "A Dataset Category is a class assigned to objects which originates in the Yelp Open Dataset. These objects describe the type of a Yelp <Business>."@en ;
-  rdfs:label "Dataset Category"@en ;
-  
-<https://raw.githubusercontent.com/christiannielsen98/DVML-P7/main/yelp_ontology.ttl#schemaCategory>
+<https://raw.githubusercontent.com/christiannielsen98/DVML-P7/main/yelp_ontology.ttl#SchemaCategory>
   a owl:Class ;
   rdfs:comment "A Schema Category is a class assigned to objects which originates from the schema.org ontology."@en ;
   rdfs:label "Schema Category"@en ;
   
-<https://raw.githubusercontent.com/christiannielsen98/DVML-P7/main/yelp_ontology.ttl#yelpCategory>
+<https://raw.githubusercontent.com/christiannielsen98/DVML-P7/main/yelp_ontology.ttl#YelpCategory>
   a owl:Class ;
   rdfs:comment "A Yelp Category is a class assigned to the objects in the Yelp ontology."@en ;
   rdfs:label "Yelp Category"@en ;
   
-<https://raw.githubusercontent.com/christiannielsen98/DVML-P7/main/yelp_ontology.ttl#wikidataCategory>
+<https://raw.githubusercontent.com/christiannielsen98/DVML-P7/main/yelp_ontology.ttl#WikidataCategory>
   a owl:Class ;
   rdfs:comment "A Wikidata Category is a class assigned to the objects which origniates from the Wikidata ontology."@en ;
   rdfs:label "Wikidata Category"@en ;
