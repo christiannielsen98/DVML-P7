@@ -57,6 +57,21 @@ def retrieve_wikidata_claims(item_list):
 
     return nested_dict
 
+def get_subclass_of_wikientity(qid):
+    try:
+        query = f"""SELECT ?item ?itemLabel 
+                WHERE 
+                    {{
+                    wd:{qid} wdt:P279 ?item .
+                    SERVICE wikibase:label {{ bd:serviceParam wikibase:language "en". }}
+                    }}"""
+        df = wikidata_query(query)[['item.value', 'itemLabel.value']]
+        df['item.value'] = df.apply(lambda x: x['item.value'][31:], axis=1)
+        df.rename(columns={'item.value': 'subclassOf', 'itemLabel.value': 'subclassOf_label'}, inplace=True)
+        df['qid'] = qid
+        return df
+    except:
+        pass
 
 def category_query(category: str):
     """

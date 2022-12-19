@@ -12,7 +12,7 @@ from pprint import pprint
 from deepdiff import DeepDiff
 
 
-from Code.UtilityFunctions.wikidata_functions import wikidata_query, retrieve_wikidata_claims, category_query, min_qid, get_all_wikidata_claims, compare_qids, categories_dict_singular, get_qid_label
+from Code.UtilityFunctions.wikidata_functions import wikidata_query, get_subclass_of_wikientity, category_query, min_qid, get_all_wikidata_claims, compare_qids, categories_dict_singular, get_qid_label
 from Code.UtilityFunctions.get_data_path import get_path
 from Code.UtilityFunctions.string_functions import space_words_lower
 
@@ -20,14 +20,13 @@ from Code.UtilityFunctions.string_functions import space_words_lower
 def create_yelp_wiki_schema_triples_csv():
     biz = pd.read_json(get_path("yelp_academic_dataset_business.json"), lines=True)
     categories = list(biz['categories'].str.cat(sep=', ').split(sep=', '))
-    categories_dict_singular = categories_dict_singular(categories)
 
     category_occurences = pd.DataFrame(list(dict(Counter(categories)).items()),
                                    columns=['category', 'occurences'
                                             ]).sort_values(by='occurences',
                                                            ascending=False)
     # Maps the split categories to the original categories
-    category_occurences['split_category'] = category_occurences['category'].map(categories_dict_singular)
+    category_occurences['split_category'] = category_occurences['category'].map(categories_dict_singular(categories))
     category_occurences = category_occurences.explode('split_category')
 
     # Maps the yelp categories that are already mapped to a schemaType to the original category.
@@ -82,27 +81,11 @@ def create_yelp_wiki_schema_triples_csv():
     category_occurences['qid'] = category_occurences['schema_or_yelp_category'].map(category_qid2)
     category_occurences[['qid', 'qid_label']] = pd.DataFrame(category_occurences['qid'].tolist(),index=category_occurences.index)
 
-    category_wikidata = get_all_wikidata_claims(category_occurences['qid'])
-
-    # Maps the wikidata subclasses to the split category
-    category_triple = {}
-    for key, values in category_wikidata.items():
-        for value in values:
-            for obj in value:
-                if obj['mainsnak']['property'] == 'P279':
-                    data_value = obj['mainsnak']['datavalue']['value']['id']
-                    category_triple[key] = category_triple.get(key,[]) + [data_value]
-
-    wiki_subclasses = pd.DataFrame(list(category_triple.items()),
-                               columns=['category_qid',
-                                        'subclassOf']).explode('subclassOf')
-
-    wiki_subclasses['subclassOf_label'] = wiki_subclasses.apply(lambda x: get_qid_label(x.subclassOf), axis=1)
-
-    yelp_wiki_schema_triples_df = category_occurences.merge(wiki_subclasses, 
-                                                        left_on='qid', 
-                                                        right_on='category_qid', 
-                                                        how='left')
+    wiki_subclasses = pd.DataFrame()
+    for qid in category_occurences['qid'].unique():
+        wiki_subclasses = pd.concat([wiki_subclasses, get_subclass_of_wikientity(qid)], ignore_index=True)
+    
+    yelp_wiki_schema_triples_df = category_occurences.merge(wiki_subclasses, on='qid',how='left')
     yelp_wiki_schema_triples_df.to_csv(get_path("yelp_wiki_schema_triples_df.csv"), index=False)
 
 def create_wiki_category_nt_files(yelp_wiki_schema_triples_df: pd.DataFrame):
@@ -138,12 +121,8 @@ def create_wiki_category_nt_files(yelp_wiki_schema_triples_df: pd.DataFrame):
 
 if __name__ == "__main__":
     begin_time = datetime.datetime.now()
-    try:
-        # create_yelp_wiki_schema_triples_csv()
-        yelp_wiki_schema_triples_df=pd.read_csv(get_path("yelp_wiki_schema_triples_df.csv"))
-        create_wiki_category_nt_files(yelp_wiki_schema_triples_df)
-        
-        message = f"yelp_wiki_category_mappings execution is done - Time in hh:mm:ss - {datetime.datetime.now() - begin_time} \nbegan {begin_time} \nended {datetime.datetime.now()}"
-    except Exception as e:
-        message = "yelp_wiki_category_mappings broke with this error: " + str(e)
-    print(message)
+    create_yelp_wiki_schema_triples_csv()
+    yelp_wiki_schema_triples_df=pd.read_csv(get_path("yelp_wiki_schema_triples_df.csv"))
+    create_wiki_category_nt_files(yelp_wiki_schema_triples_df)
+    
+    message = f"yelp_wiki_category_mappings execution is done - Time in hh:mm:ss - {datetime.datetime.now() - begin_time} \nbegan {begin_time} \nended {datetime.datetime.now()}"

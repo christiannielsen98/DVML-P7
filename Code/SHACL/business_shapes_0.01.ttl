@@ -17,6 +17,7 @@
             sh:path yont:DogsAllowed ],
         [ a sh:PropertyShape ;
             sh:nodeKind sh:IRI ;
+            sh:minCount 1 ;
             sh:path schema:category ],
         [ a sh:PropertyShape ;
             sh:dataType xsd:integer ;
@@ -207,4 +208,3 @@
             sh:maxCount 1 ;
             sh:path yont:CoatCheck ] ;
     sh:targetClass schema:LocalBusiness .
-

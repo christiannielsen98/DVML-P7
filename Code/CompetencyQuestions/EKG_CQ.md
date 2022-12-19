@@ -291,11 +291,11 @@ The number of cities of New Jersey is missing.
 ### Wikidata
 Explanation of Q and P codes:
 - P279: subclass of
-- : Drink
-- : Pizza
-- : Restaurant
-- : LocalBusiness
-- : Autoshop
+- Q40050: Drink
+- Q177: Pizza
+- Q11707: Restaurant
+- Q62849941: LocalBusiness
+- Q786803: Car dealership
 
 ```sparql
 SELECT ?value ?valueLabel (COUNT (DISTINCT ?beverage) AS ?count)
