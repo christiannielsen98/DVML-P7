@@ -142,6 +142,11 @@ def create_nt_file(file_name: str):
                                 # and if true, add each of the split categories (example) as narrowMatch
                                 if category in split_categories_dict.keys():
                                     for subcategory in split_categories_dict[category]:
+                                        p = inflect.engine()
+                                        lower_subcat = subcategory.lower()
+                                        preprocessed_subcategory = p.singular_noun(lower_subcat)
+                                        preprocessed_subcategory = preprocessed_subcategory if preprocessed_subcategory else lower_subcat
+
                                         G.add(triple=(URIRef(yelpcat + category),
                                                         URIRef(skos + "narrowMatch"),
                                                         URIRef(yelpcat + subcategory)))
