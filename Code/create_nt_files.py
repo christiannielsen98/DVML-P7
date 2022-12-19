@@ -142,6 +142,11 @@ def create_nt_file(file_name: str):
                                 # and if true, add each of the split categories (example) as narrowMatch
                                 if category in split_categories_dict.keys():
                                     for subcategory in split_categories_dict[category]:
+                                        p = inflect.engine()
+                                        lower_subcat = subcategory.lower()
+                                        preprocessed_subcategory = p.singular_noun(lower_subcat)
+                                        preprocessed_subcategory = preprocessed_subcategory if preprocessed_subcategory else lower_subcat
+
                                         G.add(triple=(URIRef(yelpcat + category),
                                                         URIRef(skos + "narrowMatch"),
                                                         URIRef(yelpcat + subcategory)))
@@ -223,7 +228,7 @@ def create_nt_file(file_name: str):
                                 G.add(triple=(URIRef(subject),
                                               URIRef(predicate),
                                               Literal(obj, datatype=object_type)))
-
+                    
                     elif _predicate == "business_id":  # If we are dealing with a reivew, we add a link to the business
                         predicate, object_type = get_schema_predicate(_predicate, _object, file_name)
                         obj = yelpent + _object
@@ -349,4 +354,4 @@ if __name__ == "__main__":
     except Exception as e:
         message = f'create_nt_files failed in hh:mm:ss {datetime.datetime.now() - begin_time}\n{e}'
         print(e)
-    webhook = DiscordWebhook(url='https://discord.com/api/webhooks/1051908340772515860/2jd9XbteomjiPwZCuoiZ7WN4LGe-xJzUPC8P1xPBBpbyECu00PSIIfs8tARmkI78t88v', content=message).execute()
+    webhook = DiscordWebhook(url='https://discord.com/api/webhooks/1053327986641874984/9ZGdxUp-yo5AMqFoWTtj_koAdtzNK6wfh0GFiEMl4FHc7ZZ1v6FpnfR1ycJ3eKimlUPr', content=message).execute()

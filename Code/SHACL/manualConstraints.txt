@@ -1,0 +1,20 @@
+Tip:
+schema:about til IRI-business (1)
+schema:author til IRI-user (1)
+schema:description til STRING (1)
+
+Review:
+schema:about til IRI-business (1)
+schema:author til IRI-user (1)
+schema:description til STRING (1)
+schema:aggregateRating til DECIMAL (1)
+
+User:
+schema:legalName til STRING (1)
+*schema:reviewCount til INTEGER (1)
+
+Business:
+schema:legalName til STRING (1)
+schema:category til IRI-category (mindst 1)
+schema:latitude til DECIMAL (1)
+schema:longitude til DECIMAL (1)
