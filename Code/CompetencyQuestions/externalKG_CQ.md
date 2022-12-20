@@ -6,7 +6,7 @@ SPARQL Endpoints for the different EKGs are available at the following locations
 | DBPedia  | https://dbpedia.org/sparql        |
 | YAGO     | https://yago-knowledge.org/sparql |
 
-## CQ 1: How many people live in the city of top ten most prevelent cities in Yelp?
+## CQ 1: How many people live in the top ten most prevalent cities in the Yelp Open Dataset?
 
 ### Wikidata
 Explanation of P codes:
@@ -77,8 +77,7 @@ dbpedia_query(query)
 ### Yago
 **Yago does not contain population data. This knowledge graph is not investigated further, because it does not satisfy our requirenments**
 
-## CQ 2: How many of 10 random cities from the yelp dataset are in the external KG?
-### How many of these cities have a population? 
+## CQ 2: How many of 10 random cities from the Yelp Open Dataset are in the external KG? And how many of these cities have a population?
 \
 sample_dict_updated is a dictionary of 10 random cities from the yelp dataset. The keys are the city names and the values are the states.
 - Q486972: Human settlement
@@ -219,7 +218,7 @@ Results:
 
 Missing population of Glen Carbon.
 
-## CQ 3: How many cities are in the 10 most prevelent states/provinces in Yelp?
+## CQ 3: How many cities are in the 10 most prevalent states in the Yelp Open Dataset?
 
 ### Wikidata
 Explanation of Q and P codes:
@@ -314,7 +313,7 @@ Result:
 
 The number of cities of New Jersey is missing.
 
-## CQ 4: What items exist in abstract concepts that are similar to categories in the Yelp Open Dataset? We randomly choose five concepts.
+## CQ 4: What items $\mathcal{X}$ exist in abstract concepts that are similar to categories in the Yelp Open Dataset? We randomly choose five concepts.
 
 ### Wikidata
 Explanation of Q and P codes:
