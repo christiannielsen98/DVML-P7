@@ -186,8 +186,7 @@ def city_population_query(city_qid: str):
             ?statement pq:P585 ?date .
             FILTER NOT EXISTS {{
                 ?city p:P1082/pq:P585 ?date2 .
-                FILTER(?date2 > ?date)
-	        }}
+                FILTER(?date2 > ?date) }}
         }}
         """
         a = wikidata_query(query)
