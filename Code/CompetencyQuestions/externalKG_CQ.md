@@ -77,8 +77,6 @@ dbpedia_query(query)
 ### Yago
 **Yago does not contain population data.**
 
-
-
 ## CQ 2: How many of 10 random cities from the yelp dataset are in both Wikidata and DBpedia?
 ### How many of these cities have a population? 
 \
