@@ -75,9 +75,9 @@ dbpedia_query(query)
 
 
 ### Yago
-**Yago does not contain population data.**
+**Yago does not contain population data. This knowledge graph is not investigated further, because it does not satisfy our requirenments**
 
-## CQ 2: How many of 10 random cities from the yelp dataset are in both Wikidata and DBpedia?
+## CQ 2: How many of 10 random cities from the yelp dataset are in the external KG?
 ### How many of these cities have a population? 
 \
 sample_dict_updated is a dictionary of 10 random cities from the yelp dataset. The keys are the city names and the values are the states.
@@ -314,7 +314,7 @@ Result:
 
 The number of cities of New Jersey is missing.
 
-## CQ 4: What drinks exist that are beverages?
+## CQ 4: What items $\mathcal{X}$ exist in category Y? (pick 5 categories)
 
 ### Wikidata
 Explanation of Q and P codes:
