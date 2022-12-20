@@ -112,60 +112,60 @@ def create_nt_file(file_name: str):
                                             URIRef(yelpcat + category)))
                                
                             
-                                # schema_category_mappping_dict is the mappings to schema.org obtained by MODEL
-                                if category.replace('_', ' ') in schema_category_mappings_dict.keys():
-                                    mappings = schema_category_mappings_dict[category.replace('_', ' ')]
-                                    # If there is only one mapping, it is an exactMatch
-                                   
-                                    # If there are multiple mappings add each mapping as a narrowMatch
-                                    for subcategory in mappings:
-                                        G.add(triple=(URIRef(yelpcat + category),
-                                                      URIRef(skos + "narrowMatch") if "&" in category or "/" in category 
-                                                                                   else URIRef(skos + "exactMatch"),
-                                                      URIRef(schema + subcategory)))
+                            # schema_category_mappping_dict is the mappings to schema.org obtained by MODEL
+                            if category.replace('_', ' ') in schema_category_mappings_dict.keys():
+                                mappings = schema_category_mappings_dict[category.replace('_', ' ')]
+                                # If there is only one mapping, it is an exactMatch
+                                
+                                # If there are multiple mappings add each mapping as a narrowMatch
+                                for subcategory in mappings:
+                                    G.add(triple=(URIRef(yelpcat + category),
+                                                    URIRef(skos + "narrowMatch") if "&" in category or "/" in category 
+                                                                                else URIRef(skos + "exactMatch"),
+                                                    URIRef(schema + subcategory)))
 
-                                        if subcategory not in category_mappings_cache:
-                                            G.add(triple=(URIRef(schema + subcategory),
-                                                          RDFS.Class,
-                                                          URIRef(yelpont + "SchemaCategory")))
-                                            category_mappings_cache.add(subcategory)
+                                    if subcategory not in category_mappings_cache:
+                                        G.add(triple=(URIRef(schema + subcategory),
+                                                        RDFS.Class,
+                                                        URIRef(yelpont + "SchemaCategory")))
+                                        category_mappings_cache.add(subcategory)
 
-                                # If the category is not in the mapping, we check if it is a split category,
-                                # and if true, add each of the split categories (example) as narrowMatch
-                                if category in split_categories_dict.keys():
-                                    for subcategory in split_categories_dict[category]:
-                                        p = inflect.engine()
-                                        lower_subcat = subcategory.lower()
-                                        preprocessed_subcategory = p.singular_noun(lower_subcat)
-                                        preprocessed_subcategory = preprocessed_subcategory if preprocessed_subcategory else lower_subcat
-
-                                        G.add(triple=(URIRef(yelpcat + category),
-                                                        URIRef(skos + "narrowMatch"),
-                                                        URIRef(yelpcat + subcategory)))
-
-                                        if subcategory not in category_mappings_cache:
-                                            G.add(triple=(URIRef(yelpcat + subcategory),
-                                                          RDFS.Class,
-                                                          URIRef(yelpont + "YelpCategory")))
-                                            category_mappings_cache.add(subcategory)
-
-                                else:
+                            # If the category is not in the mapping, we check if it is a split category,
+                            # and if true, add each of the split categories (example) as narrowMatch
+                            if category in split_categories_dict.keys():
+                                for subcategory in split_categories_dict[category]:
                                     p = inflect.engine()
-                                    lower_cat = category.lower()
-                                    preprocessed_category = p.singular_noun(lower_cat)
-                                    preprocessed_category = preprocessed_category if preprocessed_category else lower_cat
+                                    lower_subcat = subcategory.lower()
+                                    preprocessed_subcategory = p.singular_noun(lower_subcat)
+                                    preprocessed_subcategory = preprocessed_subcategory if preprocessed_subcategory else lower_subcat
 
                                     G.add(triple=(URIRef(yelpcat + category),
-                                                    URIRef(skos + "exactMatch"),
-                                                    URIRef(yelpcat + preprocessed_category)))
+                                                    URIRef(skos + "narrowMatch"),
+                                                    URIRef(yelpcat + subcategory)))
 
-                                    if preprocessed_category not in category_mappings_cache:
-                                        G.add(triple=(URIRef(yelpcat + preprocessed_category),
-                                                      RDFS.Class,
-                                                      URIRef(yelpont + "YelpCategory")))
-                                        category_mappings_cache.add(preprocessed_category)
+                                    if subcategory not in category_mappings_cache:
+                                        G.add(triple=(URIRef(yelpcat + subcategory),
+                                                        RDFS.Class,
+                                                        URIRef(yelpont + "YelpCategory")))
+                                        category_mappings_cache.add(subcategory)
 
-                            category_cache.add(category)
+                            else:
+                                p = inflect.engine()
+                                lower_cat = category.lower()
+                                preprocessed_category = p.singular_noun(lower_cat)
+                                preprocessed_category = preprocessed_category if preprocessed_category else lower_cat
+
+                                G.add(triple=(URIRef(yelpcat + category),
+                                                URIRef(skos + "exactMatch"),
+                                                URIRef(yelpcat + preprocessed_category)))
+
+                                if preprocessed_category not in category_mappings_cache:
+                                    G.add(triple=(URIRef(yelpcat + preprocessed_category),
+                                                    RDFS.Class,
+                                                    URIRef(yelpont + "YelpCategory")))
+                                    category_mappings_cache.add(preprocessed_category)
+
+                        category_cache.add(category)
 
                 elif file_name != 'yelp_academic_dataset_checkin.json':  # Adds a class to Users, Reviews and Tips
 
@@ -184,23 +184,27 @@ def create_nt_file(file_name: str):
                         none_triples.append((subject, _predicate, _object))
                         continue
                     elif isinstance(_object, str) and _predicate in ("BusinessParking", "GoodForMeal", "Ambience", "Music", "BestNights", "HairSpecializesIn", "DietaryRestrictions"):
-                        _object = _object.replace("'", '"').lower().replace("none", "null").replace('u"', '"')  # TODO: Replace instead of lower
+                        _object = _object.replace("'", '"').replace("None", "null").replace('u"', '"').replace("True", "true").replace("False", "false")
                         _object = json.loads(_object)
-                    elif type(_object) in (str, int, float, bool, dict):
-                        _object = _object
-                    else:
-                        error_triples.append((subject, _predicate, _object))
-                    
-                    
-                    try:
-                        _object = eval(_object)
-                        if _object == Ellipsis:  # Due to no text in a review
-                            _object = "..."
-                    except (TypeError, SyntaxError, NameError, AttributeError):
-                        pass  # if the object cannot evaluate to a python object, we keep it as a string.
-                    if isinstance(_object, type(None)) or str(_object).lower() == "null":  # Handle missng data in the JSON
-                        continue
+                        
+                        predicate, object_type = get_schema_predicate(_predicate, _object, file_name)
+                        b_node = BNode()
 
+                        G.add(triple=(URIRef(subject),
+                                      URIRef(predicate),  # E.g., hasBusinessParking, hashours
+                                      URIRef(b_node)))  # Blank Node
+
+                        blanknode_class = get_schema_type(_predicate)
+
+                        G.add(triple=(URIRef(b_node),
+                                      URIRef(RDFS.Class),
+                                      URIRef(blanknode_class)))
+
+                        for sub_predicate, sub_object in _object.items():
+                            G.add(triple=(URIRef(b_node),
+                                          URIRef(yelpont + "has" + sub_predicate),
+                                          Literal(sub_object)))
+                    
                     elif isinstance(_object, dict):
                         predicate, object_type = get_schema_predicate(_predicate, _object, file_name)
                         b_node = BNode()
@@ -219,9 +223,14 @@ def create_nt_file(file_name: str):
                             G.add(triple=(URIRef(b_node),
                                           URIRef(yelpont + "has" + sub_predicate),
                                           Literal(sub_object)))
+                    
+                    elif type(_object) in (str, int, float, bool):
+                        _object = _object
+                        
+                    else:
+                        error_triples.append((subject, _predicate, _object)) 
 
-                    elif _predicate in ["date", "friends", "elite"]:  # The values to these keys contains listed objects
-                        _object = str(_object)
+                    if _predicate in ["date", "friends", "elite"]:  # The values to these keys contains listed objects
                         obj_lst = _object.split(", ") if _predicate != "elite" else _object.split(",")  # Splits the listed objects
 
                         # get_schema_predicate assigns returns a proper schema.org predicate based on the key
