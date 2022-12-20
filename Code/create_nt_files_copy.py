@@ -110,15 +110,7 @@ def create_nt_file(file_name: str):
                             G.add(triple=(URIRef(subject),
                                             URIRef(schema + "category"),
                                             URIRef(yelpcat + category)))
-                            
-                            if category not in category_cache:
-                                G.add(triple=(URIRef(yelpcat + category),
-                                                RDFS.Class,
-                                                URIRef(yelpont + "datasetCategory")))
-
-                                G.add(triple=(URIRef(yelpcat + category),
-                                              RDFS.subClassOf,
-                                              URIRef(schema + "LocalBusiness")))    
+                               
                             
                                 # schema_category_mappping_dict is the mappings to schema.org obtained by MODEL
                                 if category.replace('_', ' ') in schema_category_mappings_dict.keys():
@@ -135,7 +127,7 @@ def create_nt_file(file_name: str):
                                         if subcategory not in category_mappings_cache:
                                             G.add(triple=(URIRef(schema + subcategory),
                                                           RDFS.Class,
-                                                          URIRef(yelpont + "schemaCategory")))
+                                                          URIRef(yelpont + "SchemaCategory")))
                                             category_mappings_cache.add(subcategory)
 
                                 # If the category is not in the mapping, we check if it is a split category,
@@ -154,7 +146,7 @@ def create_nt_file(file_name: str):
                                         if subcategory not in category_mappings_cache:
                                             G.add(triple=(URIRef(yelpcat + subcategory),
                                                           RDFS.Class,
-                                                          URIRef(yelpont + "yelpCategory")))
+                                                          URIRef(yelpont + "YelpCategory")))
                                             category_mappings_cache.add(subcategory)
 
                                 else:
@@ -170,7 +162,7 @@ def create_nt_file(file_name: str):
                                     if preprocessed_category not in category_mappings_cache:
                                         G.add(triple=(URIRef(yelpcat + preprocessed_category),
                                                       RDFS.Class,
-                                                      URIRef(yelpont + "yelpCategory")))
+                                                      URIRef(yelpont + "YelpCategory")))
                                         category_mappings_cache.add(preprocessed_category)
 
                             category_cache.add(category)
@@ -192,18 +184,20 @@ def create_nt_file(file_name: str):
                         none_triples.append((subject, _predicate, _object))
                         continue
                     elif isinstance(_object, str) and _predicate in ("BusinessParking", "GoodForMeal", "Ambience", "Music", "BestNights", "HairSpecializesIn", "DietaryRestrictions"):
-                        _object = _object.replace("'", '"').lower().replace("none", "null").replace('u"', '"')
+                        _object = _object.replace("'", '"').lower().replace("none", "null").replace('u"', '"')  # TODO: Replace instead of lower
                         _object = json.loads(_object)
                     elif type(_object) in (str, int, float, bool, dict):
                         _object = _object
                     else:
                         error_triples.append((subject, _predicate, _object))
-                    # try:
-                    #     _object = eval(_object)
-                    #     if _object == Ellipsis:  # Due to no text in a review
-                    #         _object = "..."
-                    # except (TypeError, SyntaxError, NameError, AttributeError):
-                    #     pass  # if the object cannot evaluate to a python object, we keep it as a string.
+                    
+                    
+                    try:
+                        _object = eval(_object)
+                        if _object == Ellipsis:  # Due to no text in a review
+                            _object = "..."
+                    except (TypeError, SyntaxError, NameError, AttributeError):
+                        pass  # if the object cannot evaluate to a python object, we keep it as a string.
                     if isinstance(_object, type(None)) or str(_object).lower() == "null":  # Handle missng data in the JSON
                         continue
 

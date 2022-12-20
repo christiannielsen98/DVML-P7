@@ -1,6 +1,18 @@
 import inflect
 import re
 
+def string_is_float(string):
+    """
+    This function checks if a string is a float.
+    :param string: The string to be checked.
+    :return: True if the string is a float, False if not.
+    """
+    try:
+        float(string)
+        return True
+    except ValueError:
+        return False
+
 
 def str_split(string):
     if isinstance(string, str):
