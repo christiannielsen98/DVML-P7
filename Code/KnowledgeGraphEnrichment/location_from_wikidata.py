@@ -1,151 +1,324 @@
-import sys
-sys.path.append(sys.path[0][:sys.path[0].find('DVML-P7') + len('DVML-P7')])
-import os
+import json
+import requests
+
 import pandas as pd
-from rdflib import Namespace, Graph, URIRef, Literal, XSD
-from rdflib.namespace import RDFS
-import gzip
-from Code.UtilityFunctions.wikidata_functions import get_city_of_location_with_long_lat, get_county_of_location_with_long_lat, wikidata_query, city_population_query, county_query, state_query, country_query
+
+from Code.UtilityFunctions.wikidata_functions import wikidata_query
 from Code.UtilityFunctions.get_data_path import get_path
-from discord_webhook import DiscordWebhook
-import datetime
+from Code.KnowledgeGraphEnrichment.location_dicts import states, q_codes
 
 
-def create_location_mappings_csv():
+def return_city_q_ids(search_string):
+    url = f"https://www.wikidata.org/w/api.php?action=wbsearchentities&format=json&language=en&type=item&continue=0&search={search_string}"
+
+    response = requests.get(url)
+    data = json.loads(response.text)
+
+    q_ids = [Q["id"] for Q in data["search"]]
+
+    if not q_ids:  # Empty – no result given
+        url = f"https://www.wikidata.org/w/api.php?action=wbsearchentities&format=json&language=en&type=item&continue=0&search={search_string.partition(',')[0]}"
+
+        response = requests.get(url)
+        data = json.loads(response.text)
+
+        q_ids = [Q["id"] for Q in data["search"]]
+
+    str_q_ids = " ".join(["wd:" + qid for qid in q_ids])
+
+    return str_q_ids
+
+
+def return_state_q_ids(search_string):
+    url = f"https://www.wikidata.org/w/api.php?action=wbsearchentities&format=json&language=en&type=item&continue=0&search={search_string}"
+
+    response = requests.get(url)
+    data = json.loads(response.text)
+
+    q_ids = [Q["id"] for Q in data["search"]]
+
+    str_q_ids = " ".join(["wd:" + qid for qid in q_ids])
+
+    return str_q_ids
+
+
+def city_query(q_ids, location):
+    query = f"""
+    SELECT DISTINCT ?qid ?qidLabel
+    WHERE {{
+        VALUES ?qid {{{q_ids}}}
+        {{?qid wdt:P31/wdt:P279* wd:Q486972.}} # Human Settlement
+        SERVICE wikibase:label {{ bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en" }}
+
+        SERVICE wikibase:around {{
+            ?qid wdt:P625 ?location .
+            bd:serviceParam wikibase:center "Point({location})"^^geo:wktLiteral   .
+            bd:serviceParam wikibase:radius "100" .
+            bd:serviceParam wikibase:distance ?distance .}} .
+    }}
+    ORDER BY ?distance
+    LIMIT 1
     """
-    This function creates a csv file with the location mappings from yelp to wikidata
+    return query
+
+
+def qid_city(q_ids: str, location: str):
+    if not q_ids:
+        return None, None
+
+    returned = wikidata_query(city_query(q_ids, location))
+
+    if returned.empty:
+        returned_qid = None
+        returned_label = None
+    else:
+        returned_qid = returned["qid.value"].str.removeprefix("http://www.wikidata.org/entity/").values[0]
+        returned_label = returned["qidLabel.value"].values[0]
+
+    return returned_qid, returned_label
+
+
+def state_query(q_ids):
+    query = f"""
+    SELECT ?qid ?qidLabel
+    WHERE
+    {{
+      VALUES ?Q {{{q_ids}}}
+
+      ?Q wdt:P131* ?qid .
+      {{?qid wdt:P31/wdt:P279* wd:{q_codes["state"]}.}}
+      UNION
+      {{?qid wdt:P31/wdt:P279* wd:{q_codes["province"]}.}}
+
+      FILTER NOT EXISTS {{
+        ?qid wdt:P31/wdt:P279* wd:{q_codes["country"]}.
+      }}
+      SERVICE wikibase:label {{ bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en" }}
+    }}
     """
-    # Load the business data from yelp
+    return query
+
+
+def qid_state(row: str):
+    returned_table = wikidata_query(state_query(row["state_q_ids"]))
+    q_ids_list = [x[3:] for x in row["state_q_ids"].split(" ")]
+    if returned_table.empty:
+        returned_qids = []
+    else:
+        returned_qids = returned_table["qid.value"].str.removeprefix("http://www.wikidata.org/entity/").tolist()
+
+    try:
+        first_common_qid = next(og_list for og_list in q_ids_list if og_list in returned_qids)
+    except StopIteration:
+        first_common_qid = None
+
+    returned_label = None if not first_common_qid else \
+        returned_table[returned_table["qid.value"] == f"http://www.wikidata.org/entity/{first_common_qid}"][
+            "qidLabel.value"].values[0]
+
+    return first_common_qid, returned_label
+
+
+def county_query(q_id):
+    query = f"""
+    SELECT ?qid ?qidLabel
+    WHERE
+    {{
+      wd:{q_id} wdt:P131* ?qid .
+      ?qid wdt:P31/wdt:P279* wd:{q_codes["county"]}.
+
+      FILTER NOT EXISTS {{
+        ?qid wdt:P31/wdt:P279* wd:{q_codes["state"]}.
+      }}
+      FILTER NOT EXISTS {{
+        ?qid wdt:P31/wdt:P279* wd:{q_codes["country"]}.
+      }}
+      FILTER NOT EXISTS {{
+        ?qid wdt:P31/wdt:P279* wd:Q3301053. # consolidated city-county
+      }}
+      SERVICE wikibase:label {{ bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en" }}
+
+    }}
+    """
+    return query
+
+
+def qid_return_county(q_id):
+    returned_qid = wikidata_query(county_query(q_id))
+    if returned_qid.empty:
+        return None, None
+    else:
+        return (returned_qid["qid.value"][0].removeprefix("http://www.wikidata.org/entity/"),
+                returned_qid["qidLabel.value"][0])
+
+
+def country_query(q_id):
+    query = f"""
+    SELECT ?qid ?qidLabel
+    WHERE
+    {{
+      wd:{q_id} wdt:P131* ?qid .
+      ?qid wdt:P31/wdt:P279* wd:{q_codes["country"]}.
+
+      SERVICE wikibase:label {{ bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en" }}
+    }}
+    """
+    return query
+
+
+def qid_return_country(q_id):
+    returned_qid = wikidata_query(country_query(q_id))
+    if returned_qid.empty:
+        return None, None
+    else:
+        return (returned_qid["qid.value"][0].removeprefix("http://www.wikidata.org/entity/"),
+                returned_qid["qidLabel.value"][0])
+
+
+def city_population_query(city_qid: str):
+    try:
+        query = f"""
+        SELECT DISTINCT ?population
+        WHERE {{
+            ?city p:P1082 ?statement .
+            VALUES ?city {{wd:{city_qid}}}
+            ?statement ps:P1082 ?population .
+            ?statement pq:P585 ?date .
+            FILTER NOT EXISTS {{
+                ?city p:P1082/pq:P585 ?date2 .
+                FILTER(?date2 > ?date)
+	        }}
+        }}
+        """
+        a = wikidata_query(query)
+        return int(a['population.value'][0])
+    except:
+        return None
+
+
+def create_locations_csv():
     biz = pd.read_json(get_path("yelp_academic_dataset_business.json"), lines=True)
 
-    # Create a dataframe of all the unique, rounded to 2nd decimal, coordinates
-    coordinates = (biz["longitude"].apply(round, args=(2,)).astype(str) + "," + biz["latitude"].apply(round, args=(2,)).astype(str)).unique()
-    coordinates_df = pd.DataFrame(coordinates, columns=['coordinates'])
+    biz["city_og"] = biz["city"]
+    biz["state_og"] = biz["state"]
+    biz["city"] = biz["city"].apply(lambda x: x.partition(",")[0])
+    biz["state"] = biz["state"].apply(lambda x: states[x])
 
-    # Query the nearest city for each coordinate and add it to a dataframe
-    location_mappings_df = pd.DataFrame(columns=['coordinates', 'city_qid', 'cityLabel'])
-    for i in coordinates_df.itertuples():
-        location_mappings_df = pd.concat([location_mappings_df,pd.DataFrame([i.coordinates] + list(get_city_of_location_with_long_lat(i.coordinates)), index=location_mappings_df.columns).T], ignore_index=True)
-        print(i.coordinates, i.Index, len(coordinates_df))
-    
-    # Save the dataframe to a csv
-    location_mappings_df.to_csv(path_or_buf=get_path('location_mappings_with_boroughrAndCencus.csv'),index=False)
+    city_state_keys = biz[["city", "state", "city_og", "state_og"]].drop_duplicates()
+
+    df = biz.groupby(["city", "state"])[["latitude", "longitude"]].mean().reset_index()
+    df["location"] = df["longitude"].round(decimals=2).astype(str) + "," + df["latitude"].round(decimals=2).astype(str)
+
+    df["search_string"] = df.apply(lambda x: x[0] + ", " + x[1], axis=1).str.replace(" ", "%20")
+
+    df["city_q_ids"] = df["search_string"].apply(return_city_q_ids)
+
+    df["state_q_ids"] = df["state"].apply(return_state_q_ids)
+
+    df[["city_qid", "city_label"]] = df.apply(lambda x: qid_city(x["city_q_ids"], x["location"]), result_type='expand',
+                                              axis=1)
+
+    df[["state_qid", "state_label"]] = df.apply(qid_state, result_type='expand', axis=1)
+
+    unique_cities = pd.Series(df["city_qid"].unique())
+
+    county_qids, county_labels = zip(*unique_cities.apply(qid_return_county))
+
+    df = df.merge(pd.DataFrame(data={"city_qid": unique_cities,
+                                     "county_qid": county_qids,
+                                     "county_label": county_labels}), how="left", on="city_qid")
+
+    unique_states = pd.Series(df["state_qid"].unique())
+    country_qids, country_labels = zip(*unique_states.apply(qid_return_country))
+
+    df = df.merge(pd.DataFrame(data={"state_qid": unique_states,
+                                     "country_qid": country_qids,
+                                     "country_label": country_labels}), how="left", on="state_qid")
+
+    df["population"] = df["city_qid"].apply(city_population_query)
+
+    df = city_state_keys.merge(df, how="left", on=["city", "state"])
+    df.drop(
+        columns=["latitude", "longitude", "location", "search_string", "city_q_ids", "state_q_ids", "city", "state"],
+        inplace=True)
+    df.rename(columns={"city_og": "city", "state_og": "state"}, inplace=True)
+
+    df.to_csv(path_or_buf=get_path('location_mappings_search_location.csv'), index=False)
 
 
-def expand_location_mappings(location_mappings: pd.DataFrame):
-    """
-    This function expands the location mappings dataframe with the county, state, and country of each city
-    :param location_mappings:
-    :return:
-    """
-    # Create a list of all the US states and Canada provinces
-    list_of_us_states = list(wikidata_query(sparql_query="SELECT ?state WHERE{?state wdt:P31 wd:Q35657.}")['state.value'].apply(lambda x: x[31:]))
-    list_of_canada_provinces = list(wikidata_query(sparql_query="SELECT ?province WHERE{?province wdt:P31 wd:Q11828004.}")['province.value'].apply(lambda x: x[31:]))
-    list_canada_provinces_us_states = list_of_us_states + list_of_canada_provinces
-    
-    # Add the population of the city
-    location_mappings['population'] = location_mappings.apply(lambda x: city_population_query(x.city_qid), axis=1)
-    
-    # Add the county of the city if it exists, otherwise query the county of the location with the long lat (because the city might not have a county in wikidata)
-    location_mappings[['county_qid', 'countyLabel']] = location_mappings.apply(lambda x: pd.Series(county_query(x.city_qid)) if pd.Series(county_query(x.city_qid))[0] not in list_canada_provinces_us_states else pd.Series(get_county_of_location_with_long_lat(x.coordinates)), axis=1)
-    
-    # Add the state of the county if it exists, otherwise query the state of the city (because the city might not have a county)
-    location_mappings[['state_qid', 'stateLabel']] = location_mappings.apply(lambda x: pd.Series(state_query(x.county_qid)) if x.county_qid is not None else pd.Series(state_query(x.city_qid)), axis=1)
-    
-    # Add the country of the state or province
-    location_mappings[['country_qid', 'countryLabel']] = location_mappings.apply(lambda x: pd.Series(country_query(x.state_qid)), axis=1)
-    return location_mappings
+# ## CREATE NT
+
+def add_to_graph(row, lower_level, higher_level, higher_instance):
+    from rdflib import Graph, URIRef, Literal, XSD
+    from rdflib.namespace import RDFS
+
+    from Code.KnowledgeGraphEnrichment.location_namespaces import wiki, location_predicate, instance_of_predicate
+
+    graph = Graph()
+
+    graph.add((URIRef(wiki[eval(f"row.{lower_level}_qid")]), URIRef(location_predicate),
+               URIRef(wiki[eval(f"row.{higher_level}_qid")])))
+    graph.add((URIRef(wiki[eval(f"row.{higher_level}_qid")]), URIRef(RDFS.label),
+               Literal(eval(f"row.{higher_level}_label"), datatype=XSD.string)))
+    graph.add(
+        (URIRef(wiki[eval(f"row.{higher_level}_qid")]), URIRef(instance_of_predicate), URIRef(wiki + higher_instance)))
+
+    return graph
 
 
-def yelp_wiki_location_mappings(location_mappings):
-    """
-    This function merge the mappings to the original Yelp businesses.
-    :return:
-    """
-    
-    # Load the business data from yelp
+def create_locations_nt():
+    import gzip
+
+    from rdflib import Graph, URIRef, Literal, XSD
+    from rdflib.namespace import RDFS
+
+    from Code.KnowledgeGraphEnrichment.location_namespaces import schema, wiki, yelpont, population_predicate, \
+        instance_of_predicate
+
+    df = pd.read_csv(get_path("location_mappings_search_location.csv"))
     biz = pd.read_json(get_path("yelp_academic_dataset_business.json"), lines=True)
 
-    # Add "long_lat_round" column to the dataframe for mapping to wikidata
-    biz['long_lat_round'] = (biz["longitude"].apply(round, args=(2,)).astype(str) + "," + biz["latitude"].apply(round, args=(2,)).astype(str))
-    # Select only the columns we need
-    biz2 = biz[['business_id','long_lat_round', 'address', 'city', 'state']]
-    # Merge the business data with the location data on the "long_lat_round" column
-    biz_location_mapping_merge = biz2.merge(location_mappings, left_on='long_lat_round', right_on='coordinates', how='left')
-    return biz_location_mapping_merge
-
-
-def create_wikidata_location_triples():
-    """
-    This function creates the triples for the location of the businesses in wikidata
-    :return:
-    """
-    biz_location_mapping_merge = yelp_wiki_location_mappings()
-    ## If file exists, delete it ##
-    remove_files="/home/ubuntu/vol1/virtuoso/import/wikidata_location_mappings.nt.gz"
-    if os.path.isfile(remove_files):
-        os.remove(remove_files)
-    else:    ## Show an error ##
-        print("Error: %s file not found" % remove_files)
-
-    schema = Namespace("https://schema.org/")
-    wiki = Namespace("https://www.wikidata.org/entity/")
-    yelpent = Namespace("https://purl.archive.org/purl/yelp/yelp_entities#")
-    location_predicate = wiki + "P131"  # P131 = located in the administrative territorial entity
-    population_predicate = wiki + "P1082"  # P1082 = population
-    instance_of_predicate = wiki + "P31"  # P31 = instance of
-    city_object = wiki + "Q515"  # Q515 = city
-    county_object = wiki + "Q28575"  # Q28575 = county
-    state_object = wiki + "Q35657"  # Q35657 = U.S. state
-    province_object = wiki + "Q11828004"  # Q11828004 = province of Canada
-    country_object = wiki + "Q6256"  # Q6256 = country
-
-    list_of_us_states = list(wikidata_query(sparql_query="SELECT ?state WHERE{?state wdt:P31 wd:Q35657.}")['state.value'].apply(lambda x: x[31:]))
-    list_of_canada_provinces = list(wikidata_query(sparql_query="SELECT ?province WHERE{?province wdt:P31 wd:Q11828004.}")['province.value'].apply(lambda x: x[31:]))
-
-    triple_file = gzip.open(filename="/home/ubuntu/vol1/virtuoso/import/wikidata_location_mappings.nt.gz", mode="at", encoding="utf-8")
+    data = biz.merge(df, how="left", on=["city", "state"])
 
     G = Graph()
-    for i in biz_location_mapping_merge.itertuples():
-        if not pd.isna(i.city_qid):
-            G.add((URIRef(yelpent[i.business_id]), URIRef(schema['location']), URIRef(wiki[i.city_qid])))
-            G.add((URIRef(wiki[i.city_qid]), URIRef(RDFS.label), Literal(i.cityLabel, datatype=XSD.string)))
-            G.add((URIRef(wiki[i.city_qid]), URIRef(instance_of_predicate), URIRef(city_object)))
-            if not pd.isna(i.population):
-                G.add((URIRef(wiki[i.city_qid]), URIRef(population_predicate), Literal(i.population, datatype=XSD.integer)))
-        if not pd.isna(i.county_qid):
-            G.add((URIRef(wiki[i.city_qid]), URIRef(location_predicate), URIRef(wiki[i.county_qid])))
-            G.add((URIRef(wiki[i.county_qid]), URIRef(RDFS.label), Literal(i.countyLabel, datatype=XSD.string)))
-            G.add((URIRef(wiki[i.county_qid]), URIRef(instance_of_predicate), URIRef(county_object)))
-        if not pd.isna(i.state_qid):
-            G.add((URIRef(wiki[i.county_qid]), URIRef(location_predicate), URIRef(wiki[i.state_qid])))
-            G.add((URIRef(wiki[i.state_qid]), URIRef(RDFS.label), Literal(i.stateLabel, datatype=XSD.string)))
-            if i.state_qid in list_of_us_states:
-                G.add((URIRef(wiki[i.state_qid]), URIRef(instance_of_predicate), URIRef(state_object)))
-            elif i.state_qid in list_of_canada_provinces:
-                G.add((URIRef(wiki[i.state_qid]), URIRef(instance_of_predicate), URIRef(province_object)))
-        if not pd.isna(i.country_qid):
-            G.add((URIRef(wiki[i.state_qid]), URIRef(location_predicate), URIRef(wiki[i.country_qid])))
-            G.add((URIRef(wiki[i.country_qid]), URIRef(RDFS.label), Literal(i.countryLabel, datatype=XSD.string)))
-            G.add((URIRef(wiki[i.country_qid]), URIRef(instance_of_predicate), URIRef(country_object)))
-        
-    triple_file.write(G.serialize(format="nt"))
-    triple_file.close()
+    for row in data.itertuples():
+        if row.city_qid:
+            G.add((URIRef(yelpont[row.business_id]), URIRef(schema['location']), URIRef(wiki[row.city_qid])))
+            G.add((URIRef(wiki[row.city_qid]), URIRef(RDFS.label), Literal(row.city_label, datatype=XSD.string)))
+            if row.population:
+                G.add((URIRef(wiki[row.city_qid]), URIRef(population_predicate),
+                       Literal(row.population, datatype=XSD.integer)))
+
+            if row.county_qid:
+                G += add_to_graph(row, "city", "county", "Q28575")
+                if row.state_qid:
+                    G += add_to_graph(row, "county", "state", "Q7275")
+                    if row.country_qid:
+                        G += add_to_graph(row, "state", "country", "Q6256")  # to state
+                elif row.country_qid:
+                    G += add_to_graph(row, "county", "country", "Q6256")  # to county
+            elif row.state_qid:
+                G += add_to_graph(row, "city", "state", "Q7275")  # to city
+                if row.country_qid:
+                    G += add_to_graph(row, "state", "country", "Q6256")  # to state
+            elif row.country_qid:
+                G += add_to_graph(row, "city", "country", "Q6256")  # to city
+        elif row.state_qid:
+            G.add((URIRef(yelpont[row.business_id]), URIRef(schema['location']), URIRef(wiki[row.state_qid])))
+            G.add((URIRef(wiki[row.state_qid]), URIRef(RDFS.label), Literal(row.state_label, datatype=XSD.string)))
+            G.add((URIRef(wiki[row.state_id]), URIRef(instance_of_predicate), URIRef(wiki[row.state_id])))
+            if row.country_qid:
+                G += add_to_graph(row, "state", "country", "Q6256")  # to state
+
+    with gzip.open(filename="/home/ubuntu/vol1/virtuoso/import/wikidata_location_mappings.nt.gz", mode="at",
+                   encoding="utf-8") as file:
+        file.write(G.serialize(format="nt"))
 
 
 if __name__ == "__main__":
-    begin_time = datetime.datetime.now()
-    try:
-        create_location_mappings_csv()
-        location_mappings = pd.read_csv(get_path('location_mappings_with_boroughrAndCencus.csv'))
-        expand_location_mappings(location_mappings).to_csv(path_or_buf=get_path('location_mappings_with_boroughrAndCencus_expanded.csv'), index=False)
-        os.system("onedrive --synchronize --single-directory DVML-P7") if "Linux" in os.uname() else None
-        # location_mappings = pd.read_csv(get_path('location_mappings_expanded.csv'))
-        # create_wikidata_location_triples(location_mappings)
-        
-        message = f"Location_from_wikidata execution is done - Time in hh:mm:ss - {datetime.datetime.now() - begin_time} \nbegan {begin_time} \nended {datetime.datetime.now()}"
-    except Exception as e:
-        message = "Location_from_wikidata broke with this error: " + str(e)
-    webhook = DiscordWebhook(url='https://discord.com/api/webhooks/1051908340772515860/2jd9XbteomjiPwZCuoiZ7WN4LGe-xJzUPC8P1xPBBpbyECu00PSIIfs8tARmkI78t88v', content=message)
-    response = webhook.execute()
-    print(message)
+    # create_locations_csv()
+    create_locations_nt()
+
+    # import os
+    #
+    # os.system("onedrive --synchronize --single-directory DVML-P7") if "Linux" in os.uname() else None
