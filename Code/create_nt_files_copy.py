@@ -192,18 +192,20 @@ def create_nt_file(file_name: str):
                         none_triples.append((subject, _predicate, _object))
                         continue
                     elif isinstance(_object, str) and _predicate in ("BusinessParking", "GoodForMeal", "Ambience", "Music", "BestNights", "HairSpecializesIn", "DietaryRestrictions"):
-                        _object = _object.replace("'", '"').lower().replace("none", "null").replace('u"', '"')
+                        _object = _object.replace("'", '"').lower().replace("none", "null").replace('u"', '"')  # TODO: Replace instead of lower
                         _object = json.loads(_object)
                     elif type(_object) in (str, int, float, bool, dict):
                         _object = _object
                     else:
                         error_triples.append((subject, _predicate, _object))
-                    # try:
-                    #     _object = eval(_object)
-                    #     if _object == Ellipsis:  # Due to no text in a review
-                    #         _object = "..."
-                    # except (TypeError, SyntaxError, NameError, AttributeError):
-                    #     pass  # if the object cannot evaluate to a python object, we keep it as a string.
+                    
+                    
+                    try:
+                        _object = eval(_object)
+                        if _object == Ellipsis:  # Due to no text in a review
+                            _object = "..."
+                    except (TypeError, SyntaxError, NameError, AttributeError):
+                        pass  # if the object cannot evaluate to a python object, we keep it as a string.
                     if isinstance(_object, type(None)) or str(_object).lower() == "null":  # Handle missng data in the JSON
                         continue
 
