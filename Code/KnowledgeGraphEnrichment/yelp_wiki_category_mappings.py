@@ -12,7 +12,7 @@ from pprint import pprint
 from deepdiff import DeepDiff
 
 
-from Code.UtilityFunctions.wikidata_functions import wikidata_query, get_subclass_of_wikientity, category_query, min_qid, get_all_wikidata_claims, compare_qids, categories_dict_singular, get_qid_label
+from Code.UtilityFunctions.wikidata_functions import wikidata_query, get_subclass_of_wikientity, category_query, filter_potential_qids, min_qid, compare_qids, categories_dict_singular
 from Code.UtilityFunctions.get_data_path import get_path
 from Code.UtilityFunctions.string_functions import space_words_lower
 
@@ -22,9 +22,7 @@ def create_yelp_wiki_schema_triples_csv():
     categories = list(biz['categories'].str.cat(sep=', ').split(sep=', '))
 
     category_occurences = pd.DataFrame(list(dict(Counter(categories)).items()),
-                                   columns=['category', 'occurences'
-                                            ]).sort_values(by='occurences',
-                                                           ascending=False)
+                                        columns=['category', 'occurences']).sort_values(by='occurences',ascending=False)
     # Maps the split categories to the original categories
     category_occurences['split_category'] = category_occurences['category'].map(categories_dict_singular(categories))
     category_occurences = category_occurences.explode('split_category')
@@ -41,40 +39,32 @@ def create_yelp_wiki_schema_triples_csv():
 
 
     # Query Wikidata for the QID of the split categories
-    category_qid = {}
     category_qid2 = {}
     for cat in category_occurences.itertuples():
         try:
             cat = space_words_lower(cat.schema_or_yelp_category)
-        
-            wikidata_query_cat_query = wikidata_query(category_query(
-            category=cat))  # Querys wikidata for the QID of the category
-            category_qid[cat] = (
-            wikidata_query_cat_query["item.value"][0][31:],
-            wikidata_query_cat_query["itemLabel.value"][0]
-        )  # Adds QID and label of the first result of the query
-            category_qid2[cat] = min_qid(
-            wikidata_query_cat_query
-        )  # Adds QID and label with min_qid function
+            wikidata_cat_query = wikidata_query(category_query(category=cat))
+            category_qid2[cat] = min_qid(filter_potential_qids(wikidata_cat_query))
         except:
             pass
+    category_qid2
 
-    # compares the two dictionaries and returns the differences in old value and new value for every key
-    category_qid_only_qid = {key: value[0] for (key, value) in category_qid.items()}
-    category_qid2_only_qid = {key: value[0] for (key, value) in category_qid2.items()}
-    ddiff = DeepDiff(category_qid_only_qid, category_qid2_only_qid, verbose_level=1)
+    # # compares the two dictionaries and returns the differences in old value and new value for every key
+    # category_qid_only_qid = {key: value[0] for (key, value) in category_qid.items()}
+    # category_qid2_only_qid = {key: value[0] for (key, value) in category_qid2.items()}
+    # ddiff = DeepDiff(category_qid_only_qid, category_qid2_only_qid, verbose_level=1)
 
-    update_qid_dict = {}
-    for key, value in ddiff['values_changed'].items():
-        key = key[6:-2]
-    # check if the new qid is an instance of old qid, then update with old qid if true
-        if wikidata_query(
-            compare_qids(new_value=value['new_value'],old_value=value['old_value'])).empty is False:
-            print(f"Updating {key} from {value['new_value']} to {value['old_value']}")
-            update_qid_dict[key] = category_qid[key]
-    # update the qid dict with the new qids, 
-    # updated values: {'airline': 'Q46970', 'boat tour': 'Q25040412', 'magazine': 'Q41298'}
-    category_qid2.update(update_qid_dict)
+    # update_qid_dict = {}
+    # for key, value in ddiff['values_changed'].items():
+    #     key = key[6:-2]
+    # # check if the new qid is an instance of old qid, then update with old qid if true
+    #     if wikidata_query(
+    #         compare_qids(new_value=value['new_value'],old_value=value['old_value'])).empty is False:
+    #         print(f"Updating {key} from {value['new_value']} to {value['old_value']}")
+    #         update_qid_dict[key] = category_qid[key]
+    # # update the qid dict with the new qids, 
+    # # updated values: {'airline': 'Q46970', 'boat tour': 'Q25040412', 'magazine': 'Q41298'}
+    # category_qid2.update(update_qid_dict)
     category_qid2 = {k.title().replace(' ', ''): v for k, v in category_qid2.items()}
 
     # Maps the QID to the split category

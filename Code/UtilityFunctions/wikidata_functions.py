@@ -88,6 +88,18 @@ def category_query(category: str):
     ?article schema:isPartOf <https://en.wikipedia.org/>.
     SERVICE wikibase:label {{ bd:serviceParam wikibase:language "en". }}}}"""
 
+def filter_potential_qids(df_of_items: pd.DataFrame):
+    potential_qids_list = df_of_items['item.value'].apply(lambda x: x.split('/')[-1]).to_list()
+    potential_qids_list_str = "wd:"+" wd:".join(potential_qids_list)
+    query = f"""
+    SELECT DISTINCT ?item ?itemLabel 
+    WHERE {{
+        VALUES ?item {{{potential_qids_list_str}}}
+        ?item wdt:P279 ?subclass .
+        SERVICE wikibase:label {{ bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }}
+    }}
+    """
+    return wikidata_query(query)  
 
 def min_qid(df_qid: pd.DataFrame):
     """
