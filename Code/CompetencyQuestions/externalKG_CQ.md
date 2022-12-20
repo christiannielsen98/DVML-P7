@@ -314,7 +314,7 @@ Result:
 
 The number of cities of New Jersey is missing.
 
-## CQ 4: What items $\mathcal{X}$ exist in category Y? (pick 5 categories)
+## CQ 4: What items exist in abstract concepts that are similar to categories in the Yelp Open Dataset? We randomly choose five concepts.
 
 ### Wikidata
 Explanation of Q and P codes:
