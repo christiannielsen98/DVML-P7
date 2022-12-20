@@ -4,7 +4,7 @@ from networkx.algorithms.traversal.depth_first_search import dfs_tree
 from rdflib import Namespace, XSD
 
 from Code.UtilityFunctions.get_data_path import get_path
-from Code.UtilityFunctions.string_functions import long_com_substring, str_split, split_words, turn_words_singular, split_words_inc_slash
+from Code.UtilityFunctions.string_functions import string_is_float
 
 schema = Namespace("https://schema.org/")
 example = Namespace("https://example.org/")
@@ -62,9 +62,17 @@ def get_schema_predicate(predicate, obj=None, file=None):
             return yelpont + "locatedInState", XSD.string
         case "BusinessParking" | "GoodForMeal" | "Ambience" | "Music" | "BestNights" | "HairSpecializesIn" | "DietaryRestrictions" | "hours":
             return yelpont + "has" + predicate.capitalize() if predicate == "hours" else yelpont + "has" + predicate, XSD.string
-        case _:  # If no schema.org predicate can be found, create predicate using Yelp ontology.
+        # If no schema.org predicate can be found, create predicate using Yelp ontology.
+        # Also assign the object datatype, by checking the original type.
+        case _:  
+            # For the case of strings, we also need to check if the string only contains digits or floats.
             if isinstance(obj, str):
-                object_type = XSD.string
+                if obj.isdigit():
+                    object_type = XSD.integer
+                elif string_is_float(obj):
+                    object_type = XSD.decimal
+                else:
+                    object_type = XSD.string
             elif isinstance(obj, int):
                 object_type = XSD.integer
             elif isinstance(obj, float):

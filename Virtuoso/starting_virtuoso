@@ -1,0 +1,8 @@
+1. open the terminal
+2. ```sudo htop```
+3. find ```PID``` for the virtuoso using a lot of RAM
+4. kill the virtuoso with the command ```SIGTERM {PID}```
+5. exit htop by hitting F10
+6. find the container id for virtuoso with the command ```docker exec -it vos isql 1111```
+7. The above command returns an error with a container ID ```did```
+8. ```docker start {did}```
