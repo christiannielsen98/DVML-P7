@@ -39,36 +39,21 @@ def create_yelp_wiki_schema_triples_csv():
 
 
     # Query Wikidata for the QID of the split categories
-    category_qid2 = {}
+    category_qid = {}
     for cat in category_occurences.itertuples():
         try:
+            # Turns the category into a queryable string by lowering the word.
             cat = space_words_lower(cat.schema_or_yelp_category)
+            # Queries Wikidata for the QID of the category
             wikidata_cat_query = wikidata_query(category_query(category=cat))
-            category_qid2[cat] = min_qid(filter_potential_qids(wikidata_cat_query))
+            # Filters the QIDs by the ones that have a subclassOf relation. Then takes 
+            category_qid[cat] = min_qid(filter_potential_qids(wikidata_cat_query))
         except:
             pass
-    category_qid2
-
-    # # compares the two dictionaries and returns the differences in old value and new value for every key
-    # category_qid_only_qid = {key: value[0] for (key, value) in category_qid.items()}
-    # category_qid2_only_qid = {key: value[0] for (key, value) in category_qid2.items()}
-    # ddiff = DeepDiff(category_qid_only_qid, category_qid2_only_qid, verbose_level=1)
-
-    # update_qid_dict = {}
-    # for key, value in ddiff['values_changed'].items():
-    #     key = key[6:-2]
-    # # check if the new qid is an instance of old qid, then update with old qid if true
-    #     if wikidata_query(
-    #         compare_qids(new_value=value['new_value'],old_value=value['old_value'])).empty is False:
-    #         print(f"Updating {key} from {value['new_value']} to {value['old_value']}")
-    #         update_qid_dict[key] = category_qid[key]
-    # # update the qid dict with the new qids, 
-    # # updated values: {'airline': 'Q46970', 'boat tour': 'Q25040412', 'magazine': 'Q41298'}
-    # category_qid2.update(update_qid_dict)
-    category_qid2 = {k.title().replace(' ', ''): v for k, v in category_qid2.items()}
+    category_qid = {k.title().replace(' ', ''): v for k, v in category_qid.items()}
 
     # Maps the QID to the split category
-    category_occurences['qid'] = category_occurences['schema_or_yelp_category'].map(category_qid2)
+    category_occurences['qid'] = category_occurences['schema_or_yelp_category'].map(category_qid)
     category_occurences[['qid', 'qid_label']] = pd.DataFrame(category_occurences['qid'].tolist(),index=category_occurences.index)
 
     wiki_subclasses = pd.DataFrame()
@@ -115,4 +100,4 @@ if __name__ == "__main__":
     yelp_wiki_schema_triples_df=pd.read_csv(get_path("yelp_wiki_schema_triples_df.csv"))
     create_wiki_category_nt_files(yelp_wiki_schema_triples_df)
     
-    message = f"yelp_wiki_category_mappings execution is done - Time in hh:mm:ss - {datetime.datetime.now() - begin_time} \nbegan {begin_time} \nended {datetime.datetime.now()}"
+    print(f"yelp_wiki_category_mappings execution is done - Time in hh:mm:ss - {datetime.datetime.now() - begin_time} \nbegan {begin_time} \nended {datetime.datetime.now()}")
