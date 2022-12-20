@@ -79,7 +79,7 @@ dbpedia_query(query)
 
 ## CQ 2: How many of 10 random cities from the Yelp Open Dataset are in the external KG? And how many of these cities have a population?
 \
-sample_dict_updated is a dictionary of 10 random cities from the yelp dataset. The keys are the city names and the values are the states.
+```sample_dict_updated``` is a dictionary of 10 random cities from the Yelp Open Dataset. The keys are the city names and the values are the states.
 - Q486972: Human settlement
 - P131: located in the administrative territorial entity
 - P279: subclass of
@@ -102,13 +102,13 @@ for key, value in sample_dict_updated.items():
     sparql_query = f"""
     SELECT DISTINCT ?city ?cityLabel ?state ?stateLabel
     WHERE{{
-    FILTER(CONTAINS(?cityLabel, "{key}"@en)).
-    VALUES ?stateLabel {{"{value}"@en}}
-    ?city rdfs:label ?cityLabel.
-    ?city wdt:P131/wdt:P131 | wdt:P131 ?state .
-    ?city wdt:P31/wdt:P279* wd:Q486972 .
-    ?state rdfs:label ?stateLabel .
-    SERVICE wikibase:label {{ bd:serviceParam wikibase:language "en". }} 
+      FILTER(CONTAINS(?cityLabel, "{key}"@en)).
+      VALUES ?stateLabel {{"{value}"@en}}
+      ?city rdfs:label ?cityLabel.
+      ?city wdt:P131/wdt:P131 | wdt:P131 ?state .
+      ?city wdt:P31/wdt:P279* wd:Q486972 .
+      ?state rdfs:label ?stateLabel .
+      SERVICE wikibase:label {{ bd:serviceParam wikibase:language "en". }} 
     }}
     LIMIT 1
     """
@@ -132,6 +132,8 @@ Results:
 
 ## And how many of these cities have a population? 
 ```python
+list_city_qid = 'wd:Q5337787 wd:Q952992 wd:Q1083022 wd:Q1133576 wd:Q1994608 wd:Q1072819 wd:Q1375820 wd:Q1072657 wd:Q986631 wd:Q2375799'
+
 sparql_query = f"""
 SELECT ?city ?population ?cityLabel 
 WHERE {{
@@ -146,6 +148,7 @@ WHERE {{
   SERVICE wikibase:label {{ bd:serviceParam wikibase:language "en" . }}
 }}
 """
+
 wikidata_query(sparql_query=sparql_query)[['city.value','cityLabel.value', 'population.value']]
 ```
 Results:
@@ -233,27 +236,28 @@ Explanation of Q and P codes:
 
 ```python
 wd_state_list = 'wd:Q1400 wd:Q812 wd:Q1509 wd:Q1415 wd:Q1581 wd:Q1588 wd:Q816 wd:Q1408 wd:Q1227 wd:Q1951'
+
 sparql_query = f"""
 SELECT DISTINCT ?stateLabel ?numCities
 WHERE {{
-VALUES ?state {{{wd_state_list}}}
-{{?state wdt:P31 wd:Q35657 .}}
-UNION
-{{?state wdt:P31 wd:Q11828004 .}}
+  VALUES ?state {{{wd_state_list}}}
+  {{?state wdt:P31 wd:Q35657 .}}
+  UNION
+  {{?state wdt:P31 wd:Q11828004 .}}
 
-{{ SELECT ?state (COUNT(DISTINCT ?city) as ?numCities)
-WHERE
-{{
+  {{ SELECT ?state (COUNT(DISTINCT ?city) as ?numCities)
+  WHERE
+  {{
     {{?city wdt:P31/wdt:P279* wd:Q1093829.}}
     UNION
     {{?city wdt:P31/wdt:P279* wd:Q515.}}
     UNION
     {{?city wdt:P31/wdt:P279* wd:Q15127012.}}
     ?city wdt:P131/wdt:P131 | wdt:P131 ?state .
-}}
-GROUP BY ?state
-}}
-SERVICE wikibase:label {{ bd:serviceParam wikibase:language "en". }}
+  }}
+  GROUP BY ?state
+  }}
+  SERVICE wikibase:label {{ bd:serviceParam wikibase:language "en". }}
 }}
 """
 
@@ -344,17 +348,24 @@ Result:
 
 ### DBpedia
 ```sparql
-SELECT ?value (COUNT (DISTINCT ?category) AS ?count)
+SELECT ?category (COUNT (DISTINCT ?value) AS ?count)
 WHERE {
-    VALUES ?value {dbo:Beverage dbo:Car_dealership dbo:Business dbo:Restaurant dbo:Pizza}
-    ?category rdf:type ?value
+    VALUES ?category {dbr:Drink dbr:Car_dealership dbr:Business dbr:Restaurant dbr:Pizza}
+    {?value rdf:type ?category}
+    UNION
+    {?value dbo:type ?category}
+    UNION
+    {?value dbr:type ?category}
 }
-GROUP BY ?value
+GROUP BY ?category
 ```
 Result:
-|     | value.value    | count.value |
-| :-- | :------------- | ----------- |
-| 0   | dbo:Beverage   | 1884        |
-| 1   | dbo:Restaurant | 2838        |
+|     | category.value     | count.value |
+| :-- | :----------------- | ----------: |
+| 0   | dbr:Restaurant     |          70 |
+| 1   | dbr:Drink          |          33 |
+| 2   | dbr:Pizza          |          30 |
+| 3   | dbr:Car_dealership |           1 |
+| 4   | dbr:Business       |          60 |
 
-The number of pizza, business and car dealership is missing, because no entities in dbpedia seems to be an rdf:type of those entities.
+
