@@ -1,5 +1,6 @@
 import gzip
 import json
+import sys
 
 import inflect
 import pandas as pd
@@ -10,6 +11,8 @@ from UtilityFunctions.dictionary_functions import flatten_dictionary
 from UtilityFunctions.get_data_path import get_path
 from UtilityFunctions.schema_functions import get_schema_predicate, get_schema_type
 from UtilityFunctions.get_uri import get_uri
+
+sys.path.append(sys.path[0][:sys.path[0].find('DVML-P7') + len('DVML-P7')])
 
 schema = Namespace("https://schema.org/")
 skos = Namespace("https://www.w3.org/2004/02/skos/core#")
@@ -32,6 +35,9 @@ def create_nt_file(file_name: str):
     # triple_file = gzip.open(filename=f"yelp_{entity_name}.nt.gz", mode="at",
     #                         encoding="utf-8")
     file_path = get_path(file_name)
+    
+    none_triples = []
+    error_triples = []
 
     if file_name == "yelp_academic_dataset_business.json":
 
@@ -177,8 +183,6 @@ def create_nt_file(file_name: str):
                                   URIRef(subject_class)))
 
                 # Now we iterate over the rest of the key/value pairs and transform them to RDF format.
-                none_triples = []
-                error_triples = []
                 for _predicate, _object in line.items():
                     if _object in ("None", None, "none", "null", "Null", "NULL", ""):
                         none_triples.append((subject, _predicate, _object))
@@ -269,6 +273,14 @@ def create_nt_file(file_name: str):
                 print(subject, _predicate, _object)
 
     triple_file.close()
+    
+    with open(f"none_list_{entity_name}.txt","wt") as file:
+        for triple in none_triples:
+            print(triple, file=file)
+
+    with open(f"error_list_{entity_name}.txt","wt") as file:
+        for triple in error_triples:
+            print(triple, file=file)
 
 
 def create_tip_nt_file():
@@ -370,3 +382,4 @@ if __name__ == "__main__":
         message = f'create_nt_files failed in hh:mm:ss {datetime.datetime.now() - begin_time}\n{e}'
         print(e)
     webhook = DiscordWebhook(url='https://discord.com/api/webhooks/1053327986641874984/9ZGdxUp-yo5AMqFoWTtj_koAdtzNK6wfh0GFiEMl4FHc7ZZ1v6FpnfR1ycJ3eKimlUPr', content=message).execute()
+    
