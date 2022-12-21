@@ -1,6 +1,6 @@
 # KG Structure Diagram
 
-<a href="https://github.com/christiannielsen98/DVML-P7/blob/main/Code/Illustrations/KG_structure_diagram.jpg">![Foo](https://raw.githubusercontent.com/christiannielsen98/DVML-P7/main/Code/Illustrations/KG_structure_diagram.jpg)</a>
+<a href="https://github.com/christiannielsen98/DVML-P7/blob/main/Code/Illustrations/KG_structure_diagram.jpg" rel="Hello">![Foo](https://raw.githubusercontent.com/christiannielsen98/DVML-P7/main/Code/Illustrations/KG_structure_diagram.jpg)</a>
 [Image: KG Structure Diagram]
 
 This is a KG Structure Diagram. The diagram is made in miro.com. The diagram shows the Classes their predicates and their relations. The diagram is made in the end of the project, and is result of final enriched knowledge graph.
