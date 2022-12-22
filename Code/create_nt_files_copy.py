@@ -1,5 +1,6 @@
 import gzip
 import json
+import sys
 
 import inflect
 import pandas as pd
@@ -10,6 +11,8 @@ from UtilityFunctions.dictionary_functions import flatten_dictionary
 from UtilityFunctions.get_data_path import get_path
 from UtilityFunctions.schema_functions import get_schema_predicate, get_schema_type
 from UtilityFunctions.get_uri import get_uri
+
+sys.path.append(sys.path[0][:sys.path[0].find('DVML-P7') + len('DVML-P7')])
 
 schema = Namespace("https://schema.org/")
 skos = Namespace("https://www.w3.org/2004/02/skos/core#")
@@ -32,19 +35,23 @@ def create_nt_file(file_name: str):
     # triple_file = gzip.open(filename=f"yelp_{entity_name}.nt.gz", mode="at",
     #                         encoding="utf-8")
     file_path = get_path(file_name)
+    
+    # Lists for keeping track of errors
+    none_triples = []
+    error_triples = []
 
     if file_name == "yelp_academic_dataset_business.json":
+        # We load in external data to use for mappings, keeping track of split categories and class hierarchies.
 
         schema_category_mappings_df = pd.read_csv(get_path("class_mappings_manual.csv"))
         schema_category_mappings_dict = dict([(i, eval(x)) for i, x in zip(schema_category_mappings_df['YelpCategory'],
                                                                            schema_category_mappings_df['SchemaType'])])
 
-        class_hierarchies = pd.read_csv(get_path("class_hierarchy.csv"))
-
         split_categories_df = pd.read_excel(get_path("split_categories.xlsx"), names=["category", "split_category"])
         split_categories_dict = dict([(i, x.split(', ')) for i, x in zip(split_categories_df['category'],
                                                                          split_categories_df['split_category'])])
 
+        class_hierarchies = pd.read_csv(get_path("class_hierarchy.csv"))
         G = Graph()  # Initialize an empty graph
         for idx, row in class_hierarchies.iterrows():  # Adds class hierarchies to the graph
             G.add(triple=(URIRef(Namespace(row['type'])),
@@ -55,7 +62,7 @@ def create_nt_file(file_name: str):
 
     with open(file=file_path, mode="r") as file:
 
-        # Namespaces needed for URIs
+        # Creates the URLs which we link to
         if file_name in ["yelp_academic_dataset_business.json", "yelp_academic_dataset_checkin.json"]:
             url = business_uri
         elif file_name == 'yelp_academic_dataset_user.json':
@@ -79,9 +86,9 @@ def create_nt_file(file_name: str):
                 subject = get_uri(file_name) + line[json_key]  # get_uri makes sure the ID is a proper URI.
 
                 # Creates a triple pointing to the subjects corresponding URL (Best practice).
-                G.add(triple=(URIRef(subject),  # Subject
-                              URIRef(schema + 'url'),  # Predicate
-                              URIRef(url + line[json_key])))  # Object
+                G.add(triple=(URIRef(subject),  
+                              URIRef(schema + 'url'),  
+                              URIRef(url + line[json_key])))  
                 
                 del line[json_key]  # After assigning the URI to the subject variable, we no longer need the first key/value pair
 
@@ -94,8 +101,9 @@ def create_nt_file(file_name: str):
 
                 line = flatten_dictionary(line)  # Some values are dictionaries themselves, so we flatten them before proceeding
 
-                # Assign an RDFS Class to every subject (checkin does not have its own subject).
+                # In this if statement we handle the categories in the business file which are a special case.
                 if file_name == 'yelp_academic_dataset_business.json':
+                    # First we add a class to the business
                     G.add(triple=(URIRef(subject),
                                     RDFS.Class,
                                     URIRef(schema + "LocalBusiness")))
@@ -111,17 +119,16 @@ def create_nt_file(file_name: str):
                                             URIRef(schema + "category"),
                                             URIRef(yelpcat + category)))
                                
-                            
-                            # schema_category_mappping_dict is the mappings to schema.org obtained by MODEL
+                            # schema_category_mappping_dict is the mappings to schema.org obtained by the semantic model
                             if category.replace('_', ' ') in schema_category_mappings_dict.keys():
                                 mappings = schema_category_mappings_dict[category.replace('_', ' ')]
-                                # If there is only one mapping, it is an exactMatch
-                                
-                                # If there are multiple mappings add each mapping as a narrowMatch
+
+                                # If there is only one mapping, it is an closeMatch                                
+                                # If there are multiple mappings add each mapping as a narrowMatch to the categrory
                                 for subcategory in mappings:
                                     G.add(triple=(URIRef(yelpcat + category),
                                                     URIRef(skos + "narrowMatch") if "&" in category or "/" in category 
-                                                                                else URIRef(skos + "exactMatch"),
+                                                                                else URIRef(skos + "closeMatch"),
                                                     URIRef(schema + subcategory)))
 
                                     if subcategory not in category_mappings_cache:
@@ -131,7 +138,7 @@ def create_nt_file(file_name: str):
                                         category_mappings_cache.add(subcategory)
 
                             # If the category is not in the mapping, we check if it is a split category,
-                            # and if true, add each of the split categories (example) as narrowMatch
+                            # and if true, add each of the split categories as narrowMatch to a preprocessed version of the subcategory in the Yelp ontology.
                             if category in split_categories_dict.keys():
                                 for subcategory in split_categories_dict[category]:
                                     p = inflect.engine()
@@ -149,6 +156,7 @@ def create_nt_file(file_name: str):
                                                         URIRef(yelpont + "YelpCategory")))
                                         category_mappings_cache.add(subcategory)
 
+                            # If the category is neither in the mapping nor a split category, we map to the preproccsed category in the Yelp ontology.
                             else:
                                 p = inflect.engine()
                                 lower_cat = category.lower()
@@ -156,7 +164,7 @@ def create_nt_file(file_name: str):
                                 preprocessed_category = preprocessed_category if preprocessed_category else lower_cat
 
                                 G.add(triple=(URIRef(yelpcat + category),
-                                                URIRef(skos + "exactMatch"),
+                                                URIRef(skos + "closeMatch"),
                                                 URIRef(yelpcat + preprocessed_category)))
 
                                 if preprocessed_category not in category_mappings_cache:
@@ -177,15 +185,15 @@ def create_nt_file(file_name: str):
                                   URIRef(subject_class)))
 
                 # Now we iterate over the rest of the key/value pairs and transform them to RDF format.
-                none_triples = []
-                error_triples = []
                 for _predicate, _object in line.items():
-                    if _object in ("None", None, "none", "null", "Null", "NULL", ""):
+                    if _object in ("None", None, "none", "null", "Null", "NULL", ""): # Some values are None, add to them a list, and skip them.
                         none_triples.append((subject, _predicate, _object))
                         continue
-                    elif isinstance(_object, str) and _predicate in ("BusinessParking", "GoodForMeal", "Ambience", "Music", "BestNights", "HairSpecializesIn", "DietaryRestrictions"):
-                        _object = _object.replace("'", '"').replace("None", "null").replace('u"', '"').replace("True", "true").replace("False", "false")
-                        _object = json.loads(_object)
+                    # Some values are dictionaries, which needs to be handled differently.
+                    elif isinstance(_object, dict) or _predicate in ("BusinessParking", "GoodForMeal", "Ambience", "Music", "BestNights", "HairSpecializesIn", "DietaryRestrictions"):
+                        if isinstance(_object, str):
+                            _object = _object.replace("'", '"').replace("None", "null").replace('u"', '"').replace("True", "true").replace("False", "false") 
+                            _object = json.loads(_object)
                         
                         predicate, object_type = get_schema_predicate(_predicate, _object, file_name)
                         b_node = BNode()
@@ -204,33 +212,8 @@ def create_nt_file(file_name: str):
                             G.add(triple=(URIRef(b_node),
                                           URIRef(yelpont + "has" + sub_predicate),
                                           Literal(sub_object)))
-                    
-                    elif isinstance(_object, dict):
-                        predicate, object_type = get_schema_predicate(_predicate, _object, file_name)
-                        b_node = BNode()
-
-                        G.add(triple=(URIRef(subject),
-                                      URIRef(predicate),  # E.g., hasBusinessParking, hashours
-                                      URIRef(b_node)))  # Blank Node
-
-                        blanknode_class = get_schema_type(_predicate)
-
-                        G.add(triple=(URIRef(b_node),
-                                      URIRef(RDFS.Class),
-                                      URIRef(blanknode_class)))
-
-                        for sub_predicate, sub_object in _object.items():
-                            G.add(triple=(URIRef(b_node),
-                                          URIRef(yelpont + "has" + sub_predicate),
-                                          Literal(sub_object)))
-                    
-                    elif type(_object) in (str, int, float, bool):
-                        _object = _object
-                        
-                    else:
-                        error_triples.append((subject, _predicate, _object)) 
-
-                    if _predicate in ["date", "friends", "elite"]:  # The values to these keys contains listed objects
+                            
+                    elif _predicate in ["date", "friends", "elite"]:  # The values to these keys contains listed objects
                         obj_lst = _object.split(", ") if _predicate != "elite" else _object.split(",")  # Splits the listed objects
 
                         # get_schema_predicate assigns returns a proper schema.org predicate based on the key
@@ -244,15 +227,16 @@ def create_nt_file(file_name: str):
                                               URIRef(predicate),
                                               Literal(obj, datatype=object_type)))
                     
+                                        
                     elif _predicate == "business_id":  # If we are dealing with a reivew, we add a link to the business
                         predicate, object_type = get_schema_predicate(_predicate, _object, file_name)
-                        obj = yelpent + _object
+                        obj = yelpent + 'business_id/' + _object
                         
                         G.add(triple=(URIRef(subject),
                                       URIRef(predicate),
                                       URIRef(obj)))
 
-                    else:
+                    elif type(_object) in (str, int, float, bool):
                         if _predicate == "yelping_since":
                             _object = _object.replace(" ", "T")
 
@@ -260,6 +244,9 @@ def create_nt_file(file_name: str):
                         G.add(triple=(URIRef(subject),
                                       URIRef(predicate),
                                       Literal(_object, datatype=object_type)))
+                                            
+                    else:
+                        error_triples.append((subject, _predicate, _object))   
 
                 triple_file.write(
                     G.serialize(format='nt'))  # Writes to the .nt file the graph now containing a RDF triple.
@@ -269,6 +256,14 @@ def create_nt_file(file_name: str):
                 print(subject, _predicate, _object)
 
     triple_file.close()
+    
+    with open(f"none_list_{entity_name}.txt","wt") as file:
+        for triple in none_triples:
+            print(triple, file=file)
+
+    with open(f"error_list_{entity_name}.txt","wt") as file:
+        for triple in error_triples:
+            print(triple, file=file)
 
 
 def create_tip_nt_file():
@@ -291,7 +286,7 @@ def create_tip_nt_file():
                 G = Graph()
                 b_node = BNode()
 
-                subject = line["user_id"]
+                user = line["user_id"]
 
                 # get_schema_type returns the class for subjects.
                 subject_class = get_schema_type(entity_name)
@@ -300,7 +295,7 @@ def create_tip_nt_file():
                 # Creates the edge between a user and their tip
                 G.add(triple=(URIRef(b_node),
                               URIRef(schema + "author"),
-                              URIRef(user_uri + subject)))
+                              URIRef(yelpent + 'user_id/' + user)))
 
                 # Assigns a RDFS Class to the blank node.
                 G.add(triple=(URIRef(b_node),
@@ -313,7 +308,7 @@ def create_tip_nt_file():
                     if _predicate == "date":
                         obj = _object.replace(" ", "T")
                     elif _predicate == "business_id":
-                        obj = business_uri + _object
+                        obj = yelpent + 'business_id/' + _object
                     else:
                         obj = _object
 
@@ -340,7 +335,8 @@ if __name__ == "__main__":
              "/home/ubuntu/vol1/virtuoso/import/yelp_checkin.nt.gz", 
              "/home/ubuntu/vol1/virtuoso/import/yelp_review.nt.gz", 
              "/home/ubuntu/vol1/virtuoso/import/yelp_user.nt.gz", 
-             "/home/ubuntu/vol1/virtuoso/import/yelp_tip.nt.gz"]
+             "/home/ubuntu/vol1/virtuoso/import/yelp_tip.nt.gz"
+             ]
     for i in myfiles:
         ## If file exists, delete it ##
         if os.path.isfile(i):
@@ -370,3 +366,4 @@ if __name__ == "__main__":
         message = f'create_nt_files failed in hh:mm:ss {datetime.datetime.now() - begin_time}\n{e}'
         print(e)
     webhook = DiscordWebhook(url='https://discord.com/api/webhooks/1053327986641874984/9ZGdxUp-yo5AMqFoWTtj_koAdtzNK6wfh0GFiEMl4FHc7ZZ1v6FpnfR1ycJ3eKimlUPr', content=message).execute()
+    

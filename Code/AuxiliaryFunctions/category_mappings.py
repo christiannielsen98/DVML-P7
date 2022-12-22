@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 
 from Code.UtilityFunctions.get_data_path import get_path
-from Code.UtilityFunctions.string_functions import str_split, turn_words_singular
+from Code.UtilityFunctions.string_functions import turn_words_singular
 
 from sentence_transformers import SentenceTransformer
 

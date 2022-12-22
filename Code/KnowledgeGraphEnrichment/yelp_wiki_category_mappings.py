@@ -8,11 +8,9 @@ import pandas as pd
 from collections import Counter
 from rdflib import Namespace, Graph, URIRef, Literal, XSD
 from rdflib.namespace import RDFS
-from pprint import pprint
-from deepdiff import DeepDiff
 
 
-from Code.UtilityFunctions.wikidata_functions import wikidata_query, get_subclass_of_wikientity, category_query, filter_potential_qids, min_qid, compare_qids, categories_dict_singular
+from Code.UtilityFunctions.wikidata_functions import wikidata_query, get_subclass_of_wikientity, category_query, min_qid, categories_dict_singular
 from Code.UtilityFunctions.get_data_path import get_path
 from Code.UtilityFunctions.string_functions import space_words_lower
 
@@ -47,7 +45,7 @@ def create_yelp_wiki_schema_triples_csv():
             # Queries Wikidata for the QID of the category
             wikidata_cat_query = wikidata_query(category_query(category=cat))
             # Filters the QIDs by the ones that have a subclassOf relation. Then takes 
-            category_qid[cat] = min_qid(filter_potential_qids(wikidata_cat_query))
+            category_qid[cat] = min_qid(wikidata_cat_query)
         except:
             pass
     category_qid = {k.title().replace(' ', ''): v for k, v in category_qid.items()}

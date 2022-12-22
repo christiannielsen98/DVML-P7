@@ -21,7 +21,7 @@ namespaces_dict = {"https://schema.org/": "schema",
 
 input_nt_files = ["/home/ubuntu/vol1/virtuoso/import/yelp_business.nt.gz"]
 
-thresholds = [0.01, 0.1, 0.2, 0.5, 0.75]
+thresholds = [0]
 
 for threshold in thresholds:
     start = time.time()

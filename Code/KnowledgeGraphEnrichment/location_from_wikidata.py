@@ -2,6 +2,7 @@ import json
 import requests
 
 import pandas as pd
+import os
 
 from Code.UtilityFunctions.wikidata_functions import wikidata_query
 from Code.UtilityFunctions.get_data_path import get_path
@@ -243,6 +244,8 @@ def create_locations_csv():
     df.rename(columns={"city_og": "city", "state_og": "state"}, inplace=True)
 
     df.to_csv(path_or_buf=get_path('location_mappings_search_location.csv'), index=False)
+    
+    os.system("onedrive --synchronize --single-directory DVML-P7") if "Linux" in os.uname() else None
 
 
 # ## CREATE NT
@@ -319,7 +322,3 @@ def create_locations_nt():
 if __name__ == "__main__":
     # create_locations_csv()
     create_locations_nt()
-
-    # import os
-    #
-    # os.system("onedrive --synchronize --single-directory DVML-P7") if "Linux" in os.uname() else None
