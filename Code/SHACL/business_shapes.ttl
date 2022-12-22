@@ -54,6 +54,7 @@
             sh:maxCount 1 ;
             sh:path yont:BYOB ],
         [ a sh:PropertyShape ;
+            sh:minCount 1 ;
             sh:maxCount 1 ;
             sh:nodeKind sh:IRI ;
             sh:path yont:hasHours ],
@@ -71,6 +72,7 @@
             sh:path yont:hasDietaryRestrictions ],
         [ a sh:PropertyShape ;
             sh:dataType xsd:string ;
+            sh:minCount 1 ;
             sh:maxCount 1 ;
             sh:path schema:address ],
         [ a sh:PropertyShape ;
@@ -78,6 +80,7 @@
             sh:nodeKind sh:IRI ;
             sh:path yont:hasAmbience ],
         [ a sh:PropertyShape ;
+            sh:minCount 1 ;
             sh:nodeKind sh:IRI ;
             sh:path schema:category ],
         [ a sh:PropertyShape ;
@@ -210,6 +213,7 @@
         [ a sh:PropertyShape ;
             sh:dataType xsd:string ;
             sh:maxCount 1 ;
+            sh:minCount 1 ;
             sh:path schema:postalCode ],
         [ a sh:PropertyShape ;
             sh:dataType xsd:string ;
