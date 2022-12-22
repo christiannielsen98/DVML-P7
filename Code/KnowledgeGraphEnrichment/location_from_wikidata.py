@@ -284,6 +284,8 @@ def create_locations_nt():
         if row.city_qid:
             G.add((URIRef(yelpont[row.business_id]), URIRef(schema['location']), URIRef(wiki[row.city_qid])))
             G.add((URIRef(wiki[row.city_qid]), URIRef(RDFS.label), Literal(row.city_label, datatype=XSD.string)))
+            G.add((URIRef(wiki[row.city_qid]), URIRef(instance_of_predicate), URIRef(wiki + "Q486972")))
+
             if row.population:
                 G.add((URIRef(wiki[row.city_qid]), URIRef(population_predicate),
                        Literal(row.population, datatype=XSD.integer)))
