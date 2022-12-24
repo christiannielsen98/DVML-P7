@@ -29,4 +29,3 @@
             sh:minCount 1 ;
             sh:path schema:aggregateRating ] ;
     sh:targetClass schema:UserReview .
-gi

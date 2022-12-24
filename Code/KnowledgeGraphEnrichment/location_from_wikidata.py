@@ -320,5 +320,5 @@ def create_locations_nt():
 
 
 if __name__ == "__main__":
-    # create_locations_csv()
+    create_locations_csv()
     create_locations_nt()

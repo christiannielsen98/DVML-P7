@@ -6,230 +6,230 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix yont: <https://purl.archive.org/purl/yelp/ontology#> .
 
-:LocalBusiness a sh:NodeShape ;
-    sh:property [ a sh:PropertyShape ;
-            sh:dataType xsd:string ;
-            sh:maxCount 1 ;
-            sh:minCount 1 ;
-            sh:path yont:locatedInCity ],
-        [ a sh:PropertyShape ;
-            sh:dataType xsd:string ;
-            sh:maxCount 1 ;
-            sh:path yont:DriveThru ],
-        [ a sh:PropertyShape ;
-            sh:maxCount 1 ;
-            sh:nodeKind sh:IRI ;
-            sh:path yont:hasBestNights ],
-        [ a sh:PropertyShape ;
-            sh:dataType xsd:string ;
-            sh:maxCount 1 ;
-            sh:path yont:BusinessAcceptsCreditCards ],
-        [ a sh:PropertyShape ;
-            sh:dataType xsd:string ;
-            sh:maxCount 1 ;
-            sh:path yont:HasTV ],
-        [ a sh:PropertyShape ;
-            sh:dataType xsd:string ;
-            sh:maxCount 1 ;
-            sh:path yont:RestaurantsAttire ],
-        [ a sh:PropertyShape ;
-            sh:dataType xsd:string ;
-            sh:maxCount 1 ;
-            sh:path yont:RestaurantsTableService ],
-        [ a sh:PropertyShape ;
-            sh:dataType xsd:integer ;
-            sh:maxCount 1 ;
-            sh:path yont:RestaurantsPriceRange2 ],
-        [ a sh:PropertyShape ;
-            sh:in ( schema:LocalBusiness ) ;
-            sh:maxCount 1 ;
-            sh:minCount 1 ;
-            sh:path rdfs:Class ],
-        [ a sh:PropertyShape ;
-            sh:dataType xsd:string ;
-            sh:maxCount 1 ;
-            sh:path yont:RestaurantsGoodForGroups ],
-        [ a sh:PropertyShape ;
-            sh:dataType xsd:string ;
-            sh:maxCount 1 ;
-            sh:path yont:BYOB ],
-        [ a sh:PropertyShape ;
-            sh:minCount 1 ;
-            sh:maxCount 1 ;
-            sh:nodeKind sh:IRI ;
-            sh:path yont:hasHours ],
-        [ a sh:PropertyShape ;
-            sh:dataType xsd:string ;
-            sh:maxCount 1 ;
-            sh:path yont:GoodForDancing ],
-        [ a sh:PropertyShape ;
-            sh:dataType xsd:string ;
-            sh:maxCount 1 ;
-            sh:path yont:Open24Hours ],
-        [ a sh:PropertyShape ;
-            sh:maxCount 1 ;
-            sh:nodeKind sh:IRI ;
-            sh:path yont:hasDietaryRestrictions ],
-        [ a sh:PropertyShape ;
-            sh:dataType xsd:string ;
-            sh:minCount 1 ;
-            sh:maxCount 1 ;
-            sh:path schema:address ],
-        [ a sh:PropertyShape ;
-            sh:maxCount 1 ;
-            sh:nodeKind sh:IRI ;
-            sh:path yont:hasAmbience ],
-        [ a sh:PropertyShape ;
-            sh:minCount 1 ;
-            sh:nodeKind sh:IRI ;
-            sh:path schema:category ],
-        [ a sh:PropertyShape ;
-            sh:dataType xsd:string ;
-            sh:maxCount 1 ;
-            sh:path yont:WheelchairAccessible ],
-        [ a sh:PropertyShape ;
-            sh:dataType xsd:string ;
-            sh:maxCount 1 ;
-            sh:path yont:CoatCheck ],
-        [ a sh:PropertyShape ;
-            sh:dataType xsd:string ;
-            sh:maxCount 1 ;
-            sh:path yont:RestaurantsCounterService ],
-        [ a sh:PropertyShape ;
-            sh:dataType xsd:string ;
-            sh:maxCount 1 ;
-            sh:path yont:DogsAllowed ],
-        [ a sh:PropertyShape ;
-            sh:dataType xsd:decimal ;
-            sh:maxCount 1 ;
-            sh:minCount 1 ;
-            sh:path schema:longitude ],
-        [ a sh:PropertyShape ;
-            sh:dataType xsd:decimal ;
-            sh:maxCount 1 ;
-            sh:minCount 1 ;
-            sh:path schema:aggregateRating ],
-        [ a sh:PropertyShape ;
-            sh:dataType xsd:string ;
-            sh:maxCount 1 ;
-            sh:path yont:RestaurantsReservations ],
-        [ a sh:PropertyShape ;
-            sh:maxCount 1 ;
-            sh:nodeKind sh:IRI ;
-            sh:path yont:hasBusinessParking ],
-        [ a sh:PropertyShape ;
-            sh:maxCount 1 ;
-            sh:nodeKind sh:IRI ;
-            sh:path yont:hasMusic ],
-        [ a sh:PropertyShape ;
-            sh:dataType xsd:string ;
-            sh:maxCount 1 ;
-            sh:path yont:ByAppointmentOnly ],
-        [ a sh:PropertyShape ;
-            sh:dataType xsd:string ;
-            sh:maxCount 1 ;
-            sh:path yont:OutdoorSeating ],
-        [ a sh:PropertyShape ;
-            sh:dataType xsd:string ;
-            sh:maxCount 1 ;
-            sh:path yont:GoodForKids ],
-        [ a sh:PropertyShape ;
-            sh:dataType xsd:string ;
-            sh:maxCount 1 ;
-            sh:minCount 1 ;
-            sh:path schema:publicAccess ],
-        [ a sh:PropertyShape ;
-            sh:dataType xsd:string ;
-            sh:maxCount 1 ;
-            sh:path yont:BYOBCorkage ],
-        [ a sh:PropertyShape ;
-            sh:dataType xsd:integer ;
-            sh:maxCount 1 ;
-            sh:minCount 1 ;
-            sh:path schema:reviewCount ],
-        [ a sh:PropertyShape ;
-            sh:dataType xsd:string ;
-            sh:maxCount 1 ;
-            sh:path yont:Alcohol ],
-        [ a sh:PropertyShape ;
-            sh:maxCount 1 ;
-            sh:nodeKind sh:IRI ;
-            sh:path yont:hasGoodForMeal ],
-        [ a sh:PropertyShape ;
-            sh:dataType xsd:string ;
-            sh:maxCount 1 ;
-            sh:path yont:Smoking ],
-        [ a sh:PropertyShape ;
-            sh:dataType xsd:string ;
-            sh:maxCount 1 ;
-            sh:path yont:Caters ],
-        [ a sh:PropertyShape ;
-            sh:dataType xsd:string ;
-            sh:maxCount 1 ;
-            sh:path yont:RestaurantsTakeOut ],
-        [ a sh:PropertyShape ;
-            sh:dataType xsd:string ;
-            sh:maxCount 1 ;
-            sh:minCount 1 ;
-            sh:path schema:legalName ],
-        [ a sh:PropertyShape ;
-            sh:dataType xsd:string ;
-            sh:maxCount 1 ;
-            sh:path yont:Corkage ],
-        [ a sh:PropertyShape ;
-            sh:maxCount 1 ;
-            sh:nodeKind sh:IRI ;
-            sh:path yont:hasHairSpecializesIn ],
-        [ a sh:PropertyShape ;
-            sh:dataType xsd:string ;
-            sh:maxCount 1 ;
-            sh:minCount 1 ;
-            sh:path yont:locatedInState ],
-        [ a sh:PropertyShape ;
-            sh:dataType xsd:string ;
-            sh:maxCount 1 ;
-            sh:path yont:WiFi ],
-        [ a sh:PropertyShape ;
-            sh:dataType xsd:string ;
-            sh:maxCount 1 ;
-            sh:path yont:AcceptsInsurance ],
-        [ a sh:PropertyShape ;
-            sh:dataType xsd:decimal ;
-            sh:maxCount 1 ;
-            sh:minCount 1 ;
-            sh:path schema:latitude ],
-        [ a sh:PropertyShape ;
-            sh:dataType xsd:string ;
-            sh:maxCount 1 ;
-            sh:path yont:BusinessAcceptsBitcoin ],
-        [ a sh:PropertyShape ;
-            sh:dataType xsd:string ;
-            sh:maxCount 1 ;
-            sh:path yont:HappyHour ],
-        [ a sh:PropertyShape ;
-            sh:dataType xsd:string ;
-            sh:maxCount 1 ;
-            sh:path yont:AgesAllowed ],
-        [ a sh:PropertyShape ;
-            sh:dataType xsd:string ;
-            sh:maxCount 1 ;
-            sh:minCount 1 ;
-            sh:path schema:postalCode ],
-        [ a sh:PropertyShape ;
-            sh:dataType xsd:string ;
-            sh:maxCount 1 ;
-            sh:path yont:BikeParking ],
-        [ a sh:PropertyShape ;
-            sh:maxCount 1 ;
-            sh:minCount 1 ;
-            sh:nodeKind sh:IRI ;
-            sh:path schema:url ],
-        [ a sh:PropertyShape ;
-            sh:dataType xsd:string ;
-            sh:maxCount 1 ;
-            sh:path yont:RestaurantsDelivery ],
-        [ a sh:PropertyShape ;
-            sh:dataType xsd:string ;
-            sh:maxCount 1 ;
-            sh:path yont:NoiseLevel ] ;
-    sh:targetClass schema:LocalBusiness .
+:LocalBusiness a <http://www.w3.org/ns/shacl#NodeShape> ;
+    <http://www.w3.org/ns/shacl#property> [ a <http://www.w3.org/ns/shacl#PropertyShape> ;
+            <http://www.w3.org/ns/shacl#dataType> <http://www.w3.org/2001/XMLSchema#string> ;
+            <http://www.w3.org/ns/shacl#maxCount> 1 ;
+            <http://www.w3.org/ns/shacl#minCount> 1 ;
+            <http://www.w3.org/ns/shacl#path> <https://purl.archive.org/purl/yelp/ontology#locatedInCity> ],
+        [ a <http://www.w3.org/ns/shacl#PropertyShape> ;
+            <http://www.w3.org/ns/shacl#dataType> <http://www.w3.org/2001/XMLSchema#string> ;
+            <http://www.w3.org/ns/shacl#maxCount> 1 ;
+            <http://www.w3.org/ns/shacl#path> <https://purl.archive.org/purl/yelp/ontology#DriveThru> ],
+        [ a <http://www.w3.org/ns/shacl#PropertyShape> ;
+            <http://www.w3.org/ns/shacl#maxCount> 1 ;
+            <http://www.w3.org/ns/shacl#nodeKind> <http://www.w3.org/ns/shacl#IRI> ;
+            <http://www.w3.org/ns/shacl#path> <https://purl.archive.org/purl/yelp/ontology#hasBestNights> ],
+        [ a <http://www.w3.org/ns/shacl#PropertyShape> ;
+            <http://www.w3.org/ns/shacl#dataType> <http://www.w3.org/2001/XMLSchema#string> ;
+            <http://www.w3.org/ns/shacl#maxCount> 1 ;
+            <http://www.w3.org/ns/shacl#path> <https://purl.archive.org/purl/yelp/ontology#BusinessAcceptsCreditCards> ],
+        [ a <http://www.w3.org/ns/shacl#PropertyShape> ;
+            <http://www.w3.org/ns/shacl#dataType> <http://www.w3.org/2001/XMLSchema#string> ;
+            <http://www.w3.org/ns/shacl#maxCount> 1 ;
+            <http://www.w3.org/ns/shacl#path> <https://purl.archive.org/purl/yelp/ontology#HasTV> ],
+        [ a <http://www.w3.org/ns/shacl#PropertyShape> ;
+            <http://www.w3.org/ns/shacl#dataType> <http://www.w3.org/2001/XMLSchema#string> ;
+            <http://www.w3.org/ns/shacl#maxCount> 1 ;
+            <http://www.w3.org/ns/shacl#path> <https://purl.archive.org/purl/yelp/ontology#RestaurantsAttire> ],
+        [ a <http://www.w3.org/ns/shacl#PropertyShape> ;
+            <http://www.w3.org/ns/shacl#dataType> <http://www.w3.org/2001/XMLSchema#string> ;
+            <http://www.w3.org/ns/shacl#maxCount> 1 ;
+            <http://www.w3.org/ns/shacl#path> <https://purl.archive.org/purl/yelp/ontology#RestaurantsTableService> ],
+        [ a <http://www.w3.org/ns/shacl#PropertyShape> ;
+            <http://www.w3.org/ns/shacl#dataType> <http://www.w3.org/2001/XMLSchema#integer> ;
+            <http://www.w3.org/ns/shacl#maxCount> 1 ;
+            <http://www.w3.org/ns/shacl#path> <https://purl.archive.org/purl/yelp/ontology#RestaurantsPriceRange2> ],
+        [ a <http://www.w3.org/ns/shacl#PropertyShape> ;
+            <http://www.w3.org/ns/shacl#in> ( <https://schema.org/LocalBusiness> ) ;
+            <http://www.w3.org/ns/shacl#maxCount> 1 ;
+            <http://www.w3.org/ns/shacl#minCount> 1 ;
+            <http://www.w3.org/ns/shacl#path> <http://www.w3.org/2000/01/rdf-schema#:Class> ],
+        [ a <http://www.w3.org/ns/shacl#PropertyShape> ;
+            <http://www.w3.org/ns/shacl#dataType> <http://www.w3.org/2001/XMLSchema#string> ;
+            <http://www.w3.org/ns/shacl#maxCount> 1 ;
+            <http://www.w3.org/ns/shacl#path> <https://purl.archive.org/purl/yelp/ontology#RestaurantsGoodForGroups> ],
+        [ a <http://www.w3.org/ns/shacl#PropertyShape> ;
+            <http://www.w3.org/ns/shacl#dataType> <http://www.w3.org/2001/XMLSchema#string> ;
+            <http://www.w3.org/ns/shacl#maxCount> 1 ;
+            <http://www.w3.org/ns/shacl#path> <https://purl.archive.org/purl/yelp/ontology#BYOB> ],
+        [ a <http://www.w3.org/ns/shacl#PropertyShape> ;
+            <http://www.w3.org/ns/shacl#minCount> 1 ;
+            <http://www.w3.org/ns/shacl#maxCount> 1 ;
+            <http://www.w3.org/ns/shacl#nodeKind> <http://www.w3.org/ns/shacl#IRI> ;
+            <http://www.w3.org/ns/shacl#path> <https://purl.archive.org/purl/yelp/ontology#hasHours> ],
+        [ a <http://www.w3.org/ns/shacl#PropertyShape> ;
+            <http://www.w3.org/ns/shacl#dataType> <http://www.w3.org/2001/XMLSchema#string> ;
+            <http://www.w3.org/ns/shacl#maxCount> 1 ;
+            <http://www.w3.org/ns/shacl#path> <https://purl.archive.org/purl/yelp/ontology#GoodForDancing> ],
+        [ a <http://www.w3.org/ns/shacl#PropertyShape> ;
+            <http://www.w3.org/ns/shacl#dataType> <http://www.w3.org/2001/XMLSchema#string> ;
+            <http://www.w3.org/ns/shacl#maxCount> 1 ;
+            <http://www.w3.org/ns/shacl#path> <https://purl.archive.org/purl/yelp/ontology#Open24Hours> ],
+        [ a <http://www.w3.org/ns/shacl#PropertyShape> ;
+            <http://www.w3.org/ns/shacl#maxCount> 1 ;
+            <http://www.w3.org/ns/shacl#nodeKind> <http://www.w3.org/ns/shacl#IRI> ;
+            <http://www.w3.org/ns/shacl#path> <https://purl.archive.org/purl/yelp/ontology#hasDietaryRestrictions> ],
+        [ a <http://www.w3.org/ns/shacl#PropertyShape> ;
+            <http://www.w3.org/ns/shacl#dataType> <http://www.w3.org/2001/XMLSchema#string> ;
+            <http://www.w3.org/ns/shacl#minCount> 1 ;
+            <http://www.w3.org/ns/shacl#maxCount> 1 ;
+            <http://www.w3.org/ns/shacl#path> <https://schema.org/address> ],
+        [ a <http://www.w3.org/ns/shacl#PropertyShape> ;
+            <http://www.w3.org/ns/shacl#maxCount> 1 ;
+            <http://www.w3.org/ns/shacl#nodeKind> <http://www.w3.org/ns/shacl#IRI> ;
+            <http://www.w3.org/ns/shacl#path> <https://purl.archive.org/purl/yelp/ontology#hasAmbience> ],
+        [ a <http://www.w3.org/ns/shacl#PropertyShape> ;
+            <http://www.w3.org/ns/shacl#minCount> 1 ;
+            <http://www.w3.org/ns/shacl#nodeKind> <http://www.w3.org/ns/shacl#IRI> ;
+            <http://www.w3.org/ns/shacl#path> <https://schema.org/category> ],
+        [ a <http://www.w3.org/ns/shacl#PropertyShape> ;
+            <http://www.w3.org/ns/shacl#dataType> <http://www.w3.org/2001/XMLSchema#string> ;
+            <http://www.w3.org/ns/shacl#maxCount> 1 ;
+            <http://www.w3.org/ns/shacl#path> <https://purl.archive.org/purl/yelp/ontology#WheelchairAccessible> ],
+        [ a <http://www.w3.org/ns/shacl#PropertyShape> ;
+            <http://www.w3.org/ns/shacl#dataType> <http://www.w3.org/2001/XMLSchema#string> ;
+            <http://www.w3.org/ns/shacl#maxCount> 1 ;
+            <http://www.w3.org/ns/shacl#path> <https://purl.archive.org/purl/yelp/ontology#CoatCheck> ],
+        [ a <http://www.w3.org/ns/shacl#PropertyShape> ;
+            <http://www.w3.org/ns/shacl#dataType> <http://www.w3.org/2001/XMLSchema#string> ;
+            <http://www.w3.org/ns/shacl#maxCount> 1 ;
+            <http://www.w3.org/ns/shacl#path> <https://purl.archive.org/purl/yelp/ontology#RestaurantsCounterService> ],
+        [ a <http://www.w3.org/ns/shacl#PropertyShape> ;
+            <http://www.w3.org/ns/shacl#dataType> <http://www.w3.org/2001/XMLSchema#string> ;
+            <http://www.w3.org/ns/shacl#maxCount> 1 ;
+            <http://www.w3.org/ns/shacl#path> <https://purl.archive.org/purl/yelp/ontology#DogsAllowed> ],
+        [ a <http://www.w3.org/ns/shacl#PropertyShape> ;
+            <http://www.w3.org/ns/shacl#dataType> <http://www.w3.org/2001/XMLSchema#decimal> ;
+            <http://www.w3.org/ns/shacl#maxCount> 1 ;
+            <http://www.w3.org/ns/shacl#minCount> 1 ;
+            <http://www.w3.org/ns/shacl#path> <https://schema.org/longitude> ],
+        [ a <http://www.w3.org/ns/shacl#PropertyShape> ;
+            <http://www.w3.org/ns/shacl#dataType> <http://www.w3.org/2001/XMLSchema#decimal> ;
+            <http://www.w3.org/ns/shacl#maxCount> 1 ;
+            <http://www.w3.org/ns/shacl#minCount> 1 ;
+            <http://www.w3.org/ns/shacl#path> <https://schema.org/aggregateRating> ],
+        [ a <http://www.w3.org/ns/shacl#PropertyShape> ;
+            <http://www.w3.org/ns/shacl#dataType> <http://www.w3.org/2001/XMLSchema#string> ;
+            <http://www.w3.org/ns/shacl#maxCount> 1 ;
+            <http://www.w3.org/ns/shacl#path> <https://purl.archive.org/purl/yelp/ontology#RestaurantsReservations> ],
+        [ a <http://www.w3.org/ns/shacl#PropertyShape> ;
+            <http://www.w3.org/ns/shacl#maxCount> 1 ;
+            <http://www.w3.org/ns/shacl#nodeKind> <http://www.w3.org/ns/shacl#IRI> ;
+            <http://www.w3.org/ns/shacl#path> <https://purl.archive.org/purl/yelp/ontology#hasBusinessParking> ],
+        [ a <http://www.w3.org/ns/shacl#PropertyShape> ;
+            <http://www.w3.org/ns/shacl#maxCount> 1 ;
+            <http://www.w3.org/ns/shacl#nodeKind> <http://www.w3.org/ns/shacl#IRI> ;
+            <http://www.w3.org/ns/shacl#path> <https://purl.archive.org/purl/yelp/ontology#hasMusic> ],
+        [ a <http://www.w3.org/ns/shacl#PropertyShape> ;
+            <http://www.w3.org/ns/shacl#dataType> <http://www.w3.org/2001/XMLSchema#string> ;
+            <http://www.w3.org/ns/shacl#maxCount> 1 ;
+            <http://www.w3.org/ns/shacl#path> <https://purl.archive.org/purl/yelp/ontology#ByAppointmentOnly> ],
+        [ a <http://www.w3.org/ns/shacl#PropertyShape> ;
+            <http://www.w3.org/ns/shacl#dataType> <http://www.w3.org/2001/XMLSchema#string> ;
+            <http://www.w3.org/ns/shacl#maxCount> 1 ;
+            <http://www.w3.org/ns/shacl#path> <https://purl.archive.org/purl/yelp/ontology#OutdoorSeating> ],
+        [ a <http://www.w3.org/ns/shacl#PropertyShape> ;
+            <http://www.w3.org/ns/shacl#dataType> <http://www.w3.org/2001/XMLSchema#string> ;
+            <http://www.w3.org/ns/shacl#maxCount> 1 ;
+            <http://www.w3.org/ns/shacl#path> <https://purl.archive.org/purl/yelp/ontology#GoodForKids> ],
+        [ a <http://www.w3.org/ns/shacl#PropertyShape> ;
+            <http://www.w3.org/ns/shacl#dataType> <http://www.w3.org/2001/XMLSchema#string> ;
+            <http://www.w3.org/ns/shacl#maxCount> 1 ;
+            <http://www.w3.org/ns/shacl#minCount> 1 ;
+            <http://www.w3.org/ns/shacl#path> <https://schema.org/publicAccess> ],
+        [ a <http://www.w3.org/ns/shacl#PropertyShape> ;
+            <http://www.w3.org/ns/shacl#dataType> <http://www.w3.org/2001/XMLSchema#string> ;
+            <http://www.w3.org/ns/shacl#maxCount> 1 ;
+            <http://www.w3.org/ns/shacl#path> <https://purl.archive.org/purl/yelp/ontology#BYOBCorkage> ],
+        [ a <http://www.w3.org/ns/shacl#PropertyShape> ;
+            <http://www.w3.org/ns/shacl#dataType> <http://www.w3.org/2001/XMLSchema#integer> ;
+            <http://www.w3.org/ns/shacl#maxCount> 1 ;
+            <http://www.w3.org/ns/shacl#minCount> 1 ;
+            <http://www.w3.org/ns/shacl#path> <https://schema.org/reviewCount> ],
+        [ a <http://www.w3.org/ns/shacl#PropertyShape> ;
+            <http://www.w3.org/ns/shacl#dataType> <http://www.w3.org/2001/XMLSchema#string> ;
+            <http://www.w3.org/ns/shacl#maxCount> 1 ;
+            <http://www.w3.org/ns/shacl#path> <https://purl.archive.org/purl/yelp/ontology#Alcohol> ],
+        [ a <http://www.w3.org/ns/shacl#PropertyShape> ;
+            <http://www.w3.org/ns/shacl#maxCount> 1 ;
+            <http://www.w3.org/ns/shacl#nodeKind> <http://www.w3.org/ns/shacl#IRI> ;
+            <http://www.w3.org/ns/shacl#path> <https://purl.archive.org/purl/yelp/ontology#hasGoodForMeal> ],
+        [ a <http://www.w3.org/ns/shacl#PropertyShape> ;
+            <http://www.w3.org/ns/shacl#dataType> <http://www.w3.org/2001/XMLSchema#string> ;
+            <http://www.w3.org/ns/shacl#maxCount> 1 ;
+            <http://www.w3.org/ns/shacl#path> <https://purl.archive.org/purl/yelp/ontology#Smoking> ],
+        [ a <http://www.w3.org/ns/shacl#PropertyShape> ;
+            <http://www.w3.org/ns/shacl#dataType> <http://www.w3.org/2001/XMLSchema#string> ;
+            <http://www.w3.org/ns/shacl#maxCount> 1 ;
+            <http://www.w3.org/ns/shacl#path> <https://purl.archive.org/purl/yelp/ontology#Caters> ],
+        [ a <http://www.w3.org/ns/shacl#PropertyShape> ;
+            <http://www.w3.org/ns/shacl#dataType> <http://www.w3.org/2001/XMLSchema#string> ;
+            <http://www.w3.org/ns/shacl#maxCount> 1 ;
+            <http://www.w3.org/ns/shacl#path> <https://purl.archive.org/purl/yelp/ontology#RestaurantsTakeOut> ],
+        [ a <http://www.w3.org/ns/shacl#PropertyShape> ;
+            <http://www.w3.org/ns/shacl#dataType> <http://www.w3.org/2001/XMLSchema#string> ;
+            <http://www.w3.org/ns/shacl#maxCount> 1 ;
+            <http://www.w3.org/ns/shacl#minCount> 1 ;
+            <http://www.w3.org/ns/shacl#path> <https://schema.org/legalName> ],
+        [ a <http://www.w3.org/ns/shacl#PropertyShape> ;
+            <http://www.w3.org/ns/shacl#dataType> <http://www.w3.org/2001/XMLSchema#string> ;
+            <http://www.w3.org/ns/shacl#maxCount> 1 ;
+            <http://www.w3.org/ns/shacl#path> <https://purl.archive.org/purl/yelp/ontology#Corkage> ],
+        [ a <http://www.w3.org/ns/shacl#PropertyShape> ;
+            <http://www.w3.org/ns/shacl#maxCount> 1 ;
+            <http://www.w3.org/ns/shacl#nodeKind> <http://www.w3.org/ns/shacl#IRI> ;
+            <http://www.w3.org/ns/shacl#path> <https://purl.archive.org/purl/yelp/ontology#hasHairSpecializesIn> ],
+        [ a <http://www.w3.org/ns/shacl#PropertyShape> ;
+            <http://www.w3.org/ns/shacl#dataType> <http://www.w3.org/2001/XMLSchema#string> ;
+            <http://www.w3.org/ns/shacl#maxCount> 1 ;
+            <http://www.w3.org/ns/shacl#minCount> 1 ;
+            <http://www.w3.org/ns/shacl#path> <https://purl.archive.org/purl/yelp/ontology#locatedInState> ],
+        [ a <http://www.w3.org/ns/shacl#PropertyShape> ;
+            <http://www.w3.org/ns/shacl#dataType> <http://www.w3.org/2001/XMLSchema#string> ;
+            <http://www.w3.org/ns/shacl#maxCount> 1 ;
+            <http://www.w3.org/ns/shacl#path> <https://purl.archive.org/purl/yelp/ontology#WiFi> ],
+        [ a <http://www.w3.org/ns/shacl#PropertyShape> ;
+            <http://www.w3.org/ns/shacl#dataType> <http://www.w3.org/2001/XMLSchema#string> ;
+            <http://www.w3.org/ns/shacl#maxCount> 1 ;
+            <http://www.w3.org/ns/shacl#path> <https://purl.archive.org/purl/yelp/ontology#AcceptsInsurance> ],
+        [ a <http://www.w3.org/ns/shacl#PropertyShape> ;
+            <http://www.w3.org/ns/shacl#dataType> <http://www.w3.org/2001/XMLSchema#decimal> ;
+            <http://www.w3.org/ns/shacl#maxCount> 1 ;
+            <http://www.w3.org/ns/shacl#minCount> 1 ;
+            <http://www.w3.org/ns/shacl#path> <https://schema.org/latitude> ],
+        [ a <http://www.w3.org/ns/shacl#PropertyShape> ;
+            <http://www.w3.org/ns/shacl#dataType> <http://www.w3.org/2001/XMLSchema#string> ;
+            <http://www.w3.org/ns/shacl#maxCount> 1 ;
+            <http://www.w3.org/ns/shacl#path> <https://purl.archive.org/purl/yelp/ontology#BusinessAcceptsBitcoin> ],
+        [ a <http://www.w3.org/ns/shacl#PropertyShape> ;
+            <http://www.w3.org/ns/shacl#dataType> <http://www.w3.org/2001/XMLSchema#string> ;
+            <http://www.w3.org/ns/shacl#maxCount> 1 ;
+            <http://www.w3.org/ns/shacl#path> <https://purl.archive.org/purl/yelp/ontology#HappyHour> ],
+        [ a <http://www.w3.org/ns/shacl#PropertyShape> ;
+            <http://www.w3.org/ns/shacl#dataType> <http://www.w3.org/2001/XMLSchema#string> ;
+            <http://www.w3.org/ns/shacl#maxCount> 1 ;
+            <http://www.w3.org/ns/shacl#path> <https://purl.archive.org/purl/yelp/ontology#AgesAllowed> ],
+        [ a <http://www.w3.org/ns/shacl#PropertyShape> ;
+            <http://www.w3.org/ns/shacl#dataType> <http://www.w3.org/2001/XMLSchema#string> ;
+            <http://www.w3.org/ns/shacl#maxCount> 1 ;
+            <http://www.w3.org/ns/shacl#minCount> 1 ;
+            <http://www.w3.org/ns/shacl#path> <https://schema.org/postalCode> ],
+        [ a <http://www.w3.org/ns/shacl#PropertyShape> ;
+            <http://www.w3.org/ns/shacl#dataType> <http://www.w3.org/2001/XMLSchema#string> ;
+            <http://www.w3.org/ns/shacl#maxCount> 1 ;
+            <http://www.w3.org/ns/shacl#path> <https://purl.archive.org/purl/yelp/ontology#BikeParking> ],
+        [ a <http://www.w3.org/ns/shacl#PropertyShape> ;
+            <http://www.w3.org/ns/shacl#maxCount> 1 ;
+            <http://www.w3.org/ns/shacl#minCount> 1 ;
+            <http://www.w3.org/ns/shacl#nodeKind> <http://www.w3.org/ns/shacl#IRI> ;
+            <http://www.w3.org/ns/shacl#path> <https://schema.org/url> ],
+        [ a <http://www.w3.org/ns/shacl#PropertyShape> ;
+            <http://www.w3.org/ns/shacl#dataType> <http://www.w3.org/2001/XMLSchema#string> ;
+            <http://www.w3.org/ns/shacl#maxCount> 1 ;
+            <http://www.w3.org/ns/shacl#path> <https://purl.archive.org/purl/yelp/ontology#RestaurantsDelivery> ],
+        [ a <http://www.w3.org/ns/shacl#PropertyShape> ;
+            <http://www.w3.org/ns/shacl#dataType> <http://www.w3.org/2001/XMLSchema#string> ;
+            <http://www.w3.org/ns/shacl#maxCount> 1 ;
+            <http://www.w3.org/ns/shacl#path> <https://purl.archive.org/purl/yelp/ontology#NoiseLevel> ] ;
+    <http://www.w3.org/ns/shacl#targetClass> <https://schema.org/LocalBusiness> .
