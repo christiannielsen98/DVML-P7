@@ -1,13 +1,13 @@
 # DVML-P7
 
-This repository contains the codebase behind a paper produced by the group DVML7-2022 during a project period from September 2022 to Januar 2023. The abstract from this paper can be found last in this README.
+This repository contains the codebase behind a paper produced by the group DVML7-2022 from the Department of Computer Science at Aalborg University during a project period from September 2022 to Januar 2023. The abstract from this paper can be found last in this README.
 
 The two directories "YelpOntology" and "Code" are the main directories used in the report.
 
 ## YelpOntology
 This directory represents our own Yelp ontology.
 The directory contains 4 files. The 'create_ttl_file.ipynb' is used to create the full 'yelp_categories.ttl' file, containing all Yelp categories which could not be mapped to schema.org and therefore instead created in our own Yelp ontology. 
-The 'yelp_ontology.ttl' file contains the description of our ontology, the 5 custom classes used, and the 114 properties which are not mapped to \textit{schema.org}. The property descriptions include their IRI, property types, a comment explaining their meaning and use case, domain, range, and a label. 
+The 'yelp_ontology.ttl' file contains the description of our ontology, the 5 custom classes used, and the 114 properties which are not mapped to schema.org. The property descriptions include their IRI, property types, a comment explaining their meaning and use case, domain, range, and a label. 
 Finally, the 'yelp_entities.ttl' file is used for the Yelp entities businesses, users, reviews, and tips. The file itself is empty, because if we were to include all entities, this would result in more than 8 million entries.
 
 ## Code
