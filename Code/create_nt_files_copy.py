@@ -19,7 +19,7 @@ skos = Namespace("https://www.w3.org/2004/02/skos/core#")
 business_uri = Namespace("https://www.yelp.com/biz/")
 user_uri = Namespace("https://www.yelp.com/user_details?userid=")
 yelpcat = Namespace("https://purl.archive.org/purl/yelp/business_categories#")
-yelpont = Namespace("https://purl.archive.org/purl/yelp/ontology#")
+yelpont = Namespace("https://purl.archive.org/purl/yelp/yelp_ontology#")
 yelpent = Namespace("https://purl.archive.org/purl/yelp/yelp_entities#")
 
 def create_nt_file(file_name: str):
@@ -148,13 +148,13 @@ def create_nt_file(file_name: str):
 
                                     G.add(triple=(URIRef(yelpcat + category),
                                                     URIRef(skos + "narrowMatch"),
-                                                    URIRef(yelpcat + subcategory)))
+                                                    URIRef(yelpcat + preprocessed_subcategory)))
 
-                                    if subcategory not in category_mappings_cache:
-                                        G.add(triple=(URIRef(yelpcat + subcategory),
+                                    if preprocessed_category not in category_mappings_cache:
+                                        G.add(triple=(URIRef(yelpcat + preprocessed_subcategory),
                                                         RDFS.Class,
                                                         URIRef(yelpont + "YelpCategory")))
-                                        category_mappings_cache.add(subcategory)
+                                        category_mappings_cache.add(preprocessed_category)
 
                             # If the category is neither in the mapping nor a split category, we map to the preproccsed category in the Yelp ontology.
                             else:
@@ -320,7 +320,7 @@ def create_tip_nt_file():
 
             except Exception as e:
                 print(e)
-                print(subject, _predicate, _object)
+                print(b_node, _predicate, _object)
 
     triple_file.close()
 
@@ -332,10 +332,10 @@ if __name__ == "__main__":
     begin_time = datetime.datetime.now()
     import os
     myfiles=["/home/ubuntu/vol1/virtuoso/import/yelp_business.nt.gz", 
-             "/home/ubuntu/vol1/virtuoso/import/yelp_checkin.nt.gz", 
-             "/home/ubuntu/vol1/virtuoso/import/yelp_review.nt.gz", 
-             "/home/ubuntu/vol1/virtuoso/import/yelp_user.nt.gz", 
-             "/home/ubuntu/vol1/virtuoso/import/yelp_tip.nt.gz"
+            #  "/home/ubuntu/vol1/virtuoso/import/yelp_checkin.nt.gz", 
+            #  "/home/ubuntu/vol1/virtuoso/import/yelp_review.nt.gz", 
+            #  "/home/ubuntu/vol1/virtuoso/import/yelp_user.nt.gz", 
+            #  "/home/ubuntu/vol1/virtuoso/import/yelp_tip.nt.gz"
              ]
     for i in myfiles:
         ## If file exists, delete it ##
@@ -347,9 +347,9 @@ if __name__ == "__main__":
     # create_nt_file(file_name="yelp_academic_dataset_business.json")
     files = [
         'yelp_academic_dataset_business.json',
-        'yelp_academic_dataset_user.json',
-        'yelp_academic_dataset_review.json',
-        'yelp_academic_dataset_checkin.json'
+        # 'yelp_academic_dataset_user.json',
+        # 'yelp_academic_dataset_review.json',
+        # 'yelp_academic_dataset_checkin.json'
     ]
     try:
         start = time.time()
@@ -358,7 +358,7 @@ if __name__ == "__main__":
             create_nt_file(file_name=i)
             print(f'For {i} It took', time.time()-_start, 'seconds.')
         start_tip = time.time()
-        create_tip_nt_file()
+        # create_tip_nt_file()
         print(f'For tip It took', time.time()-start_tip, 'seconds.')
         print(f'In total it took', time.time()-start, 'seconds.')
         message = f'create_nt_files done in hh:mm:ss {datetime.datetime.now() - begin_time}'
