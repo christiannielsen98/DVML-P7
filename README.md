@@ -1,8 +1,10 @@
 # DVML-P7
 
-This repository contains the codebase behind a paper produced by the group DVML7-2022 from the Department of Computer Science at Aalborg University during a project period from September 2022 to Januar 2023. The abstract from this paper can be found last in this README.
+This repository contains the codebase behind a paper produced by the group DVML-7-01 from the Department of Computer Science at Aalborg University during a project period from September 2022 to January 2023. 
 
-The two directories "YelpOntology" and "Code" are the main directories used in the report.
+The projects purpose was in essence to transform the Yelp Open Dataset, [found here](https://www.yelp.com/dataset), to a knowledge graph.
+
+The two directories "YelpOntology" and "Code" are the main directories used in the paper.
 
 ## YelpOntology
 This directory represents our own Yelp ontology.
@@ -18,6 +20,6 @@ The directory 'CompetencyQuestions' contains the full notebooks behind answering
 The directory 'Illustrations' contains the code behind pictures included in the paper.
 Finally, the 'KnowledgeGraphEnrichment' directory contains the code behind extracting data from Wikidata, linking Wikidata items to Yelp entities and merging the two knowledge graphs, also described in section 7 of the paper.
 
-## Abstract
+## Paper Abstract 
 
 
