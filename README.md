@@ -2,7 +2,7 @@
 
 This repository contains the codebase behind a paper produced by the group DVML-7-01 from the Department of Computer Science at Aalborg University during a project period from September 2022 to January 2023. 
 
-The main purpose of the project was to transform the [Yelp Open Datasetfound](https://www.yelp.com/dataset) to a knowledge graph.
+The main purpose of the project was to transform the [Yelp Open Dataset](https://www.yelp.com/dataset) to a knowledge graph.
 
 The two directories "YelpOntology" and "Code" are the main directories used in the paper.
 
