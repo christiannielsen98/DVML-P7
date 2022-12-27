@@ -15,7 +15,7 @@ Finally, the 'yelp_entities.ttl' file is used for the Yelp entities businesses, 
 ## Code
 
 Here, the file 'create_nt_files.py' is used for creating the Yelp knowledge graph, according to the methods described in section 6 of the paper. 
-The directories 'UtilityFunctions' and 'AuxiliaryFunctions' contain functions used during the knowledge graph construction. 
+The directory 'UtilityFunctions' contain functions used during the knowledge graph construction. 
 The directory 'CompetencyQuestions' contains the full notebooks behind answering the KG and external KG competency questions, as well as their corresponding markdown files. 
 Finally, the 'KnowledgeGraphEnrichment' directory contains the code behind extracting data from Wikidata, linking Wikidata items to Yelp entities and merging the two knowledge graphs, also described in section 7 of the paper.
 
