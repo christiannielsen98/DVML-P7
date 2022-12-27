@@ -248,7 +248,7 @@ def create_locations_csv():
         inplace=True)
     df.rename(columns={"city_og": "city", "state_og": "state"}, inplace=True)
 
-    df.to_csv(path_or_buf=get_path('location_mappings_search_location.csv'), index=False)
+    df.to_csv(path_or_buf=get_path('location_mappings.csv'), index=False)
     
     os.system("onedrive --synchronize --single-directory DVML-P7") if "Linux" in os.uname() else None
 
@@ -269,7 +269,7 @@ def add_to_graph(row, lower_level, higher_level, higher_instance):
 
 
 def create_locations_nt():
-    df = pd.read_csv(get_path("location_mappings_search_location.csv"))
+    df = pd.read_csv(get_path("location_mappings.csv"))
     biz = pd.read_json(get_path("yelp_academic_dataset_business.json"), lines=True)
 
     data = biz.merge(df, how="left", on=["city", "state"])

@@ -125,7 +125,7 @@ def create_nt_file(file_name: str):
                                 mappings = schema_category_mappings_dict[category.replace('_', ' ')]
 
                                 # If there is only one mapping, it is an closeMatch                                
-                                # If there are multiple mappings add each mapping as a narrowMatch to the categrory
+                                # If the original category is concatenated, add each mapping as a narrowMatch to the categrory
                                 for subcategory in mappings:
                                     G.add(triple=(URIRef(yelpcat + category),
                                                     URIRef(skos + "narrowMatch") if "&" in category or "/" in category 
