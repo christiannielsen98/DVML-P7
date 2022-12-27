@@ -8,5 +8,3 @@ def get_path(file):
 
     return os.path.join(path, file)
 
-if __name__ == "__main__":
-    print('hej')

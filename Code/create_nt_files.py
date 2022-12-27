@@ -1,6 +1,7 @@
 import gzip
 import json
 import sys
+import os
 
 import inflect
 import pandas as pd
@@ -10,7 +11,7 @@ from rdflib.namespace import RDFS
 from UtilityFunctions.dictionary_functions import flatten_dictionary
 from UtilityFunctions.get_data_path import get_path
 from UtilityFunctions.schema_functions import get_schema_predicate, get_schema_type
-from UtilityFunctions.get_uri import get_uri
+from UtilityFunctions.get_iri import get_iri
 
 sys.path.append(sys.path[0][:sys.path[0].find('DVML-P7') + len('DVML-P7')])
 
@@ -83,7 +84,7 @@ def create_nt_file(file_name: str):
                 G = Graph()  # Initialize a empty graph object to write a RDF triple to.
 
                 json_key = list(line.keys())[0]  # Each dictionary has the ID as the value to the first key
-                subject = get_uri(file_name) + line[json_key]  # get_uri makes sure the ID is a proper URI.
+                subject = get_iri(file_name) + line[json_key]  # get_iri makes sure the ID is a proper URI.
 
                 # Creates a triple pointing to the subjects corresponding URL (Best practice).
                 G.add(triple=(URIRef(subject),  
@@ -326,16 +327,11 @@ def create_tip_nt_file():
 
 
 if __name__ == "__main__":
-    import time
-    from discord_webhook import DiscordWebhook
-    import datetime
-    begin_time = datetime.datetime.now()
-    import os
     myfiles=["/home/ubuntu/vol1/virtuoso/import/yelp_business.nt.gz", 
-            #  "/home/ubuntu/vol1/virtuoso/import/yelp_checkin.nt.gz", 
-            #  "/home/ubuntu/vol1/virtuoso/import/yelp_review.nt.gz", 
-            #  "/home/ubuntu/vol1/virtuoso/import/yelp_user.nt.gz", 
-            #  "/home/ubuntu/vol1/virtuoso/import/yelp_tip.nt.gz"
+             "/home/ubuntu/vol1/virtuoso/import/yelp_checkin.nt.gz", 
+             "/home/ubuntu/vol1/virtuoso/import/yelp_review.nt.gz", 
+             "/home/ubuntu/vol1/virtuoso/import/yelp_user.nt.gz", 
+             "/home/ubuntu/vol1/virtuoso/import/yelp_tip.nt.gz"
              ]
     for i in myfiles:
         ## If file exists, delete it ##
@@ -344,26 +340,13 @@ if __name__ == "__main__":
         else:    ## Show an error ##
             print("Error: %s file not found" % i)
     
-    # create_nt_file(file_name="yelp_academic_dataset_business.json")
     files = [
         'yelp_academic_dataset_business.json',
-        # 'yelp_academic_dataset_user.json',
-        # 'yelp_academic_dataset_review.json',
-        # 'yelp_academic_dataset_checkin.json'
+        'yelp_academic_dataset_user.json',
+        'yelp_academic_dataset_review.json',
+        'yelp_academic_dataset_checkin.json'
     ]
-    try:
-        start = time.time()
-        for i in files:
-            _start = time.time()
-            create_nt_file(file_name=i)
-            print(f'For {i} It took', time.time()-_start, 'seconds.')
-        start_tip = time.time()
-        # create_tip_nt_file()
-        print(f'For tip It took', time.time()-start_tip, 'seconds.')
-        print(f'In total it took', time.time()-start, 'seconds.')
-        message = f'create_nt_files done in hh:mm:ss {datetime.datetime.now() - begin_time}'
-    except Exception as e:
-        message = f'create_nt_files failed in hh:mm:ss {datetime.datetime.now() - begin_time}\n{e}'
-        print(e)
-    webhook = DiscordWebhook(url='https://discord.com/api/webhooks/1053327986641874984/9ZGdxUp-yo5AMqFoWTtj_koAdtzNK6wfh0GFiEMl4FHc7ZZ1v6FpnfR1ycJ3eKimlUPr', content=message).execute()
+    for i in files:
+        create_nt_file(file_name=i)
+    create_tip_nt_file()
     

@@ -26,7 +26,7 @@ def create_yelp_wiki_schema_triples_csv():
     category_occurences = category_occurences.explode('split_category')
 
     # Maps the yelp categories that are already mapped to a schemaType to the original category.
-    class_mapping = pd.read_csv(get_path('class_mappings.csv'))
+    class_mapping = pd.read_csv(get_path('class_mappings_manual.csv'))
     class_mapping['SchemaType'] = class_mapping['SchemaType'].apply(lambda x: eval(x)[0])
     category_occurences['split_category'] = category_occurences['split_category'].apply(lambda x: x.title().replace(' ', ''))
     category_occurences = category_occurences.merge(class_mapping,
@@ -65,7 +65,7 @@ def create_wiki_category_nt_files(yelp_wiki_schema_triples_df: pd.DataFrame):
     schema = Namespace("https://schema.org/")
     wiki = Namespace("https://www.wikidata.org/entity/")
     yelpcat = Namespace("https://purl.archive.org/purl/yelp/business_categories#")
-    yelpont = Namespace("https://purl.archive.org/purl/yelp/ontology#")
+    yelpont = Namespace("https://purl.archive.org/purl/yelp/yelp_ontology#")
 
     ## If file exists, delete it ##
     remove_files="/home/ubuntu/vol1/virtuoso/import/wikidata_category_triples.nt.gz"
@@ -100,7 +100,7 @@ def create_wiki_category_nt_files(yelp_wiki_schema_triples_df: pd.DataFrame):
 
 if __name__ == "__main__":
     begin_time = datetime.datetime.now()
-    # create_yelp_wiki_schema_triples_csv()
+    create_yelp_wiki_schema_triples_csv()
     yelp_wiki_schema_triples_df=pd.read_csv(get_path("yelp_wiki_schema_triples_df.csv"))
     create_wiki_category_nt_files(yelp_wiki_schema_triples_df)
     

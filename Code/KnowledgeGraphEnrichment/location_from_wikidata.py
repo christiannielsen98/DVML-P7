@@ -1,12 +1,17 @@
 import json
 import requests
-
+import gzip
 import pandas as pd
 import os
+
+from rdflib import Graph, URIRef, Literal, XSD
+from rdflib.namespace import RDFS
 
 from Code.UtilityFunctions.wikidata_functions import wikidata_query
 from Code.UtilityFunctions.get_data_path import get_path
 from Code.KnowledgeGraphEnrichment.location_dicts import states, q_codes
+from Code.KnowledgeGraphEnrichment.location_namespaces import schema, wiki, yelpont, population_predicate, \
+    instance_of_predicate,location_predicate
 
 
 def return_city_q_ids(search_string):
@@ -251,11 +256,6 @@ def create_locations_csv():
 # ## CREATE NT
 
 def add_to_graph(row, lower_level, higher_level, higher_instance):
-    from rdflib import Graph, URIRef, Literal, XSD
-    from rdflib.namespace import RDFS
-
-    from Code.KnowledgeGraphEnrichment.location_namespaces import wiki, location_predicate, instance_of_predicate
-
     graph = Graph()
 
     graph.add((URIRef(wiki[eval(f"row.{lower_level}_qid")]), URIRef(location_predicate),
@@ -269,14 +269,6 @@ def add_to_graph(row, lower_level, higher_level, higher_instance):
 
 
 def create_locations_nt():
-    import gzip
-
-    from rdflib import Graph, URIRef, Literal, XSD
-    from rdflib.namespace import RDFS
-
-    from Code.KnowledgeGraphEnrichment.location_namespaces import schema, wiki, yelpont, population_predicate, \
-        instance_of_predicate
-
     df = pd.read_csv(get_path("location_mappings_search_location.csv"))
     biz = pd.read_json(get_path("yelp_academic_dataset_business.json"), lines=True)
 

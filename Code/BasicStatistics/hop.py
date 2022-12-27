@@ -24,7 +24,7 @@ while True:
         GROUP BY ?s
     }}
     """
-    
+    print(query)
     result = float(run_query(query, as_dataframe=True)["avgHopCount.value"][0])
     
     if result == 0:
@@ -33,7 +33,11 @@ while True:
     hop_hist[hops] = result
     hops += 1
     hop_string += f"\n?o{hops-1} ?p{hops} ?o{hops} ."
-    
+    for i in range(1, hops):
+        hop_string += f"\nFILTER (?o{hops} != ?o{i}) ."
+        # hop_string += f"\n{{?o{hops}}} MINUS {{?o{i}}} ."
+        
+    print(hop_hist)
     print(hop_hist)
 
 print("Done!")
