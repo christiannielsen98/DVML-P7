@@ -8,7 +8,7 @@ from Code.UtilityFunctions.string_functions import string_is_float
 
 schema = Namespace("https://schema.org/")
 example = Namespace("https://example.org/")
-yelpont = Namespace("https://purl.archive.org/purl/yelp/ontology#")
+yelpont = Namespace("https://purl.archive.org/purl/yelp/yelp_ontology#")
 
 schema_classes = pd.read_csv(get_path("schemaorg-current-https-types.csv"))
 schema_classes.update(schema_classes.subTypeOf.str.replace('https://schema.org/', '', regex=False))
