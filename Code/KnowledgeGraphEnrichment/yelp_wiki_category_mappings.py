@@ -8,7 +8,7 @@ import pandas as pd
 from collections import Counter
 from rdflib import Namespace, Graph, URIRef, Literal, XSD
 from rdflib.namespace import RDFS
-
+import inflect
 
 from Code.UtilityFunctions.wikidata_functions import wikidata_query, get_subclass_of_wikientity, category_query, min_qid, categories_dict_singular
 from Code.UtilityFunctions.get_data_path import get_path
@@ -85,16 +85,22 @@ def create_wiki_category_nt_files(yelp_wiki_schema_triples_df: pd.DataFrame):
             if i.SchemaType is not np.nan:
                 G.add((URIRef(schema[i.SchemaType]), URIRef(schema["sameAs"]), URIRef(wiki[i.qid])))
             else:
-                G.add((URIRef(yelpcat[i.split_category]), URIRef(schema["sameAs"]), URIRef(wiki[i.qid])))
+                p = inflect.engine()
+                lower_subcat = space_words_lower(i.split_category)
+                preprocessed_subcategory = p.singular_noun(lower_subcat)
+                preprocessed_subcategory = preprocessed_subcategory if preprocessed_subcategory else lower_subcat
+                yelp_category = preprocessed_subcategory.replace(' ', '_')
+                
+                G.add((URIRef(yelpcat[yelp_category]), URIRef(schema["sameAs"]), URIRef(wiki[i.qid])))
             G.add((URIRef(wiki[i.qid]), URIRef(RDFS["label"]), Literal(i.qid_label, datatype=XSD.string)))
-            G.add((URIRef(wiki[i.qid]), URIRef(RDFS["Class"]), URIRef(yelpont['wikidataCategory'])))
+            G.add((URIRef(wiki[i.qid]), URIRef(RDFS["Class"]), URIRef(yelpont['WikidataCategory'])))
 
     triple_file.write(G.serialize(format="nt"))
     triple_file.close()
 
 if __name__ == "__main__":
     begin_time = datetime.datetime.now()
-    create_yelp_wiki_schema_triples_csv()
+    # create_yelp_wiki_schema_triples_csv()
     yelp_wiki_schema_triples_df=pd.read_csv(get_path("yelp_wiki_schema_triples_df.csv"))
     create_wiki_category_nt_files(yelp_wiki_schema_triples_df)
     

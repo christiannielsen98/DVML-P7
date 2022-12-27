@@ -54,7 +54,9 @@ WHERE {
 }
 ```
 
-TO DO: Insert Answer. create_nt_files have to be run again.
+| numberRestaurants.value |
+| :---------------------- |
+| 52268                   |
 
 
 **Correct Answer**
@@ -180,7 +182,7 @@ checkins["Year"] = checkins["date"].apply(lambda x: x.split("-")[0])
 checkins.value_counts(subset=["business_id", "Day", "Month", "Year"], sort=True, ascending=False).head(5)
 
 >>
-business_id             Day  Month  Year
+business_id             Day  Month  Year    count
 CySqUcNz8oPiQTu4EXTnig  25   06     2016    465
 g50ImmCX3WY3koEDIzoKxg  30   08     2015    287
 qfWWx0dVo1UuAhRfh03Dyw  28   08     2016    270
@@ -241,13 +243,12 @@ NOTE: The same applies here as for the previous CQ.
 ```sparql
 SELECT COUNT(DISTINCT(?user)) AS ?countUsers
 WHERE {
-    ?user rdfs:Class schema:Person .
     ?review schema:author ?user .
 }
 ```
 |  **?countUsers**  |
 |-------------------|
-|     1,987,897     |
+|     1,987,929     |
 
 **Correct Answer**
 ```python
@@ -285,23 +286,48 @@ users[users["amountFriends"] == 10].shape[0]
 ## CQ 12: How many friends does a user have on average?
 **SPARQL Query**
 ```sparql
-SELECT AVG(?numberOfFriends) as ?averageFriends
-WHERE { SELECT COUNT(?friend) as ?numberOfFriends
+SELECT (xsd:double(?countFriends) / xsd:double(?countUser) AS ?averageFriends)
 WHERE {
-    ?user rdfs:Class schema:Person .
-    ?user schema:knows ?friend .
-}
-GROUP BY ?user
+    {SELECT (COUNT(?user) AS ?countUser)
+    WHERE {
+        ?user rdfs:Class schema:Person .
+        }}
+    {SELECT (COUNT(?friend) AS ?countFriends)
+    WHERE {
+        ?user schema:knows ?friend .
+        }}
 }
 ```
 
-TO DO: Insert result
+| averageFriends.value |
+| :------------------- |
+| 52.9331              |
 
 **Correct Answer**
 ```python
-users["amountFriends"].mean()
+# Import the necessary libraries
+import json
+import numpy as np
+# Open the file containing the user data
+with open(file="/home/ubuntu/OneDrive/DVML-P7/Data/yelp_academic_dataset_user.json", mode="r") as file:
+    # Initialize an empty list to store the number of friends for each user
+    number_of_friends = []
+    # Iterate over each line in the file
+    for line in file:
+        # Parse the data from the line as a JSON object
+        data = json.loads(line)
+        # Extract the list of friends for the current user
+        friend_ids = data['friends']
+        # If the user has friends, append the number of friends to the list
+        if friend_ids != 'None':
+            number_of_friends.append(len(friend_ids.split(', ')))
+        # If the user does not have friends, append 0 to the list
+        else:
+            number_of_friends.append(0)
+# Calculate the mean number of friends
+np.mean(number_of_friends)
 
->> 53.375
+>> 52.93306142119033
 ```
 
 ## CQ 13: How many users have authored 10 reviews?
@@ -351,9 +377,127 @@ GROUP BY ?year ?month
 
 **Correct Answer**
 ```python
-reviews['YEAR'] = reviews.date.dt.year
-reviews['MONTH'] = reviews.date.dt.month
-reviews.query("YEAR == 2018 & MONTH == 5").shape[0]
+from datetime import datetime
+reviewers = 0
+# Open JSON file for reading
+with open(file=get_path("yelp_academic_dataset_review.json"), mode="r") as file:
+    # Iterate through each line in the file
+    for line in file:
+        # Parse line as a dictionary
+        data = json.loads(line)
+        review_date = datetime.strptime(data['date'], '%Y-%m-%d %H:%M:%S')
+        if review_date.year == 2018 and review_date.month == 5:
+            reviewers += 1
+reviewers
 
 >> 79,434
+```
+
+## CQ 15: What parking options can a business provide?
+**SPARQL Query**
+```sparql
+SELECT DISTINCT ?p
+WHERE {
+    ?s rdfs:Class schema:ParkingFacility.
+    ?s ?p ?parking .
+    MINUS {
+        ?s rdfs:Class ?parking.
+        }
+}
+```
+
+|     | p.value                                                  |
+| --: | :------------------------------------------------------- |
+|   0 | https://purl.archive.org/purl/yelp/ontology#hasgarage    |
+|   1 | https://purl.archive.org/purl/yelp/ontology#haslot       |
+|   2 | https://purl.archive.org/purl/yelp/ontology#hasstreet    |
+|   3 | https://purl.archive.org/purl/yelp/ontology#hasvalet     |
+|   4 | https://purl.archive.org/purl/yelp/ontology#hasvalidated |
+
+**Correct Answer**
+```python
+# Initialize empty list to store business parking options
+BusinessParking = []
+# Open JSON file for reading
+with open(file=get_path("yelp_academic_dataset_business.json"), mode="r") as file:
+    # Iterate through each line in the file
+    for line in file:
+        # Parse line as a dictionary
+        data = json.loads(line)
+        try:
+            # Extract 'BusinessParking' value from dictionary
+            _dict = data['attributes']['BusinessParking']
+            # If 'BusinessParking' value is a string, modify it and parse as a dictionary
+            if isinstance(_dict, str):
+                _dict = _dict.replace("'", '"').replace("None", "null").replace('u"', '"').replace("True", "true").replace("False", "false") 
+                _dict = json.loads(_dict)
+            # Store modified dictionary in 'parkingopt' variable
+            parkingopt = _dict
+            # Append 'parkingopt' to 'BusinessParking' list
+            BusinessParking.append(parkingopt)
+        # If any errors are raised (e.g. missing keys), do nothing and continue to next iteration
+        except:
+            pass
+# Initialize empty list to store parking option names
+num_parkingopt = []
+# Iterate through each business parking option dictionary
+for parkings in BusinessParking:
+    # If the dictionary is not empty (i.e. is not 'None')
+    if parkings is not None:
+        # Iterate through each key (i.e. parking option name) in the dictionary
+        for parkingopt in parkings.keys():
+            # Append the parking option name to the list
+            num_parkingopt.append(parkingopt)
+# Convert list to a set to remove duplicate values, and assign to 'set(num_parkingopt)'
+set(num_parkingopt)
+
+>> {'garage', 'lot', 'street', 'valet', 'validated'}
+```
+
+## CQ 16: How many businesses has karaoke music?
+**SPARQL Query**
+```sparql
+SELECT COUNT(DISTINCT ?business) AS ?businessesWithKaraoke
+WHERE {
+    ?business yelpont:hasMusic ?blank .
+    ?blank yelpont:haskaraoke 1 .
+}
+```
+
+| businessesWithKaraoke.value |
+| :-------------------------- |
+| 75                          |
+
+**Correct Answer**
+```python
+from collections import Counter
+# Initialize a list to store the karaoke values found in the input file
+karaoke_values = []
+
+# Open the input file for reading
+with open(file=get_path("yelp_academic_dataset_business.json"), mode="r") as file:
+    # Iterate over each line in the file
+    for line in file:
+        # Load the JSON data from the line
+        data = json.loads(line)
+        try:
+            # Extract the Music dictionary from the data
+            music_dict = data['attributes']['Music']
+            # Check if the Music value is a string
+            if isinstance(music_dict, str):
+                # Replace various substrings in the Music string with their JSON equivalent
+                music_dict = music_dict.replace("'", '"').replace("None", "null").replace('u"', '"').replace("True", "true").replace("False", "false") 
+                # Parse the Music string as JSON
+                music_dict = json.loads(music_dict)
+            # Extract the karaoke value from the Music dictionary
+            karaoke = music_dict['karaoke']
+            # Add the karaoke value to the list
+            karaoke_values.append(karaoke)
+        except:
+            # Catch any exceptions that may be raised and do nothing
+            pass
+# Count the number of True values in the list
+dict(Counter(karaoke_values))[True]
+
+>> 75
 ```
