@@ -35,8 +35,6 @@ def create_yelp_wiki_schema_triples_csv():
                                                 how='left').drop(columns=['YelpCategory'])
     category_occurences['schema_or_yelp_category'] = category_occurences['SchemaType'].fillna(category_occurences['split_category'])
 
-
-    # Query Wikidata for the QID of the split categories
     category_qid = {}
     for cat in category_occurences.itertuples():
         try:
@@ -44,12 +42,20 @@ def create_yelp_wiki_schema_triples_csv():
             cat = space_words_lower(cat.schema_or_yelp_category)
             # Queries Wikidata for the QID of the category
             wikidata_cat_query = wikidata_query(category_query(category=cat))
-            # Filters the QIDs by the ones that have a subclassOf relation. Then takes 
-            category_qid[cat] = min_qid(wikidata_cat_query)
+            # Filters the QIDs by the ones that have a subclassOf relation, by taking the one with the lowest QID.
+            qid = min_qid(wikidata_cat_query)
+            # Inserts the QID and label into the dictionary
+            category_qid[cat] = qid
+            # If the QID is an instance of another entity, then the QID is replaced by the QID of the entity it is an instance of.
+            instance_of_query = instance_of_query(qid)
+            if not instance_of_query.empty:
+                category_qid[cat] = wikidata_cat_query.loc[wikidata_cat_query['item.value'] == instance_of_query['instanceOf.value'][0]][['item.value', 'itemLabel.value']].apply(lambda x: (x[0].split('/')[-1], x[1]), axis=1)[0]
         except:
             pass
-    category_qid = {k.title().replace(' ', ''): v for k, v in category_qid.items()}
 
+        
+    category_qid = {k.title().replace(' ', ''): v for k, v in category_qid.items()}
+    
     # Maps the QID to the split category
     category_occurences['qid'] = category_occurences['schema_or_yelp_category'].map(category_qid)
     category_occurences[['qid', 'qid_label']] = pd.DataFrame(category_occurences['qid'].tolist(),index=category_occurences.index)
@@ -59,7 +65,7 @@ def create_yelp_wiki_schema_triples_csv():
         wiki_subclasses = pd.concat([wiki_subclasses, get_subclass_of_wikientity(qid)], ignore_index=True)
     
     yelp_wiki_schema_triples_df = category_occurences.merge(wiki_subclasses, on='qid',how='left')
-    yelp_wiki_schema_triples_df.to_csv(get_path("yelp_wiki_schema_triples_df.csv"), index=False)
+    yelp_wiki_schema_triples_df.to_csv(get_path("yelp_wiki_schema_triples_df1.csv"), index=False)
 
 def create_wiki_category_nt_files(yelp_wiki_schema_triples_df: pd.DataFrame):
     schema = Namespace("https://schema.org/")
@@ -101,7 +107,7 @@ def create_wiki_category_nt_files(yelp_wiki_schema_triples_df: pd.DataFrame):
 if __name__ == "__main__":
     begin_time = datetime.datetime.now()
     create_yelp_wiki_schema_triples_csv()
-    yelp_wiki_schema_triples_df=pd.read_csv(get_path("yelp_wiki_schema_triples_df.csv"))
-    create_wiki_category_nt_files(yelp_wiki_schema_triples_df)
+    # yelp_wiki_schema_triples_df=pd.read_csv(get_path("yelp_wiki_schema_triples_df.csv"))
+    # create_wiki_category_nt_files(yelp_wiki_schema_triples_df)
     
     print(f"yelp_wiki_category_mappings execution is done - Time in hh:mm:ss - {datetime.datetime.now() - begin_time} \nbegan {begin_time} \nended {datetime.datetime.now()}")
