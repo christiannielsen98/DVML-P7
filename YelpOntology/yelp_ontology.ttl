@@ -14,7 +14,7 @@
 
 ##############################################
 
-<https://raw.githubusercontent.com/christiannielsen98/DVML-P7/main/yelp_ontology.ttl>
+<https://raw.githubusercontent.com/christiannielsen98/DVML-P7/main/YelpOntology/yelp_ontology.ttl>
   a owl:Ontology ;
   dc:title "The Yelp ontology"@en ;
   dc:description "The Yelp ontology provides context to concepts and entities found in the Yelp Open Dataset"@en ;
@@ -33,22 +33,22 @@
 ##############################################
 
 
-<https://raw.githubusercontent.com/christiannielsen98/DVML-P7/main/yelp_ontology.ttl#Tip>
+<https://raw.githubusercontent.com/christiannielsen98/DVML-P7/main/YelpOntology/yelp_ontology.ttl#Tip>
   a owl:Class ;
   rdfs:comment "A tip is a short description of a visit by a Yelp <User> pertaining to a Yelp <Business>. Is a shorter version of a Yelp <Review>."@en ;
   rdfs:label "Tip"@en ;
   
-<https://raw.githubusercontent.com/christiannielsen98/DVML-P7/main/yelp_ontology.ttl#SchemaCategory>
+<https://raw.githubusercontent.com/christiannielsen98/DVML-P7/main/YelpOntology/yelp_ontology.ttl#SchemaCategory>
   a owl:Class ;
   rdfs:comment "A Schema Category is a class assigned to objects which originates from the schema.org ontology."@en ;
   rdfs:label "Schema Category"@en ;
   
-<https://raw.githubusercontent.com/christiannielsen98/DVML-P7/main/yelp_ontology.ttl#YelpCategory>
+<https://raw.githubusercontent.com/christiannielsen98/DVML-P7/main/YelpOntology/yelp_ontology.ttl#YelpCategory>
   a owl:Class ;
   rdfs:comment "A Yelp Category is a class assigned to the objects in the Yelp ontology."@en ;
   rdfs:label "Yelp Category"@en ;
   
-<https://raw.githubusercontent.com/christiannielsen98/DVML-P7/main/yelp_ontology.ttl#WikidataCategory>
+<https://raw.githubusercontent.com/christiannielsen98/DVML-P7/main/YelpOntology/yelp_ontology.ttl#WikidataCategory>
   a owl:Class ;
   rdfs:comment "A Wikidata Category is a class assigned to the objects which origniates from the Wikidata ontology."@en ;
   rdfs:label "Wikidata Category"@en ;
