@@ -89,7 +89,7 @@ LIMIT 5
 
 
 ## In- and Outdegree
-### Average Indegree
+### Average Indegree (overall)
 ```sparql
 SELECT AVG(?indegree) as ?avgIndegree
 WHERE {
@@ -104,7 +104,7 @@ WHERE {
 >>> 3.35
 ```
 
-### Average Outdegree
+### Average Outdegree (overall)
 ```sparql
 SELECT AVG(?outdegree) as ?avgOutdegree
 WHERE {
@@ -119,6 +119,103 @@ WHERE {
 >>> 12.20
 ```
 
+### Average Indegree (business)
+```sparql
+SELECT AVG(?indegree) as ?avgIndegree
+WHERE {
+    SELECT ?o (COUNT(?p) as ?indegree)
+    FROM <http://www.yelpkg.com/yelp_kg>
+    WHERE {
+        ?o rdfs:Class schema:LocalBusiness .
+        ?s ?p ?o .
+    }
+    GROUP BY ?o
+}
 
+>>> 46.49
+```
 
-## Hop Diagram
+### Average Outdegree (business)
+```sparql
+SELECT AVG(?outdegree) as ?avgOutdegree
+WHERE {
+    SELECT ?s COUNT(?p) as ?outdegree
+    FROM <http://www.yelpkg.com/yelp_kg>
+    WHERE {
+        ?s rdfs:Class schema:LocalBusiness .
+        ?s ?p ?o .
+    }
+    GROUP BY ?s
+}
+
+>>> 114.02
+```
+
+### Average Indegree (user)
+```sparql
+SELECT AVG(?indegree) as ?avgIndegree
+WHERE {
+    SELECT ?o (COUNT(?p) as ?indegree)
+    FROM <http://www.yelpkg.com/yelp_kg>
+    WHERE {
+        ?o rdfs:Class schema:Person .
+        ?s ?p ?o .
+    }
+    GROUP BY ?o
+}
+
+>>> 3.97
+```
+
+### Average Outdegree (user)
+```sparql
+SELECT AVG(?outdegree) as ?avgOutdegree
+WHERE {
+    SELECT ?s COUNT(?p) as ?outdegree
+    FROM <http://www.yelpkg.com/yelp_kg>
+    WHERE {
+        ?s rdfs:Class schema:Person .
+        ?s ?p ?o .
+    }
+    GROUP BY ?s
+}
+
+>>> 74.10
+```
+
+## Unique predicates in JSON-files
+```python
+import json
+from Code.UtilityFunctions.get_data_path import get_path
+predicates = set()
+# Open JSON file for reading
+files = [
+        'yelp_academic_dataset_business.json',
+        'yelp_academic_dataset_user.json',
+        'yelp_academic_dataset_review.json',
+        'yelp_academic_dataset_checkin.json',
+        'yelp_academic_dataset_tip.json'
+    ]
+for i in files:
+    with open(file=get_path(i), mode="r") as file:
+        # Iterate through each line in the file
+        for line in file:
+            # Parse line as a dictionary
+            data = json.loads(line)
+            for keys in data.keys():
+                if keys == 'attributes' and type(data[keys]) != type(None):
+                    for key in data[keys].keys():
+                        if key in ["BusinessParking", "GoodForMeal", "Ambience", "Music", "BestNights", "HairSpecializesIn", "DietaryRestrictions"]:
+                            dictionaries = json.loads(data[keys][key].replace("'", '"').replace("None", "null").replace('u"', '"').replace("True", "true").replace("False", "false"))
+                            if type(dictionaries) != type(None):
+                                for k in dictionaries.keys():
+                                    predicates.add(k)
+                        predicates.add(key)
+                if keys == 'hours' and type(data[keys]) != type(None):
+                    for key in data[keys].keys():
+                        predicates.add(key)
+                predicates.add(keys)
+len(predicates)
+
+>>> 133
+```
