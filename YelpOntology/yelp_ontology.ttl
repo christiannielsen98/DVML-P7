@@ -22,7 +22,7 @@
   ns0:preferredNamespaceUri "https://purl.archive.org/purl/yelp/ontology#" ;
   owl:versionInfo "Version 0.1 - 2022-11-28"@en ;
   dc:modified "2022-11-28"^^xsd:date ;
-  dc:contributor "Mads Corfixen", "Thomas Heede", "Christian Filerup Pind Nielsen", "Magnus Olesen"  ;
+  dc:contributor "Mads Corfixen", "Thomas Heede", "Christian Fillip Pinderup Nielsen", "Magnus Olesen"  ;
   cc:license <https://mit-license.org> .
   
  
