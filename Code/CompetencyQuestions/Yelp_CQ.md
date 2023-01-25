@@ -134,7 +134,10 @@ business['stars'].mean()
 ## CQ 7: How many businesses have been reviewed in Santa Barbara, CA?
 **SPARQL Query**
 ```sparql
-
+SELECT COUNT(DISTINCT(?s)) AS ?count_business
+WHERE {
+    ?s yelpont:locatedInCity 'Santa Barbara'^^xsd:string.
+}
 ```
 
 |  **?count_business**  |
