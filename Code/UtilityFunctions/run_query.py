@@ -17,6 +17,7 @@ def run_query(query, as_dataframe=False, do_print=False, include_types=False):
     PREFIX yelpcat: <https://purl.archive.org/purl/yelp/business_categories#>
     PREFIX yelpont: <https://purl.archive.org/purl/yelp/yelp_ontology#>
     PREFIX yelpent: <https://purl.archive.org/purl/yelp/yelp_entities#>
+    PREFIX wd: <https://www.wikidata.org/entity/>
     """
     
     endpoint.setQuery(PREFIX+query)
