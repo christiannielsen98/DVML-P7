@@ -140,7 +140,7 @@ def create_nt_file(file_name: str):
 
                             # If the category is not in the mapping, we check if it is a split category,
                             # and if true, add each of the split categories as narrowMatch to a preprocessed version of the subcategory in the Yelp ontology.
-                            if category in split_categories_dict.keys():
+                            elif category in split_categories_dict.keys(): #ELIF INSTEAD OF IF FIXES DUPLICATE CATEGORIES MAPPINGS ASSIGN ERROR
                                 for subcategory in split_categories_dict[category]:
                                     p = inflect.engine()
                                     lower_subcat = subcategory.lower()
