@@ -1,16 +1,20 @@
+import sys
 import pandas as pd
 from networkx import DiGraph
 from networkx.algorithms.traversal.depth_first_search import dfs_tree
 from rdflib import Namespace, XSD
+sys.path.append(sys.path[0][:sys.path[0].find('DVML-P7') + len('DVML-P7')])
 
 from Code.UtilityFunctions.get_data_path import get_path
 from Code.UtilityFunctions.string_functions import string_is_float
+
+
 
 schema = Namespace("https://schema.org/")
 example = Namespace("https://example.org/")
 yelpont = Namespace("https://purl.archive.org/purl/yelp/yelp_ontology#")
 
-schema_classes = pd.read_csv(get_path("schemaorg-current-https-types.csv"))
+schema_classes = pd.read_csv("Code/UtilityData/schemaorg-current-https-types.csv")
 schema_classes.update(schema_classes.subTypeOf.str.replace('https://schema.org/', '', regex=False))
 
 
@@ -119,7 +123,7 @@ def class_hierarchy(dictionary):
     :return: a dataframe with schema type and its supertype(s).
     """
 
-    schema_df = pd.read_csv(get_path("schemaorg-current-https-types.csv"))[["id", "subTypeOf"]]
+    schema_df = pd.read_csv("Code/UtilityData/schemaorg-current-https-types.csv")[["id", "subTypeOf"]]
     schema_df = schema_df.apply(
         lambda x: x.str.split(', ').explode())  # Some types have multiple supertypes, so we explode those rows.
 
@@ -141,5 +145,14 @@ def class_hierarchy(dictionary):
 
     return supertypes_df
 
-
+if __name__ == "__main__":
+    class_mappings_manual_df = pd.read_csv("Code/UtilityData/class_mappings_manual.csv")
+    class_mappings_manual_df['SchemaType'] = class_mappings_manual_df.SchemaType.str.split(",")
+    class_mappings_manual_df = class_mappings_manual_df.explode('SchemaType')
+    class_mapping_dict = pd.Series(class_mappings_manual_df.SchemaType.values,index=class_mappings_manual_df.YelpCategory).to_dict()
+    for key, value in class_mapping_dict.items():
+        class_mapping_dict[key] = value.replace("'", "").replace("[", "").replace("]", "").replace(" ", "")
+    
+    class_hierarchy_df = class_hierarchy(class_mapping_dict)
+    class_hierarchy_df.to_csv(path_or_buf="Code/UtilityData/class_hierarchy.csv", index=False)
 

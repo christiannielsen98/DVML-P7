@@ -1,0 +1,30 @@
+delete from DB.DBA.load_list;
+
+SPARQL CREATE GRAPH <http://www.yelpkg.com/yelp_kg>;
+ld_dir ('/import', 'yelp_business.nt.gz', 'http://www.yelpkg.com/yelp_kg');
+rdf_loader_run ();
+checkpoint;
+
+ld_dir ('/import', 'yelp_user.nt.gz', 'http://www.yelpkg.com/yelp_kg');
+rdf_loader_run ();
+checkpoint;
+
+ld_dir ('/import', 'yelp_review.nt.gz', 'http://www.yelpkg.com/yelp_kg');
+rdf_loader_run ();
+checkpoint;
+
+ld_dir ('/import', 'yelp_checkin.nt.gz', 'http://www.yelpkg.com/yelp_kg');
+rdf_loader_run ();
+checkpoint;
+
+ld_dir ('/import', 'yelp_tip.nt.gz', 'http://www.yelpkg.com/yelp_kg');
+rdf_loader_run ();
+checkpoint;
+
+ld_dir ('/import', 'wikidata_category_triples.nt.gz', 'http://www.yelpkg.com/yelp_kg');
+rdf_loader_run ();
+checkpoint;
+
+ld_dir ('/import', 'wikidata_location_mappings.nt.gz', 'http://www.yelpkg.com/yelp_kg');
+rdf_loader_run ();
+checkpoint;

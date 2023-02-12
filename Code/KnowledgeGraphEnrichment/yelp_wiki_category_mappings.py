@@ -65,7 +65,7 @@ def create_yelp_wiki_schema_triples_csv():
         wiki_subclasses = pd.concat([wiki_subclasses, get_subclass_of_wikientity(qid)], ignore_index=True)
     
     yelp_wiki_schema_triples_df = category_occurences.merge(wiki_subclasses, on='qid',how='left')
-    yelp_wiki_schema_triples_df.to_csv(get_path("yelp_wiki_schema_triples_df1.csv"), index=False)
+    yelp_wiki_schema_triples_df.to_csv(get_path("yelp_wiki_schema_triples_df.csv"), index=False)
 
 def create_wiki_category_nt_files(yelp_wiki_schema_triples_df: pd.DataFrame):
     schema = Namespace("https://schema.org/")
@@ -74,15 +74,16 @@ def create_wiki_category_nt_files(yelp_wiki_schema_triples_df: pd.DataFrame):
     yelpont = Namespace("https://purl.archive.org/purl/yelp/yelp_ontology#")
 
     ## If file exists, delete it ##
-    remove_files="/home/ubuntu/vol1/virtuoso/import/wikidata_category_triples.nt.gz"
+    remove_files=f"{get_path('')}wikidata_category_triples.nt.gz"
     if os.path.isfile(remove_files):
         os.remove(remove_files)
     else:    ## Show an error ##
         print("Error: %s file not found" % remove_files)
     
-    triple_file = gzip.open(filename="/home/ubuntu/vol1/virtuoso/import/wikidata_category_triples.nt.gz", mode="at", encoding="utf-8")
+    triple_file = gzip.open(filename=f"{get_path('')}wikidata_category_triples.nt.gz", mode="at", encoding="utf-8")
 
     G = Graph()
+    yelp_wiki_schema_triples_df = pd.read_csv(get_path("yelp_wiki_schema_triples_df.csv"))
     for i in yelp_wiki_schema_triples_df.itertuples():
         if i.subclassOf is not np.nan:
             G.add((URIRef(wiki[i.qid]), URIRef(wiki["P279"]), URIRef(wiki[i.subclassOf])))
@@ -105,9 +106,5 @@ def create_wiki_category_nt_files(yelp_wiki_schema_triples_df: pd.DataFrame):
     triple_file.close()
 
 if __name__ == "__main__":
-    begin_time = datetime.datetime.now()
     create_yelp_wiki_schema_triples_csv()
-    # yelp_wiki_schema_triples_df=pd.read_csv(get_path("yelp_wiki_schema_triples_df.csv"))
-    # create_wiki_category_nt_files(yelp_wiki_schema_triples_df)
-    
-    print(f"yelp_wiki_category_mappings execution is done - Time in hh:mm:ss - {datetime.datetime.now() - begin_time} \nbegan {begin_time} \nended {datetime.datetime.now()}")
+    create_wiki_category_nt_files()

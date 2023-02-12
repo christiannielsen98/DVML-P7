@@ -306,7 +306,7 @@ def create_locations_nt():
             if row.country_qid:
                 G += add_to_graph(row, "state", "country", "Q6256")  # to state
 
-    with gzip.open(filename="/home/ubuntu/vol1/virtuoso/import/wikidata_location_mappings.nt.gz", mode="at",
+    with gzip.open(filename=f"{get_path('')}wikidata_location_mappings.nt.gz", mode="at",
                    encoding="utf-8") as file:
         file.write(G.serialize(format="nt"))
 
