@@ -26,11 +26,11 @@ The machine requires a minimum of 64GB of RAM to run the Virtuoso and a disc siz
 1. Clone this repository to a directory of your choice.
 2. Create a Python 3.10.6 virtual environment and install the requirements from the 'requirements.txt' file.
 3. Download the Yelp Open Dataset from [here](https://www.yelp.com/dataset) and extract the files to the 'Data' directory.
-4. Create a virtuoso docker by following [this guide](https://people.cs.aau.dk/~matteo/notes/virtuoso-setup-on-docker.html) created by Matteo Lissandrini.
+4. Create a Virtuoso Docker by following [this guide](https://people.cs.aau.dk/~matteo/notes/virtuoso-setup-on-docker.html) created by Matteo Lissandrini.
 5. Edit the `data_path.txt` file in the 'Config' directory to point to the directory where you extracted the Yelp Open Dataset.
 6. Optional for newer data: Download the schema.org ontology from [here](https://schema.org/version/latest/schemaorg-current-https-types.csv) and place it in the data directory, then run the command `python schema_functions.py` (this replaces the `class_hierarchy.csv` file in the 'UtilityData' directory).
 7.  Run the 'create_yelp_nt.py' file to create the Yelp n-triple files. Using the following command: `python create_yelp_nt.py`
-8.  Replace the import.isql in the import folder of your virtuoso directory with our import.isql file in the 'Virtuoso' directory.
+8.  Replace the import.isql in the import folder of your Virtuoso directory with our import.isql file in the 'Virtuoso' directory.
 9.  Run the import.isql file to import the Yelp n-triple files into the Virtuoso database. Using the following command: `docker exec -it vos isql  1111 exec="LOAD /import/import.isql"`
     1.  if it fails, try changing the path to the all the .nt.gz files in the import.isql file to the path of the .nt.gz files, that should have been created in the data directory when running `create_yelp_nt.py`.
 10. Now the Yelp knowledge graph is created and can be queried using SPARQL. Congrats!
