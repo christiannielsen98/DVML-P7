@@ -30,10 +30,10 @@ The machine requires a minimum of 64GB of RAM to run the Virtuoso and a disc siz
 5. Edit the `data_path.txt` file in the 'Config' directory to point to the directory where you extracted the Yelp Open Dataset.
 6. Optional for newer data: Download the schema.org ontology from [here](https://schema.org/version/latest/schemaorg-current-https-types.csv) and place it in the data directory, then run the command `python schema_functions.py` (this replaces the `class_hierarchy.csv` file in the 'UtilityData' directory).
 7.  Run the 'create_yelp_nt.py' file to create the Yelp n-triple files. Using the following command: `python create_yelp_nt.py`
-8.  Replace the import.isql in the import folder of your Virtuoso directory with our import.isql file in the 'Virtuoso' directory.
-9.  Run the import.isql file to import the Yelp n-triple files into the Virtuoso database. Using the following command: `docker exec -it vos isql  1111 exec="LOAD /import/import.isql"`
+8.  Replace the `import.isql` in the import folder of your Virtuoso directory with our `import.isql` file in the 'Virtuoso' directory.
+9.  Run the `import.isql` file to import the Yelp n-triple files into the Virtuoso database. Using the following command: `docker exec -it vos isql  1111 exec="LOAD /import/import.isql"`
     1.  if it fails, try changing the path to the all the .nt.gz files in the import.isql file to the path of the .nt.gz files, that should have been created in the data directory when running `create_yelp_nt.py`.
-10. Now the Yelp knowledge graph is created and can be queried using SPARQL. Congrats!
+10. Now the Yelp knowledge graph is created and can be queried using SPARQL.
 
 ## Paper Abstract 
 One way to represent data is to model it as a knowledge graph, where nodes represent entities of interest and edges represent different relations between these entities. While large open-domain knowledge graphs exist, such as Wikidata and DBpedia, smaller domain-specific knowledge graphs are seeing a rise in applications. However, knowledge graph construction is complex and still sees challenges with regards to integrating heterogeneous data sources and data quality.
