@@ -6,3 +6,11 @@
 6. find the container id for virtuoso with the command ```docker exec -it vos isql 1111```
 7. The above command returns an error with a container ID ```did```
 8. ```docker start {did}```
+
+Import til data:
+1. Følg det med at starte virtuoso. 'starting_virtuoso' filen. 
+
+- Gå ind i vol1/virtuoso/database og slet alt andet end virtuoso.ini
+- docker start 7d
+- tjek om den kører vha 'docker exec -it vos isql 1111'
+- 'docker exec -it vos isql  1111 exec="LOAD /import/import.isql'
