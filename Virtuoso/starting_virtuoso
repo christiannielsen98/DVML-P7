@@ -13,4 +13,4 @@ Import til data:
 - Gå ind i vol1/virtuoso/database og slet alt andet end virtuoso.ini
 - docker start 7d
 - tjek om den kører vha 'docker exec -it vos isql 1111'
-- 'docker exec -it vos isql  1111 exec="LOAD /import/import.isql'
+- 'docker exec -it vos isql  1111 exec="LOAD /import/import.isql"'
