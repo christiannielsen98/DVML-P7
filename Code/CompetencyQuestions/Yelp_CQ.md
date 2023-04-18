@@ -153,7 +153,7 @@ len(business_santa_barbara)
 >> 3829
 ```
 
-## CQ 8: What are the five most busy days, and for what business??
+## CQ 8: What business has the highest number of visists in one day?
 **SPARQL Query**
 ```sparql
 SELECT ?business ?year ?month ?day COUNT(?visit) as ?numberOfVisits
@@ -195,7 +195,7 @@ dtype: int64
 ```
 NOTE: The difference in the counts here are because identical triples are not allowed in RDF. That means if a business has two check-in times at identical times only one triple will be included in the graph.
 
-## CQ 9: Which are the top 10 most visisted businesses?
+## CQ 9: Which is the most visisted business overall?
 **SPARQL Query**
 ```sparql
 SELECT ?business COUNT(?visit) AS ?count_visits
@@ -396,7 +396,7 @@ reviewers
 >> 79,434
 ```
 
-## CQ 15: What parking options can a business provide?
+## CQ 15: How many parking options can a business provide?
 **SPARQL Query**
 ```sparql
 SELECT DISTINCT ?p
